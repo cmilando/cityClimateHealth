@@ -1,0 +1,52 @@
+Package: cityClimateHealth
+Title: Estimating Heat-Health Impacts at Small Spatial Scales
+Version: 0.1.0
+Authors@R: c(
+    person("Chad", "Milando", , "cmilando@bu.edu", role = c("aut", "cre")),
+    person("Emma", "Gause", , "egause@bu.edu", role = c("aut")),
+    person("Quinn", "Adams", , "qadams@bu.edu", role = c("aut")),
+    person("Zachary", "Popp", , "zpopp@bu.edu", role = c("aut")),
+    person("Alexis", "Arlak", , "aarlak@bu.edu", role = c("aut")),
+    person("Gregory", "Wellenius", , "wellenius@bu.edu", role = c("aut"))
+    )
+Description: 
+    Tools for estimating heat-related health impacts using daily exposure and
+    outcome data at small spatial scales. The package supports one-stage
+    conditional Poisson models, two-stage meta-analytic designs, and spatial
+    Bayesian approaches that borrow strength across neighboring geographic
+    units when case counts are small. Methods include distributed lag
+    non-linear models and attributable number calculations, with workflows
+    designed for messy real-world epidemiologic data.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Biarch: true
+Depends: 
+    R (>= 4.1)
+Imports: 
+    methods,
+    dlnm,
+    data.table,
+    ggplot2,
+    gnm,
+    lubridate,
+    mixmeta,
+    scales,
+    tidyr,
+    zoo,
+    patchwork,
+    sf,
+    spdep
+Suggests:
+    tidycensus,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Additional_repositories:
+  https://mc-stan.org/r-packages/
+  https://inla.r-inla-download.org/R/stable/
+SystemRequirements: CmdStan (https://mc-stan.org/users/interfaces/cmdstan)
+LazyData: true
+VignetteBuilder: knitr
+URL: http://chadmilando.com/cityClimateHealth/
