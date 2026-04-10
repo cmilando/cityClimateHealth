@@ -12,7 +12,8 @@ make_exposure_matrix(
   maxgap = 5,
   maxlag = 5,
   grp_level = FALSE,
-  keep_unit_exposures = FALSE
+  keep_unit_exposures = FALSE,
+  exposure_is_factor = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ May through September (5 through 9)}
 \item{grp_level}{whether to summarize to the group level or not (default)}
 
 \item{keep_unit_exposures}{if grp_level is true, whether to keep original unit-level exposures}
+
+\item{exposure_is_factor}{exposure is a factor}
 
 \item{maxgaps}{the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)}
 }

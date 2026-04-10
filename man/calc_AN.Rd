@@ -10,6 +10,7 @@ calc_AN(
   pop_data,
   spatial_agg_type,
   spatial_join_col,
+  by_year = FALSE,
   nsim = 300,
   verbose = 0
 )
@@ -24,6 +25,8 @@ calc_AN(
 \item{spatial_agg_type}{what is the spatial resolution you are aggregating to}
 
 \item{spatial_join_col}{how should you join population data to the outcome table}
+
+\item{by_year}{Export annual counts}
 
 \item{nsim}{number of simulations required for calculation of empirical CI (default = 300)}
 

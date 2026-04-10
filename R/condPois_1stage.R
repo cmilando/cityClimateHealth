@@ -122,6 +122,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   # CHECK5
   if(!is.null(global_cen)) {
     stopifnot(is.numeric(global_cen))
+
   }
 
   #' //////////////////////////////////////////////////////////////////////////

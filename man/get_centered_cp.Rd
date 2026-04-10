@@ -4,10 +4,19 @@
 \alias{get_centered_cp}
 \title{Internal function to get centered cp objects}
 \usage{
-get_centered_cp(argvar, xcoef, xvcov, this_exp, x_b, global_cen, cen)
+get_centered_cp(
+  argvar,
+  xcoef,
+  xvcov,
+  this_exp,
+  x_b,
+  global_cen,
+  cen,
+  exposure_is_factor
+)
 }
 \arguments{
-\item{cen}{}
+\item{exposure_is_factor}{}
 }
 \description{
 Needed a function for this because we do it twice: once for regional RRs
