@@ -14,7 +14,7 @@ condPois_1stage(
   strata_min = 0,
   global_cen = NULL,
   multi_zone = FALSE,
-  verbose = NULL
+  verbose = TRUE
 )
 }
 \arguments{
@@ -36,7 +36,7 @@ condPois_1stage(
 
 \item{multi_zone}{are multiple strata being used.}
 
-\item{verbose}{not used}
+\item{verbose}{used to print crossbasis args the first time}
 }
 \description{
 Run a conditional poisson model for a single geographic unit

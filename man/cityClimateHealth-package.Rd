@@ -29,6 +29,7 @@ Authors:
   \item Emma Gause \email{egause@bu.edu}
   \item Quinn Adams \email{qadams@bu.edu}
   \item Zachary Popp \email{zpopp@bu.edu}
+  \item Alexis Arlak \email{aarlak@bu.edu}
   \item Gregory Wellenius \email{wellenius@bu.edu}
 }
 
