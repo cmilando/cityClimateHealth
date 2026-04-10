@@ -32,6 +32,9 @@ calc_AN(
 
 \item{verbose}{0 = no printing, 1 = headers, 2 = detailed}
 }
+\value{
+calc_AN object that contains attributable numbers, rate tables, and other components necessary for plotting AN
+}
 \description{
 Calculate attributable number and attributable rates
 }

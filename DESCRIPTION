@@ -37,7 +37,10 @@ Imports:
     zoo,
     patchwork,
     sf,
-    spdep
+    spdep,
+    Matrix,
+    MASS,
+    RColorBrewer
 Suggests:
     tidycensus,
     knitr,
