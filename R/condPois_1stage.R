@@ -11,7 +11,7 @@
 #' @param multi_zone are multiple strata being used.
 #' @param verbose used to print crossbasis args the first time
 #'
-#' @import data.table
+#' @importFrom data.table setDT
 #' @importFrom dlnm crossbasis
 #' @importFrom dlnm crosspred
 #' @importFrom dlnm crossreduce

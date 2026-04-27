@@ -13,7 +13,7 @@
 #'
 #' @import methods
 #' @import Matrix
-#' @import data.table
+#' @importFrom data.table
 #'
 #' @import ggplot2
 #' @importFrom scales number

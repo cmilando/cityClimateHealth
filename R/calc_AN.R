@@ -8,7 +8,10 @@
 #' @param nsim number of simulations required for calculation of empirical CI (default = 300)
 #' @param verbose 0 = no printing, 1 = headers, 2 = detailed
 #' @param by_year Export annual counts
-#' @import data.table
+#' @importFrom data.table setDT
+#' @importFrom data.table setorder
+#' @importFrom data.table setorder `:=`
+
 #' @importFrom tidyr expand_grid
 #' @returns calc_AN object that contains attributable numbers, rate tables, and other components necessary for plotting AN
 #' @export
@@ -646,7 +649,7 @@ print.calcAN_list <- function(x) {
 #' @param override_limit override the built-in plot limit
 #' @importFrom ggplot2 ggplot
 #' @importFrom scales number
-#' @import data.table
+#' @importFrom data.table
 #' @returns
 #' @export
 #'

@@ -20,7 +20,8 @@
 #' @importFrom dlnm onebasis
 #' @importFrom dlnm crosspred
 #' @importFrom spdep poly2nb
-#' @import data.table
+#' @importFrom data.table setDT
+#' @importFrom data.table patterns
 #'
 #' @returns
 #' @export

@@ -6,7 +6,7 @@
 #' @param dt_by either by day or by week
 #' @param collapse_is_spatial
 #' @param collapse_is_temporal
-#' @import data.table
+#' @importFrom data.table setDT as.data.table wday
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
 #' @returns

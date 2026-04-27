@@ -30,7 +30,7 @@
 #' @importFrom mixmeta blup
 #' @importFrom dlnm onebasis
 #' @importFrom dlnm crosspred
-#' @import data.table
+#' @importFrom data.table setDT `.`
 #'
 #' @returns
 #' @export
