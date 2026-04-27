@@ -25,7 +25,8 @@
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+    <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/attributable_number.html">Calculating attributable numbers and rates in `cityClimateHealth`</a></li>
@@ -59,6 +60,7 @@
 <span>  <span class="va">pop_data</span>,</span>
 <span>  <span class="va">spatial_agg_type</span>,</span>
 <span>  <span class="va">spatial_join_col</span>,</span>
+<span>  by_year <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  nsim <span class="op">=</span> <span class="fl">300</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -86,6 +88,10 @@
 
 <dt id="arg-spatial-join-col">spatial_join_col<a class="anchor" aria-label="anchor" href="#arg-spatial-join-col"></a></dt>
 <dd><p>how should you join population data to the outcome table</p></dd>
+
+
+<dt id="arg-by-year">by_year<a class="anchor" aria-label="anchor" href="#arg-by-year"></a></dt>
+<dd><p>Export annual counts</p></dd>
 
 
 <dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
