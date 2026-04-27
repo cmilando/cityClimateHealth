@@ -55,6 +55,17 @@ make_outcome_table <- function(data,
     stop('Values of column mapping not matched with column names of data.
           Look for a typo')
 
+  #check for duplicate column mapping (there should not be column repeats in the inputs)
+  if(length(unlist(column_mapping)) != length(unique(unlist(column_mapping)))) {
+    stop("Duplicate columns found in `column_mapping` — each column must be mapped to a unique value")
+  }
+
+  # check that geo_unit and geo_unit_grp are not the same column
+  if(column_mapping$geo_unit == column_mapping$geo_unit_grp) {
+    stop("`geo_unit` and `geo_unit_grp` cannot be mapped to the same column: '",
+         column_mapping$geo_unit, "'")
+  }
+
   # type checks
   stopifnot(
     inherits(data[[column_mapping$date]], "Date"),
