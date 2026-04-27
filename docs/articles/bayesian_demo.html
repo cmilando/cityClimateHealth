@@ -42,7 +42,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
+<li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+    <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/attributable_number.html">Calculating attributable numbers and rates in `cityClimateHealth`</a></li>
@@ -165,6 +166,85 @@ notes as so what is going on here</p>
 <span>  <span class="va">plot_l</span><span class="op">[[</span><span class="va">bb</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="op">}</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31.3</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; EVERETT:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.1 30.1</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; REVERE:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 24.4 29</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; MALDEN:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="va">beta_l</span><span class="op">)</span> <span class="co"># COEFS NOT THE SAME</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mx</span><span class="op">)</span>  <span class="op">=</span> <span class="va">TOWNLIST</span></span>
 <span><span class="va">mx</span></span>
@@ -223,6 +303,24 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- prepare inputs</span></span>
 <span><span class="co">#&gt; CHELSEA  </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31.3</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
 <span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
 <span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
@@ -242,6 +340,7 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
+<span><span class="co">#&gt; clang++: warning: argument unused during compilation: '-c' [-Wunused-command-line-argument]</span></span>
 <span><span class="co">#&gt;  ...mcmc... </span></span>
 <span><span class="co">#&gt; Running MCMC with 2 parallel chains...</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -261,20 +360,20 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 finished in 29.1 seconds.</span></span>
-<span><span class="co">#&gt; Chain 2 finished in 29.1 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 finished in 28.2 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 1 finished in 28.7 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Both chains finished successfully.</span></span>
-<span><span class="co">#&gt; Mean chain execution time: 29.1 seconds.</span></span>
-<span><span class="co">#&gt; Total execution time: 29.2 seconds.</span></span>
+<span><span class="co">#&gt; Mean chain execution time: 28.5 seconds.</span></span>
+<span><span class="co">#&gt; Total execution time: 28.8 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ...mcmc draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
@@ -327,6 +426,24 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- prepare inputs</span></span>
 <span><span class="co">#&gt; CHELSEA  </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31.3</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
 <span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
 <span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
@@ -367,7 +484,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  0.7 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.8 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span></code></pre></div>
@@ -419,6 +536,24 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- prepare inputs</span></span>
 <span><span class="co">#&gt; CHELSEA  </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31.3</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
 <span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
 <span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
@@ -464,7 +599,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt;     2152      -6355.97   2.89835e-07       242.602           1           1     2271    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
-<span><span class="co">#&gt; Finished in  1.1 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  1.0 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace sample... </span></span>
 <span><span class="co">#&gt; Calculating Hessian </span></span>
 <span><span class="co">#&gt; Calculating inverse of Cholesky factor </span></span>

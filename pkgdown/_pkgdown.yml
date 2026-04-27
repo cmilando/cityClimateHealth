@@ -33,6 +33,7 @@ articles:
 - title: Main vignettes
   navbar: ~
   contents:
+  - methods
   - one_stage_demo
   - two_stage_demo
   - bayesian_demo
