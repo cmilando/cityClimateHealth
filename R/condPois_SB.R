@@ -27,6 +27,47 @@
 #' @export
 #'
 #' @examples
+#' library(data.table)
+#' data("ma_exposure")
+#' data("ma_deaths")
+#'
+#' # create exposure matrix
+#' exposure_columns <- list(
+#'   "date" = "date",
+#'   "exposure" = "tmax_C",
+#'   "geo_unit" = "TOWN20",
+#'   "geo_unit_grp" = "COUNTY20"
+#' )
+#'
+#' TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
+#'
+#' exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST & year(date) %in% 2012:2015)
+#'
+#' exposure_mat <- make_exposure_matrix(exposure, exposure_columns)
+#'
+#' # create outcome table
+#' outcome_columns <- list(
+#'   "date" = "date",
+#'   "outcome" = "daily_deaths",
+#'   "factor" = 'age_grp',
+#'   "factor" = 'sex',
+#'   "geo_unit" = "TOWN20",
+#'   "geo_unit_grp" = "COUNTY20"
+#' )
+#' deaths   <- subset(ma_deaths, TOWN20 %in% TOWNLIST & year(date) %in% 2012:2015)
+#' deaths_tbl <- make_outcome_table(deaths,  outcome_columns)
+#' data("ma_towns")
+#' local_shp <- subset(ma_towns, TOWN20 %in%  TOWNLIST)
+
+#' #run spatial model
+#' m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
+#'                      stan_type = 'laplace',
+#'                      verbose = 2,
+#'                      global_cen = 15,
+#'                      stan_opts = list(refresh = 200),
+#'                      use_spatial_model = 'bym2')
+#' condPois_sb
+
 condPois_sb <- function(exposure_matrix,
                         outcomes_tbl,
                         shp_sf,

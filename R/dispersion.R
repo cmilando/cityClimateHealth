@@ -12,6 +12,11 @@
 #' @export
 #'
 #' @examples
+#' dispersion <- calc_dispersion(y = boston_deaths_tbl$daily_deaths,
+#'               X = cb,
+#'               stratum_vector = boston_deaths_tbl$strata,
+#'               beta = coef(m_sub))
+#'dispersion
 calc_dispersion <- function(y, X, beta, stratum_vector) {
 
   # get dims of X

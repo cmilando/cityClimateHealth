@@ -36,6 +36,32 @@
 #' @export
 #'
 #' @examples
+#' library(data.table)
+#'exposure_columns <- list(
+#'  "date" = "date",
+#'  "exposure" = "tmax_C",
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'
+#'ma_exposure_matrix <- make_exposure_matrix(
+#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), exposure_columns)
+#'
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), outcome_columns)
+#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
+#'            verbose = 1, global_cen = 10)
+#'condPois_2stage
 condPois_2stage <- function(exposure_matrix,
                             outcomes_tbl,
                             global_cen = NULL,

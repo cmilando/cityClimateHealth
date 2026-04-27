@@ -19,6 +19,18 @@
 #' @export
 #'
 #' @examples
+#' outcome_columns <- list(
+#'   "date" = "date",
+#'   "outcome" = "daily_deaths",
+#'   "factor" = 'age_grp',
+#'   "factor" = 'sex',
+#'   "geo_unit" = "TOWN20",
+#'   "geo_unit_grp" = "COUNTY20"
+#' )
+#' ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'            year(date) %in% 2012:2015), outcome_columns)
+#' make_outcome_table
 make_outcome_table <- function(data,
                                column_mapping,
                                months_subset = 5:9,
