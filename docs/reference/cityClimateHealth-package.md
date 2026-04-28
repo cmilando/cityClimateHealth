@@ -26,4 +26,6 @@ Authors:
 
 - Zachary Popp <zpopp@bu.edu>
 
+- Alexis Arlak <aarlak@bu.edu>
+
 - Gregory Wellenius <wellenius@bu.edu>

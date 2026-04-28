@@ -17,6 +17,11 @@ First create the inputs, using the same `exposure_columns` and
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 exposure_columns <- list(
   "date" = "date",
   "exposure" = "tmax_C",
@@ -58,6 +63,26 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
                             verbose = 1, global_cen = 10)
 #> -- validation passed
 #> -- stage 1
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -219,6 +244,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
@@ -227,6 +272,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
@@ -234,6 +299,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> < age_grp : 65+ >
 #> -- validation passed
 #> -- stage 1
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -348,15 +433,39 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
                             verbose = 2, global_cen = 10)
 #> -- validation passed
 #> -- stage 1
-#> MIDDLESEX    WORCESTER   SUFFOLK     
+#> MIDDLESEX    
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.6 30.7
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> WORCESTER    SUFFOLK     
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value 6.693313e-12
+#> iter 0: value -6.217249e-13
+#> iter 1: value -2.259526e-12
 #> converged
 #> Newton iterations:
-#> initial  value -0.000000 
-#> iter   1 value 0.000000
+#> initial  value 0.000000 
+#> iter   2 value -0.000000
+#> iter   3 value -0.000000
+#> iter   3 value 0.000000
+#> iter   3 value 0.000000
 #> final  value -0.000000 
 #> converged
 #> -- stage 2

@@ -9,6 +9,11 @@ The package `cityClimateHealth` makes it simple to estimate heat-health impacts 
 remotes::install_github("cmilando/cityClimateHealth")
 ```
 
+you may have to first [install STAN](https://mc-stan.org/install/) and `cmdstanr`:
+```
+install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOption('repos')))
+```
+
 ## Usage 
 
 This package can be used in three main ways:
@@ -18,6 +23,11 @@ This package can be used in three main ways:
 | A 1-stage conditional poisson model when estimating a *single set of beta coefficients* for heat-health impacts across single or multiple zones: `vignette("one_stage_demo")`| A 2-stage design is used when estimating heat-health impacts across many zones, but where *individual zone models* are desired: `vignette("two_stage_demo")`| If numbers are very small in the 2-stage design, spatial bayesian methods can be used to tighten confidence intervals: `vignette("bayesian_demo")`|
 
 In implementations, an attributable number calculation is applied to model outputs, see `vignette("attributable_number")`. 
+
+:::info
+Time-series functions are in-progress
+:::
+
 
 ## Starting a new analysis
 

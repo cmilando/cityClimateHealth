@@ -271,6 +271,24 @@ m1 <- condPois_1stage(
   outcomes_tbl = boston_deaths_tbl,
   argvar = list(fun = 'strata', breaks = c(1.5, 2.5))
   )
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun   : chr "strata"
+#>  $ breaks: num [1:2] 1.5 2.5
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0
 
 plot(m1)
 ```

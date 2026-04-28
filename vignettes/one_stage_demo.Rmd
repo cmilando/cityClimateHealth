@@ -181,7 +181,7 @@ And plot
 plot_cp = data.frame(
     x = cp$predvar,
     RR = cp$allRRfit,
-    RRlb = cp$allRRlb,
+    RRlb = cp$allRRlow,
     RRhigh = cp$allRRhigh
 )
 

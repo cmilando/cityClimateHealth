@@ -11,6 +11,7 @@ calc_AN(
   pop_data,
   spatial_agg_type,
   spatial_join_col,
+  by_year = FALSE,
   nsim = 300,
   verbose = 0
 )
@@ -39,6 +40,10 @@ calc_AN(
 
   how should you join population data to the outcome table
 
+- by_year:
+
+  Export annual counts
+
 - nsim:
 
   number of simulations required for calculation of empirical CI
@@ -47,5 +52,10 @@ calc_AN(
 - verbose:
 
   0 = no printing, 1 = headers, 2 = detailed
+
+## Value
+
+calc_AN object that contains attributable numbers, rate tables, and
+other components necessary for plotting AN
 
 ## Examples

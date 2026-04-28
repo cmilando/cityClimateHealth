@@ -33,6 +33,11 @@ notes as so what is going on here
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 data("ma_exposure")
 data("ma_deaths")
 
@@ -101,6 +106,85 @@ for(bb in 1:4) {
   plot_l[[bb]] <- plot(m1)
   
 }
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.8 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.8 31
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> EVERETT:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.1 30.1
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> REVERE:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 24.4 29
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> MALDEN:yr2012:mn05:dow03
+#> strata_min: 0
 mx <- do.call(cbind, beta_l) # COEFS NOT THE SAME
 colnames(mx)  = TOWNLIST
 mx
@@ -167,6 +251,24 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.8 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0
 #> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
 #> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
 #> exposures in geo-unit CHELSEA. This means your zones are across too large of an
@@ -191,34 +293,34 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> 
 #> Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
 #> Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
-#> Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) 
 #> Chain 1 Iteration:  200 / 2000 [ 10%]  (Warmup) 
-#> Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) 
+#> Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) 
 #> Chain 1 Iteration:  400 / 2000 [ 20%]  (Warmup) 
-#> Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+#> Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) 
 #> Chain 1 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+#> Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) 
 #> Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) 
 #> Chain 1 Iteration:  800 / 2000 [ 40%]  (Warmup) 
-#> Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
-#> Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 #> Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+#> Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+#> Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
 #> Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
-#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
-#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
-#> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
-#> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+#> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 29.1 seconds.
-#> Chain 2 finished in 29.1 seconds.
+#> Chain 2 finished in 22.3 seconds.
+#> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+#> Chain 1 finished in 24.4 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 29.1 seconds.
-#> Total execution time: 29.2 seconds.
+#> Mean chain execution time: 23.4 seconds.
+#> Total execution time: 24.5 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -246,19 +348,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb1$`_`$beta_mat
-#>           CHELSEA     EVERETT      MALDEN        REVERE
-#>  [1,]  0.04563081  0.05352101  0.01681938 -0.0007161936
-#>  [2,] -0.02310974 -0.03545623  0.01349965  0.0180104763
-#>  [3,]  0.08724563  0.08576537  0.09334545  0.1028893168
-#>  [4,] -0.03350999 -0.03532395 -0.04105760 -0.0331877843
-#>  [5,]  0.08698833  0.04810957  0.03598086 -0.0511078793
-#>  [6,]  0.01534864 -0.11608512  0.06032731  0.0744266904
-#>  [7,]  0.19255327  0.18545340  0.11679099  0.1364912451
-#>  [8,] -0.04584014 -0.04524805 -0.05158503 -0.0596107002
-#>  [9,]  0.01789267  0.07015688  0.03754349  0.0284379689
-#> [10,] -0.00093469 -0.06706039 -0.00138018  0.0211865836
-#> [11,]  0.17143376  0.12552996  0.12973764  0.1171559579
-#> [12,] -0.04891770 -0.02000770 -0.04463672 -0.0651447948
+#>            CHELSEA     EVERETT       MALDEN       REVERE
+#>  [1,]  0.046451146  0.05193203  0.017183168 -0.000424874
+#>  [2,] -0.024004122 -0.03424428  0.011919092  0.018004531
+#>  [3,]  0.087005275  0.08600062  0.093602318  0.103398072
+#>  [4,] -0.033260911 -0.03582986 -0.041470530 -0.033616921
+#>  [5,]  0.090138194  0.04626000  0.039001008 -0.053467408
+#>  [6,]  0.009489463 -0.11292209  0.054874194  0.072859687
+#>  [7,]  0.191312835  0.18591096  0.117228149  0.142018513
+#>  [8,] -0.042678153 -0.04681459 -0.053749416 -0.060871001
+#>  [9,]  0.018904632  0.07075151  0.039603114  0.025033481
+#> [10,] -0.002773212 -0.06646190 -0.003032928  0.021496167
+#> [11,]  0.170843688  0.12531848  0.129976780  0.119833251
+#> [12,] -0.047985404 -0.02065557 -0.044806349 -0.065717577
 ```
 
 ### Compare with spatial model
@@ -278,6 +380,24 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.8 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0
 #> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
 #> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
 #> exposures in geo-unit CHELSEA. This means your zones are across too large of an
@@ -300,7 +420,9 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  ...laplace optimize... 
 #> Initial log joint probability = -6739.06 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      139      -6737.26   0.000348121      0.731762           1           1      169    
+#>      199      -6737.25   0.000281839       1.95842           1           1      246    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>      219      -6737.25   0.000295644      0.644621      0.1812           1      270    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
 #> Finished in  0.1 seconds.
@@ -318,7 +440,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.7 seconds.
+#> Finished in  0.6 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
@@ -344,19 +466,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb2$`_`$beta_mat
-#>            CHELSEA     EVERETT        MALDEN        REVERE
-#>  [1,]  0.045423333  0.05112039  1.900732e-02  0.0003361363
-#>  [2,] -0.021520151 -0.03348218  1.168377e-02  0.0171357910
-#>  [3,]  0.086169530  0.08576237  9.202635e-02  0.1026162647
-#>  [4,] -0.033034684 -0.03701113 -4.046737e-02 -0.0336513220
-#>  [5,]  0.088049683  0.04858261  3.603389e-02 -0.0514857925
-#>  [6,]  0.019462978 -0.11101076  6.234808e-02  0.0752953200
-#>  [7,]  0.187765616  0.18230330  1.161435e-01  0.1368418551
-#>  [8,] -0.042253687 -0.04710544 -5.393741e-02 -0.0612077042
-#>  [9,]  0.016094283  0.07222675  3.729183e-02  0.0263192109
-#> [10,]  0.001261148 -0.06617505  4.976655e-05  0.0224012337
-#> [11,]  0.172412859  0.12429712  1.292206e-01  0.1186910900
-#> [12,] -0.048785974 -0.01986296 -4.510412e-02 -0.0658182839
+#>             CHELSEA     EVERETT        MALDEN        REVERE
+#>  [1,]  0.0459939688  0.05136240  0.0195582783  0.0004923256
+#>  [2,] -0.0216533177 -0.03390769  0.0112829833  0.0169286857
+#>  [3,]  0.0858488052  0.08581425  0.0919544477  0.1026802618
+#>  [4,] -0.0328325226 -0.03699243 -0.0404242600 -0.0336592224
+#>  [5,]  0.0902222415  0.04970123  0.0369421681 -0.0510796976
+#>  [6,]  0.0192684044 -0.11272781  0.0614573997  0.0744884170
+#>  [7,]  0.1864068103  0.18246229  0.1163474894  0.1371908596
+#>  [8,] -0.0417042081 -0.04693266 -0.0541652871 -0.0613523145
+#>  [9,]  0.0169298753  0.07259296  0.0375740158  0.0265242107
+#> [10,]  0.0009616704 -0.06674475 -0.0001706774  0.0221612362
+#> [11,]  0.1719758838  0.12434911  0.1291995719  0.1186520995
+#> [12,] -0.0485941772 -0.01973975 -0.0451084195 -0.0657781851
 ```
 
 ### Compare with spatial model for leroux
@@ -376,6 +498,24 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.8 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0
 #> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
 #> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
 #> exposures in geo-unit CHELSEA. This means your zones are across too large of an
@@ -398,27 +538,35 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>  ...laplace optimize... 
 #> Initial log joint probability = -7000.25 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      199      -6518.16     0.0317223        386.68           1           1      215    
+#>      199      -6483.58     0.0592651        2851.7      0.3124           1      214    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      399      -6438.84     0.0763665       11799.7      0.5406           1      425    
+#>      399      -6440.07   9.26028e-05       1448.31           1           1      425    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      599      -6393.62      0.027489       12270.4           1           1      635    
+#>      599      -6436.46   0.000542912       578.289           1           1      637    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      799       -6371.4    0.00210131       22054.6           1           1      849    
+#>      799      -6435.89   4.05429e-05       235.671      0.9461      0.9461      844    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      999      -6362.85   2.48342e-06       1876.72           1           1     1060    
+#>      999      -6435.58     0.0001235       312.848           1           1     1051    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1199      -6360.11   1.70314e-06       1926.29           1           1     1272    
+#>     1199      -6435.28   0.000121976         568.2           1           1     1269    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1399       -6359.2   1.63738e-06       1871.19           1           1     1480    
+#>     1399      -6435.15   9.91154e-06       101.253           1           1     1484    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1599      -6358.77   1.14602e-05       1174.76           1           1     1690    
+#>     1599      -6434.98   2.29524e-05       114.414           1           1     1694    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1799      -6357.61   0.000191241       7846.74           1           1     1897    
+#>     1799      -6434.87   6.22773e-05       170.207           1           1     1901    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1999      -6356.56   1.89901e-05       1981.71           1           1     2106    
+#>     1999      -6434.52    0.00413995       1870.72           1           1     2109    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     2152      -6355.97   2.89835e-07       242.602           1           1     2271    
+#>     2199      -6433.18   0.000436944       834.056           1           1     2325    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2399      -6432.52   2.71483e-05       204.321           1           1     2533    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2599      -6432.35   9.54362e-05        269.67           1           1     2739    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2799      -6432.11   4.62306e-05       597.971           1           1     2947    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2972      -6431.94   2.16346e-06       32.6528           1           1     3130    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
 #> Finished in  1.1 seconds.
@@ -436,7 +584,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.8 seconds.
+#> Finished in  0.5 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
@@ -463,18 +611,18 @@ mx
 
 m_sb3$`_`$beta_mat
 #>            CHELSEA      EVERETT       MALDEN       REVERE
-#>  [1,]  0.007393641  0.007393784  0.007394247  0.007393496
-#>  [2,]  0.005909126  0.005908665  0.005909324  0.005909028
-#>  [3,]  0.101804062  0.101805289  0.101804801  0.101804395
-#>  [4,] -0.044028808 -0.044029393 -0.044029676 -0.044029059
-#>  [5,] -0.045403324 -0.045399940 -0.045397528 -0.045397372
-#>  [6,]  0.046002454  0.046006165  0.046005329  0.046004261
-#>  [7,]  0.187302489  0.187302192  0.187301543  0.187302563
-#>  [8,] -0.079967398 -0.079968486 -0.079967632 -0.079968145
-#>  [9,]  0.009569402  0.009569678  0.009569970  0.009570108
-#> [10,]  0.011026743  0.011027348  0.011027609  0.011027644
-#> [11,]  0.141515048  0.141515237  0.141514517  0.141515253
-#> [12,] -0.056311461 -0.056311481 -0.056310680 -0.056311312
+#>  [1,]  0.030890899  0.030891160  0.030891202  0.030891276
+#>  [2,] -0.008934332 -0.008934032 -0.008933796 -0.008933673
+#>  [3,]  0.093069451  0.093069618  0.093070202  0.093070315
+#>  [4,] -0.035069960 -0.035069930 -0.035069765 -0.035069589
+#>  [5,]  0.048175551  0.048172507  0.048173515  0.048171025
+#>  [6,] -0.017076972 -0.017077683 -0.017078980 -0.017078669
+#>  [7,]  0.151028269  0.151027837  0.151027072  0.151027367
+#>  [8,] -0.043569710 -0.043569786 -0.043569737 -0.043569727
+#>  [9,]  0.045601554  0.045601569  0.045601838  0.045601988
+#> [10,] -0.018787122 -0.018787260 -0.018786989 -0.018786842
+#> [11,]  0.132355975  0.132355409  0.132355763  0.132355642
+#> [12,] -0.042634646 -0.042634555 -0.042634716 -0.042635042
 ```
 
 And you can also see that the leroux `q` value is quite high
@@ -483,9 +631,9 @@ And you can also see that the leroux `q` value is quite high
 
 subset(m_sb3$`_`$stan_summary, variable == 'q')
 #> # A tibble: 1 × 7
-#>   variable  mean median    sd   mad    q5   q95
-#>   <chr>    <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 q        0.631  0.640 0.113 0.112 0.437 0.808
+#>   variable  mean median    sd      mad    q5   q95
+#>   <chr>    <dbl>  <dbl> <dbl>    <dbl> <dbl> <dbl>
+#> 1 q        0.911  0.999 0.234 0.000603 0.191 0.999
 ```
 
 All of the other objects associated with `condPois_1stage` or

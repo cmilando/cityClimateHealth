@@ -1,4 +1,4 @@
-pandoc: 3.8.2.1
+pandoc: 3.9.0.2
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -17,7 +17,7 @@ articles:
   TODO: TODO.html
   two_stage_demo: two_stage_demo.html
   validation: validation.html
-last_built: 2026-04-15T20:02Z
+last_built: 2026-04-28T17:29Z
 urls:
   reference: http://chadmilando.com/cityClimateHealth/reference
   article: http://chadmilando.com/cityClimateHealth/articles

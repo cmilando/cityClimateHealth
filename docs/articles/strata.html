@@ -42,7 +42,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
+<li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+    <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/attributable_number.html">Calculating attributable numbers and rates in `cityClimateHealth`</a></li>
@@ -340,9 +341,27 @@ should be 1.5, 2.5</p>
 <span>  outcomes_tbl <span class="op">=</span> <span class="va">boston_deaths_tbl</span>,</span>
 <span>  argvar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="st">'strata'</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun   : chr "strata"</span></span>
+<span><span class="co">#&gt;  $ breaks: num [1:2] 1.5 2.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="strata_files/figure-html/model-1.png" class="r-plt" width="700"></p>
+<p><img src="strata_files/figure-html/model-1.png" class="r-plt" alt="" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

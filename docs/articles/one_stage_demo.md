@@ -3,8 +3,8 @@
 Let’s use built-in functions to examine a single set of beta
 coefficients for heat-health relationships in a single or multiple
 geographic unit. We’ll start with a review of DLNM, and then show how
-its implemented in `cityClimateHealth` for both the single and multi-zone
-cases.
+its implemented in `cityClimateHealth` for both the single and
+multi-zone cases.
 
 For testing purposes, start with your largest geographic unit!
 
@@ -364,11 +364,11 @@ And plot
 plot_cp = data.frame(
     x = cp$predvar,
     RR = cp$allRRfit,
-    RRlow = cp$allRRlow,
+    RRlb = cp$allRRlow,
     RRhigh = cp$allRRhigh
 )
 
-ggplot(plot_cp, aes(x = x, y = RR, ymin = RRlow, ymax = RRhigh)) +
+ggplot(plot_cp, aes(x = x, y = RR, ymin = RRlb, ymax = RRhigh)) +
   geom_hline(yintercept = 1, linetype = '11') +
   theme_classic() +
   geom_ribbon(fill = 'grey75', alpha = 0.2) +
@@ -455,6 +455,25 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
 # run the model
 m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat, 
                   outcomes_tbl = boston_deaths_tbl)
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26.2 31.7
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0
 #> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl
 #> = boston_deaths_tbl): Centering point is outside the range of exposures in
 #> geo-unit BOSTON. This means your zones are across too large of an area, or
@@ -478,7 +497,7 @@ You can also get the RR table for your own usage
 ``` r
 
 getRR(m1)
-#>      tmax_C       RR    RRlow   RRhigh n_geo_names     model_class
+#>      tmax_C       RR     RRlb     RRub n_geo_names     model_class
 #>       <num>    <num>    <num>    <num>      <char>          <char>
 #>   1:    5.4 1.000000 1.000000 1.000000      BOSTON condPois_1stage
 #>   2:    5.5 1.000395 1.000155 1.000636      BOSTON condPois_1stage
@@ -532,6 +551,25 @@ middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 
                   outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
                   global_cen = 15)
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0
 ```
 
 And plot - notice the tighter confidence interval
@@ -548,7 +586,7 @@ And get RR
 ``` r
 
 getRR(m2)
-#>      tmax_C        RR     RRlow    RRhigh                   n_geo_names
+#>      tmax_C        RR      RRlb      RRub                   n_geo_names
 #>       <num>     <num>     <num>     <num>                        <char>
 #>   1:    3.4 0.9301212 0.9231059 0.9371897 ACTON:ARLINGTON...(truncated)
 #>   2:    3.5 0.9306360 0.9236853 0.9376389 ACTON:ARLINGTON...(truncated)
@@ -593,8 +631,67 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
                   multi_zone = TRUE,
                   verbose = 1)
 #> < age_grp : 0-17 >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> < age_grp : 18-64 >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> < age_grp : 65+ >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0
 
 # plot
 plot(m3)
@@ -607,7 +704,7 @@ And get RR
 ``` r
 
 getRR(m3)
-#>       tmax_C age_grp        RR     RRlow    RRhigh          model_class
+#>       tmax_C age_grp        RR      RRlb      RRub          model_class
 #>        <num>  <char>     <num>     <num>     <num>               <char>
 #>    1:    3.4    0-17 0.9003521 0.8929348 0.9078311 condPois_1stage_list
 #>    2:    3.5    0-17 0.9010769 0.8937259 0.9084883 condPois_1stage_list
@@ -631,8 +728,67 @@ You can change the global_cen and view the impact
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20, outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE, verbose = 1)
 #> < age_grp : 0-17 >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> < age_grp : 18-64 >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> < age_grp : 65+ >
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 26 31.3
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0
 plot(m2)
 ```
 

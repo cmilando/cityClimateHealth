@@ -73,6 +73,8 @@
 <h2 id="installing-the-package">Installing the package<a class="anchor" aria-label="anchor" href="#installing-the-package"></a>
 </h2>
 <pre><code><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"cmilando/cityClimateHealth"</span><span class="op">)</span></span></code></pre>
+<p>you may have to first <a href="https://mc-stan.org/install/" class="external-link">install STAN</a> and <code>cmdstanr</code>:</p>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'cmdstanr'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://stan-dev.r-universe.dev'</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">'repos'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -99,6 +101,9 @@
 </tr></tbody>
 </table>
 <p>In implementations, an attributable number calculation is applied to model outputs, see <code><a href="articles/attributable_number.html">vignette("attributable_number")</a></code>.</p>
+<div class="info">
+<p>Time-series functions are in-progress</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="starting-a-new-analysis">Starting a new analysis<a class="anchor" aria-label="anchor" href="#starting-a-new-analysis"></a>

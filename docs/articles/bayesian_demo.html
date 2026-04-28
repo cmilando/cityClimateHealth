@@ -103,6 +103,11 @@ precise estimates) using the laplace or variational method. see Jack’s
 notes as so what is going on here</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_exposure"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_deaths"</span><span class="op">)</span></span>
 <span></span>
@@ -140,7 +145,7 @@ notes as so what is going on here</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">local_shp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_towns</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span>  <span class="va">TOWNLIST</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">local_shp</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">TOWN20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="bayesian_demo_files/figure-html/setup2-1.png" class="r-plt" width="480"></p>
+<p><img src="bayesian_demo_files/figure-html/setup2-1.png" class="r-plt" alt="" width="480"></p>
 <p>Now get initial estimates for each <code>geo_unit</code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">beta_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="fl">4</span><span class="op">)</span> </span>
@@ -272,7 +277,7 @@ notes as so what is going on here</p>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://patchwork.data-imaginist.com/reference/wrap_plots.html" class="external-link">wrap_plots</a></span><span class="op">(</span><span class="va">plot_l</span><span class="op">)</span></span></code></pre></div>
-<p><img src="bayesian_demo_files/figure-html/b2-1.png" class="r-plt" width="480"></p>
+<p><img src="bayesian_demo_files/figure-html/b2-1.png" class="r-plt" alt="" width="480"></p>
 <p>the cr coefs are similar</p>
 <p>the orig_coefs are not, which is why beta-wise implementation of
 SB_DLNM method doesn’t work - because the don’t have to be the same to
@@ -340,24 +345,23 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
-<span><span class="co">#&gt; clang++: warning: argument unused during compilation: '-c' [-Wunused-command-line-argument]</span></span>
 <span><span class="co">#&gt;  ...mcmc... </span></span>
 <span><span class="co">#&gt; Running MCMC with 2 parallel chains...</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  400 / 2000 [ 20%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  600 / 2000 [ 30%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  800 / 2000 [ 40%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
@@ -367,13 +371,13 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 finished in 28.2 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 finished in 22.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 finished in 28.7 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1 finished in 24.4 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Both chains finished successfully.</span></span>
-<span><span class="co">#&gt; Mean chain execution time: 28.5 seconds.</span></span>
-<span><span class="co">#&gt; Total execution time: 28.8 seconds.</span></span>
+<span><span class="co">#&gt; Mean chain execution time: 23.4 seconds.</span></span>
+<span><span class="co">#&gt; Total execution time: 24.5 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ...mcmc draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
@@ -397,19 +401,19 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272</span></span>
 <span></span>
 <span><span class="va">m_sb1</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
-<span><span class="co">#&gt;           CHELSEA     EVERETT      MALDEN        REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.04563081  0.05352101  0.01681938 -0.0007161936</span></span>
-<span><span class="co">#&gt;  [2,] -0.02310974 -0.03545623  0.01349965  0.0180104763</span></span>
-<span><span class="co">#&gt;  [3,]  0.08724563  0.08576537  0.09334545  0.1028893168</span></span>
-<span><span class="co">#&gt;  [4,] -0.03350999 -0.03532395 -0.04105760 -0.0331877843</span></span>
-<span><span class="co">#&gt;  [5,]  0.08698833  0.04810957  0.03598086 -0.0511078793</span></span>
-<span><span class="co">#&gt;  [6,]  0.01534864 -0.11608512  0.06032731  0.0744266904</span></span>
-<span><span class="co">#&gt;  [7,]  0.19255327  0.18545340  0.11679099  0.1364912451</span></span>
-<span><span class="co">#&gt;  [8,] -0.04584014 -0.04524805 -0.05158503 -0.0596107002</span></span>
-<span><span class="co">#&gt;  [9,]  0.01789267  0.07015688  0.03754349  0.0284379689</span></span>
-<span><span class="co">#&gt; [10,] -0.00093469 -0.06706039 -0.00138018  0.0211865836</span></span>
-<span><span class="co">#&gt; [11,]  0.17143376  0.12552996  0.12973764  0.1171559579</span></span>
-<span><span class="co">#&gt; [12,] -0.04891770 -0.02000770 -0.04463672 -0.0651447948</span></span></code></pre></div>
+<span><span class="co">#&gt;            CHELSEA     EVERETT       MALDEN       REVERE</span></span>
+<span><span class="co">#&gt;  [1,]  0.046451146  0.05193203  0.017183168 -0.000424874</span></span>
+<span><span class="co">#&gt;  [2,] -0.024004122 -0.03424428  0.011919092  0.018004531</span></span>
+<span><span class="co">#&gt;  [3,]  0.087005275  0.08600062  0.093602318  0.103398072</span></span>
+<span><span class="co">#&gt;  [4,] -0.033260911 -0.03582986 -0.041470530 -0.033616921</span></span>
+<span><span class="co">#&gt;  [5,]  0.090138194  0.04626000  0.039001008 -0.053467408</span></span>
+<span><span class="co">#&gt;  [6,]  0.009489463 -0.11292209  0.054874194  0.072859687</span></span>
+<span><span class="co">#&gt;  [7,]  0.191312835  0.18591096  0.117228149  0.142018513</span></span>
+<span><span class="co">#&gt;  [8,] -0.042678153 -0.04681459 -0.053749416 -0.060871001</span></span>
+<span><span class="co">#&gt;  [9,]  0.018904632  0.07075151  0.039603114  0.025033481</span></span>
+<span><span class="co">#&gt; [10,] -0.002773212 -0.06646190 -0.003032928  0.021496167</span></span>
+<span><span class="co">#&gt; [11,]  0.170843688  0.12531848  0.129976780  0.119833251</span></span>
+<span><span class="co">#&gt; [12,] -0.047985404 -0.02065557 -0.044806349 -0.065717577</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="compare-with-spatial-model">Compare with spatial model<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model"></a>
 </h3>
@@ -466,7 +470,9 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -6739.06 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      139      -6737.26   0.000348121      0.731762           1           1      169    </span></span>
+<span><span class="co">#&gt;      199      -6737.25   0.000281839       1.95842           1           1      246    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;      219      -6737.25   0.000295644      0.644621      0.1812           1      270    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
 <span><span class="co">#&gt; Finished in  0.1 seconds.</span></span>
@@ -484,7 +490,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  0.8 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.6 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span></code></pre></div>
@@ -506,19 +512,19 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272</span></span>
 <span></span>
 <span><span class="va">m_sb2</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
-<span><span class="co">#&gt;            CHELSEA     EVERETT        MALDEN        REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.045423333  0.05112039  1.900732e-02  0.0003361363</span></span>
-<span><span class="co">#&gt;  [2,] -0.021520151 -0.03348218  1.168377e-02  0.0171357910</span></span>
-<span><span class="co">#&gt;  [3,]  0.086169530  0.08576237  9.202635e-02  0.1026162647</span></span>
-<span><span class="co">#&gt;  [4,] -0.033034684 -0.03701113 -4.046737e-02 -0.0336513220</span></span>
-<span><span class="co">#&gt;  [5,]  0.088049683  0.04858261  3.603389e-02 -0.0514857925</span></span>
-<span><span class="co">#&gt;  [6,]  0.019462978 -0.11101076  6.234808e-02  0.0752953200</span></span>
-<span><span class="co">#&gt;  [7,]  0.187765616  0.18230330  1.161435e-01  0.1368418551</span></span>
-<span><span class="co">#&gt;  [8,] -0.042253687 -0.04710544 -5.393741e-02 -0.0612077042</span></span>
-<span><span class="co">#&gt;  [9,]  0.016094283  0.07222675  3.729183e-02  0.0263192109</span></span>
-<span><span class="co">#&gt; [10,]  0.001261148 -0.06617505  4.976655e-05  0.0224012337</span></span>
-<span><span class="co">#&gt; [11,]  0.172412859  0.12429712  1.292206e-01  0.1186910900</span></span>
-<span><span class="co">#&gt; [12,] -0.048785974 -0.01986296 -4.510412e-02 -0.0658182839</span></span></code></pre></div>
+<span><span class="co">#&gt;             CHELSEA     EVERETT        MALDEN        REVERE</span></span>
+<span><span class="co">#&gt;  [1,]  0.0459939688  0.05136240  0.0195582783  0.0004923256</span></span>
+<span><span class="co">#&gt;  [2,] -0.0216533177 -0.03390769  0.0112829833  0.0169286857</span></span>
+<span><span class="co">#&gt;  [3,]  0.0858488052  0.08581425  0.0919544477  0.1026802618</span></span>
+<span><span class="co">#&gt;  [4,] -0.0328325226 -0.03699243 -0.0404242600 -0.0336592224</span></span>
+<span><span class="co">#&gt;  [5,]  0.0902222415  0.04970123  0.0369421681 -0.0510796976</span></span>
+<span><span class="co">#&gt;  [6,]  0.0192684044 -0.11272781  0.0614573997  0.0744884170</span></span>
+<span><span class="co">#&gt;  [7,]  0.1864068103  0.18246229  0.1163474894  0.1371908596</span></span>
+<span><span class="co">#&gt;  [8,] -0.0417042081 -0.04693266 -0.0541652871 -0.0613523145</span></span>
+<span><span class="co">#&gt;  [9,]  0.0169298753  0.07259296  0.0375740158  0.0265242107</span></span>
+<span><span class="co">#&gt; [10,]  0.0009616704 -0.06674475 -0.0001706774  0.0221612362</span></span>
+<span><span class="co">#&gt; [11,]  0.1719758838  0.12434911  0.1291995719  0.1186520995</span></span>
+<span><span class="co">#&gt; [12,] -0.0485941772 -0.01973975 -0.0451084195 -0.0657781851</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="compare-with-spatial-model-for-leroux">Compare with spatial model for leroux<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model-for-leroux"></a>
@@ -576,30 +582,38 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -7000.25 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      199      -6518.16     0.0317223        386.68           1           1      215    </span></span>
+<span><span class="co">#&gt;      199      -6483.58     0.0592651        2851.7      0.3124           1      214    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      399      -6438.84     0.0763665       11799.7      0.5406           1      425    </span></span>
+<span><span class="co">#&gt;      399      -6440.07   9.26028e-05       1448.31           1           1      425    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      599      -6393.62      0.027489       12270.4           1           1      635    </span></span>
+<span><span class="co">#&gt;      599      -6436.46   0.000542912       578.289           1           1      637    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      799       -6371.4    0.00210131       22054.6           1           1      849    </span></span>
+<span><span class="co">#&gt;      799      -6435.89   4.05429e-05       235.671      0.9461      0.9461      844    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      999      -6362.85   2.48342e-06       1876.72           1           1     1060    </span></span>
+<span><span class="co">#&gt;      999      -6435.58     0.0001235       312.848           1           1     1051    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     1199      -6360.11   1.70314e-06       1926.29           1           1     1272    </span></span>
+<span><span class="co">#&gt;     1199      -6435.28   0.000121976         568.2           1           1     1269    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     1399       -6359.2   1.63738e-06       1871.19           1           1     1480    </span></span>
+<span><span class="co">#&gt;     1399      -6435.15   9.91154e-06       101.253           1           1     1484    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     1599      -6358.77   1.14602e-05       1174.76           1           1     1690    </span></span>
+<span><span class="co">#&gt;     1599      -6434.98   2.29524e-05       114.414           1           1     1694    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     1799      -6357.61   0.000191241       7846.74           1           1     1897    </span></span>
+<span><span class="co">#&gt;     1799      -6434.87   6.22773e-05       170.207           1           1     1901    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     1999      -6356.56   1.89901e-05       1981.71           1           1     2106    </span></span>
+<span><span class="co">#&gt;     1999      -6434.52    0.00413995       1870.72           1           1     2109    </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;     2152      -6355.97   2.89835e-07       242.602           1           1     2271    </span></span>
+<span><span class="co">#&gt;     2199      -6433.18   0.000436944       834.056           1           1     2325    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;     2399      -6432.52   2.71483e-05       204.321           1           1     2533    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;     2599      -6432.35   9.54362e-05        269.67           1           1     2739    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;     2799      -6432.11   4.62306e-05       597.971           1           1     2947    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;     2972      -6431.94   2.16346e-06       32.6528           1           1     3130    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
-<span><span class="co">#&gt; Finished in  1.0 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  1.1 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace sample... </span></span>
 <span><span class="co">#&gt; Calculating Hessian </span></span>
 <span><span class="co">#&gt; Calculating inverse of Cholesky factor </span></span>
@@ -614,7 +628,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  0.8 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.5 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span></code></pre></div>
@@ -637,26 +651,26 @@ similarity in beta coefs</p>
 <span></span>
 <span><span class="va">m_sb3</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
 <span><span class="co">#&gt;            CHELSEA      EVERETT       MALDEN       REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.007393641  0.007393784  0.007394247  0.007393496</span></span>
-<span><span class="co">#&gt;  [2,]  0.005909126  0.005908665  0.005909324  0.005909028</span></span>
-<span><span class="co">#&gt;  [3,]  0.101804062  0.101805289  0.101804801  0.101804395</span></span>
-<span><span class="co">#&gt;  [4,] -0.044028808 -0.044029393 -0.044029676 -0.044029059</span></span>
-<span><span class="co">#&gt;  [5,] -0.045403324 -0.045399940 -0.045397528 -0.045397372</span></span>
-<span><span class="co">#&gt;  [6,]  0.046002454  0.046006165  0.046005329  0.046004261</span></span>
-<span><span class="co">#&gt;  [7,]  0.187302489  0.187302192  0.187301543  0.187302563</span></span>
-<span><span class="co">#&gt;  [8,] -0.079967398 -0.079968486 -0.079967632 -0.079968145</span></span>
-<span><span class="co">#&gt;  [9,]  0.009569402  0.009569678  0.009569970  0.009570108</span></span>
-<span><span class="co">#&gt; [10,]  0.011026743  0.011027348  0.011027609  0.011027644</span></span>
-<span><span class="co">#&gt; [11,]  0.141515048  0.141515237  0.141514517  0.141515253</span></span>
-<span><span class="co">#&gt; [12,] -0.056311461 -0.056311481 -0.056310680 -0.056311312</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1,]  0.030890899  0.030891160  0.030891202  0.030891276</span></span>
+<span><span class="co">#&gt;  [2,] -0.008934332 -0.008934032 -0.008933796 -0.008933673</span></span>
+<span><span class="co">#&gt;  [3,]  0.093069451  0.093069618  0.093070202  0.093070315</span></span>
+<span><span class="co">#&gt;  [4,] -0.035069960 -0.035069930 -0.035069765 -0.035069589</span></span>
+<span><span class="co">#&gt;  [5,]  0.048175551  0.048172507  0.048173515  0.048171025</span></span>
+<span><span class="co">#&gt;  [6,] -0.017076972 -0.017077683 -0.017078980 -0.017078669</span></span>
+<span><span class="co">#&gt;  [7,]  0.151028269  0.151027837  0.151027072  0.151027367</span></span>
+<span><span class="co">#&gt;  [8,] -0.043569710 -0.043569786 -0.043569737 -0.043569727</span></span>
+<span><span class="co">#&gt;  [9,]  0.045601554  0.045601569  0.045601838  0.045601988</span></span>
+<span><span class="co">#&gt; [10,] -0.018787122 -0.018787260 -0.018786989 -0.018786842</span></span>
+<span><span class="co">#&gt; [11,]  0.132355975  0.132355409  0.132355763  0.132355642</span></span>
+<span><span class="co">#&gt; [12,] -0.042634646 -0.042634555 -0.042634716 -0.042635042</span></span></code></pre></div>
 <p>And you can also see that the leroux <code>q</code> value is quite
 high</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">m_sb3</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">stan_summary</span>, <span class="va">variable</span> <span class="op">==</span> <span class="st">'q'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">#&gt;   variable  mean median    sd   mad    q5   q95</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> q        0.631  0.640 0.113 0.112 0.437 0.808</span></span></code></pre></div>
+<span><span class="co">#&gt;   variable  mean median    sd      mad    q5   q95</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> q        0.911  0.999 0.234 0.000<span style="text-decoration: underline;">603</span> 0.191 0.999</span></span></code></pre></div>
 <p>All of the other objects associated with <code>condPois_1stage</code>
 or <code>condPois_2stage</code> will also work here, along with the
 <code>_list</code> and factor coding</p>

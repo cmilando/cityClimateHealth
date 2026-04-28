@@ -11,6 +11,8 @@ make_outcome_table(
   months_subset = 5:9,
   dt_by = "day",
   collapse_to = NULL,
+  collapse_is_spatial = FALSE,
+  collapse_is_temporal = FALSE,
   grp_level = FALSE,
   keep_unit_outcomes = FALSE
 )
@@ -36,6 +38,14 @@ make_outcome_table(
 - collapse_to:
 
   which factors to collapse across
+
+- collapse_is_spatial:
+
+  is collapse a spatial variable
+
+- collapse_is_temporal:
+
+  is collapse a spatial variable
 
 - grp_level:
 

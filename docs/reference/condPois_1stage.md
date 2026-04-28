@@ -15,7 +15,7 @@ condPois_1stage(
   strata_min = 0,
   global_cen = NULL,
   multi_zone = FALSE,
-  verbose = NULL
+  verbose = TRUE
 )
 ```
 
@@ -60,6 +60,6 @@ condPois_1stage(
 
 - verbose:
 
-  not used
+  used to print crossbasis args the first time
 
 ## Examples

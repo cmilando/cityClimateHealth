@@ -2,6 +2,8 @@
 
 ### Main vignettes
 
+- [Methods and
+  Description](http://chadmilando.com/cityClimateHealth/articles/methods.md):
 - [One set of Heat-Health Associations for a single or multiple zones
   using
   \`cityClimateHealth\`](http://chadmilando.com/cityClimateHealth/articles/one_stage_demo.md):

@@ -6,9 +6,18 @@ and once for BLUP
 ## Usage
 
 ``` r
-get_centered_cp(argvar, xcoef, xvcov, this_exp, x_b, global_cen, cen)
+get_centered_cp(
+  argvar,
+  xcoef,
+  xvcov,
+  this_exp,
+  x_b,
+  global_cen,
+  cen,
+  exposure_is_factor
+)
 ```
 
 ## Arguments
 
-- cen:
+- exposure_is_factor:

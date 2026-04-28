@@ -97,6 +97,11 @@ provide a number of outputs.</p>
 <code>exposure_columns</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     %notin%</span></span>
 <span></span>
 <span><span class="co"># load a built-in dataset and get a subset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_exposure"</span><span class="op">)</span> </span>
@@ -346,17 +351,17 @@ additional bugs to work out]):</p>
 <p>First, a basic RR plot by <code>geo_unit</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/plot1-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/plot1-1.png" class="r-plt" alt="" width="480"></p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting</span></span>
 <span><span class="co">#&gt; by group since n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" alt="" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" alt="" width="480"></p>
 </div>
 <div class="section level3">
 <h3 id="getrr">getRR<a class="anchor" aria-label="anchor" href="#getrr"></a>
@@ -498,7 +503,7 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <code class="sourceCode R"><span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                5191.92089</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                5222.30137</span></span>
 <span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -30.38049</span></span>
 <span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                5854.89914</span></span>
 <span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -43.02270</span></span>
@@ -511,13 +516,13 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -36.36301</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                         &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               4087.64247              6439.354257</span></span>
-<span><span class="co">#&gt;   2:                -61.80858                -1.047603</span></span>
+<span><span class="co">#&gt;   1:               4132.79417              6406.250000</span></span>
+<span><span class="co">#&gt;   2:                -62.85619                -1.047603</span></span>
 <span><span class="co">#&gt;   3:               4769.62434              6928.751144</span></span>
 <span><span class="co">#&gt;   4:                -67.01194               -20.408552</span></span>
 <span><span class="co">#&gt;   5:               3161.88654              4983.036137</span></span>
 <span><span class="co">#&gt;  ---                                                  </span></span>
-<span><span class="co">#&gt; 224:                -77.82016               -26.826034</span></span>
+<span><span class="co">#&gt; 224:                -78.91622               -23.017230</span></span>
 <span><span class="co">#&gt; 225:               3953.21038              6227.953015</span></span>
 <span><span class="co">#&gt; 226:                -38.74232                -4.269126</span></span>
 <span><span class="co">#&gt; 227:               4032.24799              5995.700716</span></span>
@@ -527,7 +532,7 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <code class="sourceCode R"><span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 1239.000</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 1246.250</span></span>
 <span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                   -7.250</span></span>
 <span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2687.750</span></span>
 <span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -19.750</span></span>
@@ -540,13 +545,13 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                  -74.250</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                        &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               975.47500              1536.68750</span></span>
-<span><span class="co">#&gt;   2:               -14.75000                -0.25000</span></span>
+<span><span class="co">#&gt;   1:               986.25000              1528.78750</span></span>
+<span><span class="co">#&gt;   2:               -15.00000                -0.25000</span></span>
 <span><span class="co">#&gt;   3:              2189.54375              3180.71250</span></span>
 <span><span class="co">#&gt;   4:               -30.76250                -9.36875</span></span>
 <span><span class="co">#&gt;   5:               200.36875               315.77500</span></span>
 <span><span class="co">#&gt;  ---                                                </span></span>
-<span><span class="co">#&gt; 224:               -17.75000                -6.11875</span></span>
+<span><span class="co">#&gt; 224:               -18.00000                -5.25000</span></span>
 <span><span class="co">#&gt; 225:              1620.50000              2552.96250</span></span>
 <span><span class="co">#&gt; 226:               -15.88125                -1.75000</span></span>
 <span><span class="co">#&gt; 227:              8233.48750             12242.68125</span></span>
@@ -556,11 +561,11 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in plot.calcAN(ma_AN, "num", above_MMT = T): plot elements &gt; 20,</span></span>
 <span><span class="co">#&gt; subsetting to top 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot-1.png" class="r-plt" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot-1.png" class="r-plt" alt="" width="768"></p>
 <p>You can also plot spatially</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/multi_plot3d-1.png" class="r-plt" width="576"></p>
+<p><img src="cityClimateHealth_files/figure-html/multi_plot3d-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 </div>
 <div class="section level2">
@@ -690,16 +695,16 @@ can follow along)</p>
 <p>And plotting the output</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/plot1b-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/plot1b-1.png" class="r-plt" alt="" width="480"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
 <span><span class="co">#&gt; plotting by group since n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/forest_plot2b-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/forest_plot2b-1.png" class="r-plt" alt="" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" alt="" width="480"></p>
 <p>You can also getRR:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">)</span></span>
@@ -764,7 +769,7 @@ but fine for diagnostics.</p>
 <span><span class="co">#&gt; 20, subsetting to top 20</span></span>
 <span><span class="co">#&gt; Warning in plot.calcAN_list(ma_AN_fct, "num", above_MMT = T): plot elements &gt;</span></span>
 <span><span class="co">#&gt; 20, subsetting to top 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2-1.png" class="r-plt" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2-1.png" class="r-plt" alt="" width="768"></p>
 <p>You can also make use of some additional arguments to get plot
 subsets, including <code>spatial_sub</code> and
 <code>ordered_levels</code>.</p>
@@ -772,11 +777,11 @@ subsets, including <code>spatial_sub</code> and
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">T</span>, </span>
 <span>     spatial_sub <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BOSTON'</span>, <span class="st">'CAMBRIDGE'</span><span class="op">)</span>,</span>
 <span>     ordered_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0-17"</span>, <span class="st">"18-64"</span>, <span class="st">"65+"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2z-1.png" class="r-plt" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2z-1.png" class="r-plt" alt="" width="768"></p>
 <p>You can also plot spatially</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/multi_plot3db-1.png" class="r-plt" width="576"></p>
+<p><img src="cityClimateHealth_files/figure-html/multi_plot3db-1.png" class="r-plt" alt="" width="576"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -97,6 +97,11 @@ seen in <code><a href="../articles/get_pop_estimates.html">vignette("get_pop_est
 looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_pop_data"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="va">ma_pop_data</span><span class="op">)</span></span>
 <span><span class="va">ma_pop_data</span></span>
@@ -269,26 +274,26 @@ change it</p></li>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 3514.7083</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -213.7110</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 3593.8024</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -212.1396</span></span>
 <span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 3563.2597</span></span>
 <span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -245.8829</span></span>
 <span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                 2426.2269</span></span>
 <span><span class="co">#&gt;  ---                                                                    </span></span>
-<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -311.2806</span></span>
+<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -304.7043</span></span>
 <span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 3408.8969</span></span>
 <span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                 -161.3120</span></span>
 <span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 3107.4460</span></span>
 <span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -268.1925</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                         &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:                2774.7339                4245.6996</span></span>
-<span><span class="co">#&gt;   2:                -333.7663                -108.3483</span></span>
+<span><span class="co">#&gt;   1:                2796.8383                4259.4232</span></span>
+<span><span class="co">#&gt;   2:                -337.4330                -105.9912</span></span>
 <span><span class="co">#&gt;   3:                2801.4720                4172.5483</span></span>
 <span><span class="co">#&gt;   4:                -335.8902                -159.0887</span></span>
 <span><span class="co">#&gt;   5:                1739.4864                3013.5514</span></span>
 <span><span class="co">#&gt;  ---                                                  </span></span>
-<span><span class="co">#&gt; 224:                -423.6540                -211.3749</span></span>
+<span><span class="co">#&gt; 224:                -402.9385                -192.1665</span></span>
 <span><span class="co">#&gt; 225:                2853.8648                3965.4689</span></span>
 <span><span class="co">#&gt; 226:                -233.6127                 -79.8479</span></span>
 <span><span class="co">#&gt; 227:                2674.7567                3591.4842</span></span>
@@ -296,26 +301,26 @@ change it</p></li>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                  838.750</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                  -51.000</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                  857.625</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                  -50.625</span></span>
 <span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1635.750</span></span>
 <span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -112.875</span></span>
 <span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  153.750</span></span>
 <span><span class="co">#&gt;  ---                                                                   </span></span>
-<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                  -71.000</span></span>
+<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                  -69.500</span></span>
 <span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 1397.375</span></span>
 <span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                  -66.125</span></span>
 <span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 6345.125</span></span>
 <span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -547.625</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                        &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               662.16250              1013.19375</span></span>
-<span><span class="co">#&gt;   2:               -79.65000               -25.85625</span></span>
+<span><span class="co">#&gt;   1:               667.43750              1016.46875</span></span>
+<span><span class="co">#&gt;   2:               -80.52500               -25.29375</span></span>
 <span><span class="co">#&gt;   3:              1286.04375              1915.45000</span></span>
 <span><span class="co">#&gt;   4:              -154.19375               -73.03125</span></span>
 <span><span class="co">#&gt;   5:               110.23125               190.96875</span></span>
 <span><span class="co">#&gt;  ---                                                </span></span>
-<span><span class="co">#&gt; 224:               -96.63125               -48.21250</span></span>
+<span><span class="co">#&gt; 224:               -91.90625               -43.83125</span></span>
 <span><span class="co">#&gt; 225:              1169.85625              1625.52500</span></span>
 <span><span class="co">#&gt; 226:               -95.76250               -32.73125</span></span>
 <span><span class="co">#&gt; 227:              5461.61250              7333.48750</span></span>
@@ -336,38 +341,38 @@ spatial resolution – either whatever the group variable was or “all”</p>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 3453.4957</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -210.3140</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 3007.8804</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -219.9912</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 3449.1368</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -208.7429</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 3006.8617</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -219.4091</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                       &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:                3347.3387                3581.1705</span></span>
-<span><span class="co">#&gt; 2:                -223.1200                -195.3061</span></span>
-<span><span class="co">#&gt; 3:                2857.9740                3153.6261</span></span>
-<span><span class="co">#&gt; 4:                -247.0106                -196.4167</span></span>
+<span><span class="co">#&gt; 1:                3342.8289                3562.8268</span></span>
+<span><span class="co">#&gt; 2:                -224.4781                -193.9415</span></span>
+<span><span class="co">#&gt; 3:                2869.8024                3155.9903</span></span>
+<span><span class="co">#&gt; 4:                -246.1825                -199.0756</span></span>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                56054.000</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                -3413.625</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                25834.625</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                -1889.500</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                55983.250</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                -3388.125</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                25825.875</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                -1884.500</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:               54330.956               58126.300</span></span>
-<span><span class="co">#&gt; 2:               -3621.481               -3170.031</span></span>
-<span><span class="co">#&gt; 3:               24547.081               27086.431</span></span>
-<span><span class="co">#&gt; 4:               -2121.569               -1687.019</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:               54257.756               57828.562</span></span>
+<span><span class="co">#&gt; 2:               -3643.525               -3147.881</span></span>
+<span><span class="co">#&gt; 3:               24648.675               27106.737</span></span>
+<span><span class="co">#&gt; 4:               -2114.456               -1709.856</span></span></code></pre></div>
 <p>See that the numbers are roughly the same for Suffolk county ? They
 won’t be exactly the same because of how the averaging works.</p>
 <p>Some plot functions exist:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---single">Estimating the AN - single<a class="anchor" aria-label="anchor" href="#estimating-the-an---single"></a>
@@ -413,18 +418,18 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="va">ma_AN_s1</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                5365.52074</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -29.68069</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                5066.43397</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -36.54392</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                5365.28970</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -29.64989</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                5066.15745</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -36.58758</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                       &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:               5342.12274               5390.11667</span></span>
-<span><span class="co">#&gt; 2:                -30.33646                -28.96332</span></span>
-<span><span class="co">#&gt; 3:               5015.17133               5100.83051</span></span>
-<span><span class="co">#&gt; 4:                -37.79625                -34.98524</span></span>
+<span><span class="co">#&gt; 1:               5341.90826               5386.89600</span></span>
+<span><span class="co">#&gt; 2:                -30.30488                -29.06228</span></span>
+<span><span class="co">#&gt; 3:               5017.45769               5108.86188</span></span>
+<span><span class="co">#&gt; 4:                -37.86829                -34.96996</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_s1</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---with-factors">Estimating the AN - with factors<a class="anchor" aria-label="anchor" href="#estimating-the-an---with-factors"></a>
@@ -547,12 +552,12 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- summarize by simulation</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" alt="" width="768"></p>
 <p>These results are fictional of course but show what kind of outputs
 can be made easily.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_counties</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" width="576"></p>
+<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" alt="" width="576"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

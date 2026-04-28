@@ -13,7 +13,8 @@ make_exposure_matrix(
   maxgap = 5,
   maxlag = 5,
   grp_level = FALSE,
-  keep_unit_exposures = FALSE
+  keep_unit_exposures = FALSE,
+  exposure_is_factor = FALSE
 )
 ```
 
@@ -49,6 +50,10 @@ make_exposure_matrix(
 - keep_unit_exposures:
 
   if grp_level is true, whether to keep original unit-level exposures
+
+- exposure_is_factor:
+
+  exposure is a factor
 
 - maxgaps:
 

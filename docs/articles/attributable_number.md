@@ -27,6 +27,11 @@ looks like this:
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 data("ma_pop_data")
 setDT(ma_pop_data)
 ma_pop_data
@@ -164,6 +169,26 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, gl
 #> -- validation passed
 #> -- stage 1
 #> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
@@ -210,26 +235,26 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>          <char>    <char>      <num>    <lgcl>                     <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                 3514.7083
-#>   2:      ACTON MIDDLESEX      23864     FALSE                 -213.7110
+#>   1:      ACTON MIDDLESEX      23864      TRUE                 3593.8024
+#>   2:      ACTON MIDDLESEX      23864     FALSE                 -212.1396
 #>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 3563.2597
 #>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -245.8829
 #>   5: ASHBURNHAM WORCESTER       6337      TRUE                 2426.2269
 #>  ---                                                                    
-#> 224: WINCHESTER MIDDLESEX      22809     FALSE                 -311.2806
+#> 224: WINCHESTER MIDDLESEX      22809     FALSE                 -304.7043
 #> 225:     WOBURN MIDDLESEX      40992      TRUE                 3408.8969
 #> 226:     WOBURN MIDDLESEX      40992     FALSE                 -161.3120
 #> 227:  WORCESTER WORCESTER     204191      TRUE                 3107.4460
 #> 228:  WORCESTER WORCESTER     204191     FALSE                 -268.1925
 #>      mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                         <num>                    <num>
-#>   1:                2774.7339                4245.6996
-#>   2:                -333.7663                -108.3483
+#>   1:                2796.8383                4259.4232
+#>   2:                -337.4330                -105.9912
 #>   3:                2801.4720                4172.5483
 #>   4:                -335.8902                -159.0887
 #>   5:                1739.4864                3013.5514
 #>  ---                                                  
-#> 224:                -423.6540                -211.3749
+#> 224:                -402.9385                -192.1665
 #> 225:                2853.8648                3965.4689
 #> 226:                -233.6127                 -79.8479
 #> 227:                2674.7567                3591.4842
@@ -237,26 +262,26 @@ ma_AN$`_`$rate_table
 ma_AN$`_`$number_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
 #>          <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                  838.750
-#>   2:      ACTON MIDDLESEX      23864     FALSE                  -51.000
+#>   1:      ACTON MIDDLESEX      23864      TRUE                  857.625
+#>   2:      ACTON MIDDLESEX      23864     FALSE                  -50.625
 #>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1635.750
 #>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -112.875
 #>   5: ASHBURNHAM WORCESTER       6337      TRUE                  153.750
 #>  ---                                                                   
-#> 224: WINCHESTER MIDDLESEX      22809     FALSE                  -71.000
+#> 224: WINCHESTER MIDDLESEX      22809     FALSE                  -69.500
 #> 225:     WOBURN MIDDLESEX      40992      TRUE                 1397.375
 #> 226:     WOBURN MIDDLESEX      40992     FALSE                  -66.125
 #> 227:  WORCESTER WORCESTER     204191      TRUE                 6345.125
 #> 228:  WORCESTER WORCESTER     204191     FALSE                 -547.625
 #>      mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                        <num>                   <num>
-#>   1:               662.16250              1013.19375
-#>   2:               -79.65000               -25.85625
+#>   1:               667.43750              1016.46875
+#>   2:               -80.52500               -25.29375
 #>   3:              1286.04375              1915.45000
 #>   4:              -154.19375               -73.03125
 #>   5:               110.23125               190.96875
 #>  ---                                                
-#> 224:               -96.63125               -48.21250
+#> 224:               -91.90625               -43.83125
 #> 225:              1169.85625              1625.52500
 #> 226:               -95.76250               -32.73125
 #> 227:              5461.61250              7333.48750
@@ -281,29 +306,29 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE                 3453.4957
-#> 2: MIDDLESEX    1623109     FALSE                 -210.3140
-#> 3: WORCESTER     858898      TRUE                 3007.8804
-#> 4: WORCESTER     858898     FALSE                 -219.9912
+#> 1: MIDDLESEX    1623109      TRUE                 3449.1368
+#> 2: MIDDLESEX    1623109     FALSE                 -208.7429
+#> 3: WORCESTER     858898      TRUE                 3006.8617
+#> 4: WORCESTER     858898     FALSE                 -219.4091
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:                3347.3387                3581.1705
-#> 2:                -223.1200                -195.3061
-#> 3:                2857.9740                3153.6261
-#> 4:                -247.0106                -196.4167
+#> 1:                3342.8289                3562.8268
+#> 2:                -224.4781                -193.9415
+#> 3:                2869.8024                3155.9903
+#> 4:                -246.1825                -199.0756
 ma_AN$`_`$number_table
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX    1623109      TRUE                56054.000
-#> 2: MIDDLESEX    1623109     FALSE                -3413.625
-#> 3: WORCESTER     858898      TRUE                25834.625
-#> 4: WORCESTER     858898     FALSE                -1889.500
+#> 1: MIDDLESEX    1623109      TRUE                55983.250
+#> 2: MIDDLESEX    1623109     FALSE                -3388.125
+#> 3: WORCESTER     858898      TRUE                25825.875
+#> 4: WORCESTER     858898     FALSE                -1884.500
 #>    mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                      <num>                   <num>
-#> 1:               54330.956               58126.300
-#> 2:               -3621.481               -3170.031
-#> 3:               24547.081               27086.431
-#> 4:               -2121.569               -1687.019
+#> 1:               54257.756               57828.562
+#> 2:               -3643.525               -3147.881
+#> 3:               24648.675               27106.737
+#> 4:               -2114.456               -1709.856
 ```
 
 See that the numbers are roughly the same for Suffolk county ? They
@@ -336,6 +361,25 @@ check of single
 m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix, 
                   outcomes_tbl = ma_outcomes_tbl, 
                   multi_zone = TRUE, global_cen = 15)
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.4 30.5
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0
 
 ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
                  spatial_agg_type = 'COUNTY20', 
@@ -351,16 +395,16 @@ ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN_s1$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE                5365.52074
-#> 2: MIDDLESEX    1623109     FALSE                 -29.68069
-#> 3: WORCESTER     858898      TRUE                5066.43397
-#> 4: WORCESTER     858898     FALSE                 -36.54392
+#> 1: MIDDLESEX    1623109      TRUE                5365.28970
+#> 2: MIDDLESEX    1623109     FALSE                 -29.64989
+#> 3: WORCESTER     858898      TRUE                5066.15745
+#> 4: WORCESTER     858898     FALSE                 -36.58758
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:               5342.12274               5390.11667
-#> 2:                -30.33646                -28.96332
-#> 3:               5015.17133               5100.83051
-#> 4:                -37.79625                -34.98524
+#> 1:               5341.90826               5386.89600
+#> 2:                -30.30488                -29.06228
+#> 3:               5017.45769               5108.86188
+#> 4:                -37.86829                -34.96996
 plot(ma_AN_s1, "num", above_MMT = T)
 ```
 
@@ -386,6 +430,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
@@ -394,6 +458,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
@@ -401,6 +485,26 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> < age_grp : 65+ >
 #> -- validation passed
 #> -- stage 1
+#> 
+#> crossbasis args:
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.7 31.4
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 

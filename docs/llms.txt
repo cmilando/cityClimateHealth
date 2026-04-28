@@ -8,6 +8,11 @@ outcome dataset, we can quickly estimate heat-health impacts.
 
     remotes::install_github("cmilando/cityClimateHealth")
 
+you may have to first [install STAN](https://mc-stan.org/install/) and
+`cmdstanr`:
+
+    install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOption('repos')))
+
 ## Usage
 
 This package can be used in three main ways:
@@ -19,6 +24,8 @@ This package can be used in three main ways:
 In implementations, an attributable number calculation is applied to
 model outputs, see
 [`vignette("attributable_number")`](http://chadmilando.com/cityClimateHealth/articles/attributable_number.md).
+
+Time-series functions are in-progress
 
 ## Starting a new analysis
 
@@ -144,6 +151,8 @@ We also provide several additional vignettes for common questions – see
 
 ### Main vignettes
 
+- [Methods and
+  Description](http://chadmilando.com/cityClimateHealth/articles/methods.md):
 - [One set of Heat-Health Associations for a single or multiple zones
   using
   \`cityClimateHealth\`](http://chadmilando.com/cityClimateHealth/articles/one_stage_demo.md):
