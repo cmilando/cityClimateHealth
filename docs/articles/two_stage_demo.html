@@ -90,11 +90,6 @@ impacts across many zones.</p>
 and <code>outcome_columns</code> as before.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"tmax_C"</span>,</span>
@@ -159,7 +154,7 @@ model.</p>
 <p>You can still view the RR output from a single zone:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot_sigle-1.png" class="r-plt" alt="" width="480">
+<p><img src="two_stage_demo_files/figure-html/multi_plot_sigle-1.png" class="r-plt" width="480">
 It does seem like this is a wider confidence interval than the solo
 model – Perhaps this is expected given the variables around it? Worth
 investigating in your dataset, as these are simulated data.</p>
@@ -167,13 +162,13 @@ investigating in your dataset, as these are simulated data.</p>
 this cleaner to get to)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma_model</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">grp_plt</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/grp-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="two_stage_demo_files/figure-html/grp-1.png" class="r-plt" width="480"></p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, 25.1): plotting by group since</span></span>
 <span><span class="co">#&gt; n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot_multiple1-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="two_stage_demo_files/figure-html/multi_plot_multiple1-1.png" class="r-plt" width="480"></p>
 <p>Finally you can also plot how the RR changes at specific expsoure
 units across space – for this you need to bring in an <code>sf</code>
 shapefile:</p>
@@ -229,7 +224,7 @@ shapefile:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   POPCH10_20 &lt;dbl&gt;, HOUSING20 &lt;dbl&gt;, SHAPE_AREA &lt;dbl&gt;, SHAPE_LEN &lt;dbl&gt;, …</span></span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot_multiple2-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="two_stage_demo_files/figure-html/multi_plot_multiple2-1.png" class="r-plt" width="768"></p>
 <p>and You can get an RR table</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model</span><span class="op">)</span></span>
@@ -366,18 +361,18 @@ age_grp:</p>
 <p>And plot</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot2a-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="two_stage_demo_files/figure-html/multi_plot2a-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">$</span><span class="va">`18-64`</span>, <span class="st">"CAMBRIDGE"</span>, title <span class="op">=</span> <span class="st">'CAMBRIDGE: 18-64'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot2b-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="two_stage_demo_files/figure-html/multi_plot2b-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): plotting by</span></span>
 <span><span class="co">#&gt; group since n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot2c-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="two_stage_demo_files/figure-html/multi_plot2c-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/multi_plot2d-1.png" class="r-plt" alt="" width="576">
+<p><img src="two_stage_demo_files/figure-html/multi_plot2d-1.png" class="r-plt" width="576">
 and You can get an RR table</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">)</span></span>
@@ -475,22 +470,18 @@ to be a sub-strata level.</p>
 <span><span class="co">#&gt; -- mixmeta</span></span>
 <span><span class="co">#&gt; formula: ~ 1 | COUNTY20 </span></span>
 <span><span class="co">#&gt; IGLS iterations:</span></span>
-<span><span class="co">#&gt; iter 0: value -6.217249e-13</span></span>
-<span><span class="co">#&gt; iter 1: value -2.259526e-12</span></span>
+<span><span class="co">#&gt; iter 0: value 6.693313e-12</span></span>
 <span><span class="co">#&gt; converged</span></span>
 <span><span class="co">#&gt; Newton iterations:</span></span>
-<span><span class="co">#&gt; initial  value 0.000000 </span></span>
-<span><span class="co">#&gt; iter   2 value -0.000000</span></span>
-<span><span class="co">#&gt; iter   3 value -0.000000</span></span>
-<span><span class="co">#&gt; iter   3 value 0.000000</span></span>
-<span><span class="co">#&gt; iter   3 value 0.000000</span></span>
+<span><span class="co">#&gt; initial  value -0.000000 </span></span>
+<span><span class="co">#&gt; iter   1 value 0.000000</span></span>
 <span><span class="co">#&gt; final  value -0.000000 </span></span>
 <span><span class="co">#&gt; converged</span></span>
 <span><span class="co">#&gt; -- stage 2</span></span>
 <span><span class="co">#&gt; MIDDLESEX    WORCESTER   SUFFOLK     </span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model</span>, geo_unit <span class="op">=</span> <span class="st">"SUFFOLK"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="two_stage_demo_files/figure-html/overwriteStrata-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="two_stage_demo_files/figure-html/overwriteStrata-1.png" class="r-plt" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

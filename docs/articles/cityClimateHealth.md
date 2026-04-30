@@ -21,11 +21,6 @@ First, create the exposure object - you will need to define the
 ``` r
 
 library(data.table)
-#> 
-#> Attaching package: 'data.table'
-#> The following object is masked from 'package:base':
-#> 
-#>     %notin%
 
 # load a built-in dataset and get a subset
 data("ma_exposure") 
@@ -420,7 +415,7 @@ From this you get a `rate_table` :
 ma_AN$`_`$rate_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>          <char>    <char>      <num>    <lgcl>                     <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                5222.30137
+#>   1:      ACTON MIDDLESEX      23864      TRUE                5191.92089
 #>   2:      ACTON MIDDLESEX      23864     FALSE                 -30.38049
 #>   3:  ARLINGTON MIDDLESEX      45906      TRUE                5854.89914
 #>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -43.02270
@@ -433,13 +428,13 @@ ma_AN$`_`$rate_table
 #> 228:  WORCESTER WORCESTER     204191     FALSE                 -36.36301
 #>      mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                         <num>                    <num>
-#>   1:               4132.79417              6406.250000
-#>   2:                -62.85619                -1.047603
+#>   1:               4087.64247              6439.354257
+#>   2:                -61.80858                -1.047603
 #>   3:               4769.62434              6928.751144
 #>   4:                -67.01194               -20.408552
 #>   5:               3161.88654              4983.036137
 #>  ---                                                  
-#> 224:                -78.91622               -23.017230
+#> 224:                -77.82016               -26.826034
 #> 225:               3953.21038              6227.953015
 #> 226:                -38.74232                -4.269126
 #> 227:               4032.24799              5995.700716
@@ -453,7 +448,7 @@ and a `number_table`:
 ma_AN$`_`$number_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
 #>          <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                 1246.250
+#>   1:      ACTON MIDDLESEX      23864      TRUE                 1239.000
 #>   2:      ACTON MIDDLESEX      23864     FALSE                   -7.250
 #>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2687.750
 #>   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -19.750
@@ -466,13 +461,13 @@ ma_AN$`_`$number_table
 #> 228:  WORCESTER WORCESTER     204191     FALSE                  -74.250
 #>      mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                        <num>                   <num>
-#>   1:               986.25000              1528.78750
-#>   2:               -15.00000                -0.25000
+#>   1:               975.47500              1536.68750
+#>   2:               -14.75000                -0.25000
 #>   3:              2189.54375              3180.71250
 #>   4:               -30.76250                -9.36875
 #>   5:               200.36875               315.77500
 #>  ---                                                
-#> 224:               -18.00000                -5.25000
+#> 224:               -17.75000                -6.11875
 #> 225:              1620.50000              2552.96250
 #> 226:               -15.88125                -1.75000
 #> 227:              8233.48750             12242.68125

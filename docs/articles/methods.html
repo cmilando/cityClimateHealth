@@ -101,26 +101,51 @@ Health.</p>
 </h2>
 <p>We applied a distributed lag non-linear modeling (DLNM) framework to
 capture both the non-linear and lagged effects of temperature exposure.
-This approach represents exposure as a crossbasis matrix with separate
-components for exposure magnitude and lag.</p>
-<p>The reason we use DLNM is because we believe that exposure magnitude
-have a non-linear relationship</p>
-<p>The interpretation of the crossbasis matrix is that it allows the
-model to account for nonlinear associations in exposure (temperatures of
-100 °F do not have double the impact of temperatures of 100 °F) and in
-time (exposures 2 days prior impact populations differently than those 1
-day prior or 3 days prior).</p>
-<p>Defining the crossbasis has several components: * maxlag * arglag *
-argvar</p>
-<p>For exposure magnitude, we used a natural spline with knots at the
-50th and 90th percentiles of the exposure distribution. For lag, we used
-a natural spline with two evenly spaced log-knots between 0 and a
-maximum lag of 8 days.</p>
+<a href="https://www.jstatsoft.org/article/view/v043i08" class="external-link">Gasparrini
+2011</a> describes these methods, and the R package
+<code>dlnm</code>.</p>
+<p>This approach represents exposure as a crossbasis matrix with
+separate components for exposure magnitude and lag. The interpretation
+of the crossbasis matrix is that it allows the model to account for
+nonlinear associations in exposure and in time. For example,
+temperatures of 100 °F do not have double the impact of temperatures of
+50 °F, and exposures 2 days prior impact populations differently than
+those 1 day prior or 3 days prior.</p>
+<p>Turning a single exposure time-series into a crossbasis matrix is
+done via the <code>crossbasis()</code> function as part of
+<code>dlnm</code> and users must specify several function arguments:</p>
+<ul>
+<li>
+<code>maxlag</code>, the maximum lag</li>
+<li>
+<code>arvagr</code>, the nature of the non-linear relationship with
+exposure magnitude</li>
+<li>
+<code>arglag</code>, the nature of the non-linear relationship with
+exposure timing</li>
+</ul>
+<p>More details on how to specify <code>maxlag</code>,
+<code>arglag</code>, and <code>argvar</code> can be found in the
+<code>dlnm</code> documentation.</p>
+<p>For <code>cityClimateHealth</code> we chose some default values for
+these arguments, specifically for the case study of looking at
+warm-season temperature and mortality/morbidity:</p>
+<ul>
+<li><code>maxlag = 5</code></li>
+<li>
+<code>argvar</code>: natural spline with knots at the 50th and 90th
+percentiles of the exposure distribution.</li>
+<li>
+<code>arglag</code>: a natural spline with two evenly spaced
+log-knots between 0 and a maximum lag of 8 days.</li>
+</ul>
+<p>If other exposures / timings are desired, the user will need to
+adjust these arguments accordingly.</p>
 </div>
 <div class="section level2">
 <h2 id="outcome">Outcome<a class="anchor" aria-label="anchor" href="#outcome"></a>
 </h2>
-<p>Any outcome will work.</p>
+<p>Any time-series of outcomes will work.</p>
 </div>
 <div class="section level2">
 <h2 id="timing">Timing<a class="anchor" aria-label="anchor" href="#timing"></a>
@@ -130,7 +155,36 @@ maximum lag of 8 days.</p>
 <div class="section level2">
 <h2 id="model-types">Model types<a class="anchor" aria-label="anchor" href="#model-types"></a>
 </h2>
-<p>[…]</p>
+<p>We can perform exposure-outcome analyses several ways:</p>
+<ul>
+<li>
+<p><strong>space-time stratified case-crossover</strong> – time is
+controlled by assigning a strata variable and comparing counts (or
+rates) of outcomes within strata. a common strata choice is [spatial
+unit]:[year]:[month]:[day of week]. The following model types can be
+used in this study design:</p>
+<ul>
+<li>Conditional logistic</li>
+<li>Poisson</li>
+<li>Conditional Poisson</li>
+</ul>
+<p><a href="">Gasparrini and Armstrong</a> provide analysis that show
+that these provide the same results, although Conditional Poisson is
+more computationally efficient because the strata terms are conditioned
+out and not modeled.</p>
+</li>
+<li><p><strong>time-series</strong> – time is controlled by a natural
+spline with a specific number of knots for year, day of year, season,
+and decade. additional control is added by a categorical variable for
+day of week. The common choices for splines knots in this case are: XYZ,
+see <a href="">ref</a></p></li>
+</ul>
+<div class="section level3">
+<h3 id="conditional-logistic">Conditional logistic<a class="anchor" aria-label="anchor" href="#conditional-logistic"></a>
+</h3>
+<p>See Darren’s paper. we are working to implement this code.</p>
+<p>Code examples includee: *</p>
+</div>
 <div class="section level3">
 <h3 id="conditional-poisson">Conditional Poisson<a class="anchor" aria-label="anchor" href="#conditional-poisson"></a>
 </h3>
@@ -147,11 +201,13 @@ post-processing due to the conditional Poisson formulation, crossbasis
 weights (wₛ,ᵢ), and an indicator for federal holidays.</p>
 <p>Strata with no outcomes are excluded</p>
 <p>There are minimums that each strata must include: * x</p>
+<p>Code examples includee: *</p>
 </div>
 <div class="section level3">
 <h3 id="time-series">Time-series<a class="anchor" aria-label="anchor" href="#time-series"></a>
 </h3>
-<p>[…]</p>
+<p>we are working to implement this code.</p>
+<p>Code examples includee: *</p>
 </div>
 </div>
 <div class="section level2">
@@ -163,11 +219,13 @@ weights (wₛ,ᵢ), and an indicator for federal holidays.</p>
 <p>A single-stage model pools statistical coefficients across all
 strata, while the quasi-Poisson formulation adjusts variance to account
 for over-dispersion in the observed outcome.</p>
+<p>Code examples includee: *</p>
 </div>
 <div class="section level3">
 <h3 id="stage-1">2-stage<a class="anchor" aria-label="anchor" href="#stage-1"></a>
 </h3>
 <p>[…]</p>
+<p>Code examples includee: *</p>
 </div>
 <div class="section level3">
 <h3 id="spatial-bayesian-methods">Spatial Bayesian methods<a class="anchor" aria-label="anchor" href="#spatial-bayesian-methods"></a>
@@ -194,6 +252,7 @@ is associated with 1,000 additional emergency department visits, this
 means that compared to a 75°F day, there were 1,000 excess visits at
 100°F. Changing the reference temperature (for example, to 80°F or 70°F)
 would change the estimated attributable number accordingly.</p>
+<p>Code examples includee: *</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

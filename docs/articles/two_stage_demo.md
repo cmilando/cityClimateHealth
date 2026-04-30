@@ -17,11 +17,6 @@ First create the inputs, using the same `exposure_columns` and
 ``` r
 
 library(data.table)
-#> 
-#> Attaching package: 'data.table'
-#> The following object is masked from 'package:base':
-#> 
-#>     %notin%
 exposure_columns <- list(
   "date" = "date",
   "exposure" = "tmax_C",
@@ -457,15 +452,11 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value -6.217249e-13
-#> iter 1: value -2.259526e-12
+#> iter 0: value 6.693313e-12
 #> converged
 #> Newton iterations:
-#> initial  value 0.000000 
-#> iter   2 value -0.000000
-#> iter   3 value -0.000000
-#> iter   3 value 0.000000
-#> iter   3 value 0.000000
+#> initial  value -0.000000 
+#> iter   1 value 0.000000
 #> final  value -0.000000 
 #> converged
 #> -- stage 2
