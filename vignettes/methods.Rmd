@@ -7,9 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-:::warning
-This page is a work in progress
-:::
+<div class="alert alert-warning"
+  <strong>Note:</strong> This page is in development
+</div>
 
 # Overview
 
@@ -25,7 +25,7 @@ Chad Milando, PhD (cmilando[at]bu.edu); Alexis Arlak (aarlak[at]bu.edu); Gregory
 
 # Exposures
 
-We applied a distributed lag non-linear modeling (DLNM) framework to capture both the non-linear and lagged effects of temperature exposure. [Gasparrini 2011](https://www.jstatsoft.org/article/view/v043i08) describes these methods, and the R package `dlnm`.
+We applied a distributed lag non-linear modeling (DLNM) framework to capture both the non-linear and lagged effects of exposure on an outcome. [Gasparrini 2011](https://www.jstatsoft.org/article/view/v043i08) describes these methods, and the R package `dlnm`.
 
 This approach represents exposure as a crossbasis matrix with separate components for exposure magnitude and lag. The interpretation of the crossbasis matrix is that it allows the model to account for nonlinear associations in exposure and in time. For example, temperatures of 100 °F do not have double the impact of temperatures of 50 °F, and exposures 2 days prior impact populations differently than those 1 day prior or 3 days prior.
 
