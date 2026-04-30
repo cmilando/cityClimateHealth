@@ -21,13 +21,12 @@
 
 Milando C, Gause E, Adams Q, Popp Z, Arlak A, Wellenius G (2026).
 *cityClimateHealth: Estimating Heat-Health Impacts at Small Spatial
-Scales*. R package version 0.1.0,
-<http://chadmilando.com/cityClimateHealth/>.
+Scales*. R package version 0.1.0, <http://climatehealth.city>.
 
     @Manual{,
       title = {cityClimateHealth: Estimating Heat-Health Impacts at Small Spatial Scales},
       author = {Chad Milando and Emma Gause and Quinn Adams and Zachary Popp and Alexis Arlak and Gregory Wellenius},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {http://chadmilando.com/cityClimateHealth/},
+      url = {http://climatehealth.city},
     }

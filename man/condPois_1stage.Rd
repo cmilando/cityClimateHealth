@@ -42,6 +42,34 @@ condPois_1stage(
 Run a conditional poisson model for a single geographic unit
 }
 \examples{
+library(dlnm)
+library(gnm)
+library(ggplot2)
+library(data.table)
+# create exposure matrix
+exposure_columns <- list(
+  "date" = "date",
+ "exposure" = "tmax_C",
+ "geo_unit" = "TOWN20",
+ "geo_unit_grp" = "COUNTY20"
+)
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+
+# create outcome table
+outcome_columns <- list(
+ "date" = "date",
+ "outcome" = "daily_deaths",
+ "factor" = 'age_grp',
+ "factor" = 'sex',
+ "geo_unit" = "TOWN20",
+ "geo_unit_grp" = "COUNTY20"
+)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
+
+# run the model
+m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
+                    outcomes_tbl = boston_deaths_tbl)
+condPois_1stage
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================
 IF the outcomes_tbl has a FACTOR, enter a recursive loop

@@ -44,6 +44,17 @@ a data.table of class("exposure")
 Function to clean and prepare the exposure data matrix
 }
 \examples{
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_exposure_matrix <- make_exposure_matrix(
+                      subset(ma_exposure,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
+                      year(date) \%in\% 2012:2015), exposure_columns)
+make_exposure_matrix
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================
 VALIDATIONS

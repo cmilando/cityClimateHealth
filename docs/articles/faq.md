@@ -7,31 +7,11 @@ library(cityClimateHealth)
 
 Some things that will eventually go in the paper:
 
-#### Conditional Poisson versus time-series framework
-
-1.  The reason we are doing a conditional poisson (over time-series
-    analysis) is because it has some built-in properties that can help
-    with small numbers (i.e., dropping low or empty strata). and we
-    potentially trust the structure here more than the splines for time
-    approach. As such there as several places where numeric cut-offs are
-    necessary: MinN, strata_total. tHese are sensitivitity points
-
 #### Use of data.table and not tidyverse
 
 2.  The reason we are using data.table instead of tidyverse is so that
     joins can be done more efficiently on smaller computers (which may
     be the case for our hypothesized user)
-
-#### Daily versus weekly data or other resolutions
-
-3.  We are specifically designing this for daily data. I think it could
-    likely be used with other types of data though, might be worth
-    testing to see where it breaks. As we’ve seen, other time frames
-    introduce other problems that are out of scope.
-
-#### Fatal vs non-fatal health outcomes
-
-(3.5) we are also testing this for non-fatal
 
 #### Motivation for this work is small-area studies
 

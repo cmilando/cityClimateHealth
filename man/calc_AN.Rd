@@ -39,6 +39,66 @@ calc_AN object that contains attributable numbers, rate tables, and other compon
 Calculate attributable number and attributable rates
 }
 \examples{
+library(data.table)
+data("ma_pop_data")
+setDT(ma_pop_data)
+ma_pop_data
+
+ma_pop_data_long <- melt(
+  ma_pop_data,
+  id.vars = "TOWN20",
+  variable.name = "sex_age",
+  value.name = "population"
+)
+
+
+ma_pop_data_long$sex_age <- as.character(ma_pop_data_long$sex_age)
+varnames <- strsplit(ma_pop_data_long$sex_age, "_", fixed = T)
+varnames <- data.frame(do.call(rbind, varnames))
+names(varnames) <- c('sex', 'age_grp')
+rr <- which(varnames$sex == 'Female')
+varnames$sex[rr] <- 'F'
+rr <- which(varnames$sex == 'Male')
+varnames$sex[rr] <- 'M'
+ma_pop_data_long$sex = varnames$sex
+ma_pop_data_long$age_grp = varnames$age_grp
+ma_pop_data_long$sex_age <- NULL
+ma_pop_data_long
+
+library(data.table)
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_exposure_matrix <- make_exposure_matrix(
+  subset(ma_exposure, COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
+           year(date) \%in\% 2012:2015),
+  exposure_columns)
+
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = 'age_grp',
+  "factor" = 'sex',
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_outcomes_tbl <- make_outcome_table(
+  subset(ma_deaths,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
+           year(date) \%in\% 2012:2015), outcome_columns)
+
+ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
+
+ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
+                 spatial_agg_type = 'TOWN20',
+                 spatial_join_col = 'TOWN20',
+                 nsim = 100,
+                 verbose = 2)
+calc_AN
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================
 RECURSIVE CALL IF FACTOR

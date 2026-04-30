@@ -12,7 +12,7 @@ designed for messy real-world epidemiologic data.
 
 Useful links:
 
-- <http://chadmilando.com/cityClimateHealth/>
+- <http://climatehealth.city>
 
 ## Author
 

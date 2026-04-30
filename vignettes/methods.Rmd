@@ -22,6 +22,7 @@ This package is drawn heavily from the work of Dr. Antonio Gasparrini.
 
 Chad Milando, PhD (cmilando[at]bu.edu); Alexis Arlak (aarlak[at]bu.edu); Gregory Wellenius, ScD (wellenius[at]bu.edu). The Center for Climate and Health, Boston University School of Public Health.
 
+For any questions that you don't see here, we have an additional [`FAQ`](faq.html)
 
 # Exposures
 
@@ -37,7 +38,7 @@ Turning a single exposure time-series into a crossbasis matrix is done via the `
 
 More details on how to specify `maxlag`, `arglag`, and `argvar` can be found in the `dlnm` documentation.
 
-For `cityClimateHealth` we chose some default values for these arguments, specifically for the case study of looking at warm-season temperature and mortality/morbidity:
+For `cityClimateHealth` we chose some default values for these arguments, specifically for the case study of looking at warm-season temperature and mortality/morbidity. :
 
 * `maxlag = 5`
 * `argvar`: natural spline with knots at the 50th and 90th percentiles of the exposure distribution. 
@@ -45,9 +46,15 @@ For `cityClimateHealth` we chose some default values for these arguments, specif
 
 If other exposures / timings are desired, the user will need to adjust these arguments accordingly. 
 
+Note that only the exposure lag is defined in [`make_exposure_matrix()`](), `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined in the model functions (e.g., [`condPois_1stage()`](), [`condPois_2stage()`](), ...)
+
+Note also that the `dlnm` outputs may be **highly sensitive** to the choices of `arglag`, `argvar`, and `maxlag` -- we have some additional code and thoughts for this in [`dlnm_sensitivity`](dlnm_sensitivity.html)
+
 # Outcome
 
-Any time-series of outcomes will work. 
+Any time-series of outcomes will work. Gaps and NA values in the outcome time-series are handled by [`make_outcome_tbl()`]().
+
+We are also testing this for non-fatal outcomes, which as the literature shows for temperature does not always have a U-shaped exposure-response curve which also means that the choice of centering point become very  
 
 # Timing
 
@@ -55,6 +62,8 @@ You can use a variety of timings:
 * daily
 * weekly
 * monthly
+
+See the vignette [`non_daily_data`]() for examples.
 
 # Model types
 
@@ -82,7 +91,11 @@ We used a time-stratified case-crossover study design, specifically a single-sta
 
 The conditional Poisson approach enables efficient estimation of model coefficients without requiring estimation of strata-specific intercepts.
 
-At the strata level, the model takes the form: log(yₛ,ᵢ) = αₛ + βwₛ,ᵢ + holiday. Here, the daily count of emergency department visits (yₛ,ᵢ) depends on a strata-specific intercept (αₛ), which is calculated in post-processing due to the conditional Poisson formulation, crossbasis weights (wₛ,ᵢ), and an indicator for federal holidays. 
+At the strata level, the model takes the form: 
+
+E[log(yₛ,ᵢ)] = αₛ + βwₛ,ᵢ .
+
+Here, the daily count of emergency department visits (yₛ,ᵢ) depends on a strata-specific intercept (αₛ), which is calculated in post-processing due to the conditional Poisson formulation, crossbasis weights (wₛ,ᵢ), and an indicator for federal holidays. 
 
 Strata with no outcomes are excluded
 
@@ -91,6 +104,10 @@ There are minimums that each strata must include:
 
 Code examples includee:
 * 
+
+The reason we sometimes choose conditional poisson (over time-series analysis) is because it has some built-in properties that can help with small numbers  (i.e., dropping low or empty strata). 
+
+As such there as several places where numeric cut-offs are necessary: MinN, strata_total. tHese are sensitivitity points
 
 ## Time-series
 
@@ -108,16 +125,24 @@ A single-stage model pools statistical coefficients across all strata, while the
 Code examples includee:
 * 
 
+See the vignette [`one_stage_demo`](one_stage_demo.html).
+
 ## 2-stage
 
 [...]
 
+uses MixMeta()
+
 Code examples includee:
 * 
+
+See the vignette [`two_stage_demo`](two_stage_demo.html).
 
 ## Spatial Bayesian methods
 
 [...]
+
+See the vignette [`bayesian_demo`](bayesian_demo.html).
 
 # Attributable numbers
 
@@ -129,3 +154,9 @@ For example, using 75°F as the reference, if a day reaches 100°F and is associ
 
 Code examples includee:
 * 
+
+See the vignette [`attributable_number`](attributable_number.html).
+
+# Validation
+
+We have confirmed that this code gives identical results to test scripts using external data, see [`comparison`](comparison.html)

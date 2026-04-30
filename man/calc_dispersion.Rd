@@ -19,3 +19,10 @@ calc_dispersion(y, X, beta, stratum_vector)
 Converted from STATA from armstrong 2014 supplement with LLM guidance.
 Minimal error checking of these inputs at present.
 }
+\examples{
+dispersion <- calc_dispersion(y = boston_deaths_tbl$daily_deaths,
+              X = cb,
+              stratum_vector = boston_deaths_tbl$strata,
+              beta = coef(m_sub))
+dispersion
+}

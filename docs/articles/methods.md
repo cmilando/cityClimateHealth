@@ -1,6 +1,6 @@
 # Methods and Description
 
-This page is a work in progress
+Note: This page is in development
 
 ## Overview
 
@@ -18,12 +18,16 @@ Chad Milando, PhD (cmilando\[at\]bu.edu); Alexis Arlak
 The Center for Climate and Health, Boston University School of Public
 Health.
 
+For any questions that you don’t see here, we have an additional
+[`FAQ`](http://climatehealth.city/articles/faq.md)
+
 ## Exposures
 
 We applied a distributed lag non-linear modeling (DLNM) framework to
-capture both the non-linear and lagged effects of temperature exposure.
-[Gasparrini 2011](https://www.jstatsoft.org/article/view/v043i08)
-describes these methods, and the R package `dlnm`.
+capture both the non-linear and lagged effects of exposure on an
+outcome. [Gasparrini
+2011](https://www.jstatsoft.org/article/view/v043i08) describes these
+methods, and the R package `dlnm`.
 
 This approach represents exposure as a crossbasis matrix with separate
 components for exposure magnitude and lag. The interpretation of the
@@ -48,7 +52,7 @@ found in the `dlnm` documentation.
 
 For `cityClimateHealth` we chose some default values for these
 arguments, specifically for the case study of looking at warm-season
-temperature and mortality/morbidity:
+temperature and mortality/morbidity. :
 
 - `maxlag = 5`
 - `argvar`: natural spline with knots at the 50th and 90th percentiles
@@ -59,13 +63,34 @@ temperature and mortality/morbidity:
 If other exposures / timings are desired, the user will need to adjust
 these arguments accordingly.
 
+Note that only the exposure lag is defined in
+[`make_exposure_matrix()`](http://climatehealth.city/articles/),
+`argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined
+in the model functions (e.g.,
+[`condPois_1stage()`](http://climatehealth.city/articles/),
+[`condPois_2stage()`](http://climatehealth.city/articles/), …)
+
+Note also that the `dlnm` outputs may be **highly sensitive** to the
+choices of `arglag`, `argvar`, and `maxlag` – we have some additional
+code and thoughts for this in
+[`dlnm_sensitivity`](http://climatehealth.city/articles/dlnm_sensitivity.md)
+
 ## Outcome
 
-Any time-series of outcomes will work.
+Any time-series of outcomes will work. Gaps and NA values in the outcome
+time-series are handled by
+[`make_outcome_tbl()`](http://climatehealth.city/articles/).
+
+We are also testing this for non-fatal outcomes, which as the literature
+shows for temperature does not always have a U-shaped exposure-response
+curve which also means that the choice of centering point become very
 
 ## Timing
 
 You can use a variety of timings: \* daily \* weekly \* monthly
+
+See the vignette [`non_daily_data`](http://climatehealth.city/articles/)
+for examples.
 
 ## Model types
 
@@ -81,17 +106,16 @@ We can perform exposure-outcome analyses several ways:
   - Poisson
   - Conditional Poisson
 
-  [Gasparrini and
-  Armstrong](http://chadmilando.com/cityClimateHealth/articles/) provide
-  analysis that show that these provide the same results, although
-  Conditional Poisson is more computationally efficient because the
-  strata terms are conditioned out and not modeled.
+  [Gasparrini and Armstrong](http://climatehealth.city/articles/)
+  provide analysis that show that these provide the same results,
+  although Conditional Poisson is more computationally efficient because
+  the strata terms are conditioned out and not modeled.
 
 - **time-series** – time is controlled by a natural spline with a
   specific number of knots for year, day of year, season, and decade.
   additional control is added by a categorical variable for day of week.
   The common choices for splines knots in this case are: XYZ, see
-  [ref](http://chadmilando.com/cityClimateHealth/articles/)
+  [ref](http://climatehealth.city/articles/)
 
 ### Conditional logistic
 
@@ -108,17 +132,27 @@ Code Tabulation Area (ZCTA), year, month, and day of week.
 The conditional Poisson approach enables efficient estimation of model
 coefficients without requiring estimation of strata-specific intercepts.
 
-At the strata level, the model takes the form: log(yₛ,ᵢ) = αₛ + βwₛ,ᵢ +
-holiday. Here, the daily count of emergency department visits (yₛ,ᵢ)
-depends on a strata-specific intercept (αₛ), which is calculated in
-post-processing due to the conditional Poisson formulation, crossbasis
-weights (wₛ,ᵢ), and an indicator for federal holidays.
+At the strata level, the model takes the form:
+
+E\[log(yₛ,ᵢ)\] = αₛ + βwₛ,ᵢ .
+
+Here, the daily count of emergency department visits (yₛ,ᵢ) depends on a
+strata-specific intercept (αₛ), which is calculated in post-processing
+due to the conditional Poisson formulation, crossbasis weights (wₛ,ᵢ),
+and an indicator for federal holidays.
 
 Strata with no outcomes are excluded
 
 There are minimums that each strata must include: \* x
 
 Code examples includee: \*
+
+The reason we sometimes choose conditional poisson (over time-series
+analysis) is because it has some built-in properties that can help with
+small numbers (i.e., dropping low or empty strata).
+
+As such there as several places where numeric cut-offs are necessary:
+MinN, strata_total. tHese are sensitivitity points
 
 ### Time-series
 
@@ -136,15 +170,26 @@ over-dispersion in the observed outcome.
 
 Code examples includee: \*
 
+See the vignette
+[`one_stage_demo`](http://climatehealth.city/articles/one_stage_demo.md).
+
 ### 2-stage
 
 \[…\]
 
+uses MixMeta()
+
 Code examples includee: \*
+
+See the vignette
+[`two_stage_demo`](http://climatehealth.city/articles/two_stage_demo.md).
 
 ### Spatial Bayesian methods
 
 \[…\]
+
+See the vignette
+[`bayesian_demo`](http://climatehealth.city/articles/bayesian_demo.md).
 
 ## Attributable numbers
 
@@ -168,3 +213,12 @@ Changing the reference temperature (for example, to 80°F or 70°F) would
 change the estimated attributable number accordingly.
 
 Code examples includee: \*
+
+See the vignette
+[`attributable_number`](http://climatehealth.city/articles/attributable_number.md).
+
+## Validation
+
+We have confirmed that this code gives identical results to test scripts
+using external data, see
+[`comparison`](http://climatehealth.city/articles/comparison.md)

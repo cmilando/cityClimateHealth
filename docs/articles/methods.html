@@ -78,7 +78,7 @@
 
     
     
-<div class="alert alert-warning">Note: This page is a work in progress!
+<div class="alert alert-warning">Note: This page is in development
 </div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -94,13 +94,14 @@ Gasparrini.</p>
 (aarlak[at]bu.edu); Gregory Wellenius, ScD (wellenius[at]bu.edu). The
 Center for Climate and Health, Boston University School of Public
 Health.</p>
+<p>For any questions that you don’t see here, we have an additional <a href="faq.html"><code>FAQ</code></a></p>
 </div>
 <div class="section level2">
 <h2 id="exposures">Exposures<a class="anchor" aria-label="anchor" href="#exposures"></a>
 </h2>
 <p>We applied a distributed lag non-linear modeling (DLNM) framework to
-capture both the non-linear and lagged effects of temperature exposure.
-<a href="https://www.jstatsoft.org/article/view/v043i08" class="external-link">Gasparrini
+capture both the non-linear and lagged effects of exposure on an
+outcome. <a href="https://www.jstatsoft.org/article/view/v043i08" class="external-link">Gasparrini
 2011</a> describes these methods, and the R package
 <code>dlnm</code>.</p>
 <p>This approach represents exposure as a crossbasis matrix with
@@ -128,7 +129,7 @@ exposure timing</li>
 <code>dlnm</code> documentation.</p>
 <p>For <code>cityClimateHealth</code> we chose some default values for
 these arguments, specifically for the case study of looking at
-warm-season temperature and mortality/morbidity:</p>
+warm-season temperature and mortality/morbidity. :</p>
 <ul>
 <li><code>maxlag = 5</code></li>
 <li>
@@ -140,16 +141,30 @@ log-knots between 0 and a maximum lag of 8 days.</li>
 </ul>
 <p>If other exposures / timings are desired, the user will need to
 adjust these arguments accordingly.</p>
+<p>Note that only the exposure lag is defined in <a href=""><code>make_exposure_matrix()</code></a>, <code>argvar</code>,
+<code>arglag</code> and a new (potentially shorter) <code>maxlag</code>
+are defined in the model functions (e.g., <a href=""><code>condPois_1stage()</code></a>, <a href=""><code>condPois_2stage()</code></a>, …)</p>
+<p>Note also that the <code>dlnm</code> outputs may be <strong>highly
+sensitive</strong> to the choices of <code>arglag</code>,
+<code>argvar</code>, and <code>maxlag</code> – we have some additional
+code and thoughts for this in <a href="dlnm_sensitivity.html"><code>dlnm_sensitivity</code></a></p>
 </div>
 <div class="section level2">
 <h2 id="outcome">Outcome<a class="anchor" aria-label="anchor" href="#outcome"></a>
 </h2>
-<p>Any time-series of outcomes will work.</p>
+<p>Any time-series of outcomes will work. Gaps and NA values in the
+outcome time-series are handled by <a href=""><code>make_outcome_tbl()</code></a>.</p>
+<p>We are also testing this for non-fatal outcomes, which as the
+literature shows for temperature does not always have a U-shaped
+exposure-response curve which also means that the choice of centering
+point become very</p>
 </div>
 <div class="section level2">
 <h2 id="timing">Timing<a class="anchor" aria-label="anchor" href="#timing"></a>
 </h2>
 <p>You can use a variety of timings: * daily * weekly * monthly</p>
+<p>See the vignette <a href=""><code>non_daily_data</code></a> for
+examples.</p>
 </div>
 <div class="section level2">
 <h2 id="model-types">Model types<a class="anchor" aria-label="anchor" href="#model-types"></a>
@@ -193,14 +208,20 @@ Code Tabulation Area (ZCTA), year, month, and day of week.</p>
 <p>The conditional Poisson approach enables efficient estimation of
 model coefficients without requiring estimation of strata-specific
 intercepts.</p>
-<p>At the strata level, the model takes the form: log(yₛ,ᵢ) = αₛ + βwₛ,ᵢ
-+ holiday. Here, the daily count of emergency department visits (yₛ,ᵢ)
-depends on a strata-specific intercept (αₛ), which is calculated in
+<p>At the strata level, the model takes the form:</p>
+<p>E[log(yₛ,ᵢ)] = αₛ + βwₛ,ᵢ .</p>
+<p>Here, the daily count of emergency department visits (yₛ,ᵢ) depends
+on a strata-specific intercept (αₛ), which is calculated in
 post-processing due to the conditional Poisson formulation, crossbasis
 weights (wₛ,ᵢ), and an indicator for federal holidays.</p>
 <p>Strata with no outcomes are excluded</p>
 <p>There are minimums that each strata must include: * x</p>
 <p>Code examples includee: *</p>
+<p>The reason we sometimes choose conditional poisson (over time-series
+analysis) is because it has some built-in properties that can help with
+small numbers (i.e., dropping low or empty strata).</p>
+<p>As such there as several places where numeric cut-offs are necessary:
+MinN, strata_total. tHese are sensitivitity points</p>
 </div>
 <div class="section level3">
 <h3 id="time-series">Time-series<a class="anchor" aria-label="anchor" href="#time-series"></a>
@@ -219,17 +240,21 @@ weights (wₛ,ᵢ), and an indicator for federal holidays.</p>
 strata, while the quasi-Poisson formulation adjusts variance to account
 for over-dispersion in the observed outcome.</p>
 <p>Code examples includee: *</p>
+<p>See the vignette <a href="one_stage_demo.html"><code>one_stage_demo</code></a>.</p>
 </div>
 <div class="section level3">
 <h3 id="stage-1">2-stage<a class="anchor" aria-label="anchor" href="#stage-1"></a>
 </h3>
 <p>[…]</p>
+<p>uses MixMeta()</p>
 <p>Code examples includee: *</p>
+<p>See the vignette <a href="two_stage_demo.html"><code>two_stage_demo</code></a>.</p>
 </div>
 <div class="section level3">
 <h3 id="spatial-bayesian-methods">Spatial Bayesian methods<a class="anchor" aria-label="anchor" href="#spatial-bayesian-methods"></a>
 </h3>
 <p>[…]</p>
+<p>See the vignette <a href="bayesian_demo.html"><code>bayesian_demo</code></a>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -252,6 +277,13 @@ means that compared to a 75°F day, there were 1,000 excess visits at
 100°F. Changing the reference temperature (for example, to 80°F or 70°F)
 would change the estimated attributable number accordingly.</p>
 <p>Code examples includee: *</p>
+<p>See the vignette <a href="attributable_number.html"><code>attributable_number</code></a>.</p>
+</div>
+<div class="section level2">
+<h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
+</h2>
+<p>We have confirmed that this code gives identical results to test
+scripts using external data, see <a href="comparison.html"><code>comparison</code></a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

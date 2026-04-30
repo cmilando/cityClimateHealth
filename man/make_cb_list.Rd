@@ -15,6 +15,29 @@ make_cb_list(x, var_list, argvar_list, lag_list, arglag_list)
 IN-PROGRESS functions that creates a list of cross-basis objects to try
 }
 \examples{
+# var_list <- c('tmean', 'tmin')
+
+cb_all <- list()
+
+for(var in var_list) {
+
+  # make var knots that vary by var
+  vk2 = equalknots(lndn[, var], fun="bs", degree = 2, df = 4)
+  vk3 = equalknots(lndn[, var], fun="ns", df = 4)
+  k50 = quantile(lndn[, var], probs = .5, na.rm = T)
+  k10 = quantile(lndn[, var], probs = c(1:9)/10, na.rm = T)
+
+  cb_var = make_cb_list(x = lndn,
+                         var_list = var,
+                         argvar_list = list(set1 = list(fun="bs", degree = c(2, 3),
+                                                        knots = list(vk2, k50, k10)),
+                                            set2 = list(fun="ns",
+                                                        knots = list(vk3, k50, k10))) ,
+                         lag_list = maxlag,
+                         arglag_list = list(set1 = list(knots = list(lk))))
+
+  cb_all <- append(cb_all, cb_var)
+}
 x:
 var_list:    character vector of columns of X that you use, e.g., c('tmean')
 argvar_list: list(set1 = list(fun="bs", degree = 2, knots = list(vk)))

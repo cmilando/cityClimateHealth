@@ -6,7 +6,7 @@ library(cityClimateHealth)
 ```
 
 We can easily extend the functionality from
-[`vignette("one_stage_demo")`](http://chadmilando.com/cityClimateHealth/articles/one_stage_demo.md)
+[`vignette("one_stage_demo")`](http://climatehealth.city/articles/one_stage_demo.md)
 to estimate individual-zone impacts across many zones.
 
 ### Model

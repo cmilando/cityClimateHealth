@@ -19,7 +19,7 @@ population data estimate.
 This varies a lot by place and dataset, so we don’t include
 functionality for it (but an example of how this could be done can be
 seen in
-[`vignette("get_pop_estimates")`](http://chadmilando.com/cityClimateHealth/articles/get_pop_estimates.md)).
+[`vignette("get_pop_estimates")`](http://climatehealth.city/articles/get_pop_estimates.md)).
 
 Assume you are starting with a dataset for the entire timeframe that
 looks like this:
@@ -114,9 +114,9 @@ analysis, but you could also make a version of this dataset with a
 ‘year’ column.
 
 Now, quickly get a
-[`condPois_1stage()`](http://chadmilando.com/cityClimateHealth/reference/condPois_1stage.md)
+[`condPois_1stage()`](http://climatehealth.city/reference/condPois_1stage.md)
 and
-[`condPois_2stage()`](http://chadmilando.com/cityClimateHealth/reference/condPois_2stage.md)
+[`condPois_2stage()`](http://climatehealth.city/reference/condPois_2stage.md)
 objects to use in testing: exposures
 
 ``` r

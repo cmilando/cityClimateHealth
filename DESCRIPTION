@@ -52,4 +52,4 @@ Additional_repositories:
 SystemRequirements: CmdStan (https://mc-stan.org/users/interfaces/cmdstan)
 LazyData: true
 VignetteBuilder: knitr
-URL: http://chadmilando.com/cityClimateHealth/
+URL: http://climatehealth.city

@@ -199,7 +199,7 @@ ma_model <- condPois_1stage(ma_exposure_matrix, ma_outcomes_tbl,
 ```
 
 See
-[`vignette("one_stage_demo")`](http://chadmilando.com/cityClimateHealth/articles/one_stage_demo.md)
+[`vignette("one_stage_demo")`](http://climatehealth.city/articles/one_stage_demo.md)
 for more details. Note that `forest_plot` and `spatial_plot` are not
 implemented for `condPois_1stage` since you can get all of that
 information from the RR plot.
@@ -217,7 +217,7 @@ ma_model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl,
 ```
 
 See
-[`vignette("bayesian_demo")`](http://chadmilando.com/cityClimateHealth/articles/bayesian_demo.md)
+[`vignette("bayesian_demo")`](http://climatehealth.city/articles/bayesian_demo.md)
 for more details.
 
 ### Plot outputs
@@ -278,7 +278,7 @@ getRR(ma_model)
 ## Calculate attributable numbers
 
 See more details in
-[`vignette("attributable_number")`](http://chadmilando.com/cityClimateHealth/articles/attributable_number.md),
+[`vignette("attributable_number")`](http://climatehealth.city/articles/attributable_number.md),
 but here is a brief demo
 
 ### Population data
@@ -289,7 +289,7 @@ population data estimate.
 This varies a lot by place and dataset, so we don’t include
 functionality for it (but an example of how this could be done can be
 seen in
-[`vignette("get_pop_estimates")`](http://chadmilando.com/cityClimateHealth/articles/get_pop_estimates.md)).
+[`vignette("get_pop_estimates")`](http://climatehealth.city/articles/get_pop_estimates.md)).
 
 Assume you are starting with a dataset for the entire timeframe that
 looks like this:
