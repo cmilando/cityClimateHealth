@@ -126,9 +126,11 @@ Code examples include:
 
 ## 1-stage
 
-A single-stage model pools statistical coefficients across all strata, while the quasi-Poisson formulation adjusts variance to account for over-dispersion in the observed outcome. 
+A single-stage model obtains a single set of statistical coefficients for the data. In the case of multiple spatial zones, you are assuming that the same exposure-response relationship is applicable to spatial regions.
 
 See the vignette [`one_stage_demo`](one_stage_demo.md).
+
+We also explored the impact of doing a 1stage analysis in counties with large differences in population - [see here]()
 
 ## 2-stage
 
