@@ -42,6 +42,7 @@ articles:
 - title: Additional vignettes
   desc: Vignettes aimed at advanced users
   contents:
+  - pop_size_test
   - faq
   - strata
   - get_pop_estimates

@@ -1,0 +1,180 @@
+---
+title: "Test of population sizes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Test of population sizes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cityClimateHealth)
+```
+
+This vignette 
+
+Lets first make a simple function to estimate the attributable fraction, assuming a the following relationship between both exposure magnitude and exposure timing.
+
+AF = rescale(z from 0 to 0.3)
+
+where 
+
+z is a function applied to the last three days of temperature
+
+```{r z}
+t0 = 25
+z = function(t3, t2, t1) {
+  ifelse(t3 > t0, 0.1 * (t3 - t0), 0) + 
+  ifelse(t2 > t0, 0.2 * (t2 - t0), 0) + 
+  ifelse(t1 > t0, 0.4 * (t1 - t0), 0)
+}
+```
+
+Lets test that this works, so simulate some periodic exposure data:
+
+```{r dlnmTest}
+set.seed(123)
+n = 1100
+x = 1:n
+aa = 2
+bb  = 0.2
+cc = 100 
+vv = 23.25
+ytrue = aa * sin(bb / (2*pi)* (x  + cc)) + vv
+y = ytrue + rnorm(n, sd = 0.5)
+plot(x, ytrue, 'l')
+points(x, y, col = 'red')
+abline(h = 25, col = 'brown')
+```
+
+And now get the underlying AF that are due to excess temperature
+```{r}
+AF_vec <- vector("numeric", n)
+AF_vec[1] <- AF_vec[2] <- 0
+for(i in 3:n) {
+  local_z <- z(y[i], y[i-1], y[i-2])
+  AF_vec[i] <- local_z
+}
+
+AF_vec <- scales::rescale(AF_vec, to = c(0, 0.3))
+summary(AF_vec)
+plot(x, AF_vec, 'l')
+```
+
+And now simulate baseline deaths -- this doesn't need to be related to the exposure beecause all we are tracking is excess mortality.
+```{r}
+baseline_deaths = runif(n, 100, 120)
+```
+
+And update deaths based on the AF
+
+```{r update_deaths}
+excess_deaths = baseline_deaths * AF_vec
+new_deaths = baseline_deaths + excess_deaths
+new_deaths = as.integer(round(new_deaths))
+plot(x, new_deaths, 'l')
+```
+
+So now get an estimate of the exposure response function here, using our package
+
+```{r getExposure}
+exp_df <- data.frame(x, temp = y)
+exp_df$dt = lubridate::make_date(2020, 1, 1) + exp_df$x
+exp_df$TOWN20 = 'A_town'
+exp_df$COUNTY20 = 'A_county'
+
+exp_df$x <- NULL # a bug to fix
+
+exposure_columns <- list(
+  "date" = "dt",
+  "exposure" = "temp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+exp_mat <- make_exposure_matrix(exp_df, exposure_columns)
+head(exp_mat)
+```
+And now make the outcome dataset
+```{r getOutcome}
+deaths_df <- data.frame(dt = exp_df$dt,
+                         deaths = new_deaths,
+                         TOWN20 = 'A_town', 
+                         COUNTY20 = 'A_county')
+
+outcome_columns <- list(
+  "date" = "dt",
+  "outcome" = "deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+sim_tbl <- make_outcome_table(deaths_df,  outcome_columns)
+sim_tbl
+```
+```{r testModel}
+m1 <- condPois_1stage(exposure_matrix = exp_mat, 
+                  outcomes_tbl = sim_tbl)
+plot(m1)
+```
+
+Looks good (an interesting to note that there is a bump up in the exposure response curve at the lower end when we know there is not relationship there ... more on that later !)
+
+Now the question we want to answer is, if this relationship is different for a larger
+place and we put the two together in the same (i) 1-stage model or (ii) 2-stage model, how do things change -- is the larger county weighted more. 
+
+Lets wrap our entire outcome dataset creation pipeline into a single function, assuming that the two spatial regions experience the same temperature. 
+
+```{r fullOutcomePipeline} 
+get_sim_outcome <- function(exposure_ts, t0, z1, z2, z3, 
+                            AFmax, baseline_outcomes) {
+  
+  # the z function
+  z = function(t3, t2, t1) {
+    ifelse(t3 > t0, z1 * (t3 - t0), 0) + 
+    ifelse(t2 > t0, z2 * (t2 - t0), 0) + 
+    ifelse(t1 > t0, z3 * (t1 - t0), 0)
+  }
+  
+  # AF 
+  n = length(exposure_ts)
+  AF_vec <- vector("numeric", n)
+  AF_vec[1] <- AF_vec[2] <- 0
+  for(i in 3:n) {
+    local_z <- z(exposure_ts[i], exposure_ts[i-1], exposure_ts[i-2])
+    AF_vec[i] <- local_z
+  }
+
+  AF_vec <- scales::rescale(AF_vec, to = c(0, AFmax))
+  
+  # outcomes
+  excess_outcomes = baseline_outcomes * AF_vec
+  new_outcomes = baseline_outcomes + excess_outcomes
+  
+  # make a df
+  return(as.integer(round(new_outcomes)))
+}
+```
+
+Confirm that it works
+
+```{r confirm}
+sim_out1 <- get_sim_outcome(exposure_ts = y, t0 = 25, 
+                            z1 = 0.1, z2 = 0.2, z3 = 0.4,
+                AFmax = 0.3, baseline_outcomes = baseline_deaths)
+
+cor(sim_out1, new_deaths)
+```
+
+Great, now lets make two for different populations
+
+There are probably a few important edge cases:
+
+* the smaller population has an uncertain and null relationship
