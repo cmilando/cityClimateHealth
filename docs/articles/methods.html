@@ -88,13 +88,9 @@ pipepline for estimating relative risks and attributable numbers.</p>
 <p>Although situated in the contenxt of climate change and city-level
 health impacts, there are not any physical limitations on applying this
 code to other signals and responses.</p>
-<p>This package is drawn heavily from the work of Dr. Antonio
-Gasparrini.</p>
-<p>Chad Milando, PhD (cmilando[at]bu.edu); Alexis Arlak
-(aarlak[at]bu.edu); Gregory Wellenius, ScD (wellenius[at]bu.edu). The
-Center for Climate and Health, Boston University School of Public
-Health.</p>
-<p>For any questions that you don’t see here, we have an additional <a href="faq.html"><code>FAQ</code></a></p>
+<p>This package is drawn heavily from the work of <a href="http://www.ag-myresearch.com/" class="external-link">Dr. Antonio Gasparrini</a>.</p>
+<p>For any questions that you don’t see here answered, we have an
+additional <a href="faq.html"><code>FAQ</code></a></p>
 </div>
 <div class="section level2">
 <h2 id="exposures">Exposures<a class="anchor" aria-label="anchor" href="#exposures"></a>
@@ -102,18 +98,21 @@ Health.</p>
 <p>We applied a distributed lag non-linear modeling (DLNM) framework to
 capture both the non-linear and lagged effects of exposure on an
 outcome. <a href="https://www.jstatsoft.org/article/view/v043i08" class="external-link">Gasparrini
-2011</a> describes these methods, and the R package
-<code>dlnm</code>.</p>
+2011</a> describes these methods, and the R package <a href="https://cran.r-project.org/web/packages/dlnm/index.html" class="external-link"><code>dlnm</code></a>.</p>
+<p>Helpful references include this <a href="https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf" class="external-link">dlnm
+PDF</a> and the methods explained in a <a href="https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396" class="external-link">google
+sheet</a></p>
 <p>This approach represents exposure as a crossbasis matrix with
-separate components for exposure magnitude and lag. The interpretation
-of the crossbasis matrix is that it allows the model to account for
-nonlinear associations in exposure and in time. For example,
-temperatures of 100 °F do not have double the impact of temperatures of
-50 °F, and exposures 2 days prior impact populations differently than
-those 1 day prior or 3 days prior.</p>
+separate components for exposure magnitude and lag.</p>
+<p>The interpretation of the crossbasis matrix is that it allows the
+model to account for nonlinear associations in exposure and in time. For
+example, temperatures of 100 °F do not have double the impact of
+temperatures of 50 °F, and exposures 2 days prior impact populations
+differently than those 1 day prior or 3 days prior.</p>
 <p>Turning a single exposure time-series into a crossbasis matrix is
-done via the <code>crossbasis()</code> function as part of
-<code>dlnm</code> and users must specify several function arguments:</p>
+done via the <a href="https://www.rdocumentation.org/packages/dlnm/versions/2.4.7/topics/crossbasis" class="external-link"><code>crossbasis()</code></a>
+function as part of <code>dlnm</code> and users must specify several
+function arguments:</p>
 <ul>
 <li>
 <code>maxlag</code>, the maximum lag</li>
@@ -125,8 +124,8 @@ exposure magnitude</li>
 exposure timing</li>
 </ul>
 <p>More details on how to specify <code>maxlag</code>,
-<code>arglag</code>, and <code>argvar</code> can be found in the
-<code>dlnm</code> documentation.</p>
+<code>arglag</code>, and <code>argvar</code> can be found in the <a href="https://spout.ussg.indiana.edu/CRAN/web/packages/dlnm/dlnm.pdf" class="external-link"><code>dlnm</code>
+documentation</a>.</p>
 <p>For <code>cityClimateHealth</code> we chose some default values for
 these arguments, specifically for the case study of looking at
 warm-season temperature and mortality/morbidity. :</p>
@@ -162,6 +161,45 @@ exposure-response curve which also means that the choice of centering
 point become very</p>
 </div>
 <div class="section level2">
+<h2 id="additional-co-variates">Additional co-variates<a class="anchor" aria-label="anchor" href="#additional-co-variates"></a>
+</h2>
+<p>We are investigating incorporating how to integrate temporally and
+spatially varying co-variates.</p>
+<p>References: * the inclusion of time-invariant covariates (such as
+geographic variables) in the conditional poisson setting (which is
+different than the time-series setting)</p>
+<p>This paper has a nice exposition on what we were talking about <a href="https://academic.oup.com/ije/article/53/2/dyae020/7611599" class="external-link uri">https://academic.oup.com/ije/article/53/2/dyae020/7611599</a> under
+the (aptly-named) section “Adjustment of subpopulation time-invariant
+covariates”.</p>
+<p>Essentially, since strata are being compared to themselves, anything
+that does not change with time is “conditioned out.”</p>
+<p><a href="https://link.springer.com/article/10.1186/1471-2288-14-122" class="external-link">Gasp
+2014</a></p>
+<blockquote>
+<p>The conditional Poisson model, like the unconditional Poisson and
+conditional logistic formulations, can incorporate potentially
+confounding covariates not homogeneous within strata for example
+temperature (if air pollution is the focus). All the models can also
+explore modification of associations of exposure with outcomes by either
+such covariates or those homogeneous in strata. In the case crossover
+context, modifiers may be individual (e.g. age) or in multi-city studies
+ecological (city-level). Analyses of multi-city studies may be
+single-step (pooling all strata across cities) as well as the
+conventional multi-step (city-specific at step 1, meta-analysis at step
+2). The simplicity of the conditional Poisson formulation makes the
+single step approach straightforward to apply (simply pool all cities
+into one dataset and make the strata by city as well as month and
+day-of-week). However, the implicit assumptions of this approach (no
+random or systematic between-city effects) would need investigating. A
+single-step analysis is particularly attractive when exposure series are
+available for small areas within cities.</p>
+</blockquote>
+<p>How about covariates that do change with time</p>
+<p>What about covariates that change in space</p>
+<ul><li>
+</li></ul>
+</div>
+<div class="section level2">
 <h2 id="timing">Timing<a class="anchor" aria-label="anchor" href="#timing"></a>
 </h2>
 <p>You can use outcomes with a variety of timings: * daily * weekly *
@@ -190,8 +228,9 @@ used in this study design:</p>
 <p><a href="https://link.springer.com/article/10.1186/1471-2288-14-122" class="external-link">Gasparrini
 and Armstrong, 2014</a> provide analysis that show that these provide
 the same results, although Conditional Poisson is more computationally
-efficient because the strata terms are conditioned out and not
-modeled.</p>
+efficient because the strata terms are conditioned out and not modeled.
+We also provide a <a href="https://docs.google.com/spreadsheets/d/1eNbHk5S-NEwsu49rO7XXXCVJnmLdLUQRxH3OQ-5HwUU/edit?gid=0#gid=0" class="external-link">google
+sheet</a> that show the similarities.</p>
 </li>
 <li><p><strong>time-series</strong> – time is controlled by a natural
 spline with a specific number of knots for year, day of year, season,
