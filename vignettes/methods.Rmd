@@ -22,7 +22,7 @@ This package is drawn heavily from the work of Dr. Antonio Gasparrini.
 
 Chad Milando, PhD (cmilando[at]bu.edu); Alexis Arlak (aarlak[at]bu.edu); Gregory Wellenius, ScD (wellenius[at]bu.edu). The Center for Climate and Health, Boston University School of Public Health.
 
-For any questions that you don't see here, we have an additional [`FAQ`](faq.html)
+For any questions that you don't see here, we have an additional [`FAQ`](faq.md)
 
 # Exposures
 
@@ -46,24 +46,24 @@ For `cityClimateHealth` we chose some default values for these arguments, specif
 
 If other exposures / timings are desired, the user will need to adjust these arguments accordingly. 
 
-Note that only the exposure lag is defined in [`make_exposure_matrix()`](), `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined in the model functions (e.g., [`condPois_1stage()`](), [`condPois_2stage()`](), ...)
+Note that only the exposure lag is defined in [`make_exposure_matrix()`](../docs/reference/make_exposure_matrix.md), `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined in the model functions (e.g., [`condPois_1stage()`](../docs/reference/condPois_1stage.md), [`condPois_2stage()`](../docs/reference/condPois_2stage.md), ...)
 
-Note also that the `dlnm` outputs may be **highly sensitive** to the choices of `arglag`, `argvar`, and `maxlag` -- we have some additional code and thoughts for this in [`dlnm_sensitivity`](dlnm_sensitivity.html)
+Note also that the `dlnm` outputs may be **highly sensitive** to the choices of `arglag`, `argvar`, and `maxlag` -- we have some additional code and thoughts for this in [`dlnm_sensitivity`](dlnm_sensitivity.md)
 
 # Outcome
 
-Any time-series of outcomes will work. Gaps and NA values in the outcome time-series are handled by [`make_outcome_tbl()`]().
+Any time-series of outcomes will work. Gaps and NA values in the outcome time-series are handled by [`make_outcome_table()`](../reference/make_outcome_table.md).
 
 We are also testing this for non-fatal outcomes, which as the literature shows for temperature does not always have a U-shaped exposure-response curve which also means that the choice of centering point become very  
 
 # Timing
 
-You can use a variety of timings:
+You can use outcomes with a variety of timings:
 * daily
 * weekly
 * monthly
 
-See the vignette [`non_daily_data`]() for examples.
+These methods are still under development but the key is to ensure that the strata variables are correctly designed, if applicable. See the vignette [`non_daily_data`](non_daily_data.md) for examples.
 
 # Model types
 
@@ -74,20 +74,17 @@ We can perform exposure-outcome analyses several ways:
   * Poisson
   * Conditional Poisson
   
-  [Gasparrini and Armstrong]() provide analysis that show that these provide the same results, although Conditional Poisson is more computationally efficient because the strata terms are conditioned out and not modeled. 
+  [Gasparrini and Armstrong, 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) provide analysis that show that these provide the same results, although Conditional Poisson is more computationally efficient because the strata terms are conditioned out and not modeled. 
 
-* **time-series** -- time is controlled by a natural spline with a specific number of knots for year, day of year, season, and decade. additional control is added by a categorical variable for day of week. The common choices for splines knots in this case are: XYZ, see [ref]()
+* **time-series** -- time is controlled by a natural spline with a specific number of knots for year, day of year, season, and decade. additional control is added by a categorical variable for day of week. See below for examples
 
 ## Conditional logistic
 
-See Darren's paper. we are working to implement this code. 
+We are working to implement this code.
 
-Code examples includee:
-* 
+For examples see [github for Gasparrini and Armstrong, 2014](https://github.com/gasparrini/2014_armstrong_BMCmrm_codedata/blob/master/Rcode.R).
 
 ## Conditional Poisson 
-
-We used a time-stratified case-crossover study design, specifically a single-stage conditional quasi-Poisson model with strata defined by ZIP Code Tabulation Area (ZCTA), year, month, and day of week. 
 
 The conditional Poisson approach enables efficient estimation of model coefficients without requiring estimation of strata-specific intercepts.
 
@@ -102,8 +99,7 @@ Strata with no outcomes are excluded
 There are minimums that each strata must include:
 * x
 
-Code examples includee:
-* 
+For examples see [github for Gasparrini and Armstrong, 2014](https://github.com/gasparrini/2014_armstrong_BMCmrm_codedata/blob/master/Rcode.R).
 
 The reason we sometimes choose conditional poisson (over time-series analysis) is because it has some built-in properties that can help with small numbers  (i.e., dropping low or empty strata). 
 
@@ -113,8 +109,17 @@ As such there as several places where numeric cut-offs are necessary: MinN, stra
 
 we are working to implement this code. 
 
-Code examples includee:
-* 
+Code examples include:
+
+* `formula <- death~cb+dow+ns(date,df=dfseas*length(unique(year)))`[ref](https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata/blob/master/00.prepdata.R#L70)
+  * in this example `dfseas = 8` so 8 degrees of freedom per year
+
+* `model <- glm(death~cb+ns(time,10*14)+dow,family=quasipoisson(),lndn)`[ref](https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata/blob/master/01.runmodel.R#L52)
+  * in this example there are 10 degrees of freedom per year
+
+* `model <- glm(all ~ cbtmean + dow + ns(yday(date), df=4) * factor(year(date)), data=dataggrsum, family=quasipoisson)`[ref](https://github.com/gasparrini/Extended2stage/blob/bd9b10d9dd45dd328a0bee5d161dc0ddac2b6479/addcode/00.prepdata.R#L79)
+  * this model, which is summer only, has 4 degrees of freedom per year
+
 
 # Model structures
 
@@ -122,10 +127,14 @@ Code examples includee:
 
 A single-stage model pools statistical coefficients across all strata, while the quasi-Poisson formulation adjusts variance to account for over-dispersion in the observed outcome. 
 
-Code examples includee:
-* 
 
-See the vignette [`one_stage_demo`](one_stage_demo.html).
+See the first stage of any of these analyses:
+
+* [Multi-country 2-stage design](https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata)
+* [2-stage design with interaction](https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata)
+* [Extended 2-stage design](https://github.com/gasparrini/extended2stage)
+
+See the vignette [`one_stage_demo`](one_stage_demo.md).
 
 ## 2-stage
 
@@ -133,16 +142,22 @@ See the vignette [`one_stage_demo`](one_stage_demo.html).
 
 uses MixMeta()
 
-Code examples includee:
-* 
+See these example pipelines:
 
-See the vignette [`two_stage_demo`](two_stage_demo.html).
+* [Multi-country 2-stage design](https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata)
+* [2-stage design with interaction](https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata)
+* [Extended 2-stage design](https://github.com/gasparrini/extended2stage)
+
+See the vignette [`two_stage_demo`](two_stage_demo.md).
+
 
 ## Spatial Bayesian methods
 
 [...]
 
-See the vignette [`bayesian_demo`](bayesian_demo.html).
+Combines the methods of [Gasparrini Armstrong 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) with those of [Quijal-Zamorano,2024](https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=), which was updated in [2025](https://academic.oup.com/ije/article-abstract/54/4/dyaf120/8210576)
+
+See the vignette [`bayesian_demo`](bayesian_demo.md).
 
 # Attributable numbers
 
@@ -152,11 +167,11 @@ The attributable number represents the additional health impacts occurring when 
 
 For example, using 75°F as the reference, if a day reaches 100°F and is associated with 1,000 additional emergency department visits, this means that compared to a 75°F day, there were 1,000 excess visits at 100°F. Changing the reference temperature (for example, to 80°F or 70°F) would change the estimated attributable number accordingly.
 
-Code examples includee:
-* 
+Code examples include:
+* [Gasparrini 2014](https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata)
 
-See the vignette [`attributable_number`](attributable_number.html).
+See the vignette [`attributable_number`](attributable_number.md).
 
 # Validation
 
-We have confirmed that this code gives identical results to test scripts using external data, see [`comparison`](comparison.html)
+We have confirmed that this code gives identical results to test scripts using external data, see [`comparison`](comparison.md)

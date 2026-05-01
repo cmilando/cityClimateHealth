@@ -141,9 +141,11 @@ log-knots between 0 and a maximum lag of 8 days.</li>
 </ul>
 <p>If other exposures / timings are desired, the user will need to
 adjust these arguments accordingly.</p>
-<p>Note that only the exposure lag is defined in <a href=""><code>make_exposure_matrix()</code></a>, <code>argvar</code>,
-<code>arglag</code> and a new (potentially shorter) <code>maxlag</code>
-are defined in the model functions (e.g., <a href=""><code>condPois_1stage()</code></a>, <a href=""><code>condPois_2stage()</code></a>, …)</p>
+<p>Note that only the exposure lag is defined in <a href="../docs/reference/make_exposure_matrix.html"><code>make_exposure_matrix()</code></a>,
+<code>argvar</code>, <code>arglag</code> and a new (potentially shorter)
+<code>maxlag</code> are defined in the model functions (e.g., <a href="../docs/reference/condPois_1stage.html"><code>condPois_1stage()</code></a>,
+<a href="../docs/reference/condPois_2stage.html"><code>condPois_2stage()</code></a>,
+…)</p>
 <p>Note also that the <code>dlnm</code> outputs may be <strong>highly
 sensitive</strong> to the choices of <code>arglag</code>,
 <code>argvar</code>, and <code>maxlag</code> – we have some additional
@@ -153,7 +155,7 @@ code and thoughts for this in <a href="dlnm_sensitivity.html"><code>dlnm_sensiti
 <h2 id="outcome">Outcome<a class="anchor" aria-label="anchor" href="#outcome"></a>
 </h2>
 <p>Any time-series of outcomes will work. Gaps and NA values in the
-outcome time-series are handled by <a href=""><code>make_outcome_tbl()</code></a>.</p>
+outcome time-series are handled by <a href="../reference/make_outcome_table.html"><code>make_outcome_table()</code></a>.</p>
 <p>We are also testing this for non-fatal outcomes, which as the
 literature shows for temperature does not always have a U-shaped
 exposure-response curve which also means that the choice of centering
@@ -162,8 +164,11 @@ point become very</p>
 <div class="section level2">
 <h2 id="timing">Timing<a class="anchor" aria-label="anchor" href="#timing"></a>
 </h2>
-<p>You can use a variety of timings: * daily * weekly * monthly</p>
-<p>See the vignette <a href=""><code>non_daily_data</code></a> for
+<p>You can use outcomes with a variety of timings: * daily * weekly *
+monthly</p>
+<p>These methods are still under development but the key is to ensure
+that the strata variables are correctly designed, if applicable. See the
+vignette <a href="non_daily_data.html"><code>non_daily_data</code></a> for
 examples.</p>
 </div>
 <div class="section level2">
@@ -182,29 +187,27 @@ used in this study design:</p>
 <li>Poisson</li>
 <li>Conditional Poisson</li>
 </ul>
-<p><a href="">Gasparrini and Armstrong</a> provide analysis that show
-that these provide the same results, although Conditional Poisson is
-more computationally efficient because the strata terms are conditioned
-out and not modeled.</p>
+<p><a href="https://link.springer.com/article/10.1186/1471-2288-14-122" class="external-link">Gasparrini
+and Armstrong, 2014</a> provide analysis that show that these provide
+the same results, although Conditional Poisson is more computationally
+efficient because the strata terms are conditioned out and not
+modeled.</p>
 </li>
 <li><p><strong>time-series</strong> – time is controlled by a natural
 spline with a specific number of knots for year, day of year, season,
 and decade. additional control is added by a categorical variable for
-day of week. The common choices for splines knots in this case are: XYZ,
-see <a href="">ref</a></p></li>
+day of week. See below for examples</p></li>
 </ul>
 <div class="section level3">
 <h3 id="conditional-logistic">Conditional logistic<a class="anchor" aria-label="anchor" href="#conditional-logistic"></a>
 </h3>
-<p>See Darren’s paper. we are working to implement this code.</p>
-<p>Code examples includee: *</p>
+<p>We are working to implement this code.</p>
+<p>For examples see <a href="https://github.com/gasparrini/2014_armstrong_BMCmrm_codedata/blob/master/Rcode.R" class="external-link">github
+for Gasparrini and Armstrong, 2014</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="conditional-poisson">Conditional Poisson<a class="anchor" aria-label="anchor" href="#conditional-poisson"></a>
 </h3>
-<p>We used a time-stratified case-crossover study design, specifically a
-single-stage conditional quasi-Poisson model with strata defined by ZIP
-Code Tabulation Area (ZCTA), year, month, and day of week.</p>
 <p>The conditional Poisson approach enables efficient estimation of
 model coefficients without requiring estimation of strata-specific
 intercepts.</p>
@@ -216,7 +219,8 @@ post-processing due to the conditional Poisson formulation, crossbasis
 weights (wₛ,ᵢ), and an indicator for federal holidays.</p>
 <p>Strata with no outcomes are excluded</p>
 <p>There are minimums that each strata must include: * x</p>
-<p>Code examples includee: *</p>
+<p>For examples see <a href="https://github.com/gasparrini/2014_armstrong_BMCmrm_codedata/blob/master/Rcode.R" class="external-link">github
+for Gasparrini and Armstrong, 2014</a>.</p>
 <p>The reason we sometimes choose conditional poisson (over time-series
 analysis) is because it has some built-in properties that can help with
 small numbers (i.e., dropping low or empty strata).</p>
@@ -227,7 +231,29 @@ MinN, strata_total. tHese are sensitivitity points</p>
 <h3 id="time-series">Time-series<a class="anchor" aria-label="anchor" href="#time-series"></a>
 </h3>
 <p>we are working to implement this code.</p>
-<p>Code examples includee: *</p>
+<p>Code examples include:</p>
+<ul>
+<li>
+<code>formula &lt;- death~cb+dow+ns(date,df=dfseas*length(unique(year)))</code><a href="https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata/blob/master/00.prepdata.R#L70" class="external-link">ref</a>
+<ul>
+<li>in this example <code>dfseas = 8</code> so 8 degrees of freedom per
+year</li>
+</ul>
+</li>
+<li>
+<code>model &lt;- glm(death~cb+ns(time,10*14)+dow,family=quasipoisson(),lndn)</code><a href="https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata/blob/master/01.runmodel.R#L52" class="external-link">ref</a>
+<ul>
+<li>in this example there are 10 degrees of freedom per year</li>
+</ul>
+</li>
+<li>
+<code>model &lt;- glm(all ~ cbtmean + dow + ns(yday(date), df=4) * factor(year(date)), data=dataggrsum, family=quasipoisson)</code><a href="https://github.com/gasparrini/Extended2stage/blob/bd9b10d9dd45dd328a0bee5d161dc0ddac2b6479/addcode/00.prepdata.R#L79" class="external-link">ref</a>
+<ul>
+<li>this model, which is summer only, has 4 degrees of freedom per
+year</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
@@ -239,7 +265,15 @@ MinN, strata_total. tHese are sensitivitity points</p>
 <p>A single-stage model pools statistical coefficients across all
 strata, while the quasi-Poisson formulation adjusts variance to account
 for over-dispersion in the observed outcome.</p>
-<p>Code examples includee: *</p>
+<p>See the first stage of any of these analyses:</p>
+<ul>
+<li><a href="https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata" class="external-link">Multi-country
+2-stage design</a></li>
+<li><a href="https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata" class="external-link">2-stage
+design with interaction</a></li>
+<li><a href="https://github.com/gasparrini/extended2stage" class="external-link">Extended
+2-stage design</a></li>
+</ul>
 <p>See the vignette <a href="one_stage_demo.html"><code>one_stage_demo</code></a>.</p>
 </div>
 <div class="section level3">
@@ -247,13 +281,24 @@ for over-dispersion in the observed outcome.</p>
 </h3>
 <p>[…]</p>
 <p>uses MixMeta()</p>
-<p>Code examples includee: *</p>
+<p>See these example pipelines:</p>
+<ul>
+<li><a href="https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata" class="external-link">Multi-country
+2-stage design</a></li>
+<li><a href="https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata" class="external-link">2-stage
+design with interaction</a></li>
+<li><a href="https://github.com/gasparrini/extended2stage" class="external-link">Extended
+2-stage design</a></li>
+</ul>
 <p>See the vignette <a href="two_stage_demo.html"><code>two_stage_demo</code></a>.</p>
 </div>
 <div class="section level3">
 <h3 id="spatial-bayesian-methods">Spatial Bayesian methods<a class="anchor" aria-label="anchor" href="#spatial-bayesian-methods"></a>
 </h3>
 <p>[…]</p>
+<p>Combines the methods of <a href="https://link.springer.com/article/10.1186/1471-2288-14-122" class="external-link">Gasparrini
+Armstrong 2014</a> with those of <a href="https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=" class="external-link">Quijal-Zamorano,2024</a>,
+which was updated in <a href="https://academic.oup.com/ije/article-abstract/54/4/dyaf120/8210576" class="external-link">2025</a></p>
 <p>See the vignette <a href="bayesian_demo.html"><code>bayesian_demo</code></a>.</p>
 </div>
 </div>
@@ -276,7 +321,8 @@ is associated with 1,000 additional emergency department visits, this
 means that compared to a 75°F day, there were 1,000 excess visits at
 100°F. Changing the reference temperature (for example, to 80°F or 70°F)
 would change the estimated attributable number accordingly.</p>
-<p>Code examples includee: *</p>
+<p>Code examples include: * <a href="https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata" class="external-link">Gasparrini
+2014</a></p>
 <p>See the vignette <a href="attributable_number.html"><code>attributable_number</code></a>.</p>
 </div>
 <div class="section level2">

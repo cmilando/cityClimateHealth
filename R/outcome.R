@@ -7,7 +7,7 @@
 #' May through September (5 through 9)
 #' @param collapse_to which factors to collapse across
 #' @param collapse_is_spatial is collapse a spatial variable
-#' @param collapse_is_temporal is collapse a spatial variable
+#' @param collapse_is_temporal is collapse a temporal variable
 #' @param grp_level whether to summarize to the group level or not (default)
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
