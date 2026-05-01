@@ -124,6 +124,9 @@ Code examples include:
 
 # Model structures
 
+Here is a table that shows how all of the various 1stage and 2stage designs compare
+![Table of model designs.](img/tbl1.png)
+
 ## 1-stage
 
 A single-stage model obtains a single set of statistical coefficients for the data. In the case of multiple spatial zones, you are assuming that the same exposure-response relationship is applicable to spatial regions.
