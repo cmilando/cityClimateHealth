@@ -141,10 +141,10 @@ log-knots between 0 and a maximum lag of 8 days.</li>
 </ul>
 <p>If other exposures / timings are desired, the user will need to
 adjust these arguments accordingly.</p>
-<p>Note that only the exposure lag is defined in <a href="../docs/reference/make_exposure_matrix.html"><code>make_exposure_matrix()</code></a>,
+<p>Note that only the exposure lag is defined in <a href="../reference/make_exposure_matrix.html"><code>make_exposure_matrix()</code></a>,
 <code>argvar</code>, <code>arglag</code> and a new (potentially shorter)
-<code>maxlag</code> are defined in the model functions (e.g., <a href="../docs/reference/condPois_1stage.html"><code>condPois_1stage()</code></a>,
-<a href="../docs/reference/condPois_2stage.html"><code>condPois_2stage()</code></a>,
+<code>maxlag</code> are defined in the model functions (e.g., <a href="../reference/condPois_1stage.html"><code>condPois_1stage()</code></a>,
+<a href="../reference/condPois_2stage.html"><code>condPois_2stage()</code></a>,
 …)</p>
 <p>Note also that the <code>dlnm</code> outputs may be <strong>highly
 sensitive</strong> to the choices of <code>arglag</code>,
@@ -265,15 +265,6 @@ year</li>
 <p>A single-stage model pools statistical coefficients across all
 strata, while the quasi-Poisson formulation adjusts variance to account
 for over-dispersion in the observed outcome.</p>
-<p>See the first stage of any of these analyses:</p>
-<ul>
-<li><a href="https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata" class="external-link">Multi-country
-2-stage design</a></li>
-<li><a href="https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata" class="external-link">2-stage
-design with interaction</a></li>
-<li><a href="https://github.com/gasparrini/extended2stage" class="external-link">Extended
-2-stage design</a></li>
-</ul>
 <p>See the vignette <a href="one_stage_demo.html"><code>one_stage_demo</code></a>.</p>
 </div>
 <div class="section level3">

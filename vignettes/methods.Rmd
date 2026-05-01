@@ -46,7 +46,7 @@ For `cityClimateHealth` we chose some default values for these arguments, specif
 
 If other exposures / timings are desired, the user will need to adjust these arguments accordingly. 
 
-Note that only the exposure lag is defined in [`make_exposure_matrix()`](../docs/reference/make_exposure_matrix.md), `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined in the model functions (e.g., [`condPois_1stage()`](../docs/reference/condPois_1stage.md), [`condPois_2stage()`](../docs/reference/condPois_2stage.md), ...)
+Note that only the exposure lag is defined in [`make_exposure_matrix()`](../reference/make_exposure_matrix.md), `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined in the model functions (e.g., [`condPois_1stage()`](../reference/condPois_1stage.md), [`condPois_2stage()`](../reference/condPois_2stage.md), ...)
 
 Note also that the `dlnm` outputs may be **highly sensitive** to the choices of `arglag`, `argvar`, and `maxlag` -- we have some additional code and thoughts for this in [`dlnm_sensitivity`](dlnm_sensitivity.md)
 
@@ -73,6 +73,7 @@ We can perform exposure-outcome analyses several ways:
   * Conditional logistic
   * Poisson
   * Conditional Poisson
+  
   
   [Gasparrini and Armstrong, 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) provide analysis that show that these provide the same results, although Conditional Poisson is more computationally efficient because the strata terms are conditioned out and not modeled. 
 
@@ -126,13 +127,6 @@ Code examples include:
 ## 1-stage
 
 A single-stage model pools statistical coefficients across all strata, while the quasi-Poisson formulation adjusts variance to account for over-dispersion in the observed outcome. 
-
-
-See the first stage of any of these analyses:
-
-* [Multi-country 2-stage design](https://github.com/gasparrini/2015_gasparrini_Lancet_Rcodedata)
-* [2-stage design with interaction](https://github.com/gasparrini/2015_gasparrini_EHP_Rcodedata)
-* [Extended 2-stage design](https://github.com/gasparrini/extended2stage)
 
 See the vignette [`one_stage_demo`](one_stage_demo.md).
 
