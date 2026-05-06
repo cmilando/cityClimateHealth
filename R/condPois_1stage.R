@@ -345,6 +345,9 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   oo_list <- vector("list", length(out_geo_unit))
   names(oo_list) <- unique_geos[, get(out_geo_unit_col)]
 
+  printerror1 <- T
+  printerror2 <- T
+
   for(i in 1:nrow(unique_geos)) {
 
     # get the name, which you know exists in both datasets
@@ -385,15 +388,33 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
     this_cb <- cb[rr, ]
     cb_att <- attributes(cb)
     # reset-dim --> another little trick here!
-    cb_att$dim = dim(this_cb)
-    attributes(this_cb) = cb_att
+    if(!is.null(dim(this_cb))) {
+      cb_att$dim = dim(this_cb)
+      attributes(this_cb) = cb_att
+    } else {
+      if(printerror1) {
+        warning("dim(cb) is NULL so output dim was not reset.
+            Unlikely to happen, so investigate.")
+        printerror1 <- F
+      }
+
+    }
 
     # do the same thing with centered_cb
     this_centered_cb <- overall_centered_basis[rr, ]
     cb_cen_att <- attributes(overall_centered_basis)
     # reset-dim --> another little trick here!
-    cb_cen_att$dim = dim(this_centered_cb)
-    attributes(this_centered_cb) = cb_cen_att
+    if(!is.null(dim(this_centered_cb))) {
+      cb_cen_att$dim = dim(this_centered_cb)
+      attributes(this_centered_cb) = cb_cen_att
+    } else{
+      if(printerror2) {
+        warning("dim(cr) is NULL so output dim was not reset.
+      Probably happens when there are too few columns that result from argvar and arglag.
+              Unclear what the consequences are yet ...")
+        printerror2 <- F
+      }
+    }
 
     # this city's outcome
     rr <- outcomes_tbl[, get(out_geo_unit_col)] == this_geo
