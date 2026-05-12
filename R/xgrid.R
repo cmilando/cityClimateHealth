@@ -19,7 +19,7 @@ make_xgrid <- function(data, column_mapping, months_subset = 1:12,
   #
   setDT(data)
 
-  stopifnot(dt_by %in% c('day', 'week'))
+  stopifnot(dt_by %in% c('day', 'week', 'month'))
 
   # check they are all the same day of week
   date_col <- column_mapping$date
@@ -65,6 +65,19 @@ make_xgrid <- function(data, column_mapping, months_subset = 1:12,
     yr = year(dt)
     all_dt = as.IDate(dt[yr %in% years])
   }
+
+  if(dt_by == 'month') {
+    get_dt <- function(yy) {
+      st = make_date(yy, 1, 1)
+      ed = make_date(yy, 12, 1)
+      dt = seq.Date(st, ed, by = 'month')
+      mn = month(dt)
+      return(as.IDate(dt[mn %in% months_subset]))
+    }
+    all_dt <- lapply(years, get_dt)
+    all_dt <- do.call(c, all_dt)
+  }
+
 
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
