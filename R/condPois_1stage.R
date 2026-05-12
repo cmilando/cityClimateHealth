@@ -128,12 +128,17 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   out_geo_unit_grp_col <- attributes(outcomes_tbl)$column_mapping$geo_unit_grp
   outcome_col          <- attributes(outcomes_tbl)$column_mapping$outcome
 
-  ## CHECK 6 - minN
+  ## CHECK 6 - minN for all geo_units
   if(is.null(min_n)) {
     min_n = 50
   }
   outcome_col <- attributes(outcomes_tbl)$column_mapping$outcome
-  stopifnot(sum(outcomes_tbl[, get(outcome_col)]) >= min_n)
+  if(!outcomes_tbl[, sum(get(outcome_col)) >= min_n,
+                   by = out_geo_unit_col][, all(V1)]) {
+   stop("not all geo_units pass the minimum threshold of counts.
+        Probably a better way to handle this in input validation but
+        just putting a placeholder here for now.")
+  }
 
   # CHECK 7
   stopifnot(strata_min >= 0)
@@ -143,7 +148,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   out_geo_unit <- sort(unlist(unique(outcomes_tbl[, get(out_geo_unit_col)])))
   if(!multi_zone) {
     if(length(out_geo_unit) != 1)
-    stop("geo_units passed in > 1, if you are running a 1stage model this means
+    stop("N geo_units passed in are > 1, if you are running a 1stage model this means
          you need to set multi_zone = T")
   }
 
@@ -255,7 +260,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   if(any(is.na(m_coef))) stop("coef has NULL, something went wrong.
                               Usually this happens (1) when strata counts are too low,
                               or (2) when maxlag is low (< 3) and you haven't adjusted
-                              argvar and arglag or (3) if exposure_is_factor then
+                              argvar and arglag (switching to fun='lin' can be a good starting point)
+                              or (3) if exposure_is_factor then
                               you need to make sure that `breaks` is set correctly")
 
   if(any(is.na(m_vcov))) stop("vcov has NULL, something went wrong")
@@ -363,8 +369,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
     this_exp_IQR = IQR(single_exposure_matrix[, get(exposure_col)])
     if(cen < x_b[1] | cen > x_b[2]) {
       warning(sprintf(
-        "Centering point is outside the range of exposures in geo-unit %s. This means your zones are across too large of an area, or there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.",
-        this_geo
+        "Centering point is outside the range of exposures in geo-unit %s: Cen = %s, x_b = %s.
+        This means your zones are across too large of an area, or if exposure is factor there could
+        be too few events in this area, or
+        there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.",
+        this_geo, sprintf("%1.2f", cen), sprintf("(%1.2f, %1.2f)", x_b[1], x_b[2])
       ))
     }
 
@@ -387,6 +396,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
     rr <- exposure_matrix[, get(exp_geo_unit_col)] == this_geo
     this_cb <- cb[rr, ]
     cb_att <- attributes(cb)
+
     # reset-dim --> another little trick here!
     if(!is.null(dim(this_cb))) {
       cb_att$dim = dim(this_cb)
@@ -397,12 +407,12 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
             Unlikely to happen, so investigate.")
         printerror1 <- F
       }
-
     }
 
     # do the same thing with centered_cb
     this_centered_cb <- overall_centered_basis[rr, ]
     cb_cen_att <- attributes(overall_centered_basis)
+
     # reset-dim --> another little trick here!
     if(!is.null(dim(this_centered_cb))) {
       cb_cen_att$dim = dim(this_centered_cb)
