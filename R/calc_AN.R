@@ -8,6 +8,7 @@
 #' @param nsim number of simulations required for calculation of empirical CI (default = 300)
 #' @param verbose 0 = no printing, 1 = headers, 2 = detailed
 #' @param by_year Export annual counts
+#' @param scale scalar that you multiply outcomes by, mostly used for collapse_is_temporal adjustment
 #' @importFrom data.table setDT
 #' @importFrom data.table setorder
 #' @importFrom data.table setorder `:=`
@@ -78,10 +79,15 @@
 #'                  verbose = 2)
 #' calc_AN
 
-calc_AN <- function(model, outcomes_tbl, pop_data,
-                    spatial_agg_type, spatial_join_col,
+calc_AN <- function(model,
+                    outcomes_tbl,
+                    pop_data,
+                    spatial_agg_type,
+                    spatial_join_col,
                     by_year = FALSE,
-                    nsim = 300, verbose = 0) {
+                    scale = 1,
+                    nsim = 300,
+                    verbose = 0) {
 
 
   ## Check 1 -- that both inputs are the right class of variables
@@ -104,13 +110,15 @@ calc_AN <- function(model, outcomes_tbl, pop_data,
   #' //////////////////////////////////////////////////////////////////////////
 
   if(("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) &
-     grepl("_list", class(model))) {
+    grepl("_list", class(model))) {
 
     factor_col <- attributes(outcomes_tbl)$column_mapping$factor
 
     unique_fcts <- unlist(unique(outcomes_tbl[, get(factor_col)]))
 
     fct_outlist <- vector("list", length(unique_fcts))
+
+    cat("-- over-writing `scale` argument with factor scales\n")
 
     for(fct_i in seq_along(fct_outlist)) {
 
@@ -135,12 +143,17 @@ calc_AN <- function(model, outcomes_tbl, pop_data,
       rr <- which(pop_data[, get(factor_col)] == unique_fcts[fct_i])
       sub_pop_data <- pop_data[rr, , drop = FALSE]
 
+      # scale subset
+      factor_scale = sub_model$factor_scale
+
       # re-call the function, but with just one subset
-      fct_outlist[[fct_i]] <- calc_AN(sub_model,        # <<< **Updated
-                                      sub_outcomes_tbl, # <<< **Updated
-                                      sub_pop_data,     # <<< **Updated
-                                      spatial_agg_type,
-                                      spatial_join_col,
+      fct_outlist[[fct_i]] <- calc_AN(model = sub_model,        # <<< **Updated
+                                      outcomes_tbl = sub_outcomes_tbl, # <<< **Updated
+                                      pop_data = sub_pop_data,     # <<< **Updated
+                                      spatial_agg_type = spatial_agg_type,
+                                      spatial_join_col = spatial_join_col,
+                                      by_year = by_year,
+                                      scale = factor_scale,
                                       nsim = nsim,
                                       verbose = verbose)
 
@@ -195,7 +208,6 @@ calc_AN <- function(model, outcomes_tbl, pop_data,
   # subsetting
   safe_geos <- unique(pop_data_collapse[, ..spatial_join_col])
   outcomes_tbl <- safe_geos[outcomes_tbl, on = spatial_join_col, nomatch = 0]
-
 
   if(verbose > 0) {
     cat("-- validation passed\n")
@@ -480,13 +492,17 @@ calc_AN <- function(model, outcomes_tbl, pop_data,
   g1_cols <- c(names(AN_ANNUAL)[c1], "population", "nsim", 'above_MMT')
 
   # mean annual
+  # and include scale here
+  if(verbose > 1) {
+    cat("-- applying scale of : ", scale ,"\n")
+  }
   if(by_year == TRUE) {
     x1 <- AN_ANNUAL[,.(
-      mean_annual_AN = mean(annual_AN)
+      mean_annual_AN = mean(annual_AN) * scale
     ), by = c(g1_cols, 'year')]
   } else {
     x1 <- AN_ANNUAL[,.(
-      mean_annual_AN = mean(annual_AN)
+      mean_annual_AN = mean(annual_AN) * scale
     ), by = g1_cols]
   }
 

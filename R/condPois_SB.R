@@ -142,8 +142,10 @@ condPois_sb <- function(exposure_matrix,
       # re-call the function, but with just one subset
       fct_outlist[[fct_i]] <- condPois_sb(exposure_matrix,
                                           subset_outcomes_tbl,
-                                          shp,
-                                          stan_opts,
+                                          shp_sf = shp_sf,
+                                          stan_type = stan_type,
+                                          use_spatial_model = use_spatial_model,
+                                          stan_opts = stan_opts,
                                           global_cen = global_cen,
                                           argvar = argvar,
                                           arglag = arglag,
@@ -154,6 +156,9 @@ condPois_sb <- function(exposure_matrix,
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]
+      # also include a scaling factor that can be used to adjust the AN
+      # this is useful in scenarios with a temporal collapse factor
+      fct_outlist[[fct_i]]$factor_scale <- 1
 
     }
 

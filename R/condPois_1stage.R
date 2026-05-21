@@ -84,18 +84,23 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
       attributes(subset_outcomes_tbl)$column_mapping$factor <- NULL
 
       # re-call the function, but with just one subset
-      fct_outlist[[fct_i]] <- condPois_1stage(exposure_matrix,
-                                              subset_outcomes_tbl,
+      fct_outlist[[fct_i]] <- condPois_1stage(exposure_matrix = exposure_matrix,
+                                              outcomes_tbl = subset_outcomes_tbl,
                                               global_cen = global_cen,
                                               argvar = argvar,
                                               arglag = arglag,
                                               maxlag = maxlag,
                                               min_n = min_n,
                                               strata_min = strata_min,
-                                              multi_zone = multi_zone)
+                                              multi_zone = multi_zone,
+                                              verbose = verbose)
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]
+
+      # also include a scaling factor that can be used to adjust the AN
+      # this is useful in scenarios with a temporal collapse factor
+      fct_outlist[[fct_i]]$factor_scale <- 1
 
     }
 
