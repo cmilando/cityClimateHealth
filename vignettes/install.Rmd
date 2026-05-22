@@ -1,0 +1,17 @@
+---
+title: "Installing cityClimateHealth"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Installing cityClimateHealth}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Some intro text on how to install things ...
