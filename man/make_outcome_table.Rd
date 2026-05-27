@@ -30,7 +30,7 @@ May through September (5 through 9)}
 
 \item{collapse_is_spatial}{is collapse a spatial variable}
 
-\item{collapse_is_temporal}{is collapse a spatial variable}
+\item{collapse_is_temporal}{is collapse a temporal variable}
 
 \item{grp_level}{whether to summarize to the group level or not (default)}
 

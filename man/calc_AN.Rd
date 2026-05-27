@@ -11,6 +11,7 @@ calc_AN(
   spatial_agg_type,
   spatial_join_col,
   by_year = FALSE,
+  scale = 1,
   nsim = 300,
   verbose = 0
 )
@@ -27,6 +28,8 @@ calc_AN(
 \item{spatial_join_col}{how should you join population data to the outcome table}
 
 \item{by_year}{Export annual counts}
+
+\item{scale}{scalar that you multiply outcomes by, mostly used for collapse_is_temporal adjustment}
 
 \item{nsim}{number of simulations required for calculation of empirical CI (default = 300)}
 

@@ -26,3 +26,15 @@ here are other refs
 https://doi.org/10.1111/j.2517-6161.1996.tb02079.x
 https://doi.org/10.1093/biomet/68.2.563
 }
+\examples{
+\dontrun{
+# after running condPois_1stage on a single geo_unit:
+result <- condPois_1stage(exposure_matrix, outcomes_tbl)
+vcov_mat <- calc_vcov(
+  y = result$`_`$out[[1]]$outcomes,
+  X = as.matrix(result$`_`$out[[1]]$orig_basis),
+  beta = result$`_`$out[[1]]$orig_coef,
+  stratum_vector = result$`_`$out[[1]]$strata_vec
+)
+}
+}

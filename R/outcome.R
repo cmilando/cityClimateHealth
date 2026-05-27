@@ -12,7 +12,7 @@
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
 #'
-#' @importFrom data.table setDT setorderv `:=` `.`
+#' @importFrom data.table setDT setorderv := as.IDate
 #' @importFrom lubridate days_in_month
 #'
 #' @returns

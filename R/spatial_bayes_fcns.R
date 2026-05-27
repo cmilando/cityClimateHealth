@@ -10,6 +10,13 @@
 #' @returns
 #'
 #' @examples
+#' library(spdep)
+#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
+#' nb <- knn2nb(knearneigh(coords, k = 2))
+#' comp_ids <- n.comp.nb(nb)[[2]]
+#' offsets <- indexByComponent(comp_ids)
+#' nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
+
 nb2subgraph = function(x, c_id, comp_ids, offsets) {
   # nb2subgraph
   # for a given subcomponent, return graph as lists of node1, node2 pairs
@@ -61,6 +68,11 @@ nb2subgraph = function(x, c_id, comp_ids, offsets) {
 #' @returns
 #'
 #' @examples
+#' library(spdep)
+#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
+#' nb <- knn2nb(knearneigh(coords, k = 2))
+#' nb2graph(nb)
+
 nb2graph = function(x) {
   # nb2graph
   #
@@ -104,6 +116,9 @@ nb2graph = function(x) {
 #' @returns
 #'
 #' @examples
+#' comp_ids <- c(1, 1, 2, 2, 2, 1)
+#' indexByComponent(comp_ids)
+
 indexByComponent = function(x) {
   # indexByComponent
   #
@@ -136,8 +151,12 @@ indexByComponent = function(x) {
 #'
 #' @returns
 #' @import Matrix
-#' @importFrom INLA inla.qinv
 #' @examples
+#' library(spdep)
+#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
+#' nb <- knn2nb(knearneigh(coords, k = 2))
+#' scale_nb_components(nb)
+
 scale_nb_components = function(x) {
   N = length(x);
   comp_ids = n.comp.nb(x)[[2]];
@@ -160,10 +179,24 @@ scale_nb_components = function(x) {
       # Add a small jitter to the diagonal for numerical stability (optional but recommended)
       Q_pert = Q + Diagonal(N_subregions) * max(diag(Q)) * sqrt(.Machine$double.eps)
       # Compute the diagonal elements of the covariance matrix subject to the
-      # constraint that the entries of the ICAR sum to zero.
-      Q_inv = inla.qinv(Q_pert, constr=list(A = matrix(1,1,N_subregions),e=0))
-      # Compute the geometric mean of the variances, which are on the diagonal of Q.inv
+      # Sparse Cholesky decomposition
+      L <- Matrix::Cholesky(Q_pert, perm = TRUE)
+      # Get sparse inverse via Cholesky
+      Q_inv_unconstrained <- Matrix::solve(L, system = "A")
+
+      # Apply sum-to-zero constraint
+      # simplified because A is just a row of ones
+      col_sums <- Matrix::colSums(Q_inv_unconstrained)
+      total_sum <- sum(col_sums)
+      correction <- outer(as.vector(col_sums), as.vector(col_sums)) / total_sum
+      Q_inv <- Q_inv_unconstrained - correction
+
+      # Geometric mean of diagonal variances
       scaling_factor = exp(mean(log(diag(Q_inv))))
+
+      #old: Q_inv = inla.qinv(Q_pert, constr=list(A = matrix(1,1,N_subregions),e=0))
+
+       # Compute the geometric mean of the variances, which are on the diagonal of Q.inv
       scales[i] = scaling_factor;
     }
   }
@@ -181,6 +214,11 @@ scale_nb_components = function(x) {
 #' @returns
 #'
 #' @examples
+#' \dontrun{
+#' # after loading an sf shapefile:
+#' SW <- getSW(shp = my_shapefile, ni = 1, include_self = FALSE)
+#' }
+
 getSW <- function(shp, ni, include_self = T) {
 
 
@@ -230,6 +268,8 @@ getSW <- function(shp, ni, include_self = T) {
 #' @returns
 #'
 #' @examples
+#' xx <- list(c(2, 3), c(1, 3), c(1, 2))
+#' nx(xx, ni = 1, include_self = TRUE)
 nx <- function(xx, ni, include_self = T) {
 
   ##
@@ -274,6 +314,9 @@ nx <- function(xx, ni, include_self = T) {
 #' @returns
 #'
 #' @examples
+#' strata <- factor(c("a", "a", "b", "b", "c"))
+#' getSmat(strata)
+
 getSmat <- function(strata_vector) {
   # create S matrix
   # strata_vector <- data$stratum

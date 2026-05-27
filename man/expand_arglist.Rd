@@ -12,3 +12,10 @@ expand_arglist(arglist)
 \description{
 IN-PROGRESS functions that creates a list of cross-basis objects to try
 }
+\examples{
+arglist <- list(
+  list(fun = "ns", df = c(3, 4)),
+  list(fun = "bs", degree = c(2, 3))
+)
+expand_arglist(arglist)
+}

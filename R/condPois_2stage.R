@@ -30,7 +30,7 @@
 #' @importFrom mixmeta blup
 #' @importFrom dlnm onebasis
 #' @importFrom dlnm crosspred
-#' @importFrom data.table setDT `.`
+#' @importFrom data.table setDT
 #'
 #' @returns
 #' @export
@@ -561,6 +561,8 @@ condPois_2stage <- function(exposure_matrix,
 #' @export
 #'
 #' @examples
+#' x <- structure(list(), class = "condPois_2stage")
+#' print(x)
 print.condPois_2stage <- function(x) {
   cat("< an object of class `condPois_2stage` >\n")
   invisible(x)
@@ -575,6 +577,8 @@ print.condPois_2stage <- function(x) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(a = 1, b = 2), class = "condPois_2stage_list")
+#' print(x)
 print.condPois_2stage_list <- function(x) {
   cat("< an object of class `condPois_2stage_list`:",
       paste(names(x), collapse = ",")," >\n")
@@ -590,6 +594,31 @@ print.condPois_2stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#' exposure_columns <- list(
+#'"date" = "date",
+#'"exposure" = "tmax_C",
+#'"geo_unit" = "TOWN20",
+#'"geo_unit_grp" = "COUNTY20"
+#')
+#'
+#'ma_exposure_matrix <- make_exposure_matrix(
+#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), exposure_columns)
+#'
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), outcome_columns)
+#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
+#'verbose = 1, global_cen = 10)
+#'getRR(ma_model)
 getRR.condPois_2stage <- function(x) {
   oo <- do.call(rbind, lapply(x$`_`$out, \(obj) obj$RRdf))
   oo$model_class = class(x)
@@ -606,6 +635,14 @@ getRR.condPois_2stage <- function(x) {
 #' @export
 #'
 #' @examples
+#' ma_outcomes_tbl_fct <- make_outcome_table(
+#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'         year(date) %in% 2012:2015),
+#'outcome_columns,collapse_to = 'age_grp')
+#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
+#'                                verbose = 1, global_cen = 10)
+#'getRR(ma_model_fct)
+
 getRR.condPois_2stage_list <- function(x) {
 
   obj_l <- vector("list", length(names(x)))
@@ -641,6 +678,31 @@ getRR.condPois_2stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#' exposure_columns <- list(
+#'"date" = "date",
+#'"exposure" = "tmax_C",
+#'"geo_unit" = "TOWN20",
+#'"geo_unit_grp" = "COUNTY20"
+#')
+#'
+#'ma_exposure_matrix <- make_exposure_matrix(
+#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), exposure_columns)
+#'
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), outcome_columns)
+#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
+#'verbose = 1, global_cen = 10)
+#'plot(ma_model)
 plot.condPois_2stage <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -675,6 +737,13 @@ plot.condPois_2stage <- function(x, geo_unit,
 #' @export
 #'
 #' @examples
+#' ma_outcomes_tbl_fct <- make_outcome_table(
+#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'         year(date) %in% 2012:2015),
+#'outcome_columns,collapse_to = 'age_grp')
+#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
+#'                                verbose = 1, global_cen = 10)
+#'plot(ma_model_fct)
 plot.condPois_2stage_list <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -722,6 +791,32 @@ plot.condPois_2stage_list <- function(x, geo_unit,
 #' @export
 #'
 #' @examples
+#'exposure_columns <- list(
+#'"date" = "date",
+#'"exposure" = "tmax_C",
+#'"geo_unit" = "TOWN20",
+#'"geo_unit_grp" = "COUNTY20"
+#')
+#'
+#'ma_exposure_matrix <- make_exposure_matrix(
+#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), exposure_columns)
+#'
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), outcome_columns)
+#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
+#'verbose = 1, global_cen = 10)
+#'forest_plot(ma_model, 25.1)
+
 forest_plot.condPois_2stage <- function(x, exposure_val) {
 
   # get subset of X
@@ -781,6 +876,14 @@ forest_plot.condPois_2stage <- function(x, exposure_val) {
 #' @export
 #'
 #' @examples
+#' ma_outcomes_tbl_fct <- make_outcome_table(
+#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'         year(date) %in% 2012:2015),
+#'outcome_columns,collapse_to = 'age_grp')
+#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
+#'                                verbose = 1, global_cen = 10)
+#'forest_plot(ma_model_fct, 25.1)
+
 spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
                                          RRlimits = NULL) {
 
@@ -834,6 +937,30 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
 }
 
 #' @export
+#'exposure_columns <- list(
+#'"date" = "date",
+#'"exposure" = "tmax_C",
+#'"geo_unit" = "TOWN20",
+#'"geo_unit_grp" = "COUNTY20"
+#')
+#'
+#'ma_exposure_matrix <- make_exposure_matrix(
+#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), exposure_columns)
+#'
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'ma_outcomes_tbl <- make_outcome_table(
+#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'           year(date) %in% 2012:2015), outcome_columns)
+#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
+#'verbose = 1, global_cen = 10)
 #' spatial_plot.condPois_2stage_list
 #'
 #' @param x an object of class condPois_2stage_list
@@ -845,6 +972,8 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
 #' @export
 #'
 #' @examples
+#' spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
+
 spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
@@ -906,6 +1035,14 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 #' @export
 #'
 #' @examples
+#' ma_outcomes_tbl_fct <- make_outcome_table(
+#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
+#'         year(date) %in% 2012:2015),
+#'outcome_columns,collapse_to = 'age_grp')
+#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
+#'                                verbose = 1, global_cen = 10)
+#' spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
+
 forest_plot.condPois_2stage_list <- function(x, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))

@@ -13,7 +13,6 @@
 #'
 #' @import methods
 #' @import Matrix
-#' @importFrom data.table
 #'
 #' @import ggplot2
 #' @importFrom scales number
@@ -21,7 +20,6 @@
 #' @import sf
 #' @import spdep
 #'
-#' @importFrom INLA inla.qinv
 #' @importFrom patchwork wrap_plots
 #' @importFrom MASS ginv
 #' @importFrom RColorBrewer brewer.pal.info

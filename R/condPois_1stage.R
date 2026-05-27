@@ -483,6 +483,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 #' @export
 #'
 #' @examples
+#' x <- structure(list(), class = "condPois_1stage")
+#' print(x)
 print.condPois_1stage <- function(x) {
   cat("< an object of class `condPois_1stage` >\n")
   invisible(x)
@@ -498,6 +500,8 @@ print.condPois_1stage <- function(x) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
+#' print(x)
 print.condPois_1stage_list <- function(x) {
   cat("< an object of class `condPois_1stage_list`:",
       paste(names(x), collapse = ",")," >\n")
@@ -513,6 +517,34 @@ print.condPois_1stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#' # create exposure matrix
+#'exposure_columns <- list(
+#'  "date" = "date",
+#'  "exposure" = "tmax_C",
+#'  "geo_unit" = "TOWN20",
+#"  "geo_unit_grp" = "COUNTY20"
+#')
+#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
+#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
+
+#'# create outcome table
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
+#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
+
+#'# run the model
+#' m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
+#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
+#' global_cen = 15)
+#' getRR(m2)
+
 getRR.condPois_1stage <- function(x) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
@@ -550,6 +582,33 @@ getRR.condPois_1stage <- function(x) {
 #' @export
 #'
 #' @examples
+#'# create exposure matrix
+#'exposure_columns <- list(
+#'  "date" = "date",
+#'  "exposure" = "tmax_C",
+#'  "geo_unit" = "TOWN20",
+#"  "geo_unit_grp" = "COUNTY20"
+#')
+#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
+#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
+
+#'# create outcome table
+#'outcome_columns <- list(
+#'  "date" = "date",
+#'  "outcome" = "daily_deaths",
+#'  "factor" = 'age_grp',
+#'  "factor" = 'sex',
+#'  "geo_unit" = "TOWN20",
+#'  "geo_unit_grp" = "COUNTY20"
+#')
+#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
+#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
+
+#'# run the model
+#' m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
+#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
+#' global_cen = 15)
+#' plot(m2)
 plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
@@ -580,6 +639,17 @@ plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
 #' @export
 #'
 #' @examples
+#'middlesex_deaths_tbl <- make_outcome_table(
+#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
+#'
+#'# run the model
+#'m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
+#'                      outcomes_tbl = middlesex_deaths_tbl,
+#'                      global_cen = 15,
+#'                      multi_zone = TRUE,
+#'                      verbose = 1)
+#'getRR(m3)
+
 getRR.condPois_1stage_list <- function(x) {
 
   fct_names <- names(x)
@@ -625,6 +695,16 @@ getRR.condPois_1stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#'middlesex_deaths_tbl <- make_outcome_table(
+#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
+#'
+#'# run the model
+#'m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
+#'                      outcomes_tbl = middlesex_deaths_tbl,
+#'                      global_cen = 15,
+#'                      multi_zone = TRUE,
+#'                      verbose = 1)
+#'plot(m3)
 plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
 
   fct_names <- names(x)
@@ -680,6 +760,8 @@ plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL)
 #' @export
 #'
 #' @examples
+#' x <- structure(list(), class = "condPois_1stage")
+#' forest_plot(x)
 forest_plot.condPois_1stage <- function(x, ...) {
   warning("`forest_plot` method not implemented for objects of class `condPois_1stage`,
       since there is only one 1_stage relative risk curve so all plot
@@ -699,6 +781,8 @@ forest_plot.condPois_1stage <- function(x, ...) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
+#' forest_plot(x)
 forest_plot.condPois_1stage_list <- function(x, ...) {
   warning("`forest_plot` method not implemented for objects of class `condPois_1stage_list`,
       since there is only one 1_stage relative risk curve so all plot
@@ -718,6 +802,8 @@ forest_plot.condPois_1stage_list <- function(x, ...) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(), class = "condPois_1stage")
+#' spatial_plot(x)
 spatial_plot.condPois_1stage <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `condPois_1stage`,
       since there is only one 1_stage relative risk curve so all plot
@@ -736,6 +822,8 @@ spatial_plot.condPois_1stage <- function(x, ...) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
+#' spatial_plot(x)
 spatial_plot.condPois_1stage_list <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `condPois_1stage_list`,
       since there is only one 1_stage relative risk curve so all plot

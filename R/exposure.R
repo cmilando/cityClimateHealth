@@ -12,7 +12,7 @@
 #' @param dt_by is it daily data, or weekly or ...
 #' @param exposure_is_factor exposure is a factor
 #'
-#' @importFrom data.table setDT setorderv shift `:=` `.`
+#' @importFrom data.table setDT setorderv shift := as.IDate
 #' @importFrom zoo na.approx
 #'
 #' @returns a data.table of class("exposure")
@@ -145,6 +145,12 @@ make_exposure_matrix <- function(data,
     xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
                            ":yr",yr, ":mn",sprintf("%02i", mn),
                            ":dow", sprintf("%02i", dow))
+  }
+
+  if(dt_by == 'month') {
+    xgrid$strata <- paste0(geo, ":yr", yr, ":mn", sprintf("%02i", mn))
+  } else {
+    xgrid$strata <- paste0(geo, ":yr", yr, ":mn", sprintf("%02i", mn), ":dow", sprintf("%02i", dow))
   }
 
   # also make match strata

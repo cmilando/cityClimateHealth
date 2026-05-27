@@ -12,3 +12,11 @@ input_validation(exposure_matrix, outcomes_tbl)
 \description{
 Input validation
 }
+\examples{
+\dontrun{
+# after creating exposure and outcome objects:
+validated <- input_validation(exposure_matrix, outcomes_tbl)
+exposure_matrix <- validated$exposure_matrix
+outcomes_tbl <- validated$outcomes_tbl
+}
+}

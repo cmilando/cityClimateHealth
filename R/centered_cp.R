@@ -17,6 +17,21 @@
 #' @returns
 #'
 #' @examples
+#' \dontrun{
+#' # after running condPois_1stage on a single geo_unit:
+#' result <- condPois_1stage(exposure_matrix, outcomes_tbl)
+#' centered <- get_centered_cp(
+#'   argvar = result$`_`$out[[1]]$argvar,
+#'   xcoef = result$`_`$out[[1]]$coef,
+#'   xvcov = result$`_`$out[[1]]$vcov,
+#'   this_exp = result$`_`$out[[1]]$this_exp,
+#'   x_b = c(0, 40),
+#'   global_cen = NULL,
+#'   cen = result$`_`$out[[1]]$cen,
+#'   exposure_is_factor = FALSE
+#' )
+#' }
+
 get_centered_cp <- function(argvar, xcoef, xvcov,
                             this_exp, x_b,
                             global_cen, cen,

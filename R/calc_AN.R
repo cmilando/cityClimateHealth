@@ -649,6 +649,9 @@ print.calcAN <- function(x) {
 #' @export
 #'
 #' @examples
+#' x <- structure(list(a = 1, b = 2), class = "calcAN_list")
+#' print(x)
+
 print.calcAN_list <- function(x) {
   cat("< an object of class `calcAN_list`:",
       paste(names(x), collapse = ",")," >\n")
@@ -665,11 +668,17 @@ print.calcAN_list <- function(x) {
 #' @param override_limit override the built-in plot limit
 #' @importFrom ggplot2 ggplot
 #' @importFrom scales number
-#' @importFrom data.table
+#' @importFrom data.table setorder
 #' @returns
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after running calcAN on a condPois model:
+#' an_result <- calcAN(my_model)
+#' plot(an_result, table_type = "num", above_MMT = TRUE)
+#' }
+
 plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
                         override_limit = FALSE) {
 
@@ -778,11 +787,16 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
 #' @param ordered_levels factor levels
 #' @param override_limit override the built-in plot limit
 #' @importFrom ggplot2 ggplot
-#' @import data.table
+#' @importFrom data.table setorder `:=`
 #' @returns
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after running calcAN on a condPois model with a factor:
+#' an_result <- calcAN(my_model_list)
+#' plot(an_result, table_type = "num", above_MMT = TRUE)
+#' }
 plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
                              ordered_levels = NULL, override_limit = FALSE) {
 
@@ -938,6 +952,12 @@ plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after running calcAN on a condPois model with a factor:
+#' an_result <- calcAN(my_model)
+#' spatial_plot(an_result, shp = my_shapefile, table_type = "num", above_MMT = TRUE)
+#' }
+
 spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') {
 
   stopifnot(table_type %in% c('rate', 'num'))
@@ -1007,6 +1027,11 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after running calcAN on a condPois model with a factor:
+#' an_result <- calcAN(my_model_list)
+#' spatial_plot(an_result, shp = my_shapefile, table_type = "num", above_MMT = TRUE)
+#' }
 spatial_plot.calcAN_list <- function(x, shp, table_type, above_MMT) {
 
   stopifnot(table_type %in% c('rate', 'num'))
