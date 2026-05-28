@@ -24,7 +24,7 @@ condPois_2stage(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = NULL,
+  min_n = 50,
   rf = NULL,
   strata_min = 0,
   verbose = 0

@@ -42,7 +42,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+<li><a class="dropdown-item" href="../articles/install.html">Installing cityClimateHealth</a></li>
+    <li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
     <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
@@ -477,13 +478,10 @@ this is using <code>gnm</code> under the hood.</p>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; BOSTON:yr2010:mn05:dow07</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl</span></span>
-<span><span class="co">#&gt; = boston_deaths_tbl): Centering point is outside the range of exposures in</span></span>
-<span><span class="co">#&gt; geo-unit BOSTON. This means your zones are across too large of an area, or</span></span>
-<span><span class="co">#&gt; there are differences in exposures so much that the bases are quite different.</span></span>
-<span><span class="co">#&gt; Try limiting the geo-units passed in to those that are more similar, manually</span></span>
-<span><span class="co">#&gt; setting a centering point that you know each geo-unit has, or changing your</span></span>
-<span><span class="co">#&gt; exposure variable.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 5.40, x_b = (6.00, 39.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span></code></pre></div>
 <p>And plot the relative risk</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>

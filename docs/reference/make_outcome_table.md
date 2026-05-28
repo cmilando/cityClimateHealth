@@ -45,7 +45,7 @@ make_outcome_table(
 
 - collapse_is_temporal:
 
-  is collapse a spatial variable
+  is collapse a temporal variable
 
 - grp_level:
 

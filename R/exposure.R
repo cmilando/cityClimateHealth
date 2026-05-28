@@ -13,6 +13,7 @@
 #' @param exposure_is_factor exposure is a factor
 #'
 #' @importFrom data.table setDT setorderv shift := as.IDate
+#' @importFrom data.table month year wday
 #' @importFrom zoo na.approx
 #'
 #' @returns a data.table of class("exposure")
@@ -28,7 +29,7 @@
 #'
 #' ma_exposure_matrix <- make_exposure_matrix(
 #'                       subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'                       year(date) %in% 2012:2015), exposure_columns)
+#'                       data.table::year(date) %in% 2012:2015), exposure_columns)
 #'make_exposure_matrix
 make_exposure_matrix <- function(data,
                                  column_mapping,
@@ -132,10 +133,11 @@ make_exposure_matrix <- function(data,
 
   # set the strata
   date_col <- column_mapping$date
-  dow <- wday(xgrid[, get(date_col)])
-  mn  <- month(xgrid[, get(date_col)])
-  yr  <- year(xgrid[, get(date_col)])
+  dow <- data.table::wday(xgrid[, get(date_col)])
+  mn  <- data.table::month(xgrid[, get(date_col)])
+  yr  <- data.table::year(xgrid[, get(date_col)])
 
+  # if its either (group level and keep exposures or Not group level)
   if((grp_level & keep_unit_exposures) | !grp_level) {
     if(dt_by == 'month') {
       xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
@@ -148,7 +150,7 @@ make_exposure_matrix <- function(data,
                              ":dow", sprintf("%02i", dow))
     }
 
-  } else {
+  } else { # so here its group level and don't keep exposures
     if(dt_by == 'month') {
       xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
                              ":yr",yr,

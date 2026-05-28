@@ -18,19 +18,19 @@ To access "cityClimateHealth", users must first install CmdStanR, a command-line
 
 To avoid memory limits or conflicts from other packages, it is best to run a new R session, or restart the current R session.
 
-```{r}
+```{r, eval = FALSE}
 install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOption('repos')))
 ```
 
 Now, users must install the "remotes" package in R.
 
-```{r}
+```{r, eval = FALSE}
 install.packages('remotes')
 ```
 
 When these downloads are successfully completed, users can then install the cityClimateHealth package:
 
-```{r}
+```{r, eval = FALSE}
 library(remotes)
 remotes::install_github("cmilando/cityClimateHealth")
 ```

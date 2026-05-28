@@ -45,6 +45,7 @@ articles:
   contents:
   - pop_size_test
   - faq
+  - bayesian_wnv_test
   - strata
   - get_pop_estimates
   - validation

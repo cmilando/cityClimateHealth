@@ -264,25 +264,20 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> strata:
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit CHELSEA. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> EVERETT  MALDEN  REVERE  
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit REVERE. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
+#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...mcmc... 
 #> Running MCMC with 2 parallel chains...
 #> 
@@ -302,20 +297,20 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
 #> Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
-#> Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
-#> Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+#> Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
-#> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+#> Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
-#> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 30.8 seconds.
+#> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 31.2 seconds.
+#> Chain 1 finished in 32.1 seconds.
+#> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+#> Chain 2 finished in 32.2 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 31.0 seconds.
-#> Total execution time: 31.4 seconds.
+#> Mean chain execution time: 32.2 seconds.
+#> Total execution time: 32.3 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -343,19 +338,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb1$`_`$beta_mat
-#>           CHELSEA     EVERETT      MALDEN        REVERE
-#>  [1,]  0.04563081  0.05352101  0.01681938 -0.0007161936
-#>  [2,] -0.02310974 -0.03545623  0.01349965  0.0180104763
-#>  [3,]  0.08724563  0.08576537  0.09334545  0.1028893168
-#>  [4,] -0.03350999 -0.03532395 -0.04105760 -0.0331877843
-#>  [5,]  0.08698833  0.04810957  0.03598086 -0.0511078793
-#>  [6,]  0.01534864 -0.11608512  0.06032731  0.0744266904
-#>  [7,]  0.19255327  0.18545340  0.11679099  0.1364912451
-#>  [8,] -0.04584014 -0.04524805 -0.05158503 -0.0596107002
-#>  [9,]  0.01789267  0.07015688  0.03754349  0.0284379689
-#> [10,] -0.00093469 -0.06706039 -0.00138018  0.0211865836
-#> [11,]  0.17143376  0.12552996  0.12973764  0.1171559579
-#> [12,] -0.04891770 -0.02000770 -0.04463672 -0.0651447948
+#>             CHELSEA     EVERETT       MALDEN        REVERE
+#>  [1,]  0.0456308126  0.05352101  0.016819384 -0.0007161932
+#>  [2,] -0.0231097347 -0.03545622  0.013499651  0.0180104771
+#>  [3,]  0.0872456315  0.08576537  0.093345444  0.1028893159
+#>  [4,] -0.0335099861 -0.03532395 -0.041057600 -0.0331877853
+#>  [5,]  0.0869883281  0.04810957  0.035980861 -0.0511078787
+#>  [6,]  0.0153486462 -0.11608512  0.060327309  0.0744266960
+#>  [7,]  0.1925532726  0.18545340  0.116790990  0.1364912400
+#>  [8,] -0.0458401368 -0.04524806 -0.051585023 -0.0596107029
+#>  [9,]  0.0178926722  0.07015687  0.037543496  0.0284379701
+#> [10,] -0.0009346895 -0.06706039 -0.001380179  0.0211865854
+#> [11,]  0.1714337487  0.12552996  0.129737636  0.1171559634
+#> [12,] -0.0489177032 -0.02000770 -0.044636717 -0.0651447939
 ```
 
 ### Compare with spatial model
@@ -393,29 +388,26 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> strata:
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit CHELSEA. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> EVERETT  MALDEN  REVERE  
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit REVERE. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
+#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...laplace optimize... 
 #> Initial log joint probability = -6739.06 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      139      -6737.26   0.000348121      0.731762           1           1      169    
+#>      199      -6737.27   0.000937628       3.41527           1           1      228    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>      251      -6737.25   0.000383661      0.925504           1           1      291    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
 #> Finished in  0.3 seconds.
@@ -433,7 +425,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  1.1 seconds.
+#> Finished in  0.5 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
@@ -459,19 +451,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb2$`_`$beta_mat
-#>            CHELSEA     EVERETT        MALDEN        REVERE
-#>  [1,]  0.045423333  0.05112039  1.900732e-02  0.0003361363
-#>  [2,] -0.021520151 -0.03348218  1.168377e-02  0.0171357910
-#>  [3,]  0.086169530  0.08576237  9.202635e-02  0.1026162647
-#>  [4,] -0.033034684 -0.03701113 -4.046737e-02 -0.0336513220
-#>  [5,]  0.088049683  0.04858261  3.603389e-02 -0.0514857925
-#>  [6,]  0.019462978 -0.11101076  6.234808e-02  0.0752953200
-#>  [7,]  0.187765616  0.18230330  1.161435e-01  0.1368418551
-#>  [8,] -0.042253687 -0.04710544 -5.393741e-02 -0.0612077042
-#>  [9,]  0.016094283  0.07222675  3.729183e-02  0.0263192109
-#> [10,]  0.001261148 -0.06617505  4.976655e-05  0.0224012337
-#> [11,]  0.172412859  0.12429712  1.292206e-01  0.1186910900
-#> [12,] -0.048785974 -0.01986296 -4.510412e-02 -0.0658182839
+#>             CHELSEA     EVERETT        MALDEN        REVERE
+#>  [1,]  0.0458586733  0.05162743  0.0198625779  0.0008845656
+#>  [2,] -0.0220856908 -0.03392710  0.0109468080  0.0165567121
+#>  [3,]  0.0861538933  0.08560651  0.0918004638  0.1024962527
+#>  [4,] -0.0330042838 -0.03687785 -0.0402293449 -0.0334331401
+#>  [5,]  0.0904149638  0.05030364  0.0377163305 -0.0498459053
+#>  [6,]  0.0172750990 -0.11274860  0.0605084336  0.0734293848
+#>  [7,]  0.1871556940  0.18167954  0.1157763617  0.1363663583
+#>  [8,] -0.0420661444 -0.04621438 -0.0534678629 -0.0604334736
+#>  [9,]  0.0170270521  0.07232091  0.0378247986  0.0268581405
+#> [10,]  0.0004470097 -0.06644832 -0.0004339046  0.0219184549
+#> [11,]  0.1721718575  0.12434989  0.1291042921  0.1184390894
+#> [12,] -0.0485779576 -0.01980478 -0.0449361685 -0.0655701787
 ```
 
 ### Compare with spatial model for leroux
@@ -509,25 +501,20 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> strata:
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit CHELSEA. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> EVERETT  MALDEN  REVERE  
-#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,
-#> outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of
-#> exposures in geo-unit REVERE. This means your zones are across too large of an
-#> area, or there are differences in exposures so much that the bases are quite
-#> different. Try limiting the geo-units passed in to those that are more similar,
-#> manually setting a centering point that you know each geo-unit has, or changing
-#> your exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 #> Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
+#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...laplace optimize... 
 #> Initial log joint probability = -7000.25 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
@@ -554,7 +541,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>     2152      -6355.97   2.89835e-07       242.602           1           1     2271    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  1.1 seconds.
+#> Finished in  1.3 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -569,7 +556,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.9 seconds.
+#> Finished in  0.8 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
@@ -596,18 +583,18 @@ mx
 
 m_sb3$`_`$beta_mat
 #>            CHELSEA      EVERETT       MALDEN       REVERE
-#>  [1,]  0.007393641  0.007393784  0.007394247  0.007393496
-#>  [2,]  0.005909126  0.005908665  0.005909324  0.005909028
-#>  [3,]  0.101804062  0.101805289  0.101804801  0.101804395
-#>  [4,] -0.044028808 -0.044029393 -0.044029676 -0.044029059
-#>  [5,] -0.045403324 -0.045399940 -0.045397528 -0.045397372
-#>  [6,]  0.046002454  0.046006165  0.046005329  0.046004261
-#>  [7,]  0.187302489  0.187302192  0.187301543  0.187302563
-#>  [8,] -0.079967398 -0.079968486 -0.079967632 -0.079968145
-#>  [9,]  0.009569402  0.009569678  0.009569970  0.009570108
-#> [10,]  0.011026743  0.011027348  0.011027609  0.011027644
-#> [11,]  0.141515048  0.141515237  0.141514517  0.141515253
-#> [12,] -0.056311461 -0.056311481 -0.056310680 -0.056311312
+#>  [1,]  0.007393639  0.007393783  0.007394246  0.007393495
+#>  [2,]  0.005909122  0.005908662  0.005909320  0.005909025
+#>  [3,]  0.101803791  0.101805013  0.101804536  0.101804116
+#>  [4,] -0.044028850 -0.044029436 -0.044029717 -0.044029101
+#>  [5,] -0.045403335 -0.045399953 -0.045397541 -0.045397391
+#>  [6,]  0.046002445  0.046006159  0.046005327  0.046004258
+#>  [7,]  0.187302268  0.187301976  0.187301327  0.187302360
+#>  [8,] -0.079967442 -0.079968539 -0.079967671 -0.079968194
+#>  [9,]  0.009569405  0.009569682  0.009569975  0.009570113
+#> [10,]  0.011026783  0.011027388  0.011027647  0.011027685
+#> [11,]  0.141515150  0.141515325  0.141514600  0.141515359
+#> [12,] -0.056311437 -0.056311460 -0.056310655 -0.056311288
 ```
 
 And you can also see that the leroux `q` value is quite high

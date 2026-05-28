@@ -53,7 +53,7 @@ exposure_columns <- list(
 
 ma_exposure_matrix <- make_exposure_matrix(
                       subset(ma_exposure,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-                      year(date) \%in\% 2012:2015), exposure_columns)
+                      data.table::year(date) \%in\% 2012:2015), exposure_columns)
 make_exposure_matrix
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================

@@ -700,9 +700,10 @@ ma_AN_fct <- calc_AN(ma_model_fct,
                      ma_pop_data_long,
                  spatial_agg_type = 'TOWN20', spatial_join_col = 'TOWN20',
                  verbose = 1)
+#> -- over-writing `scale` argument with factor scales
 #> < age_grp : 0-17 >
-#> Warning in calc_AN(sub_model, sub_outcomes_tbl, sub_pop_data, spatial_agg_type,
-#> : some pop data are zero
+#> Warning in calc_AN(model = sub_model, outcomes_tbl = sub_outcomes_tbl, pop_data
+#> = sub_pop_data, : some pop data are zero
 #> -- validation passed
 #> -- estimate in each geo_unit
 #> -- summarize by simulation

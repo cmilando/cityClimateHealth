@@ -42,7 +42,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+<li><a class="dropdown-item" href="../articles/install.html">Installing cityClimateHealth</a></li>
+    <li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
     <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
@@ -321,25 +322,20 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; EVERETT  MALDEN  REVERE  </span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit REVERE. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one</span></span>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
+<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...mcmc... </span></span>
 <span><span class="co">#&gt; Running MCMC with 2 parallel chains...</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -359,20 +355,20 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 finished in 30.8 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 finished in 31.2 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1 finished in 32.1 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
+<span><span class="co">#&gt; Chain 2 finished in 32.2 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Both chains finished successfully.</span></span>
-<span><span class="co">#&gt; Mean chain execution time: 31.0 seconds.</span></span>
-<span><span class="co">#&gt; Total execution time: 31.4 seconds.</span></span>
+<span><span class="co">#&gt; Mean chain execution time: 32.2 seconds.</span></span>
+<span><span class="co">#&gt; Total execution time: 32.3 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ...mcmc draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
@@ -396,19 +392,19 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272</span></span>
 <span></span>
 <span><span class="va">m_sb1</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
-<span><span class="co">#&gt;           CHELSEA     EVERETT      MALDEN        REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.04563081  0.05352101  0.01681938 -0.0007161936</span></span>
-<span><span class="co">#&gt;  [2,] -0.02310974 -0.03545623  0.01349965  0.0180104763</span></span>
-<span><span class="co">#&gt;  [3,]  0.08724563  0.08576537  0.09334545  0.1028893168</span></span>
-<span><span class="co">#&gt;  [4,] -0.03350999 -0.03532395 -0.04105760 -0.0331877843</span></span>
-<span><span class="co">#&gt;  [5,]  0.08698833  0.04810957  0.03598086 -0.0511078793</span></span>
-<span><span class="co">#&gt;  [6,]  0.01534864 -0.11608512  0.06032731  0.0744266904</span></span>
-<span><span class="co">#&gt;  [7,]  0.19255327  0.18545340  0.11679099  0.1364912451</span></span>
-<span><span class="co">#&gt;  [8,] -0.04584014 -0.04524805 -0.05158503 -0.0596107002</span></span>
-<span><span class="co">#&gt;  [9,]  0.01789267  0.07015688  0.03754349  0.0284379689</span></span>
-<span><span class="co">#&gt; [10,] -0.00093469 -0.06706039 -0.00138018  0.0211865836</span></span>
-<span><span class="co">#&gt; [11,]  0.17143376  0.12552996  0.12973764  0.1171559579</span></span>
-<span><span class="co">#&gt; [12,] -0.04891770 -0.02000770 -0.04463672 -0.0651447948</span></span></code></pre></div>
+<span><span class="co">#&gt;             CHELSEA     EVERETT       MALDEN        REVERE</span></span>
+<span><span class="co">#&gt;  [1,]  0.0456308126  0.05352101  0.016819384 -0.0007161932</span></span>
+<span><span class="co">#&gt;  [2,] -0.0231097347 -0.03545622  0.013499651  0.0180104771</span></span>
+<span><span class="co">#&gt;  [3,]  0.0872456315  0.08576537  0.093345444  0.1028893159</span></span>
+<span><span class="co">#&gt;  [4,] -0.0335099861 -0.03532395 -0.041057600 -0.0331877853</span></span>
+<span><span class="co">#&gt;  [5,]  0.0869883281  0.04810957  0.035980861 -0.0511078787</span></span>
+<span><span class="co">#&gt;  [6,]  0.0153486462 -0.11608512  0.060327309  0.0744266960</span></span>
+<span><span class="co">#&gt;  [7,]  0.1925532726  0.18545340  0.116790990  0.1364912400</span></span>
+<span><span class="co">#&gt;  [8,] -0.0458401368 -0.04524806 -0.051585023 -0.0596107029</span></span>
+<span><span class="co">#&gt;  [9,]  0.0178926722  0.07015687  0.037543496  0.0284379701</span></span>
+<span><span class="co">#&gt; [10,] -0.0009346895 -0.06706039 -0.001380179  0.0211865854</span></span>
+<span><span class="co">#&gt; [11,]  0.1714337487  0.12552996  0.129737636  0.1171559634</span></span>
+<span><span class="co">#&gt; [12,] -0.0489177032 -0.02000770 -0.044636717 -0.0651447939</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="compare-with-spatial-model">Compare with spatial model<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model"></a>
 </h3>
@@ -443,29 +439,26 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; EVERETT  MALDEN  REVERE  </span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit REVERE. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one</span></span>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
+<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -6739.06 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
-<span><span class="co">#&gt;      139      -6737.26   0.000348121      0.731762           1           1      169    </span></span>
+<span><span class="co">#&gt;      199      -6737.27   0.000937628       3.41527           1           1      228    </span></span>
+<span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
+<span><span class="co">#&gt;      251      -6737.25   0.000383661      0.925504           1           1      291    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
 <span><span class="co">#&gt; Finished in  0.3 seconds.</span></span>
@@ -483,7 +476,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  1.1 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.5 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span></code></pre></div>
@@ -505,19 +498,19 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272</span></span>
 <span></span>
 <span><span class="va">m_sb2</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
-<span><span class="co">#&gt;            CHELSEA     EVERETT        MALDEN        REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.045423333  0.05112039  1.900732e-02  0.0003361363</span></span>
-<span><span class="co">#&gt;  [2,] -0.021520151 -0.03348218  1.168377e-02  0.0171357910</span></span>
-<span><span class="co">#&gt;  [3,]  0.086169530  0.08576237  9.202635e-02  0.1026162647</span></span>
-<span><span class="co">#&gt;  [4,] -0.033034684 -0.03701113 -4.046737e-02 -0.0336513220</span></span>
-<span><span class="co">#&gt;  [5,]  0.088049683  0.04858261  3.603389e-02 -0.0514857925</span></span>
-<span><span class="co">#&gt;  [6,]  0.019462978 -0.11101076  6.234808e-02  0.0752953200</span></span>
-<span><span class="co">#&gt;  [7,]  0.187765616  0.18230330  1.161435e-01  0.1368418551</span></span>
-<span><span class="co">#&gt;  [8,] -0.042253687 -0.04710544 -5.393741e-02 -0.0612077042</span></span>
-<span><span class="co">#&gt;  [9,]  0.016094283  0.07222675  3.729183e-02  0.0263192109</span></span>
-<span><span class="co">#&gt; [10,]  0.001261148 -0.06617505  4.976655e-05  0.0224012337</span></span>
-<span><span class="co">#&gt; [11,]  0.172412859  0.12429712  1.292206e-01  0.1186910900</span></span>
-<span><span class="co">#&gt; [12,] -0.048785974 -0.01986296 -4.510412e-02 -0.0658182839</span></span></code></pre></div>
+<span><span class="co">#&gt;             CHELSEA     EVERETT        MALDEN        REVERE</span></span>
+<span><span class="co">#&gt;  [1,]  0.0458586733  0.05162743  0.0198625779  0.0008845656</span></span>
+<span><span class="co">#&gt;  [2,] -0.0220856908 -0.03392710  0.0109468080  0.0165567121</span></span>
+<span><span class="co">#&gt;  [3,]  0.0861538933  0.08560651  0.0918004638  0.1024962527</span></span>
+<span><span class="co">#&gt;  [4,] -0.0330042838 -0.03687785 -0.0402293449 -0.0334331401</span></span>
+<span><span class="co">#&gt;  [5,]  0.0904149638  0.05030364  0.0377163305 -0.0498459053</span></span>
+<span><span class="co">#&gt;  [6,]  0.0172750990 -0.11274860  0.0605084336  0.0734293848</span></span>
+<span><span class="co">#&gt;  [7,]  0.1871556940  0.18167954  0.1157763617  0.1363663583</span></span>
+<span><span class="co">#&gt;  [8,] -0.0420661444 -0.04621438 -0.0534678629 -0.0604334736</span></span>
+<span><span class="co">#&gt;  [9,]  0.0170270521  0.07232091  0.0378247986  0.0268581405</span></span>
+<span><span class="co">#&gt; [10,]  0.0004470097 -0.06644832 -0.0004339046  0.0219184549</span></span>
+<span><span class="co">#&gt; [11,]  0.1721718575  0.12434989  0.1291042921  0.1184390894</span></span>
+<span><span class="co">#&gt; [12,] -0.0485779576 -0.01980478 -0.0449361685 -0.0655701787</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="compare-with-spatial-model-for-leroux">Compare with spatial model for leroux<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model-for-leroux"></a>
@@ -553,25 +546,20 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit CHELSEA. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; EVERETT  MALDEN  REVERE  </span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix,</span></span>
-<span><span class="co">#&gt; outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of</span></span>
-<span><span class="co">#&gt; exposures in geo-unit REVERE. This means your zones are across too large of an</span></span>
-<span><span class="co">#&gt; area, or there are differences in exposures so much that the bases are quite</span></span>
-<span><span class="co">#&gt; different. Try limiting the geo-units passed in to those that are more similar,</span></span>
-<span><span class="co">#&gt; manually setting a centering point that you know each geo-unit has, or changing</span></span>
-<span><span class="co">#&gt; your exposure variable.</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).</span></span>
+<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
+<span><span class="co">#&gt;         be too few events in this area, or</span></span>
+<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one</span></span>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
+<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -7000.25 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
@@ -598,7 +586,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt;     2152      -6355.97   2.89835e-07       242.602           1           1     2271    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
-<span><span class="co">#&gt; Finished in  1.1 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  1.3 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace sample... </span></span>
 <span><span class="co">#&gt; Calculating Hessian </span></span>
 <span><span class="co">#&gt; Calculating inverse of Cholesky factor </span></span>
@@ -613,7 +601,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  0.9 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.8 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span></code></pre></div>
@@ -636,18 +624,18 @@ similarity in beta coefs</p>
 <span></span>
 <span><span class="va">m_sb3</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">beta_mat</span></span>
 <span><span class="co">#&gt;            CHELSEA      EVERETT       MALDEN       REVERE</span></span>
-<span><span class="co">#&gt;  [1,]  0.007393641  0.007393784  0.007394247  0.007393496</span></span>
-<span><span class="co">#&gt;  [2,]  0.005909126  0.005908665  0.005909324  0.005909028</span></span>
-<span><span class="co">#&gt;  [3,]  0.101804062  0.101805289  0.101804801  0.101804395</span></span>
-<span><span class="co">#&gt;  [4,] -0.044028808 -0.044029393 -0.044029676 -0.044029059</span></span>
-<span><span class="co">#&gt;  [5,] -0.045403324 -0.045399940 -0.045397528 -0.045397372</span></span>
-<span><span class="co">#&gt;  [6,]  0.046002454  0.046006165  0.046005329  0.046004261</span></span>
-<span><span class="co">#&gt;  [7,]  0.187302489  0.187302192  0.187301543  0.187302563</span></span>
-<span><span class="co">#&gt;  [8,] -0.079967398 -0.079968486 -0.079967632 -0.079968145</span></span>
-<span><span class="co">#&gt;  [9,]  0.009569402  0.009569678  0.009569970  0.009570108</span></span>
-<span><span class="co">#&gt; [10,]  0.011026743  0.011027348  0.011027609  0.011027644</span></span>
-<span><span class="co">#&gt; [11,]  0.141515048  0.141515237  0.141514517  0.141515253</span></span>
-<span><span class="co">#&gt; [12,] -0.056311461 -0.056311481 -0.056310680 -0.056311312</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1,]  0.007393639  0.007393783  0.007394246  0.007393495</span></span>
+<span><span class="co">#&gt;  [2,]  0.005909122  0.005908662  0.005909320  0.005909025</span></span>
+<span><span class="co">#&gt;  [3,]  0.101803791  0.101805013  0.101804536  0.101804116</span></span>
+<span><span class="co">#&gt;  [4,] -0.044028850 -0.044029436 -0.044029717 -0.044029101</span></span>
+<span><span class="co">#&gt;  [5,] -0.045403335 -0.045399953 -0.045397541 -0.045397391</span></span>
+<span><span class="co">#&gt;  [6,]  0.046002445  0.046006159  0.046005327  0.046004258</span></span>
+<span><span class="co">#&gt;  [7,]  0.187302268  0.187301976  0.187301327  0.187302360</span></span>
+<span><span class="co">#&gt;  [8,] -0.079967442 -0.079968539 -0.079967671 -0.079968194</span></span>
+<span><span class="co">#&gt;  [9,]  0.009569405  0.009569682  0.009569975  0.009570113</span></span>
+<span><span class="co">#&gt; [10,]  0.011026783  0.011027388  0.011027647  0.011027685</span></span>
+<span><span class="co">#&gt; [11,]  0.141515150  0.141515325  0.141514600  0.141515359</span></span>
+<span><span class="co">#&gt; [12,] -0.056311437 -0.056311460 -0.056310655 -0.056311288</span></span></code></pre></div>
 <p>And you can also see that the leroux <code>q</code> value is quite
 high</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

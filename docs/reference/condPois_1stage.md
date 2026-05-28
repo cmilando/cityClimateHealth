@@ -11,7 +11,7 @@ condPois_1stage(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = NULL,
+  min_n = 50,
   strata_min = 0,
   global_cen = NULL,
   multi_zone = FALSE,

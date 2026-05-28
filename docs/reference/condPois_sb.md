@@ -16,7 +16,7 @@ condPois_sb(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = NULL,
+  min_n = 50,
   strata_min = 0,
   verbose = 0
 )

@@ -474,13 +474,10 @@ m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
 #> strata:
 #> BOSTON:yr2010:mn05:dow07
 #> strata_min: 0
-#> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl
-#> = boston_deaths_tbl): Centering point is outside the range of exposures in
-#> geo-unit BOSTON. This means your zones are across too large of an area, or
-#> there are differences in exposures so much that the bases are quite different.
-#> Try limiting the geo-units passed in to those that are more similar, manually
-#> setting a centering point that you know each geo-unit has, or changing your
-#> exposure variable.
+#> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 5.40, x_b = (6.00, 39.00).
+#>         This means your zones are across too large of an area, or if exposure is factor there could
+#>         be too few events in this area, or
+#>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
 ```
 
 And plot the relative risk

@@ -227,6 +227,7 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     105     110     
 #> -- summarize by simulation
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     
+#> -- applying scale of :  1
 ma_AN$`_`$rate_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>          <char>    <char>      <num>    <lgcl>                     <num>
@@ -298,6 +299,7 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     105     110     
 #> -- summarize by simulation
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     
+#> -- applying scale of :  1
 ma_AN$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
@@ -386,6 +388,7 @@ ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     105     110     
 #> -- summarize by simulation
 #> 5    10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85  90  95  100     
+#> -- applying scale of :  1
 
 ma_AN_s1$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
@@ -511,9 +514,10 @@ ma_AN_fct <- calc_AN(ma_model_fct, ma_outcomes_tbl_fct,
                  spatial_join_col = 'TOWN20', 
                  nsim = 100,
                  verbose = 1)
+#> -- over-writing `scale` argument with factor scales
 #> < age_grp : 0-17 >
-#> Warning in calc_AN(sub_model, sub_outcomes_tbl, sub_pop_data, spatial_agg_type,
-#> : some pop data are zero
+#> Warning in calc_AN(model = sub_model, outcomes_tbl = sub_outcomes_tbl, pop_data
+#> = sub_pop_data, : some pop data are zero
 #> -- validation passed
 #> -- estimate in each geo_unit
 #> -- summarize by simulation
