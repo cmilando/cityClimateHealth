@@ -18,6 +18,17 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after running condPois_1stage on a single geo_unit:
+#' result <- condPois_1stage(exposure_matrix, outcomes_tbl)
+#' vcov_mat <- calc_vcov(
+#'   y = result$`_`$out[[1]]$outcomes,
+#'   X = as.matrix(result$`_`$out[[1]]$orig_basis),
+#'   beta = result$`_`$out[[1]]$orig_coef,
+#'   stratum_vector = result$`_`$out[[1]]$strata_vec
+#' )
+#' }
+
 calc_vcov <- function(y, X, beta, stratum_vector) {
   # X      : n x p design matrix (no stratum intercepts)
   # beta   : length-p coefficient vector

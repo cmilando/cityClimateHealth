@@ -42,7 +42,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+<li><a class="dropdown-item" href="../articles/install.html">Installing cityClimateHealth</a></li>
+    <li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
     <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
@@ -738,9 +739,10 @@ have factors, again adding the verbose so you can see the progress</p>
 <span>                     <span class="va">ma_pop_data_long</span>,</span>
 <span>                 spatial_agg_type <span class="op">=</span> <span class="st">'TOWN20'</span>, spatial_join_col <span class="op">=</span> <span class="st">'TOWN20'</span>,</span>
 <span>                 verbose <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; -- over-writing `scale` argument with factor scales</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 0-17 &gt;</span></span>
-<span><span class="co">#&gt; Warning in calc_AN(sub_model, sub_outcomes_tbl, sub_pop_data, spatial_agg_type,</span></span>
-<span><span class="co">#&gt; : some pop data are zero</span></span>
+<span><span class="co">#&gt; Warning in calc_AN(model = sub_model, outcomes_tbl = sub_outcomes_tbl, pop_data</span></span>
+<span><span class="co">#&gt; = sub_pop_data, : some pop data are zero</span></span>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- estimate in each geo_unit</span></span>
 <span><span class="co">#&gt; -- summarize by simulation</span></span>

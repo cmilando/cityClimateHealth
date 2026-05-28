@@ -12,6 +12,7 @@ calc_AN(
   spatial_agg_type,
   spatial_join_col,
   by_year = FALSE,
+  scale = 1,
   nsim = 300,
   verbose = 0
 )
@@ -43,6 +44,11 @@ calc_AN(
 - by_year:
 
   Export annual counts
+
+- scale:
+
+  scalar that you multiply outcomes by, mostly used for
+  collapse_is_temporal adjustment
 
 - nsim:
 

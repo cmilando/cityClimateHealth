@@ -12,3 +12,10 @@ forest_plot(x, ...)
 \description{
 forest_plot base class
 }
+\examples{
+\dontrun{
+# after running a condPois model:
+result <- condPois_2stage(exposure_matrix, outcomes_tbl)
+forest_plot(result, exposure_val = 30.0)
+}
+}

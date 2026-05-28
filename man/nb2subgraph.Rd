@@ -12,3 +12,11 @@ nb2subgraph(x, c_id, comp_ids, offsets)
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 }
+\examples{
+library(spdep)
+coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
+nb <- knn2nb(knearneigh(coords, k = 2))
+comp_ids <- n.comp.nb(nb)[[2]]
+offsets <- indexByComponent(comp_ids)
+nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
+}

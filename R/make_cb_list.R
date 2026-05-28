@@ -113,6 +113,12 @@ make_cb_list <- function(x, var_list, argvar_list, lag_list, arglag_list) {
 #' @returns
 #'
 #' @examples
+#' arglist <- list(
+#'   list(fun = "ns", df = c(3, 4)),
+#'   list(fun = "bs", degree = c(2, 3))
+#' )
+#' expand_arglist(arglist)
+
 expand_arglist <- function(arglist) {
 
   # Empty list to hold the output.

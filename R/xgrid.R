@@ -12,6 +12,15 @@
 #' @returns
 #'
 #' @examples
+#' \dontrun{
+#'   column_mapping <- list(
+#'     date = "date",
+#'     geo_unit = "city",
+#'     geo_unit_grp = "state"
+#'   )
+#'   xgrid <- make_xgrid(data, column_mapping, months_subset = 5:9)
+#' }
+
 make_xgrid <- function(data, column_mapping, months_subset = 1:12,
                        dt_by = 'day', collapse_is_spatial = FALSE,
                        collapse_is_temporal = FALSE) {

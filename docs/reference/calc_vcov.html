@@ -27,7 +27,8 @@ https://statomics.github.io/SGA2019/assets/poissonIRWLS-implemented.html#varianc
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/install.html">Installing cityClimateHealth</a></li>
+    <li><a class="dropdown-item" href="../articles/methods.html">Methods and Description</a></li>
     <li><a class="dropdown-item" href="../articles/one_stage_demo.html">One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/two_stage_demo.html">Heat-Health Associations across multiple towns using `cityClimateHealth`</a></li>
     <li><a class="dropdown-item" href="../articles/bayesian_demo.html">Using Spatial Bayesian methods in `cityClimateHealth`</a></li>
@@ -88,6 +89,20 @@ https://doi.org/10.1111/j.2517-6161.1996.tb02079.x
 https://doi.org/10.1093/biomet/68.2.563</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># after running condPois_1stage on a single geo_unit:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">exposure_matrix</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vcov_mat</span> <span class="op">&lt;-</span> <span class="fu">calc_vcov</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">outcomes</span>,</span></span>
+<span class="r-in"><span>  X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">orig_basis</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  beta <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">orig_coef</span>,</span></span>
+<span class="r-in"><span>  stratum_vector <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">strata_vec</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

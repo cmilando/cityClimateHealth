@@ -7,6 +7,13 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # after creating exposure and outcome objects:
+#' validated <- input_validation(exposure_matrix, outcomes_tbl)
+#' exposure_matrix <- validated$exposure_matrix
+#' outcomes_tbl <- validated$outcomes_tbl
+#' }
+
 input_validation <- function(exposure_matrix, outcomes_tbl) {
 
   ## Check 1 -- that both inputs are the right class of variables

@@ -2,6 +2,8 @@
 
 ### Main vignettes
 
+- [Installing
+  cityClimateHealth](http://climatehealth.city/articles/install.md):
 - [Methods and
   Description](http://climatehealth.city/articles/methods.md):
 - [One set of Heat-Health Associations for a single or multiple zones
@@ -18,7 +20,10 @@
 
 Vignettes aimed at advanced users
 
+- [Test of population
+  sizes](http://climatehealth.city/articles/pop_size_test.md):
 - [faq](http://climatehealth.city/articles/faq.md):
+- [SB_WNV_test](http://climatehealth.city/articles/bayesian_wnv_test.md):
 - [Using Stratified
   Exposures](http://climatehealth.city/articles/strata.md):
 - [Obtaining population estimates from

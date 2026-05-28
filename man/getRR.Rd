@@ -12,3 +12,10 @@ getRR(x, ...)
 \description{
 getRR base class
 }
+\examples{
+\dontrun{
+# after running a condPois model:
+result <- condPois_2stage(exposure_matrix, outcomes_tbl)
+getRR(result)
+}
+}
