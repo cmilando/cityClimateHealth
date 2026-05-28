@@ -32,7 +32,7 @@
 #'make_exposure_matrix
 make_exposure_matrix <- function(data,
                                  column_mapping,
-                                 months_subset = 5:9,
+                                 time_subset = list(month = 5:9), ##changed to "time" rather than months as default
                                  dt_by = 'day',
                                  maxgap = 5,
                                  maxlag = 5,
@@ -53,8 +53,26 @@ make_exposure_matrix <- function(data,
   # validation block
   # set some arbitrary limits on these but users could always make a local
   # copy and override if they really want to
-  stopifnot(all(months_subset %in% 1:12) &
-              length(months_subset) == length(unique(months_subset)))
+
+  # CHANGED: replaced months_subset
+  time_fns <- list(
+    month = month,
+    year  = year,
+    day   = mday,
+    wday  = wday
+  )
+
+  if (!is.null(time_subset)) {
+    if (!is.list(time_subset))
+      stop("`time_subset` must be a named list, e.g. list(month = 5:9, year = 2010:2015)")
+    if (!all(names(time_subset) %in% names(time_fns)))
+      stop("`time_subset` names must be one of: month, year, day, wday")
+    if ("month" %in% names(time_subset) && !all(time_subset$month %in% 1:12))
+      stop("`time_subset$month` must be values in 1:12")
+    if ("wday" %in% names(time_subset) && !all(time_subset$wday %in% 1:7))
+      stop("`time_subset$wday` must be values in 1:7")
+  }
+
   stopifnot(length(maxgap) == 1 & maxgap %in% 1:10)
   stopifnot(length(maxlag) == 1 & maxlag %in% 1:10)
   stopifnot(length(grp_level) == 1 & grp_level %in% c(T, F))
@@ -128,6 +146,7 @@ make_exposure_matrix <- function(data,
   # build xgrid
   # no month subset here, do not change from 1:12 for exposure!
   # this does change in outcomes but not here
+  # note: make_xgrid expects a plain integer vector, not a named list
   xgrid <- make_xgrid(data, column_mapping, months_subset = 1:12, dt_by)
 
   # set the strata
@@ -340,8 +359,8 @@ make_exposure_matrix <- function(data,
         x[, (lag_name) := shift(get(exposure_col), k)]
       }
 
-      # only in the case of months_sub = 1:12, chop off the first 1:(maxlag-1) rows
-      if(identical(months_subset, 1:12)) {
+      # CHANGED: was identical(months_subset, 1:12) — now trims if no subset at all
+      if(is.null(time_subset)) {
         x <- x[(maxlag+1):nrow(x), ]
       }
 
@@ -359,13 +378,20 @@ make_exposure_matrix <- function(data,
   # rbind them all together
   exposure2 <- do.call(rbind, exposure2_l)
 
-  # get just the months subset
-  rr <- month(exposure2[, get(column_mapping$date)]) %in% months_subset
-  stopifnot(length(rr) > 1)
-  exposure_subset <- exposure2[rr, ]
+  # CHANGED: replaced month() filter with general time_subset loop
+  if (!is.null(time_subset)) {
+    rr <- rep(TRUE, nrow(exposure2))
+    for (unit in names(time_subset)) {
+      fn  <- time_fns[[unit]]
+      rr  <- rr & fn(exposure2[, get(column_mapping$date)]) %in% time_subset[[unit]]
+    }
+    exposure_subset <- exposure2[rr, ]
+    stopifnot(length(rr) > 1)  # CHANGED: moved down, now checks after filtering
+  } else {
+    exposure_subset <- exposure2
+  }
 
   # reset the order
-  date_col <- column_mapping$date
   setorderv(
     exposure_subset,
     c("match_strata")
