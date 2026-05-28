@@ -78,7 +78,7 @@ condPois_sb <- function(exposure_matrix,
                         argvar = NULL,
                         arglag = NULL,
                         maxlag = NULL,
-                        min_n = NULL,
+                        min_n = 50,
                         strata_min = 0,
                         verbose = 0) {
 
@@ -195,9 +195,6 @@ condPois_sb <- function(exposure_matrix,
   ## need to update this to check within each town,
   ## and then remove towns that don't pass from both outcomes_tbl
   ## and exposure_matrix
-  if(is.null(min_n)) {
-    min_n = 50
-  }
 
   geos_to_remove <- c()
   unique_geos <- unique(outcomes_tbl[, get(out_geo_unit_col)])

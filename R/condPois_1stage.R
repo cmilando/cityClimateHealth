@@ -52,7 +52,7 @@
 #' condPois_1stage
 condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                         argvar = NULL, arglag = NULL, maxlag = NULL,
-                       min_n = NULL, strata_min = 0, global_cen = NULL,
+                       min_n = 50, strata_min = 0, global_cen = NULL,
                        multi_zone = FALSE, verbose = TRUE) {
 
   ## Check 1 -- that both inputs are the right class of variables
@@ -134,15 +134,25 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   outcome_col          <- attributes(outcomes_tbl)$column_mapping$outcome
 
   ## CHECK 6 - minN for all geo_units
-  if(is.null(min_n)) {
-    min_n = 50
+  geos_to_remove <- c()
+  unique_geos <- unique(outcomes_tbl[, get(out_geo_unit_col)])
+
+  for(geo_i in 1:length(unique_geos)) {
+    this_geo <- unique_geos[geo_i]
+    rr <- which(outcomes_tbl[, get(out_geo_unit_col)] == this_geo)
+    if(sum(outcomes_tbl[rr, get(outcome_col)]) < min_n) {
+      geos_to_remove <- c(geos_to_remove, this_geo)
+    }
   }
-  outcome_col <- attributes(outcomes_tbl)$column_mapping$outcome
-  if(!outcomes_tbl[, sum(get(outcome_col)) >= min_n,
-                   by = out_geo_unit_col][, all(V1)]) {
-   stop("not all geo_units pass the minimum threshold of counts.
-        Probably a better way to handle this in input validation but
-        just putting a placeholder here for now.")
+
+  if(length(geos_to_remove) > 0) {
+    cat("Removed due to min_n:", geos_to_remove, "\n")
+    #
+    rr <- which(outcomes_tbl[, get(out_geo_unit_col)] %in% geos_to_remove)
+    outcomes_tbl <- outcomes_tbl[-rr, ]
+    #
+    rr <- which(exposure_matrix[, get(exp_geo_unit_col)] %in% geos_to_remove)
+    exposure_matrix <- exposure_matrix[-rr, ]
   }
 
   # CHECK 7

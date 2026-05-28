@@ -137,21 +137,36 @@ make_exposure_matrix <- function(data,
   yr  <- year(xgrid[, get(date_col)])
 
   if((grp_level & keep_unit_exposures) | !grp_level) {
-    xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
-                           ":yr", yr,
-                           ":mn", sprintf("%02i", mn),
-                           ":dow", sprintf("%02i", dow))
+    if(dt_by == 'month') {
+      xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
+                             ":yr", yr,
+                             ":mn", sprintf("%02i", mn))
+    } else {
+      xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
+                             ":yr", yr,
+                             ":mn", sprintf("%02i", mn),
+                             ":dow", sprintf("%02i", dow))
+    }
+
   } else {
-    xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
-                           ":yr",yr, ":mn",sprintf("%02i", mn),
-                           ":dow", sprintf("%02i", dow))
+    if(dt_by == 'month') {
+      xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
+                             ":yr",yr,
+                             ":mn",sprintf("%02i", mn))
+    } else {
+      xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
+                             ":yr", yr,
+                             ":mn", sprintf("%02i", mn),
+                             ":dow", sprintf("%02i", dow))
+    }
   }
 
-  if(dt_by == 'month') {
-    xgrid$strata <- paste0(geo, ":yr", yr, ":mn", sprintf("%02i", mn))
-  } else {
-    xgrid$strata <- paste0(geo, ":yr", yr, ":mn", sprintf("%02i", mn), ":dow", sprintf("%02i", dow))
-  }
+  ## Note for QA: I tried to fix this but Im
+
+
+  # else {
+  #   xgrid$strata <- paste0(geo, ":yr", yr, ":mn", sprintf("%02i", mn), ":dow", sprintf("%02i", dow))
+  # }
 
   # also make match strata
   # either do it here if you are keeping unit exposures, or later if you aren't
