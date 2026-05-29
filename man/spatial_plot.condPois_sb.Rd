@@ -19,3 +19,10 @@ a ggplot object
 \description{
 spatial_plot method for condPois_sb
 }
+\examples{
+\dontrun{
+  # set up exposure matrix and outcome table first (see condPois_2stage example)
+  model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+  spatial_plot(model, shp = ma_shp, exposure_val = 30.0)
+}
+}

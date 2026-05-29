@@ -17,3 +17,10 @@ a ggplot object
 \description{
 forest_plot method for condPois_2stage
 }
+\examples{
+\dontrun{
+  # set up exposure matrix and outcome table first (see condPois_2stage example)
+  model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+  forest_plot(model, exposure_val = 30.0)
+}
+}

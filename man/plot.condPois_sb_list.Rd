@@ -23,3 +23,10 @@ a ggplot object
 \description{
 Plot method for condPois_sb_list
 }
+\examples{
+\dontrun{
+  # set up exposure matrix and outcome table first (see condPois_2stage example)
+  model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+  plot(model_list, geo_unit = "BOSTON")
+}
+}

@@ -560,6 +560,11 @@ condPois_2stage <- function(exposure_matrix,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   print(model)
+#' }
 print.condPois_2stage <- function(x) {
   cat("< an object of class `condPois_2stage` >\n")
   invisible(x)
@@ -573,6 +578,11 @@ print.condPois_2stage <- function(x) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   print(model_list)
+#' }
 print.condPois_2stage_list <- function(x) {
   cat("< an object of class `condPois_2stage_list`:",
       paste(names(x), collapse = ",")," >\n")
@@ -587,6 +597,11 @@ print.condPois_2stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   getRR(model)
+#' }
 getRR.condPois_2stage <- function(x) {
   oo <- do.call(rbind, lapply(x$`_`$out, \(obj) obj$RRdf))
   oo$model_class = class(x)
@@ -602,6 +617,11 @@ getRR.condPois_2stage <- function(x) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   getRR(model_list)
+#' }
 getRR.condPois_2stage_list <- function(x) {
 
   obj_l <- vector("list", length(names(x)))
@@ -636,6 +656,11 @@ getRR.condPois_2stage_list <- function(x) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   plot(model, geo_unit = "BOSTON")
+#' }
 plot.condPois_2stage <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -669,6 +694,11 @@ plot.condPois_2stage <- function(x, geo_unit,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   plot(model_list, geo_unit = "BOSTON")
+#' }
 plot.condPois_2stage_list <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -715,6 +745,11 @@ plot.condPois_2stage_list <- function(x, geo_unit,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   forest_plot(model, exposure_val = 30.0)
+#' }
 forest_plot.condPois_2stage <- function(x, exposure_val) {
 
   # get subset of X
@@ -773,6 +808,11 @@ forest_plot.condPois_2stage <- function(x, exposure_val) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   spatial_plot(model, shp = ma_shp, exposure_val = 30.0)
+#' }
 spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
                                          RRlimits = NULL) {
 
@@ -836,6 +876,11 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   spatial_plot(model_list, shp = ma_shp, exposure_val = 30.0)
+#' }
 spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
@@ -896,6 +941,11 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   forest_plot(model_list, exposure_val = 30.0)
+#' }
 forest_plot.condPois_2stage_list <- function(x, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
