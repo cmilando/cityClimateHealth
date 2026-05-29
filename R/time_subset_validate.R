@@ -15,8 +15,11 @@ time_subset_validate <- function(time_subset) {
   }
 
   ## TODO for CAROLINE: How to code the 'use_all' ? Something like this?
-  if(time_subset == 'use_all') {
-    time_subset = list(month = 1:12)
+  ## could also work into your list below?
+  if(length(time_subset) == 1) {
+    if(time_subset == 'use_all') {
+      time_subset = list(month = 1:12)
+    }
   }
 
   ##
@@ -40,7 +43,7 @@ time_subset_validate <- function(time_subset) {
   # ...
 
 
-  ## add fcns
+  ## add fcns so you can pass these on at the end of the exposure and outcome
   time_subset$time_fns <- time_fns
 
   ## if everything passes, return the cleaned time_subset

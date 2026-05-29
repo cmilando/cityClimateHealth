@@ -98,6 +98,11 @@ seen in <code><a href="../articles/get_pop_estimates.html">vignette("get_pop_est
 looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_pop_data"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="va">ma_pop_data</span><span class="op">)</span></span>
 <span><span class="va">ma_pop_data</span></span>
@@ -184,11 +189,13 @@ analysis, but you could also make a version of this dataset with a
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ma_exposure_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>           <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, </span>
-<span>  <span class="va">exposure_columns</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="va">exposure_columns</span>,</span>
+<span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>                     year <span class="op">=</span> <span class="fl">2013</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,</span></span>
-<span><span class="co">#&gt;             but only in certain columns</span></span></code></pre></div>
+<span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
 <p>outcomes</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -201,9 +208,13 @@ analysis, but you could also make a version of this dataset with a
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ma_outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>           <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, <span class="va">outcome_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Missing values in outcome xgrid were set to 0</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="va">outcome_columns</span>,</span>
+<span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>                   year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
 <p>models</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, verbose <span class="op">=</span> <span class="fl">1</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
@@ -217,7 +228,7 @@ analysis, but you could also make a version of this dataset with a
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.3</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -226,7 +237,7 @@ analysis, but you could also make a version of this dataset with a
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; ACTON:yr2013:mn05:dow04</span></span>
 <span><span class="co">#&gt; strata_min: 0 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -271,57 +282,57 @@ change it</p></li>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 3514.7083</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -213.7110</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 3563.2597</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -245.8829</span></span>
-<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                 2426.2269</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 2514.2474</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -144.5692</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2610.7698</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -157.1145</span></span>
+<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                 1710.1941</span></span>
 <span><span class="co">#&gt;  ---                                                                    </span></span>
-<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -311.2806</span></span>
-<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 3408.8969</span></span>
-<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                 -161.3120</span></span>
-<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 3107.4460</span></span>
-<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -268.1925</span></span>
+<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -216.4716</span></span>
+<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 2522.7483</span></span>
+<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                 -112.8269</span></span>
+<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 2284.5032</span></span>
+<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -182.3660</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                         &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:                2774.7339                4245.6996</span></span>
-<span><span class="co">#&gt;   2:                -333.7663                -108.3483</span></span>
-<span><span class="co">#&gt;   3:                2801.4720                4172.5483</span></span>
-<span><span class="co">#&gt;   4:                -335.8902                -159.0887</span></span>
-<span><span class="co">#&gt;   5:                1739.4864                3013.5514</span></span>
+<span><span class="co">#&gt;   1:                1893.4378               3101.63845</span></span>
+<span><span class="co">#&gt;   2:                -226.5442                -73.77745</span></span>
+<span><span class="co">#&gt;   3:                2165.2398               3052.66468</span></span>
+<span><span class="co">#&gt;   4:                -223.0781                -98.95221</span></span>
+<span><span class="co">#&gt;   5:                1236.4881               2130.54284</span></span>
 <span><span class="co">#&gt;  ---                                                  </span></span>
-<span><span class="co">#&gt; 224:                -423.6540                -211.3749</span></span>
-<span><span class="co">#&gt; 225:                2853.8648                3965.4689</span></span>
-<span><span class="co">#&gt; 226:                -233.6127                 -79.8479</span></span>
-<span><span class="co">#&gt; 227:                2674.7567                3591.4842</span></span>
-<span><span class="co">#&gt; 228:                -380.2537                -179.2960</span></span>
+<span><span class="co">#&gt; 224:                -290.5103               -144.57013</span></span>
+<span><span class="co">#&gt; 225:                1947.1482               3030.16442</span></span>
+<span><span class="co">#&gt; 226:                -169.2861                -52.43401</span></span>
+<span><span class="co">#&gt; 227:                1952.5530               2690.48342</span></span>
+<span><span class="co">#&gt; 228:                -271.4432               -119.06438</span></span>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                  838.750</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                  -51.000</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1635.750</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -112.875</span></span>
-<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  153.750</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                  600.000</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                  -34.500</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1198.500</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -72.125</span></span>
+<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  108.375</span></span>
 <span><span class="co">#&gt;  ---                                                                   </span></span>
-<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                  -71.000</span></span>
-<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 1397.375</span></span>
-<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                  -66.125</span></span>
-<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 6345.125</span></span>
-<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -547.625</span></span>
+<span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                  -49.375</span></span>
+<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 1034.125</span></span>
+<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                  -46.250</span></span>
+<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                 4664.750</span></span>
+<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -372.375</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                        &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               662.16250              1013.19375</span></span>
-<span><span class="co">#&gt;   2:               -79.65000               -25.85625</span></span>
-<span><span class="co">#&gt;   3:              1286.04375              1915.45000</span></span>
-<span><span class="co">#&gt;   4:              -154.19375               -73.03125</span></span>
-<span><span class="co">#&gt;   5:               110.23125               190.96875</span></span>
+<span><span class="co">#&gt;   1:               451.85000               740.17500</span></span>
+<span><span class="co">#&gt;   2:               -54.06250               -17.60625</span></span>
+<span><span class="co">#&gt;   3:               993.97500              1401.35625</span></span>
+<span><span class="co">#&gt;   4:              -102.40625               -45.42500</span></span>
+<span><span class="co">#&gt;   5:                78.35625               135.01250</span></span>
 <span><span class="co">#&gt;  ---                                                </span></span>
-<span><span class="co">#&gt; 224:               -96.63125               -48.21250</span></span>
-<span><span class="co">#&gt; 225:              1169.85625              1625.52500</span></span>
-<span><span class="co">#&gt; 226:               -95.76250               -32.73125</span></span>
-<span><span class="co">#&gt; 227:              5461.61250              7333.48750</span></span>
-<span><span class="co">#&gt; 228:              -776.44375              -366.10625</span></span></code></pre></div>
+<span><span class="co">#&gt; 224:               -66.26250               -32.97500</span></span>
+<span><span class="co">#&gt; 225:               798.17500              1242.12500</span></span>
+<span><span class="co">#&gt; 226:               -69.39375               -21.49375</span></span>
+<span><span class="co">#&gt; 227:              3986.93750              5493.72500</span></span>
+<span><span class="co">#&gt; 228:              -554.26250              -243.11875</span></span></code></pre></div>
 <p>you can change <code>spatial_agg_type</code> to be a different
 spatial resolution – either whatever the group variable was or “all”</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -339,38 +350,38 @@ spatial resolution – either whatever the group variable was or “all”</p>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 3453.4957</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -210.3140</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 3007.8804</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -219.9912</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 2550.1830</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -140.3017</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 2231.8715</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -150.1488</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                       &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:                3347.3387                3581.1705</span></span>
-<span><span class="co">#&gt; 2:                -223.1200                -195.3061</span></span>
-<span><span class="co">#&gt; 3:                2857.9740                3153.6261</span></span>
-<span><span class="co">#&gt; 4:                -247.0106                -196.4167</span></span>
+<span><span class="co">#&gt; 1:                2471.5923                2617.0789</span></span>
+<span><span class="co">#&gt; 2:                -152.0242                -131.7614</span></span>
+<span><span class="co">#&gt; 3:                2113.2886                2327.3194</span></span>
+<span><span class="co">#&gt; 4:                -170.4102                -132.8526</span></span>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                56054.000</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                -3413.625</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                25834.625</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                -1889.500</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                41392.250</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                -2277.250</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                19169.500</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                -1289.625</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:               54330.956               58126.300</span></span>
-<span><span class="co">#&gt; 2:               -3621.481               -3170.031</span></span>
-<span><span class="co">#&gt; 3:               24547.081               27086.431</span></span>
-<span><span class="co">#&gt; 4:               -2121.569               -1687.019</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:               40116.637               42478.044</span></span>
+<span><span class="co">#&gt; 2:               -2467.519               -2138.631</span></span>
+<span><span class="co">#&gt; 3:               18150.994               19989.300</span></span>
+<span><span class="co">#&gt; 4:               -1463.650               -1141.069</span></span></code></pre></div>
 <p>See that the numbers are roughly the same for Suffolk county ? They
 won’t be exactly the same because of how the averaging works.</p>
 <p>Some plot functions exist:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---single">Estimating the AN - single<a class="anchor" aria-label="anchor" href="#estimating-the-an---single"></a>
@@ -390,7 +401,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.4 30.5</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.3 30.3</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -399,7 +410,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; ACTON:yr2013:mn05:dow04</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
 <span></span>
 <span><span class="va">ma_AN_s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_AN.html">calc_AN</a></span><span class="op">(</span><span class="va">m2</span>, <span class="va">ma_outcomes_tbl</span>, <span class="va">ma_pop_data_long</span>,</span>
@@ -417,18 +428,18 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="va">ma_AN_s1</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                5365.52074</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -29.68069</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                5066.43397</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -36.54392</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                3861.70152</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -17.17383</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                3644.87401</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -23.59128</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                       &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:               5342.12274               5390.11667</span></span>
-<span><span class="co">#&gt; 2:                -30.33646                -28.96332</span></span>
-<span><span class="co">#&gt; 3:               5015.17133               5100.83051</span></span>
-<span><span class="co">#&gt; 4:                -37.79625                -34.98524</span></span>
+<span><span class="co">#&gt; 1:               3841.42447               3881.76372</span></span>
+<span><span class="co">#&gt; 2:                -17.62513                -16.72562</span></span>
+<span><span class="co">#&gt; 3:               3599.10097               3682.85582</span></span>
+<span><span class="co">#&gt; 4:                -24.81450                -22.10172</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_s1</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---with-factors">Estimating the AN - with factors<a class="anchor" aria-label="anchor" href="#estimating-the-an---with-factors"></a>
@@ -436,10 +447,13 @@ won’t be exactly the same because of how the averaging works.</p>
 <p>In the case where you have factors, you can easily extend this</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma_outcomes_tbl_fct</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>           <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, </span>
-<span>  <span class="va">outcome_columns</span>, collapse_to <span class="op">=</span> <span class="st">'age_grp'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Missing values in outcome xgrid were set to 0</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  <span class="va">outcome_columns</span>, </span>
+<span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>, year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>,</span>
+<span>  collapse_to <span class="op">=</span> <span class="st">'age_grp'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">ma_model_fct</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, </span>
 <span>                                <span class="va">ma_outcomes_tbl_fct</span>, </span>
@@ -456,7 +470,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.3</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -465,7 +479,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; ACTON:yr2013:mn05:dow04</span></span>
 <span><span class="co">#&gt; strata_min: 0 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -484,7 +498,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.3</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -493,7 +507,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; ACTON:yr2013:mn05:dow04</span></span>
 <span><span class="co">#&gt; strata_min: 0 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -512,7 +526,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.3</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -521,7 +535,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2012:mn05:dow03</span></span>
+<span><span class="co">#&gt; ACTON:yr2013:mn05:dow04</span></span>
 <span><span class="co">#&gt; strata_min: 0 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -552,12 +566,12 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- summarize by simulation</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" width="768"></p>
+<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" alt="" width="768"></p>
 <p>These results are fictional of course but show what kind of outputs
 can be made easily.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_counties</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" width="576"></p>
+<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" alt="" width="576"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
