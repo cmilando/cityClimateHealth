@@ -7,7 +7,6 @@
 make_xgrid(
   data,
   column_mapping,
-  time_subset,
   dt_by = "day",
   collapse_is_spatial = FALSE,
   collapse_is_temporal = FALSE
@@ -17,9 +16,6 @@ make_xgrid(
 \item{data}{a matrix of exposures or outcomes}
 
 \item{column_mapping}{named list that indicates relevant columns in \code{data}.}
-
-\item{time_subset}{the time period of interest for analysis, specified as years, months, or days
-must be specified by user - no default}
 
 \item{dt_by}{either by day or by week}
 

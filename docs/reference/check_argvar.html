@@ -76,21 +76,7 @@
 a standard form (e.g., a symbol or expression). Throws an error
 if validation fails.</p>
     </div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>this function is not meant to be run directly by the user</p>
-    </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">argvar_raw</span> <span class="op">=</span> <span class="cn">NULL</span>      <span class="co">#</span></span></span>
-<span class="r-in"><span><span class="va">this_exp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>  <span class="co"># some random vector of exposures</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">check_argvar</span><span class="op">(</span><span class="va">argvar_raw</span>, <span class="va">this_exp</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_argvar(argvar_raw, this_exp):</span> could not find function "check_argvar"</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

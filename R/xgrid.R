@@ -2,12 +2,10 @@
 #'
 #' @param data a matrix of exposures or outcomes
 #' @param column_mapping  named list that indicates relevant columns in `data`.
-#' @param time_subset the time period of interest for analysis, specified as years, months, or days
-#' must be specified by user - no default
 #' @param dt_by either by day or by week
 #' @param collapse_is_spatial logical, is the collapse spatial
 #' @param collapse_is_temporal logical, is the collapse temporal
-#' @importFrom data.table setDT as.data.table wday year
+#' @importFrom data.table setDT as.data.table wday year month
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
 #' @returns a datatable of all date and geo unit combinations
@@ -23,7 +21,6 @@
 
 make_xgrid <- function(data,
                        column_mapping,
-                       time_subset,
                        dt_by = 'day',
                        collapse_is_spatial = FALSE,
                        collapse_is_temporal = FALSE) {
@@ -47,45 +44,40 @@ make_xgrid <- function(data,
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
   # GET ALL DATES
+  #
+  # make the skeleton you need later
+  # this is one of the first key stumbling blocks
+  # correct! it is.
+  # for "week" you need to also define what the start of the week is
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
 
   years   <- sort(unique(data[, year(get(date_col))]))
 
-  # make the skeleton you need later
-  # this is one of the first key stumbling blocks
-  # correct! it is.
-  # for "week" you need to also define what the start of the week is
-  if(dt_by == 'day') {
-    get_dt <- function(yy) {
-      st = make_date(yy, 1, 1)
-      ed = make_date(yy, 12, 31)
-      dt = seq.Date(st, ed, by = 'day')
-      mn = month(dt)
-      return(as.IDate(dt[mn %in% months_subset]))
-    }
+  get_dt <- function(yy, dt_by) {
+    st = lubridate::make_date(yy, 1, 1)
+    ed = lubridate::make_date(yy, 12, 31)
+    dt = seq.Date(st, ed, by = dt_by)
+    return(as.IDate(dt))
+  }
 
-    all_dt <- lapply(years, get_dt)
+  # DAY
+  if(dt_by == 'day') {
+    all_dt <- lapply(years, get_dt, dt_by = dt_by)
     all_dt <- do.call(c, all_dt)
   }
 
+  # WEEK
   if(dt_by == 'week') {
     st = as.IDate(min(data[, get(date_col)]))
     ed = as.IDate(max(data[, get(date_col)]))
     dt = seq.Date(st, ed, by = 'week')
-    yr = year(dt)
-    all_dt = as.IDate(dt[yr %in% years])
+    all_dt = as.IDate(dt)
   }
 
+  # MONTH
   if(dt_by == 'month') {
-    get_dt <- function(yy) {
-      st = make_date(yy, 1, 1)
-      ed = make_date(yy, 12, 1)
-      dt = seq.Date(st, ed, by = 'month')
-      mn = month(dt)
-      return(as.IDate(dt[mn %in% months_subset]))
-    }
-    all_dt <- lapply(years, get_dt)
+    all_dt <- lapply(years, get_dt, dt_by = dt_by)
     all_dt <- do.call(c, all_dt)
   }
 
