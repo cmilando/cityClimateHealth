@@ -7,7 +7,14 @@
 getSW(shp, ni, include_self = T)
 }
 \arguments{
-\item{include_self}{}
+\item{shp}{an sf object with one polygon per row}
+
+\item{ni}{integer; neighbor order (0 = identity, 1 = first-order neighbors)}
+
+\item{include_self}{logical; whether to include each unit as its own neighbor}
+}
+\value{
+a binary matrix of spatial weights
 }
 \description{
 Helper function to get neighbors

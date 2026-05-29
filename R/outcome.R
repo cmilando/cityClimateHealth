@@ -1,6 +1,6 @@
 #' Function to create the outcome table
 #' TO DO : EDIT XGRID
-#' @param data
+#' @param data a dataset of outcomes
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
 #' @param time_subset the time period of interest for analysis, specified as years, months, or days
@@ -12,10 +12,10 @@
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
 #'
-#' @importFrom data.table setDT setorderv `:=` `.`
+#' @importFrom data.table setDT setorderv `:=`
 #' @importFrom lubridate days_in_month
 #'
-#' @returns
+#' @returns a data.table of class("outcome")
 #' @export
 #'
 #' @examples

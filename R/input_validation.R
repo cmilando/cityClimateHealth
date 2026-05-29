@@ -1,9 +1,9 @@
 #' Input validation
 #'
-#' @param exposure_matrix
-#' @param outcomes_tbl
+#' @param exposure_matrix an exposure matrix object of class "exposure"
+#' @param outcomes_tbl an outcomes table object of class "outcome"
 #'
-#' @returns
+#' @returns a list with validated \code{exposure_matrix} and \code{outcomes_tbl}
 #' @export
 #'
 #' @examples

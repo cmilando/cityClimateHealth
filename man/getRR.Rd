@@ -7,7 +7,12 @@
 getRR(x, ...)
 }
 \arguments{
-\item{...}{}
+\item{x}{an object to dispatch to the appropriate getRR S3 method}
+
+\item{...}{further arguments passed to the method}
+}
+\value{
+a data.table of relative risk estimates; exact format depends on the class of x
 }
 \description{
 getRR base class

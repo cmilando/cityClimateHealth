@@ -1,28 +1,31 @@
 #' An internal function to make the xgrid
 #'
-#' @param data
-#' @param column_mapping
-#' @param months_subset
+#' @param data a matrix of exposures or outcomes
+#' @param column_mapping  named list that indicates relevant columns in `data`.
+#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' must be specified by user - no default
 #' @param dt_by either by day or by week
-#' @param collapse_is_spatial
-#' @param collapse_is_temporal
-#' @importFrom data.table setDT as.data.table wday
+#' @param collapse_is_spatial logical, is the collapse spatial
+#' @param collapse_is_temporal logical, is the collapse temporal
+#' @importFrom data.table setDT as.data.table wday year
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
-#' @returns
+#' @returns a datatable of all date and geo unit combinations
 #'
-#' @examples
-#' \dontrun{
-#'   column_mapping <- list(
-#'     date = "date",
-#'     geo_unit = "city",
-#'     geo_unit_grp = "state"
-#'   )
-#'   xgrid <- make_xgrid(data, column_mapping, months_subset = 5:9)
-#' }
+#' @examples \dontrun{
+#' exposure_columns <- list("date" = "date",
+#' "exposure" = "tmax_C", "geo_unit" = "TOWN20",
+#' "geo_unit_grp" = "COUNTY20")
+#'
+#' make_xgrid(subset(ma_exposure, TOWN20 == 'BOSTON'),
+#' exposure_columns, time_subset = list(month = 5:9))
+#'}
 
-make_xgrid <- function(data, column_mapping, months_subset = 1:12,
-                       dt_by = 'day', collapse_is_spatial = FALSE,
+make_xgrid <- function(data,
+                       column_mapping,
+                       time_subset,
+                       dt_by = 'day',
+                       collapse_is_spatial = FALSE,
                        collapse_is_temporal = FALSE) {
 
   #
@@ -46,7 +49,6 @@ make_xgrid <- function(data, column_mapping, months_subset = 1:12,
   #' GET ALL DATES
   #' ==========================================================================
   #' //////////////////////////////////////////////////////////////////////////
-
 
   years   <- sort(unique(data[, year(get(date_col))]))
 
@@ -197,7 +199,7 @@ make_xgrid <- function(data, column_mapping, months_subset = 1:12,
   #' ==========================================================================
   #' FINALLY - JOIN WITH DATA
   #'
-  #' This shouldn't add any rows
+  #' This shouldnt add any rows
   #' ==========================================================================
   #' //////////////////////////////////////////////////////////////////////////
 

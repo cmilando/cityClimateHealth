@@ -7,7 +7,14 @@
 nx(xx, ni, include_self = T)
 }
 \arguments{
-\item{include_self}{}
+\item{xx}{a list of neighbor indices (nb-style)}
+
+\item{ni}{integer; neighbor order}
+
+\item{include_self}{logical; whether to include each node itself}
+}
+\value{
+a list of neighbor index vectors
 }
 \description{
 Facilitates recursive calls get neighbors

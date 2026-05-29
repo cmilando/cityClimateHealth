@@ -36,7 +36,5 @@
 #' @importFrom tidyr expand_grid
 #' @importFrom zoo na.approx
 #'
-#' @references
-#'
 "_PACKAGE"
 NULL

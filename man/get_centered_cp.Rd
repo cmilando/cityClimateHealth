@@ -16,7 +16,24 @@ get_centered_cp(
 )
 }
 \arguments{
-\item{exposure_is_factor}{}
+\item{argvar}{the list of argvar elements used to determine the exposure dimension of \code{crossbasis}}
+
+\item{xcoef}{the centered basis coefficients that resulted}
+
+\item{xvcov}{the variance covariance matrix for the centered basis coefficients}
+
+\item{this_exp}{a vector for the exposure}
+
+\item{x_b}{a list that is the boundary of this_exp}
+
+\item{global_cen}{a global centering point, if it exists}
+
+\item{cen}{the local centering point}
+
+\item{exposure_is_factor}{logical, if exposure is a factor}
+}
+\value{
+a list object, with the centered basis and centered crosspred output
 }
 \description{
 Needed a function for this because we do it twice: once for regional RRs

@@ -12,7 +12,7 @@
 #' @param dt_by is it daily data, or weekly or ...
 #' @param exposure_is_factor exposure is a factor
 #'
-#' @importFrom data.table setDT setorderv shift `:=` `.`
+#' @importFrom data.table setDT setorderv shift `:=`
 #' @importFrom zoo na.approx
 #'
 #' @returns a data.table of class("exposure")

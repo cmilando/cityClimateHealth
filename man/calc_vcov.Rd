@@ -15,6 +15,9 @@ calc_vcov(y, X, beta, stratum_vector)
 
 \item{stratum_vector}{a vector describing the stratum}
 }
+\value{
+a numeric matrix, the variance-covariance matrix
+}
 \description{
 https://link.springer.com/article/10.1007/s11222-005-4069-4
 https://statomics.github.io/SGA2019/assets/poissonIRWLS-implemented.html#variance-covariance-matrix-of-the-model-parameters

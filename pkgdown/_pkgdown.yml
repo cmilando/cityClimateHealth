@@ -44,6 +44,7 @@ articles:
   desc: Vignettes aimed at advanced users
   contents:
   - pop_size_test
+  - time_subset
   - faq
   - bayesian_wnv_test
   - strata

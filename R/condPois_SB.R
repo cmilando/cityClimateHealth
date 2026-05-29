@@ -23,7 +23,7 @@
 #' @importFrom data.table setDT
 #' @importFrom data.table patterns
 #'
-#' @returns
+#' @returns an object of class condPois_sb
 #' @export
 #'
 #' @examples
@@ -78,7 +78,7 @@ condPois_sb <- function(exposure_matrix,
                         argvar = NULL,
                         arglag = NULL,
                         maxlag = NULL,
-                        min_n = 50,
+                        min_n = NULL,
                         strata_min = 0,
                         verbose = 0) {
 
@@ -195,6 +195,9 @@ condPois_sb <- function(exposure_matrix,
   ## need to update this to check within each town,
   ## and then remove towns that don't pass from both outcomes_tbl
   ## and exposure_matrix
+  if(is.null(min_n)) {
+    min_n = 50
+  }
 
   geos_to_remove <- c()
   unique_geos <- unique(outcomes_tbl[, get(out_geo_unit_col)])
@@ -793,41 +796,34 @@ condPois_sb <- function(exposure_matrix,
 
 }
 
-#' @export
-#' print.condPois_sb
+#' Print method for condPois_sb
 #'
-#' @param x
+#' @param x an object of class condPois_sb
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
-#' x <- structure(list(), class = "condPois_sb")
-#' print(x)
 print.condPois_sb <- function(x) {
   cat("< an object of class `condPois_sb` >\n")
   invisible(x)
 }
 
-#' @export
-#' print.condPois_sb_list
+#' Print method for condPois_sb_list
 #'
-#' @param x
+#' @param x an object of class condPois_sb_list
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
-#' x <- structure(list(a = 1, b = 2), class = "condPois_sb_list")
-#' print(x)
 print.condPois_sb_list <- function(x) {
   cat("< an object of class `condPois_sb_list`:",
       paste(names(x), collapse = ",")," >\n")
   invisible(x)
 }
 
-#' @export
-#' plot.condPois_sb
+#' Plot method for condPois_sb
 #'
 #' @param x an object of class condPois_sb
 #' @param geo_unit a geo_unit to investigate
@@ -835,15 +831,10 @@ print.condPois_sb_list <- function(x) {
 #' @param ylab ylab override
 #' @param title title override
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'\dontrun{
-#' # after running condPois_sb on exposure and outcome data:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' plot(result, geo_unit = "city_a")
-#' }
 plot.condPois_sb <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -865,8 +856,7 @@ plot.condPois_sb <- function(x, geo_unit,
 }
 
 
-#' @export
-#' plot.condPois_sb_list
+#' Plot method for condPois_sb_list
 #'
 #' @param x an object of class condPois_sb_list
 #' @param geo_unit a geo_unit to investigate
@@ -874,16 +864,10 @@ plot.condPois_sb <- function(x, geo_unit,
 #' @param ylab ylab override
 #' @param title title override
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data with a factor:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' plot(result, geo_unit = "city_a")
-#' }
-
 plot.condPois_sb_list <- function(x, geo_unit,
                                       xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -921,22 +905,15 @@ plot.condPois_sb_list <- function(x, geo_unit,
 }
 
 
-#' @export
-#' forest_plot.condPois_sb
+#' forest_plot method for condPois_sb
 #'
 #' @param x an object of class condPois_sb
 #' @param exposure_val exposure value at which to plot
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' forest_plot(result, exposure_val = 30.0)
-#' }
-
 forest_plot.condPois_sb <- function(x, exposure_val) {
 
   # get subset of X
@@ -985,22 +962,16 @@ forest_plot.condPois_sb <- function(x, exposure_val) {
 }
 
 
-#' @export
-#' spatial_plot.condPois_sb
+#' spatial_plot method for condPois_sb
 #'
 #' @param x an object of class condPois_sb
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' spatial_plot(result, shp = my_shapefile, exposure_val = 30.0)
-#' }
 spatial_plot.condPois_sb <- function(x, shp, exposure_val,
                                          RRlimits = NULL) {
 
@@ -1053,24 +1024,17 @@ spatial_plot.condPois_sb <- function(x, shp, exposure_val,
 
 }
 
-#' @export
-#' spatial_plot.condPois_sb_list
+#' spatial_plot method for condPois_sb_list
 #'
 #' @param x an object of class condPois_sb_list
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
 #' @importFrom patchwork wrap_plots
 #' @import ggplot2
-#' @returns
+#' @returns a patchwork of ggplot objects, one per factor level
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data with a factor:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' spatial_plot(result, shp = my_shapefile, exposure_val = 30.0)
-#' }
-
 spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
@@ -1123,21 +1087,14 @@ spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
 }
 
 
-#' @export
-#' forest_plot.condPois_sb_list
+#' forest_plot method for condPois_sb_list
 #'
 #' @param x an object of class condPois_sb_list
 #' @param exposure_val exposure value at which to plot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data with a factor:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' forest_plot(result, exposure_val = 30.0)
-#' }
-
 forest_plot.condPois_sb_list <- function(x, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
@@ -1197,21 +1154,14 @@ forest_plot.condPois_sb_list <- function(x, exposure_val) {
   }
 }
 
-#' @export
-#' getRR.condPois_sb
+#' getRR method for condPois_sb
 #'
-#' @param x
+#' @param x an object of class condPois_sb
 #' @importFrom data.table setDT
-#' @returns
+#' @returns a data.table of relative risk estimates
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' getRR(result)
-#' }
-
 getRR.condPois_sb <- function(x) {
   oo <- do.call(rbind, lapply(x$`_`$out, \(obj) obj$RRdf))
   oo$model_class = class(x)
@@ -1219,21 +1169,14 @@ getRR.condPois_sb <- function(x) {
   return(oo)
 }
 
-#' @export
-#' getRR.condPois_sb_list
+#' getRR method for condPois_sb_list
 #'
-#' @param x
+#' @param x an object of class condPois_sb_list
 #'
-#' @returns
+#' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running condPois_sb on exposure and outcome data with a factor:
-#' result <- condPois_sb(exposure_matrix, outcomes_tbl, shp_sf)
-#' getRR(result)
-#' }
-
 getRR.condPois_sb_list <- function(x) {
 
   obj_l <- vector("list", length(names(x)))

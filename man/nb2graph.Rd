@@ -2,12 +2,15 @@
 % Please edit documentation in R/spatial_bayes_fcns.R
 \name{nb2graph}
 \alias{nb2graph}
-\title{Title}
+\title{Convert a neighbor list to a graph edge list}
 \usage{
 nb2graph(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{an nb object (neighbor list)}
+}
+\value{
+a list with N (nodes), N_edges, node1, and node2 integer vectors
 }
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R

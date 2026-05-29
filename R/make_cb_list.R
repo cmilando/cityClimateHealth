@@ -1,12 +1,12 @@
 #' IN-PROGRESS functions that creates a list of cross-basis objects to try
 #'
 #' @param x the data.frame with the var_list data in it
-#' @param var_list
-#' @param argvar_list
-#' @param lag_list
-#' @param arglag_list
+#' @param var_list a character vector of variable names
+#' @param argvar_list a list of argvar argument sets for \code{crossbasis}
+#' @param lag_list a list of lag specifications
+#' @param arglag_list a list of arglag argument sets for \code{crossbasis}
 #'
-#' @returns
+#' @returns a nested list of cross-basis objects
 #'
 #' @examples
 #' # var_list <- c('tmean', 'tmin')
@@ -108,9 +108,9 @@ make_cb_list <- function(x, var_list, argvar_list, lag_list, arglag_list) {
 
 #' IN-PROGRESS functions that creates a list of cross-basis objects to try
 #'
-#' @param arglist
+#' @param arglist a list of argument lists to expand
 #'
-#' @returns
+#' @returns a list of all combinations of the input arguments
 #'
 #' @examples
 #' arglist <- list(
