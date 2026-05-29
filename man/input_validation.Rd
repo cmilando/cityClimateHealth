@@ -6,9 +6,6 @@
 \usage{
 input_validation(exposure_matrix, outcomes_tbl)
 }
-\arguments{
-\item{outcomes_tbl}{}
-}
 \description{
 Input validation
 }

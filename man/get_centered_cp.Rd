@@ -15,9 +15,6 @@ get_centered_cp(
   exposure_is_factor
 )
 }
-\arguments{
-\item{exposure_is_factor}{}
-}
 \description{
 Needed a function for this because we do it twice: once for regional RRs
 and once for BLUP

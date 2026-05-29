@@ -8,7 +8,7 @@ TO DO : EDIT XGRID}
 make_outcome_table(
   data,
   column_mapping,
-  months_subset = 5:9,
+  time_subset,
   dt_by = "day",
   collapse_to = NULL,
   collapse_is_spatial = FALSE,
@@ -21,8 +21,8 @@ make_outcome_table(
 \item{column_mapping}{a named list that indicates relevant columns in \code{data}. for the exposure
 data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')}
 
-\item{months_subset}{the warm season months for this region, default is Northern Hemisphere's
-May through September (5 through 9)}
+\item{time_subset}{the time period of interest for analysis, specified as years, months, or days
+must be specified by user - no default}
 
 \item{dt_by}{is it daily data, or weekly or ...}
 

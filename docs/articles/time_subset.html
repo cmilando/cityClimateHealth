@@ -81,6 +81,42 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::wday' by 'lubridate::wday' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::second' by 'lubridate::second'</span></span>
+<span><span class="co">#&gt; when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::isoweek' by</span></span>
+<span><span class="co">#&gt; 'lubridate::isoweek' when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::yday' by 'lubridate::yday' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::hour' by 'lubridate::hour' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::year' by 'lubridate::year' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::month' by 'lubridate::month'</span></span>
+<span><span class="co">#&gt; when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::week' by 'lubridate::week' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::isoyear' by</span></span>
+<span><span class="co">#&gt; 'lubridate::isoyear' when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::minute' by 'lubridate::minute'</span></span>
+<span><span class="co">#&gt; when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::mday' by 'lubridate::mday' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::quarter' by</span></span>
+<span><span class="co">#&gt; 'lubridate::quarter' when loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::yearmon' by 'zoo::yearmon' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'data.table::yearqtr' by 'zoo::yearqtr' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'tidyr::unpack' by 'Matrix::unpack' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'tidyr::expand' by 'Matrix::expand' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'tidyr::pack' by 'Matrix::pack' when loading</span></span>
+<span><span class="co">#&gt; 'cityClimateHealth'</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'patchwork::area' by 'MASS::area' when</span></span>
+<span><span class="co">#&gt; loading 'cityClimateHealth'</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
@@ -231,8 +267,7 @@ a plain integer, not a named list.</p>
 <span><span class="co">#&gt; 401798: YARMOUTH:2020-12-19 -4.2884 -4.7561  0.0895  1.1581 12.3991</span></span>
 <span><span class="co">#&gt; 401799: YARMOUTH:2020-12-25 10.1570  4.8211  4.2990  0.3449 -0.2518</span></span>
 <span><span class="co">#&gt; 401800: YARMOUTH:2020-12-26 15.4929 10.1570  4.8211  4.2990  0.3449</span></span></code></pre></div>
-<p>unlink(“doc/”, recursive = TRUE) unlink(“Meta/”, recursive = TRUE)
-devtools::install(build_vignettes = FALSE)
+<p>devtools::install() devtools::install(build_vignettes = FALSE)
 pkgdown::build_article(‘time_subset’)</p>
   </main>
 </div>

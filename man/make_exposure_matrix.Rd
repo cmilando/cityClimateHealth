@@ -7,7 +7,7 @@
 make_exposure_matrix(
   data,
   column_mapping,
-  months_subset = 5:9,
+  time_subset,
   dt_by = "day",
   maxgap = 5,
   maxlag = 5,
@@ -22,8 +22,8 @@ make_exposure_matrix(
 \item{column_mapping}{a named list that indicates relevant columns in \code{data}. for the exposure
 data table, these need to be one of: c('date', "exposure", 'geo_unit', 'geo_unit_grp')}
 
-\item{months_subset}{the warm season months for this region, default is Northern Hemisphere's
-May through September (5 through 9)}
+\item{time_subset}{the time period of interest for analysis, specified as years, months, or days
+must be specified by user - no default}
 
 \item{dt_by}{is it daily data, or weekly or ...}
 
@@ -53,7 +53,7 @@ exposure_columns <- list(
 
 ma_exposure_matrix <- make_exposure_matrix(
                       subset(ma_exposure,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-                      data.table::year(date) \%in\% 2012:2015), exposure_columns)
+                      year(date) \%in\% 2012:2015), exposure_columns)
 make_exposure_matrix
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================

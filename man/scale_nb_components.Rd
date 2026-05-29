@@ -6,9 +6,6 @@
 \usage{
 scale_nb_components(x)
 }
-\arguments{
-\item{x}{}
-}
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 }

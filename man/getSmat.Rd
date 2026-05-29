@@ -6,9 +6,6 @@
 \usage{
 getSmat(strata_vector)
 }
-\arguments{
-\item{strata_vector}{}
-}
 \description{
 Gets the matrix of strata, used in \code{condPois_sb}
 }

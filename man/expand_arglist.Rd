@@ -6,9 +6,6 @@
 \usage{
 expand_arglist(arglist)
 }
-\arguments{
-\item{arglist}{}
-}
 \description{
 IN-PROGRESS functions that creates a list of cross-basis objects to try
 }

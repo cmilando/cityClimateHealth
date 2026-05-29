@@ -76,7 +76,6 @@ ma_exposure_matrix <- make_exposure_matrix(
 ma_exposure_matrix
 ```
 
-unlink("doc/", recursive = TRUE)
-unlink("Meta/", recursive = TRUE)
+devtools::install()
 devtools::install(build_vignettes = FALSE)
 pkgdown::build_article('time_subset')

@@ -8,8 +8,6 @@ make_cb_list(x, var_list, argvar_list, lag_list, arglag_list)
 }
 \arguments{
 \item{x}{the data.frame with the var_list data in it}
-
-\item{arglag_list}{}
 }
 \description{
 IN-PROGRESS functions that creates a list of cross-basis objects to try

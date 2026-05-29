@@ -6,9 +6,6 @@
 \usage{
 forest_plot(x, ...)
 }
-\arguments{
-\item{...}{}
-}
 \description{
 forest_plot base class
 }

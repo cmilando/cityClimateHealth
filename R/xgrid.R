@@ -2,7 +2,7 @@
 #'
 #' @param data
 #' @param column_mapping
-#' @param months_subset
+#' @param time_subset
 #' @param dt_by either by day or by week
 #' @param collapse_is_spatial
 #' @param collapse_is_temporal
@@ -21,14 +21,21 @@
 #'   xgrid <- make_xgrid(data, column_mapping, months_subset = 5:9)
 #' }
 
-make_xgrid <- function(data, column_mapping, months_subset = 1:12,
+make_xgrid <- function(data, column_mapping, time_subset = NULL,
                        dt_by = 'day', collapse_is_spatial = FALSE,
                        collapse_is_temporal = FALSE) {
-
   #
   setDT(data)
 
   stopifnot(dt_by %in% c('day', 'week', 'month'))
+
+  ##validation for time_subset
+
+  if (missing(time_subset)) {
+    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.")
+  }
+
+  time_subset_validation(time_subset)
 
   # check they are all the same day of week
   date_col <- column_mapping$date
@@ -58,33 +65,35 @@ make_xgrid <- function(data, column_mapping, months_subset = 1:12,
     get_dt <- function(yy) {
       st = make_date(yy, 1, 1)
       ed = make_date(yy, 12, 31)
-      dt = seq.Date(st, ed, by = 'day')
-      mn = month(dt)
-      return(as.IDate(dt[mn %in% months_subset]))
+      as.IDate(seq.Date(st, ed, by = 'day'))
     }
-
-    all_dt <- lapply(years, get_dt)
-    all_dt <- do.call(c, all_dt)
+    all_dt <- do.call(c, lapply(years, get_dt))
   }
 
   if(dt_by == 'week') {
     st = as.IDate(min(data[, get(date_col)]))
     ed = as.IDate(max(data[, get(date_col)]))
     dt = seq.Date(st, ed, by = 'week')
-    yr = year(dt)
-    all_dt = as.IDate(dt[yr %in% years])
+    all_dt = as.IDate(dt[year(dt) %in% years])
   }
 
   if(dt_by == 'month') {
     get_dt <- function(yy) {
       st = make_date(yy, 1, 1)
       ed = make_date(yy, 12, 1)
-      dt = seq.Date(st, ed, by = 'month')
-      mn = month(dt)
-      return(as.IDate(dt[mn %in% months_subset]))
+      as.IDate(seq.Date(st, ed, by = 'month'))
     }
-    all_dt <- lapply(years, get_dt)
-    all_dt <- do.call(c, all_dt)
+    all_dt <- do.call(c, lapply(years, get_dt))
+  }
+
+  # CHANGED: apply time_subset filter to all_dt using the shared time_fns map
+  if (!is.null(time_subset)) {
+    time_fns <- list(month = month, year = year, wday = wday)
+    keep <- rep(TRUE, length(all_dt))
+    for (unit in names(time_subset)) {
+      keep <- keep & time_fns[[unit]](all_dt) %in% time_subset[[unit]]
+    }
+    all_dt <- all_dt[keep]
   }
 
 

@@ -7,7 +7,7 @@
 make_xgrid(
   data,
   column_mapping,
-  months_subset = 1:12,
+  time_subset = NULL,
   dt_by = "day",
   collapse_is_spatial = FALSE,
   collapse_is_temporal = FALSE

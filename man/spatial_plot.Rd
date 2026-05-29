@@ -6,9 +6,6 @@
 \usage{
 spatial_plot(x, ...)
 }
-\arguments{
-\item{...}{}
-}
 \description{
 spatial_plot base class
 }

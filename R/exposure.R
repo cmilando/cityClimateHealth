@@ -57,26 +57,16 @@ make_exposure_matrix <- function(data,
   # CHANGED: replaced months_subset
 
   if (missing(time_subset)) {
-    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), ",
-         "or NULL to use all time periods.")
+    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.")
   }
+
+  time_subset_validation(time_subset)
 
   time_fns <- list(
     month = month,
     year  = year,
     wday   = wday
   )
-
-  if (!is.null(time_subset)) {
-    if (!is.list(time_subset))
-      stop("`time_subset` must be a named list, e.g. list(month = 5:9, year = 2010:2015)")
-    if (!all(names(time_subset) %in% names(time_fns)))
-      stop("`time_subset` names must be one of: month, year, wday")
-    if ("month" %in% names(time_subset) && !all(time_subset$month %in% 1:12))
-      stop("`time_subset$month` must be values in 1:12")
-    if ("wday" %in% names(time_subset) && !all(time_subset$wday %in% 1:7))
-      stop("`time_subset$wday` must be values in 1:7")
-  }
 
   stopifnot(length(maxgap) == 1 & maxgap %in% 1:10)
   stopifnot(length(maxlag) == 1 & maxlag %in% 1:10)
@@ -152,7 +142,7 @@ make_exposure_matrix <- function(data,
   # no month subset here, do not change from 1:12 for exposure!
   # this does change in outcomes but not here
   # note: make_xgrid expects a plain integer vector, not a named list
-  xgrid <- make_xgrid(data, column_mapping, months_subset = 1:12, dt_by)
+  xgrid <- make_xgrid(data, column_mapping,  time_subset = NULL, dt_by)
 
   # set the strata
   date_col <- column_mapping$date

@@ -6,9 +6,6 @@
 \usage{
 getRR(x, ...)
 }
-\arguments{
-\item{...}{}
-}
 \description{
 getRR base class
 }

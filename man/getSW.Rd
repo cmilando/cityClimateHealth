@@ -6,9 +6,6 @@
 \usage{
 getSW(shp, ni, include_self = T)
 }
-\arguments{
-\item{include_self}{}
-}
 \description{
 Helper function to get neighbors
 }

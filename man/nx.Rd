@@ -6,9 +6,6 @@
 \usage{
 nx(xx, ni, include_self = T)
 }
-\arguments{
-\item{include_self}{}
-}
 \description{
 Facilitates recursive calls get neighbors
 }
