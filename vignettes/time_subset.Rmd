@@ -1,0 +1,82 @@
+---
+title: "time_subset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{time_subset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cityClimateHealth)
+library(data.table)
+```
+
+To create an exposure matrix for analysis, the time period must be specified in years, months, or days. For example, we can make an exposure matrix for Massachusetts maximum daily heat exposure between 2012 and 2015: 
+
+```{r}
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_exposure_matrix <- make_exposure_matrix(
+  ma_exposure,
+  exposure_columns,
+  time_subset = list(year = 2012:2015) 
+)
+
+ma_exposure_matrix
+```
+
+We can also specify the exposure matrix for months. For example, we can create a matrix that uses time exclusively from June through August, the highest-heat months in Massachusetts. Note that months should be specified as a plain integer, not a named list.  
+
+```{r}
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_exposure_matrix <- make_exposure_matrix(
+  ma_exposure,
+  exposure_columns,
+  time_subset = list(month = 6:8)   # 6 = June, 7 = July, 8 = August 
+)
+
+ma_exposure_matrix
+```
+
+And finally, we can specify the matrix for days of the week. For example, we can create a matrix that uses time exclusively from Saturdays and Sundays. Note that days of the week should be specified as a plain integer, not a named list.  
+
+```{r}
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+ma_exposure_matrix <- make_exposure_matrix(
+  ma_exposure,
+  exposure_columns,
+  time_subset = list(wday = 6:7)   # 6 = Saturday, 7 = Sunday
+)
+
+ma_exposure_matrix
+```
+
+unlink("doc/", recursive = TRUE)
+unlink("Meta/", recursive = TRUE)
+devtools::install(build_vignettes = FALSE)
+pkgdown::build_article('time_subset')

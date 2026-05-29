@@ -3,8 +3,8 @@
 #' @param data
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
-#' @param months_subset the warm season months for this region, default is Northern Hemisphere's
-#' May through September (5 through 9)
+#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' must be specified by user - no default
 #' @param collapse_to which factors to collapse across
 #' @param collapse_is_spatial is collapse a spatial variable
 #' @param collapse_is_temporal is collapse a temporal variable
@@ -33,7 +33,7 @@
 #' make_outcome_table
 make_outcome_table <- function(data,
                                column_mapping,
-                               months_subset = 5:9,
+                               time_subset,
                                dt_by = 'day',
                                collapse_to = NULL,
                                collapse_is_spatial = FALSE,
@@ -294,7 +294,7 @@ make_outcome_table <- function(data,
   ## so make xgrid again
   xgrid <- make_xgrid(data = data,
                       column_mapping = column_mapping,
-                      months_subset = months_subset,
+                      time_subset = time_subset,
                       dt_by = dt_by,
                       collapse_is_spatial = collapse_is_spatial,
                       collapse_is_temporal = collapse_is_temporal)
@@ -403,5 +403,3 @@ make_outcome_table <- function(data,
 
   return(xgrid_comb)
 }
-
-

@@ -3,8 +3,8 @@
 #' @param data a dataset of exposures
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "exposure", 'geo_unit', 'geo_unit_grp')
-#' @param months_subset the warm season months for this region, default is Northern Hemisphere's
-#' May through September (5 through 9)
+#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' must be specified by user - no default
 #' @param maxgaps the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)
 #' @param maxlag the number of lags for the exposure variable (default is 5)
 #' @param grp_level whether to summarize to the group level or not (default)
@@ -32,7 +32,7 @@
 #'make_exposure_matrix
 make_exposure_matrix <- function(data,
                                  column_mapping,
-                                 time_subset = list(month = 5:9), ##changed to "time" rather than months as default
+                                 time_subset, ##changed to "time" rather than months as default
                                  dt_by = 'day',
                                  maxgap = 5,
                                  maxlag = 5,
@@ -55,18 +55,23 @@ make_exposure_matrix <- function(data,
   # copy and override if they really want to
 
   # CHANGED: replaced months_subset
+
+  if (missing(time_subset)) {
+    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), ",
+         "or NULL to use all time periods.")
+  }
+
   time_fns <- list(
     month = month,
     year  = year,
-    day   = mday,
-    wday  = wday
+    wday   = wday
   )
 
   if (!is.null(time_subset)) {
     if (!is.list(time_subset))
       stop("`time_subset` must be a named list, e.g. list(month = 5:9, year = 2010:2015)")
     if (!all(names(time_subset) %in% names(time_fns)))
-      stop("`time_subset` names must be one of: month, year, day, wday")
+      stop("`time_subset` names must be one of: month, year, wday")
     if ("month" %in% names(time_subset) && !all(time_subset$month %in% 1:12))
       stop("`time_subset$month` must be values in 1:12")
     if ("wday" %in% names(time_subset) && !all(time_subset$wday %in% 1:7))
