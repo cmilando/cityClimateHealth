@@ -57,26 +57,4 @@ ma_exposure_matrix <- make_exposure_matrix(
 ma_exposure_matrix
 ```
 
-And finally, we can specify the matrix for days of the week. For example, we can create a matrix that uses time exclusively from Saturdays and Sundays. Note that days of the week should be specified as a plain integer, not a named list.  
 
-```{r}
-exposure_columns <- list(
-  "date" = "date",
-  "exposure" = "tmax_C",
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-
-ma_exposure_matrix <- make_exposure_matrix(
-  ma_exposure,
-  exposure_columns,
-  time_subset = list(wday = 6:7)   # 6 = Saturday, 7 = Sunday
-)
-
-ma_exposure_matrix
-```
-
-unlink("doc/", recursive = TRUE)
-unlink("Meta/", recursive = TRUE)
-devtools::install(build_vignettes = FALSE)
-pkgdown::build_article('time_subset')

@@ -3,7 +3,7 @@
 #' @param data a dataset of exposures
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "exposure", 'geo_unit', 'geo_unit_grp')
-#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
 #' @param maxgaps the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)
 #' @param maxlag the number of lags for the exposure variable (default is 5)

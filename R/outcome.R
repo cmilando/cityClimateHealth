@@ -3,7 +3,7 @@
 #' @param data a dataset of outcomes
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
-#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
 #' @param collapse_to which factors to collapse across
 #' @param collapse_is_spatial is collapse a spatial variable

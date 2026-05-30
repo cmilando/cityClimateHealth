@@ -25,8 +25,7 @@ time_subset_validate <- function(time_subset) {
   ##
   time_fns <- list(
     month = month,
-    year  = year,
-    wday   = wday
+    year  = year
   )
 
   if (!is.null(time_subset)) {
@@ -36,8 +35,6 @@ time_subset_validate <- function(time_subset) {
       stop("`time_subset` names must be one of: month, year, wday")
     if ("month" %in% names(time_subset) && !all(time_subset$month %in% 1:12))
       stop("`time_subset$month` must be values in 1:12")
-    if ("wday" %in% names(time_subset) && !all(time_subset$wday %in% 1:7))
-      stop("`time_subset$wday` must be values in 1:7")
   }
 
   # ...

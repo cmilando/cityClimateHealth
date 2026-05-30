@@ -38,6 +38,10 @@ The standard application is using MCMC, we also include all STAN model types:
 
 You can also experiment with speeding things up (at the risk of less precise estimates) using the laplace or variational method. see Jack's notes as so what is going on here
 
+Sb, basically a combination of these two things:
+https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=
+https://link.springer.com/article/10.1186/1471-2288-14-122 
+
 ```{r setup2, fig.height=5, fig.width=5}
 library(data.table)
 data("ma_exposure")

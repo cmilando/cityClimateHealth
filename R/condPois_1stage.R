@@ -178,6 +178,19 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
   #' CREATE CROSSBASIS for this single zone
+  #'
+  #' TODO: HOW TO HANDLE MULTIPLE exposures ...
+  #'       maybe this becomes a function and you have?
+  #'       well no because then arglag etc would have to be lists
+  #'       so do you want to move this into exposure ?
+  #'       no i think thats what you do, you move this into exposure
+  #'       and then you keep one main exposure and the other gets labeled
+  #'       as "control" and some of the control are cb and
+  #'       some are single vectors
+  #'       maybe exposure_col also needs to be a named list
+  #'       so you know if its a one off or a cb
+  #'       or you could do control_cb or
+  #'
   #' ==========================================================================
   #' //////////////////////////////////////////////////////////////////////////
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
@@ -235,6 +248,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   }
 
   ## get the columns you need
+  ## TODO: HAVE TO CONFIRM THAT THESE COLUMNS EXIST
   xcols <- c(exposure_col, paste0('explag',1:maxlag))
   x_mat <- exposure_matrix[, ..xcols]
 
@@ -260,6 +274,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   ##
   ## (3) you also don't need to do offset = log(poplation)
   ## because the population is not changing within the strata,
+  ## TODO: <<< PERHAPS NOT TRUE, maybe you should make this the default
   ## since you are doing conditional poisson. if you are doing time-series
   ## you would need to do this
   ff = as.formula(paste(outcome_col, "~ cb"))
