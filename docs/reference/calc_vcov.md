@@ -27,6 +27,10 @@ calc_vcov(y, X, beta, stratum_vector)
 
   a vector describing the stratum
 
+## Value
+
+a numeric matrix, the variance-covariance matrix
+
 ## Details
 
 and extended to multi-nomial case, with help from an LLM, confirmed it

@@ -99,7 +99,8 @@ exposure_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-exp_mat <- make_exposure_matrix(exp_df, exposure_columns)
+exp_mat <- make_exposure_matrix(exp_df, exposure_columns,
+                                time_subset = list(month = 5:9))
 head(exp_mat)
 ```
 And now make the outcome dataset
@@ -116,7 +117,8 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-sim_tbl <- make_outcome_table(deaths_df,  outcome_columns)
+sim_tbl <- make_outcome_table(deaths_df,  outcome_columns,
+                              time_subset = list(month = 5:9))
 sim_tbl
 ```
 ```{r testModel}

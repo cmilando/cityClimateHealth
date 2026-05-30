@@ -36,8 +36,12 @@ exposure_columns <- list(
 )
 
 ma_exposure_matrix <- make_exposure_matrix(
-  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015), exposure_columns)
+  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
+         exposure_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
 
 outcome_columns <- list(
   "date" = "date",
@@ -48,8 +52,12 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 ma_outcomes_tbl <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015), outcome_columns)
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
+  outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
 ```
 
 Now run by using `condPois_2stage`. This does the Gasp Extended2stage design in 1 function from these inputs and defaults for `argvar`, `arglag` and `maxlag`. 
@@ -100,9 +108,13 @@ Only a small change is required to run the model by factor, e.g., age_grp:
 
 ```{r multi_town_setup_factor}
 ma_outcomes_tbl_fct <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015),
-  outcome_columns,collapse_to = 'age_grp')
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')),
+  outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
+  collapse_to = 'age_grp')
 
 head(ma_outcomes_tbl_fct)
 ```
@@ -150,8 +162,11 @@ exposure_columns <- list(
 )
 
 ma_exposure_matrix <- make_exposure_matrix(
-  subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') &
-           year(date) %in% 2012:2015), exposure_columns, 
+  subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') ), exposure_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
   grp_level = T, keep_unit_exposures = T)
 
 
@@ -166,8 +181,11 @@ outcome_columns <- list(
 
 
 ma_outcomes_tbl <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') &
-           year(date) %in% 2012:2015), outcome_columns,
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK')), outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
   grp_level = T, keep_unit_outcomes = T)
 
 ma_model <- condPois_2stage(ma_exposure_matrix, 

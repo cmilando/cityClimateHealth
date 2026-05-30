@@ -10,7 +10,21 @@ nx(xx, ni, include_self = T)
 
 ## Arguments
 
+- xx:
+
+  a list of neighbor indices (nb-style)
+
+- ni:
+
+  integer; neighbor order
+
 - include_self:
+
+  logical; whether to include each node itself
+
+## Value
+
+a list of neighbor index vectors
 
 ## Examples
 

@@ -40,8 +40,7 @@ data("ma_exposure")
 
 exposure_sub <- 
   subset(ma_exposure,
-         COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015)
+         COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 
 # define columns of ma_exposure
 exposure_columns <- list(
@@ -52,7 +51,12 @@ exposure_columns <- list(
 )
 
 # create the object
-ma_exposure_matrix <- make_exposure_matrix(exposure_sub, exposure_columns)
+ma_exposure_matrix <- make_exposure_matrix(exposure_sub, 
+                                           exposure_columns,
+                                           time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
 ```
 
 And lets preview this
@@ -70,8 +74,7 @@ data("ma_deaths")
 
 deaths_sub <- 
   subset(ma_deaths,
-        COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015)
+        COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 
 # define columns of ma_deaths
 outcome_columns <- list(
@@ -84,7 +87,11 @@ outcome_columns <- list(
 )
 
 # create the object
-ma_outcomes_tbl <- make_outcome_table(deaths_sub, outcome_columns)
+ma_outcomes_tbl <- make_outcome_table(deaths_sub, outcome_columns,
+                                      time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
 ```
 
 And lets preview this
@@ -322,7 +329,12 @@ We can easily do this, by using the `collapse_to` argument:
 
 ```{r multi_town_setup_factor}
 ma_outcomes_tbl_fct <- make_outcome_table(
-  deaths_sub, outcome_columns, collapse_to = 'age_grp')
+  deaths_sub, outcome_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
+  collapse_to = 'age_grp')
 ```
 
 Lets look at the result:

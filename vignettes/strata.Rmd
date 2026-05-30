@@ -46,7 +46,8 @@ exposure_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
+                                            time_subset = list(month = 5:9))
 ```
 
 # OUTCOME
@@ -65,7 +66,8 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
 head(boston_deaths_tbl)
 ```
 

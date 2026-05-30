@@ -5,7 +5,7 @@
 #' @param dt_by either by day or by week
 #' @param collapse_is_spatial logical, is the collapse spatial
 #' @param collapse_is_temporal logical, is the collapse temporal
-#' @importFrom data.table setDT as.data.table wday year month
+#' @importFrom data.table setDT as.data.table wday year month as.IDate
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
 #' @returns a datatable of all date and geo unit combinations

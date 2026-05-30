@@ -8,7 +8,7 @@ Function to create the outcome table TO DO : EDIT XGRID
 make_outcome_table(
   data,
   column_mapping,
-  months_subset = 5:9,
+  time_subset,
   dt_by = "day",
   collapse_to = NULL,
   collapse_is_spatial = FALSE,
@@ -20,16 +20,20 @@ make_outcome_table(
 
 ## Arguments
 
+- data:
+
+  a dataset of outcomes
+
 - column_mapping:
 
   a named list that indicates relevant columns in `data`. for the
   exposure data table, these need to be one of: c('date',
   "outcome",'factor, 'geo_unit', 'geo_unit_grp')
 
-- months_subset:
+- time_subset:
 
-  the warm season months for this region, default is Northern
-  Hemisphere's May through September (5 through 9)
+  the time period of interest for analysis, specified as years, months,
+  or days must be specified by user - no default
 
 - dt_by:
 
@@ -54,5 +58,9 @@ make_outcome_table(
 - keep_unit_outcomes:
 
   if grp_level is true, whether to keep original unit-level outcomes
+
+## Value
+
+a data.table of class("outcome")
 
 ## Examples

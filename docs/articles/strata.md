@@ -206,9 +206,11 @@ exposure_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
-#> Warning in make_exposure_matrix(boston_exposure, exposure_columns): check about any NA, some corrections for this later,
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
+                                            time_subset = list(month = 5:9))
+#> Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
 #>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
 ## OUTCOME
@@ -237,7 +239,11 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(boston_deaths_tbl)
 #>          date TOWN20 COUNTY20 daily_deaths                   strata
 #>        <IDat> <char>   <char>        <int>                   <char>
@@ -248,7 +254,7 @@ head(boston_deaths_tbl)
 #> 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04
 #> 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05
 #>    strata_total      match_strata
-#>           <num>            <char>
+#>           <int>            <char>
 #> 1:        11312 BOSTON:2010-05-01
 #> 2:        10929 BOSTON:2010-05-02
 #> 3:        11435 BOSTON:2010-05-03

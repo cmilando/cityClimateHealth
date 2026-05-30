@@ -35,8 +35,44 @@
 - [`forest_plot()`](http://climatehealth.city/reference/forest_plot.md)
   : forest_plot base class
 
+- [`forest_plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_1stage.md)
+  : forest_plot method for condPois_1stage
+
+- [`forest_plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_1stage_list.md)
+  : forest_plot method for condPois_1stage_list
+
+- [`forest_plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_2stage.md)
+  : forest_plot method for condPois_2stage
+
+- [`forest_plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_2stage_list.md)
+  : forest_plot method for condPois_2stage_list
+
+- [`forest_plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_sb.md)
+  : forest_plot method for condPois_sb
+
+- [`forest_plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_sb_list.md)
+  : forest_plot method for condPois_sb_list
+
 - [`getRR()`](http://climatehealth.city/reference/getRR.md) : getRR base
   class
+
+- [`getRR(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/getRR.condPois_1stage.md)
+  : getRR method for condPois_1stage
+
+- [`getRR(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_1stage_list.md)
+  : getRR method for condPois_1stage_list
+
+- [`getRR(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/getRR.condPois_2stage.md)
+  : getRR method for condPois_2stage
+
+- [`getRR(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_2stage_list.md)
+  : getRR method for condPois_2stage_list
+
+- [`getRR(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/getRR.condPois_sb.md)
+  : getRR method for condPois_sb
+
+- [`getRR(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_sb_list.md)
+  : getRR method for condPois_sb_list
 
 - [`getSW()`](http://climatehealth.city/reference/getSW.md) :
 
@@ -51,7 +87,7 @@
   : Internal function to get centered cp objects
 
 - [`indexByComponent()`](http://climatehealth.city/reference/indexByComponent.md)
-  : Title
+  : Index nodes by connected component
 
 - [`input_validation()`](http://climatehealth.city/reference/input_validation.md)
   : Input validation
@@ -85,15 +121,93 @@
   An internal function to make the xgrid
 
 - [`nb2graph()`](http://climatehealth.city/reference/nb2graph.md) :
-  Title
+  Convert a neighbor list to a graph edge list
 
 - [`nb2subgraph()`](http://climatehealth.city/reference/nb2subgraph.md)
-  : Title
+  : Convert a neighbor list subgraph to node pairs
 
 - [`nx()`](http://climatehealth.city/reference/nx.md) : Title
 
+- [`plot(`*`<calcAN>`*`)`](http://climatehealth.city/reference/plot.calcAN.md)
+  : Plot method for calcAN
+
+- [`plot(`*`<calcAN_list>`*`)`](http://climatehealth.city/reference/plot.calcAN_list.md)
+  : Plot method for calcAN_list
+
+- [`plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/plot.condPois_1stage.md)
+  : Plot method for condPois_1stage
+
+- [`plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/plot.condPois_1stage_list.md)
+  : Plot method for condPois_1stage_list
+
+- [`plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/plot.condPois_2stage.md)
+  : Plot method for condPois_2stage
+
+- [`plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/plot.condPois_2stage_list.md)
+  : Plot method for condPois_2stage_list
+
+- [`plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/plot.condPois_sb.md)
+  : Plot method for condPois_sb
+
+- [`plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/plot.condPois_sb_list.md)
+  : Plot method for condPois_sb_list
+
+- [`print.calcAN()`](http://climatehealth.city/reference/print.calcAN.md)
+  : Print method for calcAN
+
+- [`print.calcAN_list()`](http://climatehealth.city/reference/print.calcAN_list.md)
+  : Print method for calcAN_list
+
+- [`print.condPois_1stage()`](http://climatehealth.city/reference/print.condPois_1stage.md)
+  : Print method for condPois_1stage
+
+- [`print.condPois_1stage_list()`](http://climatehealth.city/reference/print.condPois_1stage_list.md)
+  : Print method for condPois_1stage_list
+
+- [`print.condPois_2stage()`](http://climatehealth.city/reference/print.condPois_2stage.md)
+  : Print method for condPois_2stage
+
+- [`print.condPois_2stage_list()`](http://climatehealth.city/reference/print.condPois_2stage_list.md)
+  : Print method for condPois_2stage_list
+
+- [`print.condPois_sb()`](http://climatehealth.city/reference/print.condPois_sb.md)
+  : Print method for condPois_sb
+
+- [`print.condPois_sb_list()`](http://climatehealth.city/reference/print.condPois_sb_list.md)
+  : Print method for condPois_sb_list
+
 - [`scale_nb_components()`](http://climatehealth.city/reference/scale_nb_components.md)
-  : Title
+  : Compute scaling factors for neighbor list components
+
+- [`set_strata_value()`](http://climatehealth.city/reference/set_strata_value.md)
+  : Set the strata column of xgrid
 
 - [`spatial_plot()`](http://climatehealth.city/reference/spatial_plot.md)
   : spatial_plot base class
+
+- [`spatial_plot(`*`<calcAN>`*`)`](http://climatehealth.city/reference/spatial_plot.calcAN.md)
+  : spatial_plot method for calcAN
+
+- [`spatial_plot(`*`<calcAN_list>`*`)`](http://climatehealth.city/reference/spatial_plot.calcAN_list.md)
+  : spatial_plot method for calcAN_list
+
+- [`spatial_plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_1stage.md)
+  : spatial_plot method for condPois_1stage
+
+- [`spatial_plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_1stage_list.md)
+  : spatial_plot method for condPois_1stage_list
+
+- [`spatial_plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_2stage.md)
+  : spatial_plot method for condPois_2stage
+
+- [`spatial_plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_2stage_list.md)
+  : spatial_plot method for condPois_2stage_list
+
+- [`spatial_plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_sb.md)
+  : spatial_plot method for condPois_sb
+
+- [`spatial_plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_sb_list.md)
+  : spatial_plot method for condPois_sb_list
+
+- [`time_subset_validate()`](http://climatehealth.city/reference/time_subset_validate.md)
+  : validation of the time_subset argumetn

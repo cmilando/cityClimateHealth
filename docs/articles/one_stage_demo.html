@@ -149,9 +149,12 @@ to rename columns throughout the process.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Next pass in your full temperature time-series in this step.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boston_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">boston_exposure</span>, <span class="va">exposure_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(boston_exposure, exposure_columns): check about any NA, some corrections for this later,</span></span>
+<code class="sourceCode R"><span><span class="va">boston_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">boston_exposure</span>, </span>
+<span>                                            <span class="va">exposure_columns</span>,</span>
+<span>                                            time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boston_exposure_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date  tmax_C TOWN20 COUNTY20                   strata</span></span>
 <span><span class="co">#&gt;        &lt;IDat&gt;   &lt;num&gt; &lt;char&gt;   &lt;char&gt;                   &lt;char&gt;</span></span>
@@ -258,7 +261,11 @@ data, and we want to aggregate these data across the factors we aren’t
 using and to the correct spatial unit for this analysis. The
 <code>make_outcome_table</code> function accomplishes these goals,</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boston_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">boston_deaths</span>,  <span class="va">outcome_columns</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">boston_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">boston_deaths</span>,  <span class="va">outcome_columns</span>,</span>
+<span>                                        time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boston_deaths_tbl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date TOWN20 COUNTY20 daily_deaths                   strata</span></span>
 <span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
@@ -269,7 +276,7 @@ using and to the correct spatial unit for this analysis. The
 <span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04</span></span>
 <span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05</span></span>
 <span><span class="co">#&gt;    strata_total      match_strata</span></span>
-<span><span class="co">#&gt;           &lt;num&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt;           &lt;int&gt;            &lt;char&gt;</span></span>
 <span><span class="co">#&gt; 1:        11312 BOSTON:2010-05-01</span></span>
 <span><span class="co">#&gt; 2:        10929 BOSTON:2010-05-02</span></span>
 <span><span class="co">#&gt; 3:        11435 BOSTON:2010-05-03</span></span>
@@ -388,7 +395,7 @@ RR</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">'grey75'</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Tmax (degC)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/cp_plot-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/cp_plot-1.png" class="r-plt" width="480"></p>
 <p>Finally, do some basic checks of the math using other utility
 functions to estimate the dispersion parameters and the
 variance-covariance matrix. Both of these functions will be useful once
@@ -441,9 +448,11 @@ this is using <code>gnm</code> under the hood.</p>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">boston_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">boston_exposure</span>, <span class="va">exposure_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(boston_exposure, exposure_columns): check about any NA, some corrections for this later,</span></span>
+<span><span class="va">boston_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">boston_exposure</span>, <span class="va">exposure_columns</span>,</span>
+<span>                                            time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="co"># create outcome table</span></span>
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -454,7 +463,11 @@ this is using <code>gnm</code> under the hood.</p>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">boston_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">boston_deaths</span>,  <span class="va">outcome_columns</span><span class="op">)</span></span>
+<span><span class="va">boston_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">boston_deaths</span>,  <span class="va">outcome_columns</span>,</span>
+<span>                                        time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">boston_exposure_mat</span>, </span>
@@ -485,7 +498,7 @@ this is using <code>gnm</code> under the hood.</p>
 <p>And plot the relative risk</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" width="480"></p>
 <p>You can also get the RR table for your own usage</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
@@ -520,9 +533,11 @@ population offset if you were doing a time-series design).</p>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">middlesex_exposure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">COUNTY20</span> <span class="op">==</span> <span class="st">'MIDDLESEX'</span><span class="op">)</span></span>
-<span><span class="va">middlesex_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">middlesex_exposure</span>, <span class="va">exposure_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(middlesex_exposure, exposure_columns): check about any NA, some corrections for this later,</span></span>
+<span><span class="va">middlesex_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">middlesex_exposure</span>, <span class="va">exposure_columns</span>,</span>
+<span>                                               time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(middlesex_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="co"># create outcome table</span></span>
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -534,8 +549,11 @@ population offset if you were doing a time-series design).</p>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">middlesex_deaths</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">COUNTY20</span> <span class="op">==</span> <span class="st">'MIDDLESEX'</span><span class="op">)</span></span>
-<span><span class="va">middlesex_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">middlesex_deaths</span>,  <span class="va">outcome_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Missing values in outcome xgrid were set to 0</span></span>
+<span><span class="va">middlesex_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">middlesex_deaths</span>,  <span class="va">outcome_columns</span>,</span>
+<span>                                           time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, </span>
@@ -563,7 +581,7 @@ population offset if you were doing a time-series design).</p>
 <p>And plot - notice the tighter confidence interval</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/single_plot2b-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/single_plot2b-1.png" class="r-plt" width="480"></p>
 <p>And get RR</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span>
@@ -600,8 +618,11 @@ population offset if you were doing a time-series design).</p>
 <p>you can also get it for factors</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">middlesex_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
-<span>  <span class="va">middlesex_deaths</span>,  <span class="va">outcome_columns</span>, collapse_to <span class="op">=</span> <span class="st">'age_grp'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Missing values in outcome xgrid were set to 0</span></span>
+<span>  <span class="va">middlesex_deaths</span>,  <span class="va">outcome_columns</span>, time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>,</span>
+<span>  collapse_to <span class="op">=</span> <span class="st">'age_grp'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, </span>
@@ -674,7 +695,7 @@ population offset if you were doing a time-series design).</p>
 <span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/ff2-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="one_stage_demo_files/figure-html/ff2-1.png" class="r-plt" width="700"></p>
 <p>And get RR</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span>
@@ -762,7 +783,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/globalCenMod-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="one_stage_demo_files/figure-html/globalCenMod-1.png" class="r-plt" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

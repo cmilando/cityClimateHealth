@@ -27,6 +27,10 @@ calc_dispersion(y, X, beta, stratum_vector)
 
   a vector describing the stratum
 
+## Value
+
+a numeric scalar, the estimated dispersion parameter
+
 ## Examples
 
 ``` r

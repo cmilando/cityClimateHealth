@@ -1,4 +1,4 @@
-# Title
+# Convert a neighbor list to a graph edge list
 
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 
@@ -11,6 +11,12 @@ nb2graph(x)
 ## Arguments
 
 - x:
+
+  an nb object (neighbor list)
+
+## Value
+
+a list with N (nodes), N_edges, node1, and node2 integer vectors
 
 ## Examples
 

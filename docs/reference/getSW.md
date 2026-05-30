@@ -10,7 +10,21 @@ getSW(shp, ni, include_self = T)
 
 ## Arguments
 
+- shp:
+
+  an sf object with one polygon per row
+
+- ni:
+
+  integer; neighbor order (0 = identity, 1 = first-order neighbors)
+
 - include_self:
+
+  logical; whether to include each unit as its own neighbor
+
+## Value
+
+a binary matrix of spatial weights
 
 ## Examples
 

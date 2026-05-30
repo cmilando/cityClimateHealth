@@ -81,12 +81,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span></code></pre></div>
 <p>To create an exposure matrix for analysis, the time period must be
 specified in years, months, or days. For example, we can make an
 exposure matrix for Massachusetts maximum daily heat exposure between
@@ -106,6 +101,7 @@ exposure matrix for Massachusetts maximum daily heat exposure between
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset = list(year = 2012:2015)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">ma_exposure_matrix</span></span>
 <span><span class="co">#&gt;               date  tmax_C   TOWN20   COUNTY20                     strata</span></span>
@@ -153,6 +149,7 @@ specified as a plain integer, not a named list.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset = list(month = 6:8)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">ma_exposure_matrix</span></span>
 <span><span class="co">#&gt;               date  tmax_C   TOWN20   COUNTY20                     strata</span></span>
@@ -200,37 +197,35 @@ a plain integer, not a named list.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset = list(wday = 6:7)): check about any NA, some corrections for this later,</span></span>
 <span><span class="co">#&gt;             but only in certain columns</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset =</span></span>
-<span><span class="co">#&gt; list(wday = 6:7)): some NAs persist, investigate (might be zoo::na_approx) and</span></span>
-<span><span class="co">#&gt; submit a Github issue :)</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">ma_exposure_matrix</span></span>
 <span><span class="co">#&gt;               date  tmax_C   TOWN20   COUNTY20                     strata</span></span>
 <span><span class="co">#&gt;             &lt;IDat&gt;   &lt;num&gt;   &lt;char&gt;     &lt;char&gt;                     &lt;char&gt;</span></span>
-<span><span class="co">#&gt;      1: 2010-01-01 -1.5616 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
-<span><span class="co">#&gt;      2: 2010-01-02  1.9898 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow07</span></span>
-<span><span class="co">#&gt;      3: 2010-01-08  1.6087 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
-<span><span class="co">#&gt;      4: 2010-01-09 -3.0592 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow07</span></span>
-<span><span class="co">#&gt;      5: 2010-01-15  2.3758 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
+<span><span class="co">#&gt;      1: 2010-01-08  1.6087 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
+<span><span class="co">#&gt;      2: 2010-01-09 -3.0592 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow07</span></span>
+<span><span class="co">#&gt;      3: 2010-01-15  2.3758 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
+<span><span class="co">#&gt;      4: 2010-01-16  5.6375 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow07</span></span>
+<span><span class="co">#&gt;      5: 2010-01-22  4.5946 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn01:dow06</span></span>
 <span><span class="co">#&gt;     ---                                                                  </span></span>
-<span><span class="co">#&gt; 401796: 2020-12-12  5.7675 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
-<span><span class="co">#&gt; 401797: 2020-12-18 -4.2884 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow06</span></span>
-<span><span class="co">#&gt; 401798: 2020-12-19 -1.6180 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
-<span><span class="co">#&gt; 401799: 2020-12-25 15.4929 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow06</span></span>
-<span><span class="co">#&gt; 401800: 2020-12-26 15.5979 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
+<span><span class="co">#&gt; 401096: 2020-12-12  5.7675 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
+<span><span class="co">#&gt; 401097: 2020-12-18 -4.2884 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow06</span></span>
+<span><span class="co">#&gt; 401098: 2020-12-19 -1.6180 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
+<span><span class="co">#&gt; 401099: 2020-12-25 15.4929 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow06</span></span>
+<span><span class="co">#&gt; 401100: 2020-12-26 15.5979 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn12:dow07</span></span>
 <span><span class="co">#&gt;                match_strata explag1 explag2 explag3 explag4 explag5</span></span>
 <span><span class="co">#&gt;                      &lt;char&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
-<span><span class="co">#&gt;      1: ABINGTON:2010-01-01      NA      NA      NA      NA      NA</span></span>
-<span><span class="co">#&gt;      2: ABINGTON:2010-01-02 -1.5616      NA      NA      NA      NA</span></span>
-<span><span class="co">#&gt;      3: ABINGTON:2010-01-08 -2.3609 -3.2558 -1.7903 -6.4402 -1.1869</span></span>
-<span><span class="co">#&gt;      4: ABINGTON:2010-01-09  1.6087 -2.3609 -3.2558 -1.7903 -6.4402</span></span>
-<span><span class="co">#&gt;      5: ABINGTON:2010-01-15  1.0306 -0.3146 -0.4389 -4.4783 -4.1849</span></span>
+<span><span class="co">#&gt;      1: ABINGTON:2010-01-08 -2.3609 -3.2558 -1.7903 -6.4402 -1.1869</span></span>
+<span><span class="co">#&gt;      2: ABINGTON:2010-01-09  1.6087 -2.3609 -3.2558 -1.7903 -6.4402</span></span>
+<span><span class="co">#&gt;      3: ABINGTON:2010-01-15  1.0306 -0.3146 -0.4389 -4.4783 -4.1849</span></span>
+<span><span class="co">#&gt;      4: ABINGTON:2010-01-16  2.3758  1.0306 -0.3146 -0.4389 -4.4783</span></span>
+<span><span class="co">#&gt;      5: ABINGTON:2010-01-22  3.4441  1.8816  4.5496  2.3683  7.1511</span></span>
 <span><span class="co">#&gt;     ---                                                            </span></span>
-<span><span class="co">#&gt; 401796: YARMOUTH:2020-12-12  5.9476  1.2914 -2.6908  0.0714  0.8599</span></span>
-<span><span class="co">#&gt; 401797: YARMOUTH:2020-12-18 -4.7561  0.0895  1.1581 12.3991  5.5874</span></span>
-<span><span class="co">#&gt; 401798: YARMOUTH:2020-12-19 -4.2884 -4.7561  0.0895  1.1581 12.3991</span></span>
-<span><span class="co">#&gt; 401799: YARMOUTH:2020-12-25 10.1570  4.8211  4.2990  0.3449 -0.2518</span></span>
-<span><span class="co">#&gt; 401800: YARMOUTH:2020-12-26 15.4929 10.1570  4.8211  4.2990  0.3449</span></span></code></pre></div>
+<span><span class="co">#&gt; 401096: YARMOUTH:2020-12-12  5.9476  1.2914 -2.6908  0.0714  0.8599</span></span>
+<span><span class="co">#&gt; 401097: YARMOUTH:2020-12-18 -4.7561  0.0895  1.1581 12.3991  5.5874</span></span>
+<span><span class="co">#&gt; 401098: YARMOUTH:2020-12-19 -4.2884 -4.7561  0.0895  1.1581 12.3991</span></span>
+<span><span class="co">#&gt; 401099: YARMOUTH:2020-12-25 10.1570  4.8211  4.2990  0.3449 -0.2518</span></span>
+<span><span class="co">#&gt; 401100: YARMOUTH:2020-12-26 15.4929 10.1570  4.8211  4.2990  0.3449</span></span></code></pre></div>
 <p>unlink(“doc/”, recursive = TRUE) unlink(“Meta/”, recursive = TRUE)
 devtools::install(build_vignettes = FALSE)
 pkgdown::build_article(‘time_subset’)</p>

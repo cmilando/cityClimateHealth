@@ -12,6 +12,12 @@ expand_arglist(arglist)
 
 - arglist:
 
+  a list of argument lists to expand
+
+## Value
+
+a list of all combinations of the input arguments
+
 ## Examples
 
 ``` r

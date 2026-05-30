@@ -20,7 +20,42 @@ get_centered_cp(
 
 ## Arguments
 
+- argvar:
+
+  the list of argvar elements used to determine the exposure dimension
+  of `crossbasis`
+
+- xcoef:
+
+  the centered basis coefficients that resulted
+
+- xvcov:
+
+  the variance covariance matrix for the centered basis coefficients
+
+- this_exp:
+
+  a vector for the exposure
+
+- x_b:
+
+  a list that is the boundary of this_exp
+
+- global_cen:
+
+  a global centering point, if it exists
+
+- cen:
+
+  the local centering point
+
 - exposure_is_factor:
+
+  logical, if exposure is a factor
+
+## Value
+
+a list object, with the centered basis and centered crosspred output
 
 ## Examples
 

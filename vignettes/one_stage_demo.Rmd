@@ -60,7 +60,9 @@ exposure_columns <- list(
 
 Next pass in your full temperature time-series in this step.
 ```{r convertExp}
-boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, 
+                                            exposure_columns,
+                                            time_subset = list(month = 5:9))
 head(boston_exposure_mat)
 ```
 
@@ -110,7 +112,8 @@ Notice that we have several columns of `factors` -- right now we will sum up wit
 As with the exposure dataset, there may be some days that are missing data, and we want to aggregate these data across the factors we aren't using and to the correct spatial unit for this analysis. The `make_outcome_table` function accomplishes these goals, 
 
 ```{r make_outcome_table}
-boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
 head(boston_deaths_tbl)
 ```
 
@@ -236,7 +239,8 @@ exposure_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
+                                            time_subset = list(month = 5:9))
 
 # create outcome table
 outcome_columns <- list(
@@ -247,7 +251,8 @@ outcome_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
 
 # run the model
 m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat, 
@@ -280,7 +285,8 @@ exposure_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
+middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns,
+                                               time_subset = list(month = 5:9))
 
 # create outcome table
 outcome_columns <- list(
@@ -292,7 +298,8 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
+middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns,
+                                           time_subset = list(month = 5:9))
 
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 
@@ -319,7 +326,8 @@ you can also get it for factors
 
 ```{r ff2}
 middlesex_deaths_tbl <- make_outcome_table(
-  middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
+  middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9),
+  collapse_to = 'age_grp')
 
 # run the model
 m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 

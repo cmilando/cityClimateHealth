@@ -46,11 +46,17 @@ exposure_columns <- list(
 
 TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
 
-exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST & year(date) %in% 2012:2015)
+exposure <- subset(ma_exposure, TOWN20 %in% TOWNLIST)
 
-exposure_mat <- make_exposure_matrix(exposure, exposure_columns)
-#> Warning in make_exposure_matrix(exposure, exposure_columns): check about any NA, some corrections for this later,
+exposure_mat <- make_exposure_matrix(exposure, 
+                                     exposure_columns,
+                                     time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
+#> Warning in make_exposure_matrix(exposure, exposure_columns, time_subset = list(month = 5:9, : check about any NA, some corrections for this later,
 #>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
 outcome_columns <- list(
@@ -61,8 +67,15 @@ outcome_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-deaths   <- subset(ma_deaths, TOWN20 %in% TOWNLIST & year(date) %in% 2012:2015)
-deaths_tbl <- make_outcome_table(deaths,  outcome_columns)
+deaths   <- subset(ma_deaths, TOWN20 %in% TOWNLIST)
+deaths_tbl <- make_outcome_table(deaths,  outcome_columns,
+                                 time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # plot
 data("ma_towns")
@@ -304,13 +317,13 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 32.1 seconds.
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 32.2 seconds.
+#> Chain 1 finished in 28.2 seconds.
+#> Chain 2 finished in 28.2 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 32.2 seconds.
-#> Total execution time: 32.3 seconds.
+#> Mean chain execution time: 28.2 seconds.
+#> Total execution time: 28.3 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -410,7 +423,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>      251      -6737.25   0.000383661      0.925504           1           1      291    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.3 seconds.
+#> Finished in  0.2 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -541,7 +554,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>     2152      -6355.97   2.89835e-07       242.602           1           1     2271    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  1.3 seconds.
+#> Finished in  1.1 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -556,7 +569,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.8 seconds.
+#> Finished in  0.5 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
