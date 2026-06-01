@@ -175,6 +175,20 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   }
 
+  #Check for global_cen being in range of exposures!
+  exp_range <- range(exposure_matrix, na.rm = TRUE)
+
+  # Check if global_cen is within the exposure matrix range
+  if(!is.null(global_cen)) {
+    stopifnot(is.numeric(global_cen))
+
+    exp_range <- range(exposure_matrix[, get(exposure_col)], na.rm = TRUE)
+    if (global_cen < exp_range[1] || global_cen > exp_range[2]) {
+      stop("global_cen is outside the exposure matrix range!")
+    }
+
+  }
+
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
   #' CREATE CROSSBASIS for this single zone
