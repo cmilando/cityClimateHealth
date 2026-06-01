@@ -19,13 +19,3 @@ if validation fails.
 \description{
 Internal function to check argvar
 }
-\details{
-this function is not meant to be run directly by the user
-}
-\examples{
-set.seed(123)
-argvar_raw = NULL      #
-this_exp = rnorm(100)  # some random vector of exposures
-
-check_argvar(argvar_raw, this_exp)
-}

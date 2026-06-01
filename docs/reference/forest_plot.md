@@ -10,7 +10,17 @@ forest_plot(x, ...)
 
 ## Arguments
 
+- x:
+
+  an object to dispatch to the appropriate forest_plot S3 method
+
 - ...:
+
+  further arguments passed to the method
+
+## Value
+
+output depends on the class of x; see method-specific documentation
 
 ## Examples
 

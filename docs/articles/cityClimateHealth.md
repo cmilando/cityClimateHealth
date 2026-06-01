@@ -27,8 +27,7 @@ data("ma_exposure")
 
 exposure_sub <- 
   subset(ma_exposure,
-         COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015)
+         COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 
 # define columns of ma_exposure
 exposure_columns <- list(
@@ -39,9 +38,15 @@ exposure_columns <- list(
 )
 
 # create the object
-ma_exposure_matrix <- make_exposure_matrix(exposure_sub, exposure_columns)
-#> Warning in make_exposure_matrix(exposure_sub, exposure_columns): check about any NA, some corrections for this later,
+ma_exposure_matrix <- make_exposure_matrix(exposure_sub, 
+                                           exposure_columns,
+                                           time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
+#> Warning in make_exposure_matrix(exposure_sub, exposure_columns, time_subset = list(month = 5:9, : check about any NA, some corrections for this later,
 #>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
 And lets preview this
@@ -79,8 +84,7 @@ data("ma_deaths")
 
 deaths_sub <- 
   subset(ma_deaths,
-        COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015)
+        COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 
 # define columns of ma_deaths
 outcome_columns <- list(
@@ -93,8 +97,14 @@ outcome_columns <- list(
 )
 
 # create the object
-ma_outcomes_tbl <- make_outcome_table(deaths_sub, outcome_columns)
-#> Missing values in outcome xgrid were set to 0
+ma_outcomes_tbl <- make_outcome_table(deaths_sub, outcome_columns,
+                                      time_subset = list(
+                                       month = 5:9,
+                                       year = 2012:2015
+                                     ))
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
 And lets preview this
@@ -111,7 +121,7 @@ head(ma_outcomes_tbl)
 #> 5: 2012-05-05  ACTON MIDDLESEX           78 ACTON:yr2012:mn05:dow07
 #> 6: 2012-05-06  ACTON MIDDLESEX           72 ACTON:yr2012:mn05:dow01
 #>    strata_total     match_strata
-#>           <num>           <char>
+#>           <int>           <char>
 #> 1:          423 ACTON:2012-05-01
 #> 2:          420 ACTON:2012-05-02
 #> 3:          414 ACTON:2012-05-03
@@ -508,8 +518,15 @@ We can easily do this, by using the `collapse_to` argument:
 ``` r
 
 ma_outcomes_tbl_fct <- make_outcome_table(
-  deaths_sub, outcome_columns, collapse_to = 'age_grp')
-#> Missing values in outcome xgrid were set to 0
+  deaths_sub, outcome_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
+  collapse_to = 'age_grp')
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
 Lets look at the result:
@@ -526,7 +543,7 @@ head(ma_outcomes_tbl_fct)
 #> 5: 2012-05-02  ACTON MIDDLESEX   18-64           26 ACTON:yr2012:mn05:dow04
 #> 6: 2012-05-02  ACTON MIDDLESEX     65+           26 ACTON:yr2012:mn05:dow04
 #>    strata_total     match_strata
-#>           <num>           <char>
+#>           <int>           <char>
 #> 1:          423 ACTON:2012-05-01
 #> 2:          423 ACTON:2012-05-01
 #> 3:          423 ACTON:2012-05-01

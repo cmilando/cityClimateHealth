@@ -6,6 +6,12 @@
 \usage{
 getSmat(strata_vector)
 }
+\arguments{
+\item{strata_vector}{a factor or character vector of stratum labels}
+}
+\value{
+a binary integer matrix indicating stratum membership
+}
 \description{
 Gets the matrix of strata, used in \code{condPois_sb}
 }

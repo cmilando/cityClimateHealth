@@ -11,7 +11,7 @@ condPois_2stage(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = 50,
+  min_n = NULL,
   rf = NULL,
   strata_min = 0,
   verbose = 0
@@ -37,6 +37,9 @@ condPois_2stage(
 \item{strata_min}{minimum number of cases per strata}
 
 \item{verbose}{whether to print geo_units as they are run}
+}
+\value{
+an object of class condPois_2stage
 }
 \description{
 MixMeta

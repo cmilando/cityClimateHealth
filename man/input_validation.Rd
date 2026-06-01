@@ -6,6 +6,14 @@
 \usage{
 input_validation(exposure_matrix, outcomes_tbl)
 }
+\arguments{
+\item{exposure_matrix}{an exposure matrix object of class "exposure"}
+
+\item{outcomes_tbl}{an outcomes table object of class "outcome"}
+}
+\value{
+a list with validated \code{exposure_matrix} and \code{outcomes_tbl}
+}
 \description{
 Input validation
 }

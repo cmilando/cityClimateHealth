@@ -3,7 +3,7 @@
 #' @param data a dataset of exposures
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "exposure", 'geo_unit', 'geo_unit_grp')
-#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
 #' @param maxgaps the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)
 #' @param maxlag the number of lags for the exposure variable (default is 5)
@@ -12,7 +12,7 @@
 #' @param dt_by is it daily data, or weekly or ...
 #' @param exposure_is_factor exposure is a factor
 #'
-#' @importFrom data.table setDT setorderv shift `:=` `.`
+#' @importFrom data.table setDT setorderv shift `:=` as.IDate
 #' @importFrom zoo na.approx
 #'
 #' @returns a data.table of class("exposure")
@@ -27,8 +27,9 @@
 #' )
 #'
 #' ma_exposure_matrix <- make_exposure_matrix(
-#'                       subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'                       year(date) %in% 2012:2015), exposure_columns)
+#'                       subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'),
+#'                       exposure_columns,
+#'                       time_subset = list(year = 2012:2015))
 #'make_exposure_matrix
 make_exposure_matrix <- function(data,
                                  column_mapping,
@@ -40,11 +41,11 @@ make_exposure_matrix <- function(data,
                                  keep_unit_exposures = FALSE,
                                  exposure_is_factor = FALSE) {
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' VALIDATIONS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # VALIDATIONS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   #
   stopifnot(nrow(data) > 0)
@@ -54,25 +55,18 @@ make_exposure_matrix <- function(data,
   # set some arbitrary limits on these but users could always make a local
   # copy and override if they really want to
 
-  # CHANGED: replaced months_subset
+  ## Time_subset validation
+  ## this isn't applied until the very end
+  time_subset <- time_subset_validate(time_subset)
 
-  if (missing(time_subset)) {
-    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.")
-  }
-
-  time_subset_validation(time_subset)
-
-  time_fns <- list(
-    month = month,
-    year  = year,
-    wday   = wday
-  )
-
+  ## Max Gap and Max Lag
   stopifnot(length(maxgap) == 1 & maxgap %in% 1:10)
   stopifnot(length(maxlag) == 1 & maxlag %in% 1:10)
+
+  ## grp_level
   stopifnot(length(grp_level) == 1 & grp_level %in% c(T, F))
 
-  #
+  ##
   stopifnot(typeof(column_mapping) == 'list')
 
   # column types
@@ -132,34 +126,37 @@ make_exposure_matrix <- function(data,
   # overwrite date
   data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' CREATE XGRID
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  #
+  date_col <- column_mapping$date
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE XGRID and SET STRATA
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # build xgrid
   # no month subset here, do not change from 1:12 for exposure!
   # this does change in outcomes but not here
   # note: make_xgrid expects a plain integer vector, not a named list
-  xgrid <- make_xgrid(data, column_mapping,  time_subset = NULL, dt_by)
+  xgrid <- make_xgrid(data = data,
+                      column_mapping = column_mapping,
+                      dt_by = dt_by,
+                      collapse_is_spatial = FALSE,  # these are never applied for exposure
+                      collapse_is_temporal = FALSE) # these are never applied for exposure
 
   # set the strata
-  date_col <- column_mapping$date
-  dow <- wday(xgrid[, get(date_col)])
-  mn  <- month(xgrid[, get(date_col)])
-  yr  <- year(xgrid[, get(date_col)])
+  xgrid$strata = set_strata_value(xgrid,
+                                  column_mapping = column_mapping,
+                                  dt_by = dt_by,
+                                  grp_level = grp_level,
+                                  keep_unit = keep_unit_exposures)
 
-  if((grp_level & keep_unit_exposures) | !grp_level) {
-    xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
-                           ":yr", yr,
-                           ":mn", sprintf("%02i", mn),
-                           ":dow", sprintf("%02i", dow))
-  } else {
-    xgrid$strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
-                           ":yr",yr, ":mn",sprintf("%02i", mn),
-                           ":dow", sprintf("%02i", dow))
-  }
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE MATCH STRATA
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # also make match strata
   # either do it here if you are keeping unit exposures, or later if you aren't
@@ -187,11 +184,11 @@ make_exposure_matrix <- function(data,
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' FILL NA VALUES
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # FILL NA VALUES
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # Loop 1: need to fill in NA values
   exposure_col <- column_mapping$exposure
@@ -271,11 +268,11 @@ make_exposure_matrix <- function(data,
     exposure2_l[[i]] <- x
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' GROUP LEVEL SUMMARY?
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # GROUP LEVEL SUMMARY?
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # grp_level summary?
   if(grp_level) {
@@ -335,11 +332,11 @@ make_exposure_matrix <- function(data,
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' ADD LAGS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # ADD LAGS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   for(i in 1:length(exposure2_l)) {
 
@@ -354,37 +351,38 @@ make_exposure_matrix <- function(data,
         x[, (lag_name) := shift(get(exposure_col), k)]
       }
 
-      # CHANGED: was identical(months_subset, 1:12) — now trims if no subset at all
-      if(is.null(time_subset)) {
-        x <- x[(maxlag+1):nrow(x), ]
-      }
+      # trims if no subset at all
+      # the purpose of this is to give the lags time to accumulate so you have no
+      # null data at the top of the dataset
+      # because xgrid is now the full dataset and time-subset doesn't come in until
+      # later, I think this still works
+      x <- x[(maxlag+1):nrow(x), ]
+
 
       exposure2_l[[i]] <- x
     }
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' OUTPUT
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OUTPUT
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # rbind them all together
   exposure2 <- do.call(rbind, exposure2_l)
 
-  # CHANGED: replaced month() filter with general time_subset loop
-  if (!is.null(time_subset)) {
-    rr <- rep(TRUE, nrow(exposure2))
-    for (unit in names(time_subset)) {
-      fn  <- time_fns[[unit]]
-      rr  <- rr & fn(exposure2[, get(column_mapping$date)]) %in% time_subset[[unit]]
-    }
-    exposure_subset <- exposure2[rr, ]
-    stopifnot(length(rr) > 1)  # CHANGED: moved down, now checks after filtering
-  } else {
-    exposure_subset <- exposure2
+  # Get the subset expressed in time_subset
+  time_fns <- time_subset$time_fns
+  time_subset$time_fns <- NULL
+  rr <- rep(TRUE, nrow(exposure2))
+  for (unit in names(time_subset)) {
+    fn  <- time_fns[[unit]]
+    rr  <- rr & fn(exposure2[, get(column_mapping$date)]) %in% time_subset[[unit]]
   }
+  exposure_subset <- exposure2[rr, ]
+  stopifnot(length(rr) > 1)  # CHANGED: moved down, now checks after filtering
 
   # reset the order
   setorderv(

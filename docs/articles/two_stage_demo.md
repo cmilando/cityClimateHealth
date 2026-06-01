@@ -25,10 +25,15 @@ exposure_columns <- list(
 )
 
 ma_exposure_matrix <- make_exposure_matrix(
-  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015), exposure_columns)
+  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
+         exposure_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
 #> Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,
 #>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 outcome_columns <- list(
   "date" = "date",
@@ -39,9 +44,15 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 ma_outcomes_tbl <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015), outcome_columns)
-#> Missing values in outcome xgrid were set to 0
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
+  outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
 Now run by using `condPois_2stage`. This does the Gasp Extended2stage
@@ -205,10 +216,16 @@ age_grp:
 ``` r
 
 ma_outcomes_tbl_fct <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-           year(date) %in% 2012:2015),
-  outcome_columns,collapse_to = 'age_grp')
-#> Missing values in outcome xgrid were set to 0
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')),
+  outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
+  collapse_to = 'age_grp')
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 head(ma_outcomes_tbl_fct)
 #>          date TOWN20  COUNTY20 age_grp daily_deaths                  strata
@@ -220,7 +237,7 @@ head(ma_outcomes_tbl_fct)
 #> 5: 2012-05-02  ACTON MIDDLESEX   18-64           26 ACTON:yr2012:mn05:dow04
 #> 6: 2012-05-02  ACTON MIDDLESEX     65+           26 ACTON:yr2012:mn05:dow04
 #>    strata_total     match_strata
-#>           <num>           <char>
+#>           <int>           <char>
 #> 1:          423 ACTON:2012-05-01
 #> 2:          423 ACTON:2012-05-01
 #> 3:          423 ACTON:2012-05-01
@@ -400,11 +417,15 @@ exposure_columns <- list(
 )
 
 ma_exposure_matrix <- make_exposure_matrix(
-  subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') &
-           year(date) %in% 2012:2015), exposure_columns, 
+  subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') ), exposure_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
   grp_level = T, keep_unit_exposures = T)
 #> Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,
 #>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 
 outcome_columns <- list(
@@ -418,10 +439,15 @@ outcome_columns <- list(
 
 
 ma_outcomes_tbl <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK') &
-           year(date) %in% 2012:2015), outcome_columns,
+  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK')), outcome_columns,
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ),
   grp_level = T, keep_unit_outcomes = T)
-#> Missing values in outcome xgrid were set to 0
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 ma_model <- condPois_2stage(ma_exposure_matrix, 
                             ma_outcomes_tbl, 

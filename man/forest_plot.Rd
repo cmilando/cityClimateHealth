@@ -6,6 +6,14 @@
 \usage{
 forest_plot(x, ...)
 }
+\arguments{
+\item{x}{an object to dispatch to the appropriate forest_plot S3 method}
+
+\item{...}{further arguments passed to the method}
+}
+\value{
+output depends on the class of x; see method-specific documentation
+}
 \description{
 forest_plot base class
 }

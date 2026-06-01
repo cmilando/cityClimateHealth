@@ -8,6 +8,17 @@ make_cb_list(x, var_list, argvar_list, lag_list, arglag_list)
 }
 \arguments{
 \item{x}{the data.frame with the var_list data in it}
+
+\item{var_list}{a character vector of variable names}
+
+\item{argvar_list}{a list of argvar argument sets for \code{crossbasis}}
+
+\item{lag_list}{a list of lag specifications}
+
+\item{arglag_list}{a list of arglag argument sets for \code{crossbasis}}
+}
+\value{
+a nested list of cross-basis objects
 }
 \description{
 IN-PROGRESS functions that creates a list of cross-basis objects to try

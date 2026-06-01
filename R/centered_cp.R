@@ -3,18 +3,18 @@
 #' Needed a function for this because we do it twice: once for regional RRs
 #' and once for BLUP
 #'
-#' @param argvar
-#' @param xcoef
-#' @param xvcov
-#' @param this_exp
-#' @param x_b
-#' @param global_cen
-#' @param cen
-#' @param exposure_is_factor
+#' @param argvar the list of argvar elements used to determine the exposure dimension of `crossbasis`
+#' @param xcoef the centered basis coefficients that resulted
+#' @param xvcov the variance covariance matrix for the centered basis coefficients
+#' @param this_exp a vector for the exposure
+#' @param x_b a list that is the boundary of this_exp
+#' @param global_cen a global centering point, if it exists
+#' @param cen the local centering point
+#' @param exposure_is_factor logical, if exposure is a factor
 #'
 #' @importFrom dlnm onebasis
 #' @importFrom dlnm crosspred
-#' @returns
+#' @returns a list object, with the centered basis and centered crosspred output
 #'
 #' @examples
 #' \dontrun{

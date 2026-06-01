@@ -1,41 +1,34 @@
 #' An internal function to make the xgrid
 #'
-#' @param data
-#' @param column_mapping
-#' @param time_subset
+#' @param data a matrix of exposures or outcomes
+#' @param column_mapping  named list that indicates relevant columns in `data`.
 #' @param dt_by either by day or by week
-#' @param collapse_is_spatial
-#' @param collapse_is_temporal
-#' @importFrom data.table setDT as.data.table wday
+#' @param collapse_is_spatial logical, is the collapse spatial
+#' @param collapse_is_temporal logical, is the collapse temporal
+#' @importFrom data.table setDT as.data.table wday year month as.IDate
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
-#' @returns
+#' @returns a datatable of all date and geo unit combinations
 #'
-#' @examples
-#' \dontrun{
-#'   column_mapping <- list(
-#'     date = "date",
-#'     geo_unit = "city",
-#'     geo_unit_grp = "state"
-#'   )
-#'   xgrid <- make_xgrid(data, column_mapping, months_subset = 5:9)
-#' }
+#' @examples \dontrun{
+#' exposure_columns <- list("date" = "date",
+#' "exposure" = "tmax_C", "geo_unit" = "TOWN20",
+#' "geo_unit_grp" = "COUNTY20")
+#'
+#' make_xgrid(subset(ma_exposure, TOWN20 == 'BOSTON'),
+#' exposure_columns, time_subset = list(month = 5:9))
+#'}
 
-make_xgrid <- function(data, column_mapping, time_subset = NULL,
-                       dt_by = 'day', collapse_is_spatial = FALSE,
+make_xgrid <- function(data,
+                       column_mapping,
+                       dt_by = 'day',
+                       collapse_is_spatial = FALSE,
                        collapse_is_temporal = FALSE) {
+
   #
   setDT(data)
 
   stopifnot(dt_by %in% c('day', 'week', 'month'))
-
-  ##validation for time_subset
-
-  if (missing(time_subset)) {
-    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.")
-  }
-
-  time_subset_validation(time_subset)
 
   # check they are all the same day of week
   date_col <- column_mapping$date
@@ -48,65 +41,57 @@ make_xgrid <- function(data, column_mapping, time_subset = NULL,
   }
 
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' GET ALL DATES
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
-
-
-  years   <- sort(unique(data[, year(get(date_col))]))
-
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # GET ALL DATES
+  #
   # make the skeleton you need later
   # this is one of the first key stumbling blocks
   # correct! it is.
   # for "week" you need to also define what the start of the week is
-  if(dt_by == 'day') {
-    get_dt <- function(yy) {
-      st = make_date(yy, 1, 1)
-      ed = make_date(yy, 12, 31)
-      as.IDate(seq.Date(st, ed, by = 'day'))
-    }
-    all_dt <- do.call(c, lapply(years, get_dt))
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  years   <- sort(unique(data[, year(get(date_col))]))
+
+  get_dt <- function(yy, dt_by) {
+    st = lubridate::make_date(yy, 1, 1)
+    ed = lubridate::make_date(yy, 12, 31)
+    dt = seq.Date(st, ed, by = dt_by)
+    return(as.IDate(dt))
   }
 
+  # DAY
+  if(dt_by == 'day') {
+    all_dt <- lapply(years, get_dt, dt_by = dt_by)
+    all_dt <- do.call(c, all_dt)
+  }
+
+  # WEEK
   if(dt_by == 'week') {
     st = as.IDate(min(data[, get(date_col)]))
     ed = as.IDate(max(data[, get(date_col)]))
     dt = seq.Date(st, ed, by = 'week')
-    all_dt = as.IDate(dt[year(dt) %in% years])
+    all_dt = as.IDate(dt)
   }
 
+  # MONTH
   if(dt_by == 'month') {
-    get_dt <- function(yy) {
-      st = make_date(yy, 1, 1)
-      ed = make_date(yy, 12, 1)
-      as.IDate(seq.Date(st, ed, by = 'month'))
-    }
-    all_dt <- do.call(c, lapply(years, get_dt))
-  }
-
-  # CHANGED: apply time_subset filter to all_dt using the shared time_fns map
-  if (!is.null(time_subset)) {
-    time_fns <- list(month = month, year = year, wday = wday)
-    keep <- rep(TRUE, length(all_dt))
-    for (unit in names(time_subset)) {
-      keep <- keep & time_fns[[unit]](all_dt) %in% time_subset[[unit]]
-    }
-    all_dt <- all_dt[keep]
+    all_dt <- lapply(years, get_dt, dt_by = dt_by)
+    all_dt <- do.call(c, all_dt)
   }
 
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' CREATE XGRID SKELETON
-  #'
-  #' For dates, you need all the dates
-  #'
-  #' For outcomes, you also need all the dates within strata
-  #' that have SOME data so you can add 0s to low data places
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE XGRID SKELETON
+  #
+  # For dates, you need all the dates
+  #
+  # For outcomes, you also need all the dates within strata
+  # that have SOME data so you can add 0s to low data places
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   geo_col <- column_mapping$geo_unit
   unique_areas <- unlist(unique(data[, get(geo_col)]))
@@ -172,11 +157,11 @@ make_xgrid <- function(data, column_mapping, time_subset = NULL,
 
   setDT(xgrid)
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' JOIN WITH GROUP DATA
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # JOIN WITH GROUP DATA
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   geo_cols <- c(
     column_mapping$geo_unit,
@@ -202,13 +187,13 @@ make_xgrid <- function(data, column_mapping, time_subset = NULL,
 
   stopifnot(nrow(xgrid) > 0)
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' FINALLY - JOIN WITH DATA
-  #'
-  #' This shouldn't add any rows
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # FINALLY - JOIN WITH DATA
+  #
+  # This shouldnt add any rows
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(any(names(column_mapping) == 'factor')) {
     spatial_join_col <- c(

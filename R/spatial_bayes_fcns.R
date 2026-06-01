@@ -1,13 +1,13 @@
-#' Title
+#' Convert a neighbor list subgraph to node pairs
 #'
 #' https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 #'
-#' @param x
-#' @param c_id
-#' @param comp_ids
-#' @param offsets
+#' @param x an nb object (neighbor list)
+#' @param c_id subcomponent id to extract
+#' @param comp_ids vector of subcomponent ids for each node
+#' @param offsets vector of per-component node offsets
 #'
-#' @returns
+#' @returns a list with node1 and node2 integer vectors defining graph edges
 #'
 #' @examples
 #' library(spdep)
@@ -59,13 +59,13 @@ nb2subgraph = function(x, c_id, comp_ids, offsets) {
 }
 
 
-#' Title
+#' Convert a neighbor list to a graph edge list
 #'
 #' https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 #'
-#' @param x
+#' @param x an nb object (neighbor list)
 #'
-#' @returns
+#' @returns a list with N (nodes), N_edges, node1, and node2 integer vectors
 #'
 #' @examples
 #' library(spdep)
@@ -107,13 +107,13 @@ nb2graph = function(x) {
 }
 
 
-#' Title
+#' Index nodes by connected component
 #'
 #' https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 #'
-#' @param x
+#' @param x a vector of component ids
 #'
-#' @returns
+#' @returns a vector of per-component consecutive node ids
 #'
 #' @examples
 #' comp_ids <- c(1, 1, 2, 2, 2, 1)
@@ -143,13 +143,13 @@ indexByComponent = function(x) {
 }
 
 
-#' Title
+#' Compute scaling factors for neighbor list components
 #'
 #' https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 #'
-#' @param x
+#' @param x an nb object (neighbor list)
 #'
-#' @returns
+#' @returns a numeric vector of scaling factors, one per connected component
 #' @import Matrix
 #' @examples
 #' library(spdep)
@@ -207,11 +207,11 @@ scale_nb_components = function(x) {
 #'
 #' Helper function to get neighbors
 #'
-#' @param shp
-#' @param ni
-#' @param include_self
+#' @param shp an sf object with one polygon per row
+#' @param ni integer; neighbor order (0 = identity, 1 = first-order neighbors)
+#' @param include_self logical; whether to include each unit as its own neighbor
 #'
-#' @returns
+#' @returns a binary matrix of spatial weights
 #'
 #' @examples
 #' \dontrun{
@@ -261,11 +261,11 @@ getSW <- function(shp, ni, include_self = T) {
 #'
 #' Facilitates recursive calls get neighbors
 #'
-#' @param xx
-#' @param ni
-#' @param include_self
+#' @param xx a list of neighbor indices (nb-style)
+#' @param ni integer; neighbor order
+#' @param include_self logical; whether to include each node itself
 #'
-#' @returns
+#' @returns a list of neighbor index vectors
 #'
 #' @examples
 #' xx <- list(c(2, 3), c(1, 3), c(1, 2))
@@ -309,9 +309,9 @@ nx <- function(xx, ni, include_self = T) {
 
 #' Gets the matrix of strata, used in `condPois_sb`
 #'
-#' @param strata_vector
+#' @param strata_vector a factor or character vector of stratum labels
 #'
-#' @returns
+#' @returns a binary integer matrix indicating stratum membership
 #'
 #' @examples
 #' strata <- factor(c("a", "a", "b", "b", "c"))

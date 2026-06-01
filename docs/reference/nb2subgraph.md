@@ -1,4 +1,4 @@
-# Title
+# Convert a neighbor list subgraph to node pairs
 
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 
@@ -10,7 +10,25 @@ nb2subgraph(x, c_id, comp_ids, offsets)
 
 ## Arguments
 
+- x:
+
+  an nb object (neighbor list)
+
+- c_id:
+
+  subcomponent id to extract
+
+- comp_ids:
+
+  vector of subcomponent ids for each node
+
 - offsets:
+
+  vector of per-component node offsets
+
+## Value
+
+a list with node1 and node2 integer vectors defining graph edges
 
 ## Examples
 

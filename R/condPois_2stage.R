@@ -32,7 +32,7 @@
 #' @importFrom dlnm crosspred
 #' @importFrom data.table setDT
 #'
-#' @returns
+#' @returns an object of class condPois_2stage
 #' @export
 #'
 #' @examples
@@ -68,7 +68,7 @@ condPois_2stage <- function(exposure_matrix,
                             argvar = NULL,
                             arglag = NULL,
                             maxlag = NULL,
-                            min_n = 50,
+                            min_n = NULL,
                             rf = NULL,
                             strata_min = 0,
                             verbose = 0) {
@@ -159,6 +159,10 @@ condPois_2stage <- function(exposure_matrix,
   ## need to update this to check within each town,
   ## and then remove towns that don't pass from both outcomes_tbl
   ## and exposure_matrix
+  if(is.null(min_n)) {
+    min_n = 50
+  }
+
   geos_to_remove <- c()
 
   unique_geos <- unique(outcomes_tbl[, get(out_geo_unit_col)])
@@ -548,73 +552,56 @@ condPois_2stage <- function(exposure_matrix,
 
 }
 
-#' @export
-#' print.condPois_2stage
+#' Print method for condPois_2stage
 #'
-#' @param x
+#' @param x an object of class condPois_2stage
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
-#' x <- structure(list(), class = "condPois_2stage")
-#' print(x)
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   print(model)
+#' }
 print.condPois_2stage <- function(x) {
   cat("< an object of class `condPois_2stage` >\n")
   invisible(x)
 }
 
-#' @export
-#' print.condPois_2stage_list
+#' Print method for condPois_2stage_list
 #'
-#' @param x
+#' @param x an object of class condPois_2stage_list
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
-#' x <- structure(list(a = 1, b = 2), class = "condPois_2stage_list")
-#' print(x)
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   print(model_list)
+#' }
 print.condPois_2stage_list <- function(x) {
   cat("< an object of class `condPois_2stage_list`:",
       paste(names(x), collapse = ",")," >\n")
   invisible(x)
 }
 
-#' @export
-#' getRR.condPois_2stage
+#' getRR method for condPois_2stage
 #'
-#' @param x
+#' @param x an object of class condPois_2stage
 #' @importFrom data.table setDT
-#' @returns
+#' @returns a data.table of relative risk estimates
 #' @export
 #'
 #' @examples
-#' exposure_columns <- list(
-#'"date" = "date",
-#'"exposure" = "tmax_C",
-#'"geo_unit" = "TOWN20",
-#'"geo_unit_grp" = "COUNTY20"
-#')
-#'
-#'ma_exposure_matrix <- make_exposure_matrix(
-#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), exposure_columns)
-#'
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'ma_outcomes_tbl <- make_outcome_table(
-#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), outcome_columns)
-#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
-#'verbose = 1, global_cen = 10)
-#'getRR(ma_model)
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   getRR(model)
+#' }
 getRR.condPois_2stage <- function(x) {
   oo <- do.call(rbind, lapply(x$`_`$out, \(obj) obj$RRdf))
   oo$model_class = class(x)
@@ -622,23 +609,19 @@ getRR.condPois_2stage <- function(x) {
   return(oo)
 }
 
-#' @export
-#' getRR.condPois_2stage_list
+#' getRR method for condPois_2stage_list
 #'
-#' @param x
+#' @param x an object of class condPois_2stage_list
 #'
-#' @returns
+#' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
 #' @examples
-#' ma_outcomes_tbl_fct <- make_outcome_table(
-#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'         year(date) %in% 2012:2015),
-#'outcome_columns,collapse_to = 'age_grp')
-#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
-#'                                verbose = 1, global_cen = 10)
-#'getRR(ma_model_fct)
-
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   getRR(model_list)
+#' }
 getRR.condPois_2stage_list <- function(x) {
 
   obj_l <- vector("list", length(names(x)))
@@ -661,8 +644,7 @@ getRR.condPois_2stage_list <- function(x) {
 
 
 
-#' @export
-#' plot.condPois_2stage
+#' Plot method for condPois_2stage
 #'
 #' @param x an object of class condPois_2stage
 #' @param geo_unit a geo_unit to investigate
@@ -670,35 +652,15 @@ getRR.condPois_2stage_list <- function(x) {
 #' @param ylab ylab override
 #' @param title title override
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' exposure_columns <- list(
-#'"date" = "date",
-#'"exposure" = "tmax_C",
-#'"geo_unit" = "TOWN20",
-#'"geo_unit_grp" = "COUNTY20"
-#')
-#'
-#'ma_exposure_matrix <- make_exposure_matrix(
-#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), exposure_columns)
-#'
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'ma_outcomes_tbl <- make_outcome_table(
-#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), outcome_columns)
-#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
-#'verbose = 1, global_cen = 10)
-#'plot(ma_model)
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   plot(model, geo_unit = "BOSTON")
+#' }
 plot.condPois_2stage <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -720,8 +682,7 @@ plot.condPois_2stage <- function(x, geo_unit,
 }
 
 
-#' @export
-#' plot.condPois_2stage_list
+#' Plot method for condPois_2stage_list
 #'
 #' @param x an object of class condPois_2stage_list
 #' @param geo_unit a geo_unit to investigate
@@ -729,17 +690,15 @@ plot.condPois_2stage <- function(x, geo_unit,
 #' @param ylab ylab override
 #' @param title title override
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' ma_outcomes_tbl_fct <- make_outcome_table(
-#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'         year(date) %in% 2012:2015),
-#'outcome_columns,collapse_to = 'age_grp')
-#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
-#'                                verbose = 1, global_cen = 10)
-#'plot(ma_model_fct)
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   plot(model_list, geo_unit = "BOSTON")
+#' }
 plot.condPois_2stage_list <- function(x, geo_unit,
                                  xlab = NULL, ylab = NULL, title = NULL) {
 
@@ -777,42 +736,20 @@ plot.condPois_2stage_list <- function(x, geo_unit,
 }
 
 
-#' @export
-#' forest_plot.condPois_2stage
+#' forest_plot method for condPois_2stage
 #'
 #' @param x an object of class condPois_2stage
 #' @param exposure_val exposure value at which to plot
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'exposure_columns <- list(
-#'"date" = "date",
-#'"exposure" = "tmax_C",
-#'"geo_unit" = "TOWN20",
-#'"geo_unit_grp" = "COUNTY20"
-#')
-#'
-#'ma_exposure_matrix <- make_exposure_matrix(
-#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), exposure_columns)
-#'
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'ma_outcomes_tbl <- make_outcome_table(
-#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), outcome_columns)
-#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
-#'verbose = 1, global_cen = 10)
-#'forest_plot(ma_model, 25.1)
-
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   forest_plot(model, exposure_val = 30.0)
+#' }
 forest_plot.condPois_2stage <- function(x, exposure_val) {
 
   # get subset of X
@@ -861,25 +798,21 @@ forest_plot.condPois_2stage <- function(x, exposure_val) {
 }
 
 
-#' @export
-#' spatial_plot.condPois_2stage
+#' spatial_plot method for condPois_2stage
 #'
 #' @param x an object of class condPois_2stage
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' ma_outcomes_tbl_fct <- make_outcome_table(
-#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'         year(date) %in% 2012:2015),
-#'outcome_columns,collapse_to = 'age_grp')
-#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
-#'                                verbose = 1, global_cen = 10)
-#'forest_plot(ma_model_fct, 25.1)
-
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   spatial_plot(model, shp = ma_shp, exposure_val = 30.0)
+#' }
 spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
                                          RRlimits = NULL) {
 
@@ -932,44 +865,22 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
 
 }
 
-#' @export
-#'exposure_columns <- list(
-#'"date" = "date",
-#'"exposure" = "tmax_C",
-#'"geo_unit" = "TOWN20",
-#'"geo_unit_grp" = "COUNTY20"
-#')
-#'
-#'ma_exposure_matrix <- make_exposure_matrix(
-#'  subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), exposure_columns)
-#'
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'ma_outcomes_tbl <- make_outcome_table(
-#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'           year(date) %in% 2012:2015), outcome_columns)
-#'ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
-#'verbose = 1, global_cen = 10)
-#' spatial_plot.condPois_2stage_list
+#' spatial_plot method for condPois_2stage_list
 #'
 #' @param x an object of class condPois_2stage_list
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
 #' @importFrom patchwork wrap_plots
 #' @import ggplot2
-#' @returns
+#' @returns a patchwork of ggplot objects, one per factor level
 #' @export
 #'
 #' @examples
-#' spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
-
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   spatial_plot(model_list, shp = ma_shp, exposure_val = 30.0)
+#' }
 spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
@@ -1022,23 +933,19 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 }
 
 
-#' @export
-#' forest_plot.condPois_2stage_list
+#' forest_plot method for condPois_2stage_list
 #'
 #' @param x an object of class condPois_2stage_list
 #' @param exposure_val exposure value at which to plot
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#' ma_outcomes_tbl_fct <- make_outcome_table(
-#'subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'         year(date) %in% 2012:2015),
-#'outcome_columns,collapse_to = 'age_grp')
-#'ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
-#'                                verbose = 1, global_cen = 10)
-#' spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
-
+#' \dontrun{
+#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
+#'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
+#'   forest_plot(model_list, exposure_val = 30.0)
+#' }
 forest_plot.condPois_2stage_list <- function(x, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))

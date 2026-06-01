@@ -8,7 +8,7 @@ Function to clean and prepare the exposure data matrix
 make_exposure_matrix(
   data,
   column_mapping,
-  months_subset = 5:9,
+  time_subset,
   dt_by = "day",
   maxgap = 5,
   maxlag = 5,
@@ -30,10 +30,10 @@ make_exposure_matrix(
   exposure data table, these need to be one of: c('date', "exposure",
   'geo_unit', 'geo_unit_grp')
 
-- months_subset:
+- time_subset:
 
-  the warm season months for this region, default is Northern
-  Hemisphere's May through September (5 through 9)
+  the time period of interest for analysis, specified as years, months,
+  or days must be specified by user - no default
 
 - dt_by:
 

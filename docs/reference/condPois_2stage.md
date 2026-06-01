@@ -24,7 +24,7 @@ condPois_2stage(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = 50,
+  min_n = NULL,
   rf = NULL,
   strata_min = 0,
   verbose = 0
@@ -73,6 +73,10 @@ condPois_2stage(
 - verbose:
 
   whether to print geo_units as they are run
+
+## Value
+
+an object of class condPois_2stage
 
 ## Details
 

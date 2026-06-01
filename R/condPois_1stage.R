@@ -18,7 +18,7 @@
 #' @importFrom dlnm logknots
 #' @importFrom gnm gnm
 #'
-#' @returns
+#' @returns a condPois_1stage model object
 #' @export
 #'
 #' @examples
@@ -33,7 +33,9 @@
 #'  "geo_unit" = "TOWN20",
 #'  "geo_unit_grp" = "COUNTY20"
 #')
-#'boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+#' boston_exposure_mat <- make_exposure_matrix(
+#' subset(ma_exposure, TOWN20 == 'BOSTON'),
+#' exposure_columns)
 #'
 #'# create outcome table
 #'outcome_columns <- list(
@@ -176,6 +178,19 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
   #' CREATE CROSSBASIS for this single zone
+  #'
+  #' TODO: HOW TO HANDLE MULTIPLE exposures ...
+  #'       maybe this becomes a function and you have?
+  #'       well no because then arglag etc would have to be lists
+  #'       so do you want to move this into exposure ?
+  #'       no i think thats what you do, you move this into exposure
+  #'       and then you keep one main exposure and the other gets labeled
+  #'       as "control" and some of the control are cb and
+  #'       some are single vectors
+  #'       maybe exposure_col also needs to be a named list
+  #'       so you know if its a one off or a cb
+  #'       or you could do control_cb or
+  #'
   #' ==========================================================================
   #' //////////////////////////////////////////////////////////////////////////
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
@@ -233,6 +248,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   }
 
   ## get the columns you need
+  ## TODO: HAVE TO CONFIRM THAT THESE COLUMNS EXIST
   xcols <- c(exposure_col, paste0('explag',1:maxlag))
   x_mat <- exposure_matrix[, ..xcols]
 
@@ -258,6 +274,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   ##
   ## (3) you also don't need to do offset = log(poplation)
   ## because the population is not changing within the strata,
+  ## TODO: <<< PERHAPS NOT TRUE, maybe you should make this the default
   ## since you are doing conditional poisson. if you are doing time-series
   ## you would need to do this
   ff = as.formula(paste(outcome_col, "~ cb"))
@@ -484,12 +501,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 }
 
 
-#' @export
-#' print.condPois_1stage
+#' Print method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
@@ -501,12 +517,11 @@ print.condPois_1stage <- function(x) {
 }
 
 
-#' @export
-#' print.condPois_1stage_list
+#' Print method for condPois_1stage_list
 #'
 #' @param x an object of class condPois_1stage_list
 #'
-#' @returns
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
@@ -518,12 +533,11 @@ print.condPois_1stage_list <- function(x) {
 }
 
 
-#' @export
-#' getRR.condPois_1stage
+#' getRR method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
 #' @importFrom data.table setDT
-#' @returns
+#' @returns a data.table of relative risk estimates
 #' @export
 #'
 #' @examples
@@ -580,15 +594,14 @@ getRR.condPois_1stage <- function(x) {
 
 
 
-#' @export
-#' plot.condPois_1stage
+#' Plot method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
 #' @import ggplot2
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
@@ -640,12 +653,11 @@ plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
     geom_line() + xlab(xlab) + ylab(ylab)
 }
 
-#' @export
-#' getRR.condPois_1stage_list
+#' getRR method for condPois_1stage_list
 #'
-#' @param x an object of class condPois_1stage
+#' @param x an object of class condPois_1stage_list
 #' @importFrom data.table setDT
-#' @returns
+#' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
 #' @examples
@@ -693,15 +705,14 @@ getRR.condPois_1stage_list <- function(x) {
   return(plot_cp)
 }
 
-#' @export
-#' plot.condPois_1stage
+#' Plot method for condPois_1stage_list
 #'
-#' @param x an object of class condPois_1stage
+#' @param x an object of class condPois_1stage_list
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
 #' @import ggplot2
-#' @returns
+#' @returns a ggplot object
 #' @export
 #'
 #' @examples
@@ -761,12 +772,11 @@ plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL)
 
 
 
-#' @export
-#' forest_plot.condPois_1stage
+#' forest_plot method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
 #' @param ... other elements passed to spatial_plot
-#' @returns
+#' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples
@@ -782,12 +792,11 @@ forest_plot.condPois_1stage <- function(x, ...) {
 
 
 
-#' @export
-#' forest_plot.condPois_1stage_list
+#' forest_plot method for condPois_1stage_list
 #'
-#' @param x an object of class condPois_1stage
+#' @param x an object of class condPois_1stage_list
 #' @param ... other elements passed to spatial_plot
-#' @returns
+#' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples
@@ -803,12 +812,11 @@ forest_plot.condPois_1stage_list <- function(x, ...) {
 
 
 
-#' @export
-#' spatial_plot.condPois_1stage
+#' spatial_plot method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
 #' @param ... other elements passed to spatial_plot
-#' @returns
+#' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples
@@ -823,12 +831,11 @@ spatial_plot.condPois_1stage <- function(x, ...) {
 }
 
 
-#' @export
-#' spatial_plot.condPois_1stage_list
+#' spatial_plot method for condPois_1stage_list
 #'
-#' @param x an object of class condPois_1stage
+#' @param x an object of class condPois_1stage_list
 #' @param ... other elements passed to spatial_plot
-#' @returns
+#' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples

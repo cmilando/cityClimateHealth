@@ -6,6 +6,12 @@
 \usage{
 expand_arglist(arglist)
 }
+\arguments{
+\item{arglist}{a list of argument lists to expand}
+}
+\value{
+a list of all combinations of the input arguments
+}
 \description{
 IN-PROGRESS functions that creates a list of cross-basis objects to try
 }

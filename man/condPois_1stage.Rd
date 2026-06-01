@@ -38,6 +38,9 @@ condPois_1stage(
 
 \item{verbose}{used to print crossbasis args the first time}
 }
+\value{
+a condPois_1stage model object
+}
 \description{
 Run a conditional poisson model for a single geographic unit
 }
@@ -53,7 +56,9 @@ exposure_columns <- list(
  "geo_unit" = "TOWN20",
  "geo_unit_grp" = "COUNTY20"
 )
-boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns)
+boston_exposure_mat <- make_exposure_matrix(
+subset(ma_exposure, TOWN20 == 'BOSTON'),
+exposure_columns)
 
 # create outcome table
 outcome_columns <- list(

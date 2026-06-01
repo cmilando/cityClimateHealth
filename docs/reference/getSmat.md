@@ -12,6 +12,12 @@ getSmat(strata_vector)
 
 - strata_vector:
 
+  a factor or character vector of stratum labels
+
+## Value
+
+a binary integer matrix indicating stratum membership
+
 ## Examples
 
 ``` r

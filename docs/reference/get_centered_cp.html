@@ -74,10 +74,42 @@ and once for BLUP</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-exposure-is-factor">exposure_is_factor<a class="anchor" aria-label="anchor" href="#arg-exposure-is-factor"></a></dt>
-<dd></dd>
+<dl><dt id="arg-argvar">argvar<a class="anchor" aria-label="anchor" href="#arg-argvar"></a></dt>
+<dd><p>the list of argvar elements used to determine the exposure dimension of <code>crossbasis</code></p></dd>
+
+
+<dt id="arg-xcoef">xcoef<a class="anchor" aria-label="anchor" href="#arg-xcoef"></a></dt>
+<dd><p>the centered basis coefficients that resulted</p></dd>
+
+
+<dt id="arg-xvcov">xvcov<a class="anchor" aria-label="anchor" href="#arg-xvcov"></a></dt>
+<dd><p>the variance covariance matrix for the centered basis coefficients</p></dd>
+
+
+<dt id="arg-this-exp">this_exp<a class="anchor" aria-label="anchor" href="#arg-this-exp"></a></dt>
+<dd><p>a vector for the exposure</p></dd>
+
+
+<dt id="arg-x-b">x_b<a class="anchor" aria-label="anchor" href="#arg-x-b"></a></dt>
+<dd><p>a list that is the boundary of this_exp</p></dd>
+
+
+<dt id="arg-global-cen">global_cen<a class="anchor" aria-label="anchor" href="#arg-global-cen"></a></dt>
+<dd><p>a global centering point, if it exists</p></dd>
+
+
+<dt id="arg-cen">cen<a class="anchor" aria-label="anchor" href="#arg-cen"></a></dt>
+<dd><p>the local centering point</p></dd>
+
+
+<dt id="arg-exposure-is-factor">exposure_is_factor<a class="anchor" aria-label="anchor" href="#arg-exposure-is-factor"></a></dt>
+<dd><p>logical, if exposure is a factor</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>a list object, with the centered basis and centered crosspred output</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

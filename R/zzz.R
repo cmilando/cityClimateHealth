@@ -1,9 +1,9 @@
 #' spatial_plot base class
 #'
-#' @param x
-#' @param ...
+#' @param x an object to dispatch to the appropriate spatial_plot S3 method
+#' @param ... further arguments passed to the method
 #'
-#' @returns
+#' @returns output depends on the class of x; see method-specific documentation
 #' @export
 #'
 #' @examples
@@ -20,10 +20,10 @@ spatial_plot <- function(x, ...) {
 
 #' forest_plot base class
 #'
-#' @param x
-#' @param ...
+#' @param x an object to dispatch to the appropriate forest_plot S3 method
+#' @param ... further arguments passed to the method
 #'
-#' @returns
+#' @returns output depends on the class of x; see method-specific documentation
 #' @export
 #'
 #' @examples
@@ -40,10 +40,10 @@ forest_plot <- function(x, ...) {
 
 #' getRR base class
 #'
-#' @param x
-#' @param ...
+#' @param x an object to dispatch to the appropriate getRR S3 method
+#' @param ... further arguments passed to the method
 #'
-#' @returns
+#' @returns a data.table of relative risk estimates; exact format depends on the class of x
 #' @export
 #'
 #' @examples

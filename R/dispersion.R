@@ -8,7 +8,7 @@
 #' @param beta a vector of coefficients
 #' @param stratum_vector a vector describing the stratum
 #'
-#' @returns
+#' @returns a numeric scalar, the estimated dispersion parameter
 #' @export
 #'
 #' @examples

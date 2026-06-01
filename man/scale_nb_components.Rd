@@ -2,9 +2,15 @@
 % Please edit documentation in R/spatial_bayes_fcns.R
 \name{scale_nb_components}
 \alias{scale_nb_components}
-\title{Title}
+\title{Compute scaling factors for neighbor list components}
 \usage{
 scale_nb_components(x)
+}
+\arguments{
+\item{x}{an nb object (neighbor list)}
+}
+\value{
+a numeric vector of scaling factors, one per connected component
 }
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R

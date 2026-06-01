@@ -16,7 +16,7 @@ condPois_sb(
   argvar = NULL,
   arglag = NULL,
   maxlag = NULL,
-  min_n = 50,
+  min_n = NULL,
   strata_min = 0,
   verbose = 0
 )
@@ -72,5 +72,9 @@ condPois_sb(
 - verbose:
 
   whether to print geo_units as they are run
+
+## Value
+
+an object of class condPois_sb
 
 ## Examples

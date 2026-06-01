@@ -154,7 +154,9 @@ our package</p>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">exp_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">exp_df</span>, <span class="va">exposure_columns</span><span class="op">)</span></span>
+<span><span class="va">exp_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">exp_df</span>, <span class="va">exposure_columns</span>,</span>
+<span>                                time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        temp         dt TOWN20 COUNTY20                   strata</span></span>
 <span><span class="co">#&gt;       &lt;num&gt;     &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;                   &lt;char&gt;</span></span>
@@ -186,22 +188,25 @@ our package</p>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sim_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths_df</span>,  <span class="va">outcome_columns</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Missing values in outcome xgrid were set to 0</span></span>
+<span><span class="va">sim_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths_df</span>,  <span class="va">outcome_columns</span>,</span>
+<span>                              time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
+<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="va">sim_tbl</span></span>
 <span><span class="co">#&gt;              dt TOWN20 COUNTY20 deaths                   strata strata_total</span></span>
-<span><span class="co">#&gt;          &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;  &lt;int&gt;                   &lt;char&gt;        &lt;num&gt;</span></span>
+<span><span class="co">#&gt;          &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;  &lt;int&gt;                   &lt;char&gt;        &lt;int&gt;</span></span>
 <span><span class="co">#&gt;   1: 2020-05-01 A_town A_county    114 A_town:yr2020:mn05:dow06          561</span></span>
 <span><span class="co">#&gt;   2: 2020-05-02 A_town A_county    111 A_town:yr2020:mn05:dow07          581</span></span>
 <span><span class="co">#&gt;   3: 2020-05-03 A_town A_county    107 A_town:yr2020:mn05:dow01          589</span></span>
 <span><span class="co">#&gt;   4: 2020-05-04 A_town A_county    114 A_town:yr2020:mn05:dow02          455</span></span>
 <span><span class="co">#&gt;   5: 2020-05-05 A_town A_county    113 A_town:yr2020:mn05:dow03          454</span></span>
 <span><span class="co">#&gt;  ---                                                                        </span></span>
-<span><span class="co">#&gt; 455: 2022-09-26 A_town A_county    116 A_town:yr2022:mn09:dow02          439</span></span>
-<span><span class="co">#&gt; 456: 2022-09-27 A_town A_county    104 A_town:yr2022:mn09:dow03          439</span></span>
-<span><span class="co">#&gt; 457: 2022-09-28 A_town A_county    108 A_town:yr2022:mn09:dow04          446</span></span>
-<span><span class="co">#&gt; 458: 2022-09-29 A_town A_county    111 A_town:yr2022:mn09:dow05          553</span></span>
-<span><span class="co">#&gt; 459: 2022-09-30 A_town A_county    115 A_town:yr2022:mn09:dow06          565</span></span>
+<span><span class="co">#&gt; 608: 2023-09-26 A_town A_county      0 A_town:yr2023:mn09:dow03            0</span></span>
+<span><span class="co">#&gt; 609: 2023-09-27 A_town A_county      0 A_town:yr2023:mn09:dow04            0</span></span>
+<span><span class="co">#&gt; 610: 2023-09-28 A_town A_county      0 A_town:yr2023:mn09:dow05            0</span></span>
+<span><span class="co">#&gt; 611: 2023-09-29 A_town A_county      0 A_town:yr2023:mn09:dow06            0</span></span>
+<span><span class="co">#&gt; 612: 2023-09-30 A_town A_county      0 A_town:yr2023:mn09:dow07            0</span></span>
 <span><span class="co">#&gt;           match_strata</span></span>
 <span><span class="co">#&gt;                 &lt;char&gt;</span></span>
 <span><span class="co">#&gt;   1: A_town:2020-05-01</span></span>
@@ -210,11 +215,11 @@ our package</p>
 <span><span class="co">#&gt;   4: A_town:2020-05-04</span></span>
 <span><span class="co">#&gt;   5: A_town:2020-05-05</span></span>
 <span><span class="co">#&gt;  ---                  </span></span>
-<span><span class="co">#&gt; 455: A_town:2022-09-26</span></span>
-<span><span class="co">#&gt; 456: A_town:2022-09-27</span></span>
-<span><span class="co">#&gt; 457: A_town:2022-09-28</span></span>
-<span><span class="co">#&gt; 458: A_town:2022-09-29</span></span>
-<span><span class="co">#&gt; 459: A_town:2022-09-30</span></span></code></pre></div>
+<span><span class="co">#&gt; 608: A_town:2023-09-26</span></span>
+<span><span class="co">#&gt; 609: A_town:2023-09-27</span></span>
+<span><span class="co">#&gt; 610: A_town:2023-09-28</span></span>
+<span><span class="co">#&gt; 611: A_town:2023-09-29</span></span>
+<span><span class="co">#&gt; 612: A_town:2023-09-30</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">exp_mat</span>, </span>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">sim_tbl</span><span class="op">)</span></span>
@@ -226,7 +231,7 @@ our package</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 23.7 25.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 24.1 25.1</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>

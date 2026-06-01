@@ -1,9 +1,9 @@
 #' Function to create the outcome table
 #' TO DO : EDIT XGRID
-#' @param data
+#' @param data a dataset of outcomes
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
-#' @param time_subset the time period of interest for analysis, specified as years, months, or days
+#' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
 #' @param collapse_to which factors to collapse across
 #' @param collapse_is_spatial is collapse a spatial variable
@@ -12,10 +12,10 @@
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
 #'
-#' @importFrom data.table setDT setorderv `:=` `.`
+#' @importFrom data.table setDT setorderv `:=`
 #' @importFrom lubridate days_in_month
 #'
-#' @returns
+#' @returns a data.table of class("outcome")
 #' @export
 #'
 #' @examples
@@ -29,7 +29,8 @@
 #' )
 #' ma_outcomes_tbl <- make_outcome_table(
 #'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            year(date) %in% 2012:2015), outcome_columns)
+#'            outcome_columns,
+#'            time_subset = list(year = 2012:2015))
 #' make_outcome_table
 make_outcome_table <- function(data,
                                column_mapping,
@@ -41,11 +42,11 @@ make_outcome_table <- function(data,
                                grp_level = FALSE,
                                keep_unit_outcomes = FALSE) {
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' VALIDATIONS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # VALIDATIONS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   ##
   stopifnot(nrow(data) > 0)
@@ -86,6 +87,10 @@ make_outcome_table <- function(data,
          column_mapping$geo_unit, "'")
   }
 
+  ## Time_subset validation
+  ## this isn't applied until the very end
+  time_subset <- time_subset_validate(time_subset)
+
   # type checks
   stopifnot(
     inherits(data[[column_mapping$date]], "Date"),
@@ -122,11 +127,11 @@ make_outcome_table <- function(data,
   }
 
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' COLLAPSE AND SUMMARIZE
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # COLLAPSE AND SUMMARIZE
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # **************
   ## first collapse to by summing
@@ -165,10 +170,6 @@ make_outcome_table <- function(data,
 
       # collapse to = NULL --> so this collapses across factors
       # grp_level = TRUE  --> and does summarize to the group level
-      #
-      # warning("make type checks  (e.g., so Date == Date),
-      #    for some reason this doesn't work in some cases? but ok in others?")
-
 
       if(keep_unit_outcomes == FALSE) {
 
@@ -240,9 +241,6 @@ make_outcome_table <- function(data,
 
       # collapse to = NOT NULL
       # grp_level = TRUE
-      #
-      # warning("make type checks  (e.g., so Date == Date),
-      #    for some reason this doesn't work in some cases? but ok in others?")
 
       if(keep_unit_outcomes == FALSE) {
         data <- data[,.(
@@ -292,27 +290,29 @@ make_outcome_table <- function(data,
   geo_unit_col = column_mapping$geo_unit
   geo_unit_grp_col = column_mapping$geo_unit_grp
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' MAKE XGRID AND STRATA
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # MAKE XGRID and SET STRATA
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   ## fill in the blanks with 0s
   ## so make xgrid again
   xgrid <- make_xgrid(data = data,
                       column_mapping = column_mapping,
-                      time_subset = time_subset,
                       dt_by = dt_by,
                       collapse_is_spatial = collapse_is_spatial,
                       collapse_is_temporal = collapse_is_temporal)
 
   # **************
-  ## remove missing values
-  ## --> you probably want to set these to 0 I think instead
+  ## set missing outcome values to 0
+
   rr <- which(is.na(xgrid[[outcome_col]]))
+
   if(length(rr) > 0) {
-    message("Missing values in outcome xgrid were set to 0")
+
+    message("Missing outcome values introduced by xgrid were set to 0;
+            assumes that every time in the dataset should have an outcome value")
 
     # default
     xgrid[rr, (outcome_col) := 0]
@@ -322,40 +322,41 @@ make_outcome_table <- function(data,
   }
 
   if(any(is.na(xgrid))) {
-    message('some NA in outcome xgrid, investigate')
+    message('some remaining NA in outcome xgrid, investigate')
     return(xgrid)
   }
 
-  # **************
-  ## create the strata
-  dow <- wday(xgrid[, get(date_col)])
-  mn  <- month(xgrid[, get(date_col)])
-  yr  <- year(xgrid[, get(date_col)])
-  xgrid$strata <- paste0(xgrid[, get(geo_unit_col)],
-                         ":yr", yr,
-                         ":mn", sprintf("%02i", mn),
-                         ":dow", sprintf("%02i", dow))
+  # ******************
+  # set strata
+  xgrid$strata = set_strata_value(xgrid,
+                                  column_mapping = column_mapping,
+                                  dt_by = dt_by,
+                                  grp_level = grp_level,
+                                  keep_unit = keep_unit_outcomes)
 
-  # **************
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # STRATA GROUP TOTALS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
   # Label strata that have no cases, these will be removed later
   # Extract outcome column name programmatically
   group_col   <- "strata"
 
   # 1. Aggregate by group and create the 'keep' flag
   xgrid_agg <- xgrid[, .(
-    strata_total = round(sum(get(outcome_col)))
+    strata_total = sum(get(outcome_col))
   ), by = group_col]
 
   # 2. Join back to the original data (left join)
   xgrid_comb <- xgrid[xgrid_agg, on = group_col]
 
-  # remove any empty strata
-  # again this probably could be done better by only adding 0s to
-  # strata that have data, thus avoiding the bump in memory, but
-  # i don't think that it will matter .... right ?
-  # TODO
-  rr <- which(xgrid_comb$strata_total > 0)
-  xgrid_comb <- xgrid_comb[rr, ,drop = FALSE]
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE MATCH STRATA
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # now that you have a final version, make match_strata
   # also make match strata
@@ -385,11 +386,22 @@ make_outcome_table <- function(data,
     }
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' OUTPUT
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OUTPUT
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  # Get the subset expressed in time-subset
+  time_fns <- time_subset$time_fns
+  time_subset$time_fns <- NULL
+  rr <- rep(TRUE, nrow(xgrid_comb))
+  for (unit in names(time_subset)) {
+    fn  <- time_fns[[unit]]
+    rr  <- rr & fn(xgrid_comb[, get(column_mapping$date)]) %in% time_subset[[unit]]
+  }
+  xgrid_comb <- xgrid_comb[rr, ]
+  stopifnot(length(rr) > 1)  # CHANGED: moved down, now checks after filtering
 
   # reset the order
   date_col <- column_mapping$date

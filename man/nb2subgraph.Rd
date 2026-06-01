@@ -2,9 +2,21 @@
 % Please edit documentation in R/spatial_bayes_fcns.R
 \name{nb2subgraph}
 \alias{nb2subgraph}
-\title{Title}
+\title{Convert a neighbor list subgraph to node pairs}
 \usage{
 nb2subgraph(x, c_id, comp_ids, offsets)
+}
+\arguments{
+\item{x}{an nb object (neighbor list)}
+
+\item{c_id}{subcomponent id to extract}
+
+\item{comp_ids}{vector of subcomponent ids for each node}
+
+\item{offsets}{vector of per-component node offsets}
+}
+\value{
+a list with node1 and node2 integer vectors defining graph edges
 }
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R

@@ -62,4 +62,8 @@ condPois_1stage(
 
   used to print crossbasis args the first time
 
+## Value
+
+a condPois_1stage model object
+
 ## Examples

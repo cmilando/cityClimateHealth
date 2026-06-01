@@ -10,7 +10,18 @@ getRR(x, ...)
 
 ## Arguments
 
+- x:
+
+  an object to dispatch to the appropriate getRR S3 method
+
 - ...:
+
+  further arguments passed to the method
+
+## Value
+
+a data.table of relative risk estimates; exact format depends on the
+class of x
 
 ## Examples
 

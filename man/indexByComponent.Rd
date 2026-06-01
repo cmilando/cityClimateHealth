@@ -2,9 +2,15 @@
 % Please edit documentation in R/spatial_bayes_fcns.R
 \name{indexByComponent}
 \alias{indexByComponent}
-\title{Title}
+\title{Index nodes by connected component}
 \usage{
 indexByComponent(x)
+}
+\arguments{
+\item{x}{a vector of component ids}
+}
+\value{
+a vector of per-component consecutive node ids
 }
 \description{
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R

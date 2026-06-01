@@ -103,11 +103,11 @@ calc_AN <- function(model,
 
   stopifnot(is.data.table(pop_data))
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' RECURSIVE CALL IF FACTOR
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # RECURSIVE CALL IF FACTOR
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) &
     grepl("_list", class(model))) {
@@ -172,11 +172,11 @@ calc_AN <- function(model,
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' VALIDATIONS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # VALIDATIONS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   outcomes_col     <- attributes(outcomes_tbl)$column_mapping$outcome
   date_col         <- attributes(outcomes_tbl)$column_mapping$date
@@ -213,11 +213,11 @@ calc_AN <- function(model,
     cat("-- validation passed\n")
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' Part 1
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # Part 1
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(verbose > 0) {
     cat("-- estimate in each geo_unit\n")
@@ -333,11 +333,11 @@ calc_AN <- function(model,
     cat('\n')
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' Part 2
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # Part 2
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(verbose > 0) {
     cat("-- summarize by simulation\n")
@@ -479,11 +479,11 @@ calc_AN <- function(model,
     cat('\n')
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' OUTPUT
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OUTPUT
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   c1 <- which(! (names(AN_ANNUAL) %in%
                    c('population', 'year', 'nsim','annual_AN', 'above_MMT') ))
@@ -563,12 +563,11 @@ calc_AN <- function(model,
 
 }
 
-#' @export
-#' print.calcAN
+#' Print method for calcAN
 #'
-#' @param x
+#' @param x an object of class calcAN
 #'
-#' @returns prints
+#' @returns invisibly returns x
 #' @export
 #'
 #' @examples
@@ -640,12 +639,11 @@ print.calcAN <- function(x) {
 }
 
 
-#' @export
-#' print.calcAN_list
+#' Print method for calcAN_list
 #'
-#' @param x
+#' @param x an object of class calcAN_list
 #'
-#' @returns
+#' @returns The original object, invisibly.
 #' @export
 #'
 #' @examples
@@ -658,10 +656,9 @@ print.calcAN_list <- function(x) {
   invisible(x)
 }
 
-#' @export
-#' plot.calcAN
+#' Plot method for calcAN
 #'
-#' @param x an object of class plot.calcAN
+#' @param x an object of class calcAN
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @param spatial_sub an option argument to subset the geo_units investigated
@@ -669,7 +666,7 @@ print.calcAN_list <- function(x) {
 #' @importFrom ggplot2 ggplot
 #' @importFrom scales number
 #' @importFrom data.table setorder
-#' @returns
+#' @returns a plot of either the attributable rate or number
 #' @export
 #'
 #' @examples
@@ -777,10 +774,9 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
 }
 
 
-#' @export
-#' plot.calcAN_list
+#' Plot method for calcAN_list
 #'
-#' @param x an object of class plot.calcAN_list
+#' @param x an object of class calcAN_list
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @param spatial_sub an option argument to subset the geo_units investigated
@@ -788,7 +784,7 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
 #' @param override_limit override the built-in plot limit
 #' @importFrom ggplot2 ggplot
 #' @importFrom data.table setorder `:=`
-#' @returns
+#' @returns a plot with the attributable number or rate with bars for each factor level
 #' @export
 #'
 #' @examples
@@ -939,16 +935,15 @@ plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
 
 }
 
-#' @export
-#' spatial_plot.calcAN
+#' spatial_plot method for calcAN
 #'
-#' @param x an object of class condPois_AN
+#' @param x an object of class calcAN
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @param pal color palette
 #' @importFrom ggplot2 ggplot
-#' @returns
+#' @returns a spatial plot showing attributable numbers or rates
 #' @export
 #'
 #' @examples
@@ -1013,17 +1008,16 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
 
 }
 
-#' @export
-#' spatial_plot.calcAN_list
+#' spatial_plot method for calcAN_list
 #'
-#' @param x an object of class condPois_AN
+#' @param x an object of class calcAN_list
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @importFrom patchwork wrap_plots
 #' @import ggplot2
 #' @importFrom RColorBrewer brewer.pal.info
-#' @returns
+#' @returns a spatial plot showing attributable numbers or rates, with one graph for each factor level
 #' @export
 #'
 #' @examples

@@ -14,7 +14,7 @@
 #' @param beta a vector of coefficients
 #' @param stratum_vector a vector describing the stratum
 #' @importFrom MASS ginv
-#' @returns
+#' @returns a numeric matrix, the variance-covariance matrix
 #' @export
 #'
 #' @examples

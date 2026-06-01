@@ -76,9 +76,7 @@ Age, Table B01001.
 ``` r
 # View population totals for a single town
 subset(ma_pop_data, TOWN20 == "BOSTON")
-#> # A tibble: 1 × 7
-#>   TOWN20 `Female_0-17` `Female_18-64` `Female_65+` `Male_0-17` `Male_18-64`
-#>   <chr>          <dbl>          <dbl>        <dbl>       <dbl>        <dbl>
-#> 1 BOSTON         50490         247351        47313       53784       232284
-#> # ℹ 1 more variable: `Male_65+` <dbl>
+#>    TOWN20 Female_0-17 Female_18-64 Female_65+ Male_0-17 Male_18-64 Male_65+
+#>    <char>       <num>        <num>      <num>     <num>      <num>    <num>
+#> 1: BOSTON       50490       247351      47313     53784     232284    34723
 ```

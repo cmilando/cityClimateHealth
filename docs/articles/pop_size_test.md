@@ -106,7 +106,9 @@ exposure_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-exp_mat <- make_exposure_matrix(exp_df, exposure_columns)
+exp_mat <- make_exposure_matrix(exp_df, exposure_columns,
+                                time_subset = list(month = 5:9))
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exp_mat)
 #>        temp         dt TOWN20 COUNTY20                   strata
 #>       <num>     <IDat> <char>   <char>                   <char>
@@ -142,22 +144,25 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 
-sim_tbl <- make_outcome_table(deaths_df,  outcome_columns)
-#> Missing values in outcome xgrid were set to 0
+sim_tbl <- make_outcome_table(deaths_df,  outcome_columns,
+                              time_subset = list(month = 5:9))
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 sim_tbl
 #>              dt TOWN20 COUNTY20 deaths                   strata strata_total
-#>          <IDat> <char>   <char>  <int>                   <char>        <num>
+#>          <IDat> <char>   <char>  <int>                   <char>        <int>
 #>   1: 2020-05-01 A_town A_county    114 A_town:yr2020:mn05:dow06          561
 #>   2: 2020-05-02 A_town A_county    111 A_town:yr2020:mn05:dow07          581
 #>   3: 2020-05-03 A_town A_county    107 A_town:yr2020:mn05:dow01          589
 #>   4: 2020-05-04 A_town A_county    114 A_town:yr2020:mn05:dow02          455
 #>   5: 2020-05-05 A_town A_county    113 A_town:yr2020:mn05:dow03          454
 #>  ---                                                                        
-#> 455: 2022-09-26 A_town A_county    116 A_town:yr2022:mn09:dow02          439
-#> 456: 2022-09-27 A_town A_county    104 A_town:yr2022:mn09:dow03          439
-#> 457: 2022-09-28 A_town A_county    108 A_town:yr2022:mn09:dow04          446
-#> 458: 2022-09-29 A_town A_county    111 A_town:yr2022:mn09:dow05          553
-#> 459: 2022-09-30 A_town A_county    115 A_town:yr2022:mn09:dow06          565
+#> 608: 2023-09-26 A_town A_county      0 A_town:yr2023:mn09:dow03            0
+#> 609: 2023-09-27 A_town A_county      0 A_town:yr2023:mn09:dow04            0
+#> 610: 2023-09-28 A_town A_county      0 A_town:yr2023:mn09:dow05            0
+#> 611: 2023-09-29 A_town A_county      0 A_town:yr2023:mn09:dow06            0
+#> 612: 2023-09-30 A_town A_county      0 A_town:yr2023:mn09:dow07            0
 #>           match_strata
 #>                 <char>
 #>   1: A_town:2020-05-01
@@ -166,11 +171,11 @@ sim_tbl
 #>   4: A_town:2020-05-04
 #>   5: A_town:2020-05-05
 #>  ---                  
-#> 455: A_town:2022-09-26
-#> 456: A_town:2022-09-27
-#> 457: A_town:2022-09-28
-#> 458: A_town:2022-09-29
-#> 459: A_town:2022-09-30
+#> 608: A_town:2023-09-26
+#> 609: A_town:2023-09-27
+#> 610: A_town:2023-09-28
+#> 611: A_town:2023-09-29
+#> 612: A_town:2023-09-30
 ```
 
 ``` r
@@ -185,7 +190,7 @@ m1 <- condPois_1stage(exposure_matrix = exp_mat,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 23.7 25.3
+#>  $ knots: Named num [1:2] 24.1 25.1
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
