@@ -348,10 +348,12 @@ getRR(m3)
 
 ### Changing the global_cen
 
-You can change the global_cen and view the impact
+You can change the global_cen and view the impact.
 
 ```{r globalCenMod}
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20, outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE, verbose = 1)
 plot(m2)
 ```
+
+Note that global_cen must be within the range of exposures. Otherwise, the model is invalid and will not run.
