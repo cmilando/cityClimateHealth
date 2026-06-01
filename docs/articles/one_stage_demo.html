@@ -395,7 +395,7 @@ RR</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">'grey75'</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Tmax (degC)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/cp_plot-1.png" class="r-plt" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/cp_plot-1.png" class="r-plt" alt="" width="480"></p>
 <p>Finally, do some basic checks of the math using other utility
 functions to estimate the dispersion parameters and the
 variance-covariance matrix. Both of these functions will be useful once
@@ -498,7 +498,7 @@ this is using <code>gnm</code> under the hood.</p>
 <p>And plot the relative risk</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" alt="" width="480"></p>
 <p>You can also get the RR table for your own usage</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
@@ -581,7 +581,7 @@ population offset if you were doing a time-series design).</p>
 <p>And plot - notice the tighter confidence interval</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/single_plot2b-1.png" class="r-plt" width="480"></p>
+<p><img src="one_stage_demo_files/figure-html/single_plot2b-1.png" class="r-plt" alt="" width="480"></p>
 <p>And get RR</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span>
@@ -695,7 +695,7 @@ population offset if you were doing a time-series design).</p>
 <span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/ff2-1.png" class="r-plt" width="700"></p>
+<p><img src="one_stage_demo_files/figure-html/ff2-1.png" class="r-plt" alt="" width="700"></p>
 <p>And get RR</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span>
@@ -716,7 +716,7 @@ population offset if you were doing a time-series design).</p>
 <div class="section level3">
 <h3 id="changing-the-global_cen">Changing the global_cen<a class="anchor" aria-label="anchor" href="#changing-the-global_cen"></a>
 </h3>
-<p>You can change the global_cen and view the impact</p>
+<p>You can change the global_cen and view the impact.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run the model</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, global_cen <span class="op">=</span> <span class="fl">20</span>, outcomes_tbl <span class="op">=</span> <span class="va">middlesex_deaths_tbl</span>, multi_zone <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -783,7 +783,9 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/globalCenMod-1.png" class="r-plt" width="700"></p>
+<p><img src="one_stage_demo_files/figure-html/globalCenMod-1.png" class="r-plt" alt="" width="700"></p>
+<p>Note that global_cen must be within the range of exposures.
+Otherwise, the model is invalid and will not run.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

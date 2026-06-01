@@ -103,8 +103,11 @@ make_outcome_table <- function(data,
     stop("some outcomes < 0, investigate")
   }
 
+  ##remove NAs automatically
+
   if(any(is.na(data))) {
-    warning("check about any NA")
+    warning("NA values automatically removed")
+    data <- na.omit(data)
   }
 
   # check that all are unique 1:1

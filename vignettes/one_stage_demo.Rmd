@@ -357,10 +357,3 @@ plot(m2)
 ```
 
 Note that global_cen must be within the range of exposures. Otherwise, the model is invalid and will not run.
-
-```{r}
-# this model is an example of what NOT to do, and won't run!
-m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 0, outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE, verbose = 1)
-plot(m2)
-```
-
