@@ -72,6 +72,13 @@ vars_acs <- c(
 ) 
 ```
 
+Make sure to have a Census api key
+
+``` r
+
+tidycensus::census_api_key(key = '<MY SECRET KEY>', install = T)
+```
+
 Cities and towns in Massachusetts are under `county subdivision`
 
 ``` r

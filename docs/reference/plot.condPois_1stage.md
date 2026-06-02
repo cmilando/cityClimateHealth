@@ -56,8 +56,7 @@ outcome_columns <- list(
 )
 middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
 middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-#> Error in time_subset_validate(time_subset): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
-#>     To indicate using all available time, put time_subset = 'use_all'
+#> Error in make_outcome_table(middlesex_deaths, outcome_columns): `time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,

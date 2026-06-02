@@ -113,8 +113,7 @@ outcome_columns <- list(
 ma_outcomes_tbl <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
            year(date) %in% 2012:2015), outcome_columns)
-#> Error in time_subset_validate(time_subset): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
-#>     To indicate using all available time, put time_subset = 'use_all'
+#> Error in make_outcome_table(subset(ma_deaths, COUNTY20 %in% c("MIDDLESEX",     "WORCESTER") & year(date) %in% 2012:2015), outcome_columns): `time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.
 
 ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
 #> Error: object 'ma_exposure_matrix' not found
@@ -387,6 +386,6 @@ calc_AN
 #>     class(outlist) <- "calcAN"
 #>     return(outlist)
 #> }
-#> <bytecode: 0x166ed3008>
+#> <bytecode: 0x72b3ae628>
 #> <environment: namespace:cityClimateHealth>
 ```

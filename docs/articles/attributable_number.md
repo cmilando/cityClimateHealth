@@ -27,6 +27,11 @@ looks like this:
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 data("ma_pop_data")
 setDT(ma_pop_data)
 ma_pop_data
@@ -309,29 +314,29 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE                 2547.2026
-#> 2: MIDDLESEX    1623109     FALSE                 -140.2401
-#> 3: WORCESTER     858898      TRUE                 2229.6157
-#> 4: WORCESTER     858898     FALSE                 -151.1530
+#> 1: MIDDLESEX    1623109      TRUE                 2550.1830
+#> 2: MIDDLESEX    1623109     FALSE                 -140.3017
+#> 3: WORCESTER     858898      TRUE                 2231.8715
+#> 4: WORCESTER     858898     FALSE                 -150.1488
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:                2476.7953                2618.7644
-#> 2:                -150.7346                -131.6678
-#> 3:                2102.1981                2326.5677
-#> 4:                -171.5454                -132.5652
+#> 1:                2471.5923                2617.0789
+#> 2:                -152.0242                -131.7614
+#> 3:                2113.2886                2327.3194
+#> 4:                -170.4102                -132.8526
 ma_AN$`_`$number_table
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX    1623109      TRUE                 41343.88
-#> 2: MIDDLESEX    1623109     FALSE                 -2276.25
-#> 3: WORCESTER     858898      TRUE                 19150.12
-#> 4: WORCESTER     858898     FALSE                 -1298.25
+#> 1: MIDDLESEX    1623109      TRUE                41392.250
+#> 2: MIDDLESEX    1623109     FALSE                -2277.250
+#> 3: WORCESTER     858898      TRUE                19169.500
+#> 4: WORCESTER     858898     FALSE                -1289.625
 #>    mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                      <num>                   <num>
-#> 1:               40201.088               42505.400
-#> 2:               -2446.587               -2137.113
-#> 3:               18055.738               19982.844
-#> 4:               -1473.400               -1138.600
+#> 1:               40116.637               42478.044
+#> 2:               -2467.519               -2138.631
+#> 3:               18150.994               19989.300
+#> 4:               -1463.650               -1141.069
 ```
 
 See that the numbers are roughly the same for Suffolk county ? They

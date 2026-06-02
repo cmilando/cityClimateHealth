@@ -30,9 +30,18 @@ You can also experiment with speeding things up (at the risk of less
 precise estimates) using the laplace or variational method. see Jack’s
 notes as so what is going on here
 
+Sb, basically a combination of these two things:
+<https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=>
+<https://link.springer.com/article/10.1186/1471-2288-14-122>
+
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 data("ma_exposure")
 data("ma_deaths")
 
@@ -290,7 +299,6 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
-#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...mcmc... 
 #> Running MCMC with 2 parallel chains...
 #> 
@@ -298,32 +306,32 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
 #> Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) 
 #> Chain 1 Iteration:  200 / 2000 [ 10%]  (Warmup) 
-#> Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) 
 #> Chain 1 Iteration:  400 / 2000 [ 20%]  (Warmup) 
-#> Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+#> Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) 
 #> Chain 1 Iteration:  600 / 2000 [ 30%]  (Warmup) 
+#> Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) 
 #> Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) 
 #> Chain 1 Iteration:  800 / 2000 [ 40%]  (Warmup) 
-#> Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
-#> Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 #> Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+#> Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+#> Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
 #> Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
-#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
-#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
-#> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
+#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
-#> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+#> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 28.2 seconds.
-#> Chain 2 finished in 28.2 seconds.
+#> Chain 2 finished in 20.8 seconds.
+#> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+#> Chain 1 finished in 22.8 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 28.2 seconds.
-#> Total execution time: 28.3 seconds.
+#> Mean chain execution time: 21.8 seconds.
+#> Total execution time: 22.9 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -351,19 +359,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb1$`_`$beta_mat
-#>             CHELSEA     EVERETT       MALDEN        REVERE
-#>  [1,]  0.0456308126  0.05352101  0.016819384 -0.0007161932
-#>  [2,] -0.0231097347 -0.03545622  0.013499651  0.0180104771
-#>  [3,]  0.0872456315  0.08576537  0.093345444  0.1028893159
-#>  [4,] -0.0335099861 -0.03532395 -0.041057600 -0.0331877853
-#>  [5,]  0.0869883281  0.04810957  0.035980861 -0.0511078787
-#>  [6,]  0.0153486462 -0.11608512  0.060327309  0.0744266960
-#>  [7,]  0.1925532726  0.18545340  0.116790990  0.1364912400
-#>  [8,] -0.0458401368 -0.04524806 -0.051585023 -0.0596107029
-#>  [9,]  0.0178926722  0.07015687  0.037543496  0.0284379701
-#> [10,] -0.0009346895 -0.06706039 -0.001380179  0.0211865854
-#> [11,]  0.1714337487  0.12552996  0.129737636  0.1171559634
-#> [12,] -0.0489177032 -0.02000770 -0.044636717 -0.0651447939
+#>            CHELSEA     EVERETT       MALDEN       REVERE
+#>  [1,]  0.046451146  0.05193203  0.017183168 -0.000424874
+#>  [2,] -0.024004122 -0.03424428  0.011919092  0.018004531
+#>  [3,]  0.087005275  0.08600062  0.093602318  0.103398072
+#>  [4,] -0.033260911 -0.03582986 -0.041470530 -0.033616921
+#>  [5,]  0.090138194  0.04626000  0.039001008 -0.053467408
+#>  [6,]  0.009489463 -0.11292209  0.054874194  0.072859687
+#>  [7,]  0.191312835  0.18591096  0.117228149  0.142018513
+#>  [8,] -0.042678153 -0.04681459 -0.053749416 -0.060871001
+#>  [9,]  0.018904632  0.07075151  0.039603114  0.025033481
+#> [10,] -0.002773212 -0.06646190 -0.003032928  0.021496167
+#> [11,]  0.170843688  0.12531848  0.129976780  0.119833251
+#> [12,] -0.047985404 -0.02065557 -0.044806349 -0.065717577
 ```
 
 ### Compare with spatial model
@@ -414,16 +422,13 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
-#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...laplace optimize... 
 #> Initial log joint probability = -6739.06 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      199      -6737.27   0.000937628       3.41527           1           1      228    
-#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      251      -6737.25   0.000383661      0.925504           1           1      291    
+#>      135      -6737.26   0.000480621      0.490307           1           1      162    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.2 seconds.
+#> Finished in  0.1 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -464,19 +469,19 @@ mx
 #> cbv3.l4 -0.0490847643 -0.01913613 -0.0655887549 -0.044893272
 
 m_sb2$`_`$beta_mat
-#>             CHELSEA     EVERETT        MALDEN        REVERE
-#>  [1,]  0.0458586733  0.05162743  0.0198625779  0.0008845656
-#>  [2,] -0.0220856908 -0.03392710  0.0109468080  0.0165567121
-#>  [3,]  0.0861538933  0.08560651  0.0918004638  0.1024962527
-#>  [4,] -0.0330042838 -0.03687785 -0.0402293449 -0.0334331401
-#>  [5,]  0.0904149638  0.05030364  0.0377163305 -0.0498459053
-#>  [6,]  0.0172750990 -0.11274860  0.0605084336  0.0734293848
-#>  [7,]  0.1871556940  0.18167954  0.1157763617  0.1363663583
-#>  [8,] -0.0420661444 -0.04621438 -0.0534678629 -0.0604334736
-#>  [9,]  0.0170270521  0.07232091  0.0378247986  0.0268581405
-#> [10,]  0.0004470097 -0.06644832 -0.0004339046  0.0219184549
-#> [11,]  0.1721718575  0.12434989  0.1291042921  0.1184390894
-#> [12,] -0.0485779576 -0.01980478 -0.0449361685 -0.0655701787
+#>            CHELSEA     EVERETT        MALDEN        REVERE
+#>  [1,]  0.045634215  0.05115889  1.912114e-02  0.0002296362
+#>  [2,] -0.021347754 -0.03362789  1.150065e-02  0.0171305953
+#>  [3,]  0.085932504  0.08576225  9.196965e-02  0.1026762648
+#>  [4,] -0.033000435 -0.03697993 -4.039857e-02 -0.0336146202
+#>  [5,]  0.088898862  0.04896233  3.576612e-02 -0.0522570899
+#>  [6,]  0.020300892 -0.11182180  6.186971e-02  0.0754946284
+#>  [7,]  0.186678776  0.18210428  1.161405e-01  0.1371428533
+#>  [8,] -0.042245354 -0.04676315 -5.374222e-02 -0.0610988010
+#>  [9,]  0.016161670  0.07259095  3.726371e-02  0.0261401174
+#> [10,]  0.001593987 -0.06659985 -7.422318e-05  0.0225049341
+#> [11,]  0.172182870  0.12419511  1.292096e-01  0.1186491005
+#> [12,] -0.048831973 -0.01967055 -4.505572e-02 -0.0657595895
 ```
 
 ### Compare with spatial model for leroux
@@ -527,31 +532,38 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> polygon per row in `shp`
 #> 
 #> -- run STAN
-#> ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)
 #>  ...laplace optimize... 
 #> Initial log joint probability = -7000.25 
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      199      -6518.16     0.0317223        386.68           1           1      215    
+#>      199      -6483.58     0.0592651        2851.7      0.3124           1      214    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      399      -6438.84     0.0763665       11799.7      0.5406           1      425    
+#>      399      -6440.07   9.26028e-05       1448.31           1           1      425    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      599      -6393.62      0.027489       12270.4           1           1      635    
+#>      599      -6436.46   0.000542912       578.289           1           1      637    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      799       -6371.4    0.00210131       22054.6           1           1      849    
+#>      799      -6435.89   4.05429e-05       235.671      0.9461      0.9461      844    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>      999      -6362.85   2.48342e-06       1876.72           1           1     1060    
+#>      999      -6435.58     0.0001235       312.848           1           1     1051    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1199      -6360.11   1.70314e-06       1926.29           1           1     1272    
+#>     1199      -6435.28   0.000121976         568.2           1           1     1269    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1399       -6359.2   1.63738e-06       1871.19           1           1     1480    
+#>     1399      -6435.15   9.91154e-06       101.253           1           1     1484    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1599      -6358.77   1.14602e-05       1174.76           1           1     1690    
+#>     1599      -6434.98   2.29524e-05       114.414           1           1     1694    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1799      -6357.61   0.000191241       7846.74           1           1     1897    
+#>     1799      -6434.87   6.22773e-05       170.207           1           1     1901    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     1999      -6356.56   1.89901e-05       1981.71           1           1     2106    
+#>     1999      -6434.52    0.00413995       1870.72           1           1     2109    
 #>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
-#>     2152      -6355.97   2.89835e-07       242.602           1           1     2271    
+#>     2199      -6433.18   0.000436944       834.056           1           1     2325    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2399      -6432.52   2.71483e-05       204.321           1           1     2533    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2599      -6432.35   9.54362e-05        269.67           1           1     2739    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2799      -6432.11   4.62306e-05       597.971           1           1     2947    
+#>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  
+#>     2972      -6431.94   2.16346e-06       32.6528           1           1     3130    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
 #> Finished in  1.1 seconds.
@@ -596,18 +608,18 @@ mx
 
 m_sb3$`_`$beta_mat
 #>            CHELSEA      EVERETT       MALDEN       REVERE
-#>  [1,]  0.007393639  0.007393783  0.007394246  0.007393495
-#>  [2,]  0.005909122  0.005908662  0.005909320  0.005909025
-#>  [3,]  0.101803791  0.101805013  0.101804536  0.101804116
-#>  [4,] -0.044028850 -0.044029436 -0.044029717 -0.044029101
-#>  [5,] -0.045403335 -0.045399953 -0.045397541 -0.045397391
-#>  [6,]  0.046002445  0.046006159  0.046005327  0.046004258
-#>  [7,]  0.187302268  0.187301976  0.187301327  0.187302360
-#>  [8,] -0.079967442 -0.079968539 -0.079967671 -0.079968194
-#>  [9,]  0.009569405  0.009569682  0.009569975  0.009570113
-#> [10,]  0.011026783  0.011027388  0.011027647  0.011027685
-#> [11,]  0.141515150  0.141515325  0.141514600  0.141515359
-#> [12,] -0.056311437 -0.056311460 -0.056310655 -0.056311288
+#>  [1,]  0.030890899  0.030891160  0.030891202  0.030891276
+#>  [2,] -0.008934332 -0.008934032 -0.008933796 -0.008933673
+#>  [3,]  0.093069451  0.093069618  0.093070202  0.093070315
+#>  [4,] -0.035069960 -0.035069930 -0.035069765 -0.035069589
+#>  [5,]  0.048175551  0.048172507  0.048173515  0.048171025
+#>  [6,] -0.017076972 -0.017077683 -0.017078980 -0.017078669
+#>  [7,]  0.151028269  0.151027837  0.151027072  0.151027367
+#>  [8,] -0.043569710 -0.043569786 -0.043569737 -0.043569727
+#>  [9,]  0.045601554  0.045601569  0.045601838  0.045601988
+#> [10,] -0.018787122 -0.018787260 -0.018786989 -0.018786842
+#> [11,]  0.132355975  0.132355409  0.132355763  0.132355642
+#> [12,] -0.042634646 -0.042634555 -0.042634716 -0.042635042
 ```
 
 And you can also see that the leroux `q` value is quite high
@@ -616,9 +628,9 @@ And you can also see that the leroux `q` value is quite high
 
 subset(m_sb3$`_`$stan_summary, variable == 'q')
 #> # A tibble: 1 × 7
-#>   variable  mean median    sd   mad    q5   q95
-#>   <chr>    <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 q        0.631  0.640 0.113 0.112 0.437 0.808
+#>   variable  mean median    sd      mad    q5   q95
+#>   <chr>    <dbl>  <dbl> <dbl>    <dbl> <dbl> <dbl>
+#> 1 q        0.911  0.999 0.234 0.000603 0.191 0.999
 ```
 
 All of the other objects associated with `condPois_1stage` or

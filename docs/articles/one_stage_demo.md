@@ -739,7 +739,7 @@ getRR(m3)
 
 ### Changing the global_cen
 
-You can change the global_cen and view the impact
+You can change the global_cen and view the impact.
 
 ``` r
 
@@ -811,3 +811,6 @@ plot(m2)
 ```
 
 ![](one_stage_demo_files/figure-html/globalCenMod-1.png)
+
+Note that global_cen must be within the range of exposures. Otherwise,
+the model is invalid and will not run.

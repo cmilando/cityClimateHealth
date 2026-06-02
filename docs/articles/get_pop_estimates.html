@@ -143,9 +143,12 @@ get you started.</p>
 <span>  female_85_over     <span class="op">=</span> <span class="st">"B01001_049"</span></span>
 <span></span>
 <span><span class="op">)</span> </span></code></pre></div>
+<p>Make sure to have a Census api key</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tidycensus</span><span class="fu">::</span><span class="fu"><a href="https://walker-data.com/tidycensus/reference/census_api_key.html" class="external-link">census_api_key</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">'&lt;MY SECRET KEY&gt;'</span>, install <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <p>Cities and towns in Massachusetts are under
 <code>county subdivision</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma_cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://walker-data.com/tidycensus/reference/get_acs.html" class="external-link">get_acs</a></span><span class="op">(</span></span>
 <span>  geography <span class="op">=</span> <span class="st">"county subdivision"</span>,</span>
 <span>  variables <span class="op">=</span> <span class="va">vars_acs</span>,</span>
@@ -156,7 +159,7 @@ get you started.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Getting data from the 2018-2022 5-year ACS</span></span></code></pre></div>
 <p>Now some aggregation</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -198,7 +201,7 @@ get you started.</p>
 <span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>And convert to wide formatting</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="va">ma_pop_wide</span> <span class="op">&lt;-</span> <span class="va">ma_pop_town_sex_age</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html" class="external-link">unite</a></span><span class="op">(</span><span class="va">sex_age</span>, <span class="va">sex</span>, <span class="va">age_group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -237,7 +240,7 @@ get you started.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://chadmilando.com" class="external-link">Chad Milando</a>, <a href="https://www.bu.edu/sph/profile/emma-gause/" class="external-link">Emma Gause</a>, <a href="https://www.colorado.edu/oclab/quinn-adams" class="external-link">Quinn Adams</a>, <a href="https://www.bu.edu/sph/profile/zachary-popp/" class="external-link">Zachary Popp</a>, Alexis Arlak, <a href="https://www.bu.edu/sph/profile/gregory-wellenius/" class="external-link">Gregory Wellenius</a>.</p>
+  <p>Developed by <a href="https://chadmilando.com" class="external-link">Chad Milando</a>, <a href="https://www.bu.edu/sph/profile/emma-gause/" class="external-link">Caroline Sarpy</a>, <a href="https://www.bu.edu/sph/profile/emma-gause/" class="external-link">Emma Gause</a>, <a href="https://www.colorado.edu/oclab/quinn-adams" class="external-link">Quinn Adams</a>, <a href="https://www.bu.edu/sph/profile/zachary-popp/" class="external-link">Zachary Popp</a>, <a href="https://www.bu.edu/sph/profile/emma-gause/" class="external-link">Alexis Arlak</a>, <a href="https://www.bu.edu/sph/profile/gregory-wellenius/" class="external-link">Gregory Wellenius</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

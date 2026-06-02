@@ -211,3 +211,6 @@
 
 - [`time_subset_validate()`](http://climatehealth.city/reference/time_subset_validate.md)
   : validation of the time_subset argumetn
+
+- [`time_subset_validation()`](http://climatehealth.city/reference/time_subset_validation.md)
+  : Validate time_subset input

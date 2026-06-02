@@ -32,8 +32,8 @@ make_outcome_table(
 
 - time_subset:
 
-  the time period of interest for analysis, specified as years, months,
-  or days must be specified by user - no default
+  the time period of interest for analysis, specified as years or months
+  must be specified by user - no default
 
 - dt_by:
 

@@ -12,6 +12,15 @@ run a new R session, or restart the current R session.
 install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOption('repos')))
 ```
 
+After you’ve install `cmdstanr` try the `install_cmdstan()` function to
+download STAN.
+
+If you’re on MAC, you may need to install xcode
+
+``` bash
+xcode-select --install
+```
+
 Now, users must install the “remotes” package in R.
 
 ``` r

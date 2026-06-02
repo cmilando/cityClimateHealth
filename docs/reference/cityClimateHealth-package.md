@@ -20,6 +20,8 @@ Useful links:
 
 Authors:
 
+- Caroline Sarpy <cas777@bu.edu>
+
 - Emma Gause <egause@bu.edu>
 
 - Quinn Adams <qadams@bu.edu>
