@@ -3,6 +3,7 @@ Title: Estimating Heat-Health Impacts at Small Spatial Scales
 Version: 0.1.0
 Authors@R: c(
     person("Chad", "Milando", , "cmilando@bu.edu", role = c("aut", "cre")),
+    person("Caroline", "Sarpy", , "cas777@bu.edu", role = c("aut")),
     person("Emma", "Gause", , "egause@bu.edu", role = c("aut")),
     person("Quinn", "Adams", , "qadams@bu.edu", role = c("aut")),
     person("Zachary", "Popp", , "zpopp@bu.edu", role = c("aut")),
