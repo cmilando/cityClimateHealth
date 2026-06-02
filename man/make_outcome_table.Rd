@@ -23,7 +23,7 @@ make_outcome_table(
 \item{column_mapping}{a named list that indicates relevant columns in \code{data}. for the exposure
 data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')}
 
-\item{time_subset}{the time period of interest for analysis, specified as years, months, or days
+\item{time_subset}{the time period of interest for analysis, specified as years or months
 must be specified by user - no default}
 
 \item{dt_by}{is it daily data, or weekly or ...}

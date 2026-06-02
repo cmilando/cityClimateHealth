@@ -88,6 +88,19 @@ VALIDATIONS
 //////////////////////////////////////////////////////////////////////////
 ==========================================================================
 CREATE CROSSBASIS for this single zone
+
+TODO: HOW TO HANDLE MULTIPLE exposures ...
+      maybe this becomes a function and you have?
+      well no because then arglag etc would have to be lists
+      so do you want to move this into exposure ?
+      no i think thats what you do, you move this into exposure
+      and then you keep one main exposure and the other gets labeled
+      as "control" and some of the control are cb and
+      some are single vectors
+      maybe exposure_col also needs to be a named list
+      so you know if its a one off or a cb
+      or you could do control_cb or
+
 ==========================================================================
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

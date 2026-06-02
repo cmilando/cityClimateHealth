@@ -26,7 +26,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Chad Milando \email{cmilando@bu.edu}
+  \item Caroline Sarpy \email{cas777@bu.edu}
   \item Emma Gause \email{egause@bu.edu}
   \item Quinn Adams \email{qadams@bu.edu}
   \item Zachary Popp \email{zpopp@bu.edu}
