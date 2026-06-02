@@ -307,8 +307,9 @@ condPois_sb <- function(exposure_matrix,
                                 argvar = argvar,
                                 arglag = arglag,
                                 maxlag = maxlag,
-                                min_n = 1,
-                                strata_min = 0,
+                                global_cen = global_cen,
+                                min_n = min_n,
+                                strata_min = strata_min,
                                 verbose = i == 1)
 
     local_cp <- local_cp$`_`$out[[this_geo]]

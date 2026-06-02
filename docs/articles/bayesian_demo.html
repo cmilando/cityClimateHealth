@@ -341,16 +341,9 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
-<span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).</span></span>
-<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
-<span><span class="co">#&gt;         be too few events in this area, or</span></span>
-<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; EVERETT  MALDEN  REVERE  </span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).</span></span>
-<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
-<span><span class="co">#&gt;         be too few events in this area, or</span></span>
-<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one</span></span>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -360,14 +353,14 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration:  200 / 2000 [ 10%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  400 / 2000 [ 20%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration:  400 / 2000 [ 20%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  600 / 2000 [ 30%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration:  600 / 2000 [ 30%]  (Warmup) </span></span>
-<span><span class="co">#&gt; Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration:  800 / 2000 [ 40%]  (Warmup) </span></span>
+<span><span class="co">#&gt; Chain 2 Iteration:  800 / 2000 [ 40%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) </span></span>
@@ -381,13 +374,13 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 finished in 20.8 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 finished in 20.7 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 finished in 22.8 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1 finished in 22.4 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Both chains finished successfully.</span></span>
-<span><span class="co">#&gt; Mean chain execution time: 21.8 seconds.</span></span>
-<span><span class="co">#&gt; Total execution time: 22.9 seconds.</span></span>
+<span><span class="co">#&gt; Mean chain execution time: 21.6 seconds.</span></span>
+<span><span class="co">#&gt; Total execution time: 22.6 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ...mcmc draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
@@ -457,16 +450,9 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; strata:</span></span>
 <span><span class="co">#&gt; CHELSEA:yr2012:mn05:dow03</span></span>
-<span><span class="co">#&gt; strata_min: 0</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).</span></span>
-<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
-<span><span class="co">#&gt;         be too few events in this area, or</span></span>
-<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; EVERETT  MALDEN  REVERE  </span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit REVERE: Cen = 6.20, x_b = (7.00, 35.00).</span></span>
-<span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
-<span><span class="co">#&gt;         be too few events in this area, or</span></span>
-<span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span>
 <span><span class="co">#&gt; Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one</span></span>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -609,7 +595,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt;     2972      -6431.94   2.16346e-06       32.6528           1           1     3130    </span></span>
 <span><span class="co">#&gt; Optimization terminated normally:  </span></span>
 <span><span class="co">#&gt;   Convergence detected: relative gradient magnitude is below tolerance </span></span>
-<span><span class="co">#&gt; Finished in  1.1 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  1.0 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace sample... </span></span>
 <span><span class="co">#&gt; Calculating Hessian </span></span>
 <span><span class="co">#&gt; Calculating inverse of Cholesky factor </span></span>
