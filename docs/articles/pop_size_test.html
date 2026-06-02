@@ -292,10 +292,21 @@ temperature.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">sim_out1</span>, <span class="va">new_deaths</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>Great, now lets make two for different populations</p>
+<div class="section level2">
+<h2 id="things-to-test">Things to test<a class="anchor" aria-label="anchor" href="#things-to-test"></a>
+</h2>
 <p>There are probably a few important edge cases:</p>
 <ul>
 <li>the smaller population has an uncertain and null relationship</li>
-</ul></main>
+<li>the smaller population has a NEGATIVE relationship</li>
+<li>does the smaller populuation make the larger populations
+relationship worse as compared to a single stage model for the larger
+population</li>
+<li>at what ratio of population sizes does this really start to
+matter</li>
+</ul>
+</div>
+  </main>
 </div>
 
 

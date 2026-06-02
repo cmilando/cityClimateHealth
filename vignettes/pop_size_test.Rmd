@@ -177,6 +177,11 @@ cor(sim_out1, new_deaths)
 
 Great, now lets make two for different populations
 
+# Things to test
+
 There are probably a few important edge cases:
 
 * the smaller population has an uncertain and null relationship
+* the smaller population has a NEGATIVE relationship
+* does the smaller populuation make the larger populations relationship worse as compared to a single stage model for the larger population
+* at what ratio of population sizes does this really start to matter
