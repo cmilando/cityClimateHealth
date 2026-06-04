@@ -403,6 +403,3 @@ make_exposure_matrix <- function(data,
   return(exposure_subset)
 
 }
-
-
-pkgdown::build_article('bayesian_demo')
