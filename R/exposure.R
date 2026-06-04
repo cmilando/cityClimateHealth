@@ -301,16 +301,15 @@ make_exposure_matrix <- function(data,
 
     # 3. Aggregate by group
     # Here I'm assuming you want the mean of exposure columns; adjust as needed
+    ##EDITED by Caroline to try to get rid of the X in column issue
+    by_cols <- c(geo_col, geo_grp_col, column_mapping$date, "strata", "match_strata")
     exposure2avg <- exposure2[, lapply(.SD, mean, na.rm = TRUE),
-                           by = .(get(geo_col), get(geo_grp_col),
-                                  get(date_col), strata, match_strata),
-                           .SDcols = exposure_col]
+                              by = by_cols,
+                              .SDcols = exposure_col]
 
     if(exposure_is_factor) {
       exposure2avg[, (exposure_col) := round(get(exposure_col))]
     }
-
-    names(exposure2avg)[1:3] <- c(geo_col, geo_grp_col, column_mapping$date)
 
     # and make the dates ok again
     # warning("make type checks  (e.g., so Date == Date),
