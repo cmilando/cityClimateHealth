@@ -314,6 +314,8 @@
 <span></span>
 <span><span class="va">boston_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">boston_deaths</span>,  <span class="va">outcome_columns</span>,</span>
 <span>                                        time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
+<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -368,7 +370,7 @@ should be 1.5, 2.5</p>
 <span><span class="co">#&gt; strata_min: 0</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="strata_files/figure-html/model-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="strata_files/figure-html/model-1.png" class="r-plt" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

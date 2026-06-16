@@ -146,6 +146,8 @@ outcome_columns <- list(
 
 sim_tbl <- make_outcome_table(deaths_df,  outcome_columns,
                               time_subset = list(month = 5:9))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -265,6 +267,12 @@ cor(sim_out1, new_deaths)
 
 Great, now lets make two for different populations
 
+## Things to test
+
 There are probably a few important edge cases:
 
 - the smaller population has an uncertain and null relationship
+- the smaller population has a NEGATIVE relationship
+- does the smaller populuation make the larger populations relationship
+  worse as compared to a single stage model for the larger population
+- at what ratio of population sizes does this really start to matter

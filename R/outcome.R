@@ -147,12 +147,15 @@ make_outcome_table <- function(data,
   # Next check about collapsing across factors
   if(is.null(collapse_to)) {
 
+    cat("> No factors to collapse to, using all data\n")
+
     collapse_to = 'ALL'
 
     if(grp_level == FALSE) {
 
       # collapse to = NULL --> so this collapses across factors
       # grp_level = FALSE  --> and doesn't summarize to the group level
+      cat("> grp_level == FALSE, so using geo_unit as strata\n")
 
       data <- data[,.(
         xoutcome = sum(get(outcome_col))
@@ -176,6 +179,9 @@ make_outcome_table <- function(data,
 
       if(keep_unit_outcomes == FALSE) {
 
+        cat("> grp_level == TRUE and keep_unit_outcomes == FALSE, so
+            aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
+
         data <- data[,.(
           xoutcome = sum(get(outcome_col))
         ), by = .(get(date_col),
@@ -193,6 +199,9 @@ make_outcome_table <- function(data,
         )
 
       } else {
+
+        cat("> grp_level == TRUE and keep_unit_outcomes == TRUE, so
+            keeping to geo_unit data but using geo_unit_grp as strata\n")
 
         data <- data[,.(
           xoutcome = sum(get(outcome_col))
@@ -213,6 +222,7 @@ make_outcome_table <- function(data,
 
   } else {
 
+    cat("> Factors in data\n")
     factor_cols <- which(names(column_mapping) == 'factor')
     factor_cols <- unlist(column_mapping[factor_cols])
     stopifnot(collapse_to %in% factor_cols)
@@ -221,6 +231,7 @@ make_outcome_table <- function(data,
 
       # collapse to = NOT NULL
       # grp_level = FALSE
+      cat("> grp_level == FALSE, so using geo_unit as strata\n")
 
       data <- data[,.(
         xoutcome = sum(get(outcome_col))
@@ -246,6 +257,10 @@ make_outcome_table <- function(data,
       # grp_level = TRUE
 
       if(keep_unit_outcomes == FALSE) {
+
+        cat("> grp_level == TRUE and keep_unit_outcomes == FALSE, so
+            aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
+
         data <- data[,.(
           xoutcome = sum(get(outcome_col))
         ), by = .(get(date_col),
@@ -267,6 +282,10 @@ make_outcome_table <- function(data,
           "factor" = collapse_to
         )
       } else {
+
+        cat("> grp_level == TRUE and keep_unit_outcomes == TRUE, so
+            keeping to geo_unit data but using geo_unit_grp as strata\n")
+
         data <- data[,.(
           xoutcome = sum(get(outcome_col))
         ), by = .(get(date_col),
@@ -331,10 +350,11 @@ make_outcome_table <- function(data,
 
   # ******************
   # set strata
+  # should this be set to false ??? here ??? why ???
   xgrid$strata = set_strata_value(xgrid,
                                   column_mapping = column_mapping,
                                   dt_by = dt_by,
-                                  grp_level = grp_level,
+                                  grp_level = FALSE,
                                   keep_unit = keep_unit_outcomes)
 
   # //////////////////////////////////////////////////////////////////////////

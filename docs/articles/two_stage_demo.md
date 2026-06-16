@@ -17,11 +17,6 @@ First create the inputs, using the same `exposure_columns` and
 ``` r
 
 library(data.table)
-#> 
-#> Attaching package: 'data.table'
-#> The following object is masked from 'package:base':
-#> 
-#>     %notin%
 exposure_columns <- list(
   "date" = "date",
   "exposure" = "tmax_C",
@@ -55,6 +50,8 @@ ma_outcomes_tbl <- make_outcome_table(
        month = 5:9,
        year = 2012:2015
      ))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -228,6 +225,8 @@ ma_outcomes_tbl_fct <- make_outcome_table(
        year = 2012:2015
      ),
   collapse_to = 'age_grp')
+#> > Factors in data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -450,6 +449,9 @@ ma_outcomes_tbl <- make_outcome_table(
        year = 2012:2015
      ),
   grp_level = T, keep_unit_outcomes = T)
+#> > No factors to collapse to, using all data
+#> > grp_level == TRUE and keep_unit_outcomes == TRUE, so
+#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -483,15 +485,11 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value -6.217249e-13
-#> iter 1: value -2.259526e-12
+#> iter 0: value 6.693313e-12
 #> converged
 #> Newton iterations:
-#> initial  value 0.000000 
-#> iter   2 value -0.000000
-#> iter   3 value -0.000000
-#> iter   3 value 0.000000
-#> iter   3 value 0.000000
+#> initial  value -0.000000 
+#> iter   1 value 0.000000
 #> final  value -0.000000 
 #> converged
 #> -- stage 2

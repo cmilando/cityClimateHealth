@@ -1,0 +1,255 @@
+---
+title: "Group level aggregations check"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Group level aggregations check}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(data.table)
+library(cityClimateHealth)
+
+data("ma_exposure")
+data("ma_deaths")
+
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
+
+exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST)
+
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = 'age_grp',
+  "factor" = 'sex',
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+deaths   <- subset(ma_deaths, TOWN20 %in%  TOWNLIST)
+```
+
+### Check 1
+grp_level = False
+
+```{r check1}
+exposure_mat <- make_exposure_matrix(exposure, 
+                                     exposure_columns, 
+                                     grp_level = F,
+                                     time_subset = list(month = 5:9))
+
+
+
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 grp_level = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with factor
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 collapse_to = 'age_grp',
+                                 grp_level = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with spatial collapse
+deaths$fctTOWN20 = deaths$TOWN20
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctTOWN20'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctTOWN20',
+                                 collapse_is_spatial = T,
+                                 grp_level = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with temporal collapse
+deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctWeekend'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctWeekend',
+                                 collapse_is_temporal = T,
+                                 grp_level = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+
+```
+
+### Check 2
+grp_level = True and keep unit-level exposures and outcomes
+
+```{r check2}
+exposure_mat <- make_exposure_matrix(exposure, 
+                                     exposure_columns, 
+                                     grp_level = T,
+                                     keep_unit_exposures = T,
+                                     time_subset = list(month = 5:9))
+
+
+
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 grp_level = T,
+                                 keep_unit_outcomes = T,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+
+# with factor
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 collapse_to = 'age_grp',
+                                 grp_level = T,
+                                 keep_unit_outcomes = T,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with spatial collapse
+deaths$fctTOWN20 = deaths$TOWN20
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctTOWN20'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctTOWN20',
+                                 collapse_is_spatial = T,
+                                 grp_level = T,
+                                 keep_unit_outcomes = T,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with temporal collapse
+deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctWeekend'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctWeekend',
+                                 collapse_is_temporal = T,
+                                 grp_level = T,
+                                 keep_unit_outcomes = T,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+
+```
+
+### Check 3
+grp_level = True and don't keep unit-level exposures and outcomes
+
+```{r check3}
+exposure_mat <- make_exposure_matrix(exposure, 
+                                     exposure_columns, 
+                                     grp_level = T,
+                                     keep_unit_exposures = F,
+                                     time_subset = list(month = 5:9))
+
+
+
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 grp_level = T,
+                                 keep_unit_outcomes = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with factor
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 collapse_to = 'age_grp',
+                                 grp_level = T,
+                                 keep_unit_outcomes = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with spatial collapse
+deaths$fctTOWN20 = deaths$TOWN20
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctTOWN20'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctTOWN20',
+                                 collapse_is_spatial = T,
+                                 grp_level = T,
+                                 keep_unit_outcomes = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+# with temporal collapse
+deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
+tmp_cols <- outcome_columns
+tmp_cols$factor2 = 'fctWeekend'
+names(tmp_cols)[7] = 'factor'
+deaths_tbl <- make_outcome_table(deaths,  
+                                 tmp_cols, 
+                                 collapse_to = 'fctWeekend',
+                                 collapse_is_temporal = T,
+                                 grp_level = T,
+                                 keep_unit_outcomes = F,
+                                 time_subset = list(month = 5:9))
+
+# checks
+stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
+stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
+
+```
+
+

@@ -68,11 +68,6 @@ other components necessary for plotting AN
 
 ``` r
 library(data.table)
-#> 
-#> Attaching package: ‘data.table’
-#> The following object is masked from ‘package:base’:
-#> 
-#>     %notin%
 data("ma_pop_data")
 setDT(ma_pop_data)
 ma_pop_data
@@ -437,6 +432,6 @@ calc_AN
 #>     class(outlist) <- "calcAN"
 #>     return(outlist)
 #> }
-#> <bytecode: 0x72b3ae628>
+#> <bytecode: 0x154bbb2d0>
 #> <environment: namespace:cityClimateHealth>
 ```

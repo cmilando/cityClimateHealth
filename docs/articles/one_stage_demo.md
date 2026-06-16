@@ -222,6 +222,8 @@ using and to the correct spatial unit for this analysis. The
 
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -461,6 +463,8 @@ outcome_columns <- list(
 )
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -558,6 +562,8 @@ outcome_columns <- list(
 middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
 middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns,
                                            time_subset = list(month = 5:9))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -638,6 +644,8 @@ you can also get it for factors
 middlesex_deaths_tbl <- make_outcome_table(
   middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9),
   collapse_to = 'age_grp')
+#> > Factors in data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

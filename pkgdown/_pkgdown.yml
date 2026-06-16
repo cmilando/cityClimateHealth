@@ -53,6 +53,7 @@ articles:
   - bayesian_wnv_test
   - strata
   - get_pop_estimates
+  - group_check
   - validation
   - dlnm_sensitivity
   - comparison

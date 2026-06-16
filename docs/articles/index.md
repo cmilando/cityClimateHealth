@@ -29,6 +29,8 @@ Vignettes aimed at advanced users
   Exposures](http://climatehealth.city/articles/strata.md):
 - [Obtaining population estimates from
   \`tidycensus\`](http://climatehealth.city/articles/get_pop_estimates.md):
+- [Group level aggregations
+  check](http://climatehealth.city/articles/group_check.md):
 - [Validation of spatial methods in
   \`cityClimateHealth\`](http://climatehealth.city/articles/validation.md):
 - [Exploring DLNM sensitivity in
