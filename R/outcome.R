@@ -105,18 +105,20 @@ make_outcome_table <- function(data,
   # overwrite date
   data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
 
+  ##remove NAs automatically
+  ## Edit by CWM: moved above the check for values below 0
+  if(any(is.na(data))) {
+    warning("NA values automatically removed")
+    data <- na.omit(data)
+  }
+
   # at the beginning there shouldn't be any outcomes < 0
   outcome_col <- column_mapping$outcome
   if(any(data[, get(outcome_col)] < 0)) {
     stop("some outcomes < 0, investigate")
   }
 
-  ##remove NAs automatically
 
-  if(any(is.na(data))) {
-    warning("NA values automatically removed")
-    data <- na.omit(data)
-  }
 
   # check that all are unique 1:1
   geo_cols <- c(
