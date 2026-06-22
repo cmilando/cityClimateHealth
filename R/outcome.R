@@ -108,7 +108,7 @@ make_outcome_table <- function(data,
   ##remove NAs automatically
   ## Edit by CWM: moved above the check for values below 0
   if(any(is.na(data))) {
-    warning("NA values automatically removed")
+    cat("-- NA values automatically removed\n")
     data <- na.omit(data)
   }
 
