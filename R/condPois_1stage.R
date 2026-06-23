@@ -211,7 +211,9 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   if(verbose) {
     cat("\n")
-    cat("crossbasis args:\n")
+    cat("crossbasis args for geo_unit ",
+        paste0(unique_geos, collapse = ","),
+        ":\n")
     cat("\n")
   }
 
