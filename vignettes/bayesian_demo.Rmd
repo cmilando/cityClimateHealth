@@ -27,7 +27,7 @@ The innovation here is combining the method of Armstrong 2014 with a spatial met
 
 We implemented the spatial bayesian method of BYM2 but instead of regular poisson as a conditional poisson (i.e., multinomial) which has performance gains that they articulate in Amrstrong.
 
-This requires bringing in a shapefile, so you can define the network 
+This requires bringing in a shapefile, so you can define the network. 
 
 The standard application is using MCMC, we also include all STAN model types:
 
@@ -41,6 +41,8 @@ You can also experiment with speeding things up (at the risk of less precise est
 Sb, basically a combination of these two things:
 https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=
 https://link.springer.com/article/10.1186/1471-2288-14-122 
+
+A reminder that this data is **simulated**.
 
 ```{r setup2, fig.height=5, fig.width=5}
 library(data.table)

@@ -29,6 +29,8 @@ The first step of calculating attributable numbers is having a population data e
 
 This varies a lot by place and dataset, so we don't include functionality for it (but an example of how this could be done can be seen in `vignette("get_pop_estimates")`).
 
+Reminder - the data used in this example are **simulated**. 
+
 Assume you are starting with a dataset for the entire timeframe that looks like this:
 ```{r}
 library(data.table)
