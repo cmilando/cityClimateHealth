@@ -42,6 +42,8 @@ Sb, basically a combination of these two things:
 https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=
 https://link.springer.com/article/10.1186/1471-2288-14-122 
 
+A reminder that this data is **simulated**.
+
 ```{r setup2, fig.height=5, fig.width=5}
 library(data.table)
 data("ma_exposure")

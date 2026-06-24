@@ -25,7 +25,7 @@ We can easily extend the functionality from `vignette("one_stage_demo")` to esti
 
 ### Model
 
-First create the inputs, using the same `exposure_columns` and `outcome_columns` as before.
+First create the inputs, using the same `exposure_columns` and `outcome_columns` as before. Again, remember that this data is **simulated**. 
 ```{r multi_town_setup}
 library(data.table)
 exposure_columns <- list(
