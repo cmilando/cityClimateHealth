@@ -23,11 +23,11 @@ library(cityClimateHealth)
 
 Another way that this model can be solved is by using Bayesian inference, implemented in STAN. We are including this implementation here so that it makes sense why we are including it later on. 
 
-The innovation here is combining the method of Armstrong 2014 with a spatial method, in this case BYM2 
+The innovation here is combining the method of Armstrong 2014 with a spatial method, in this case BYM2. 
 
 We implemented the spatial bayesian method of BYM2 but instead of regular poisson as a conditional poisson (i.e., multinomial) which has performance gains that they articulate in Amrstrong.
 
-This requires bringing in a shapefile, so you can define the network 
+This requires bringing in a shapefile, so you can define the network. 
 
 The standard application is using MCMC, we also include all STAN model types:
 

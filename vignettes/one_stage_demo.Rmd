@@ -27,7 +27,7 @@ library(cityClimateHealth)
 
 ### Exposure data
 
-First let's make the exposure matrix for this single zone. There is a simulated exposure dataset included in the package called `ma_exposure`, which lists **daily maximum** temperatures each day in each town.
+First let's make the exposure matrix for this single zone. There is a **simulated** exposure dataset included in the package called `ma_exposure`, which lists **daily maximum** temperatures each day in each town.
 
 ```{r load_exposure} 
 boston_exposure <- subset(ma_exposure, TOWN20 == 'BOSTON')
@@ -87,7 +87,7 @@ For a time-series of daily maximum temperatures in warm-season months in Boston 
 
 ### Outcome data
 
-Next let's investigate the deaths dataset - you can see that this has town level daily deaths with by category for age group (0-17, 18-64, and 65+) as well as a binary-coded sex variable.
+Next let's investigate the deaths dataset - you can see that this has town level daily deaths with by category for age group (0-17, 18-64, and 65+) as well as a binary-coded sex variable. Again, note that this data is **simulated**.
 
 ```{r load_deaths} 
 boston_deaths   <- subset(ma_deaths, TOWN20 == 'BOSTON')
