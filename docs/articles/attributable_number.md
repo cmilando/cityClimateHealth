@@ -21,12 +21,19 @@ functionality for it (but an example of how this could be done can be
 seen in
 [`vignette("get_pop_estimates")`](http://climatehealth.city/articles/get_pop_estimates.md)).
 
+Reminder - the data used in this example are **simulated**.
+
 Assume you are starting with a dataset for the entire timeframe that
 looks like this:
 
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 data("ma_pop_data")
 setDT(ma_pop_data)
 ma_pop_data
@@ -172,7 +179,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, gl
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -311,29 +318,29 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE                 2547.2026
-#> 2: MIDDLESEX    1623109     FALSE                 -140.2401
-#> 3: WORCESTER     858898      TRUE                 2229.6157
-#> 4: WORCESTER     858898     FALSE                 -151.1530
+#> 1: MIDDLESEX    1623109      TRUE                 2550.1830
+#> 2: MIDDLESEX    1623109     FALSE                 -140.3017
+#> 3: WORCESTER     858898      TRUE                 2231.8715
+#> 4: WORCESTER     858898     FALSE                 -150.1488
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:                2476.7953                2618.7644
-#> 2:                -150.7346                -131.6678
-#> 3:                2102.1981                2326.5677
-#> 4:                -171.5454                -132.5652
+#> 1:                2471.5923                2617.0789
+#> 2:                -152.0242                -131.7614
+#> 3:                2113.2886                2327.3194
+#> 4:                -170.4102                -132.8526
 ma_AN$`_`$number_table
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX    1623109      TRUE                 41343.88
-#> 2: MIDDLESEX    1623109     FALSE                 -2276.25
-#> 3: WORCESTER     858898      TRUE                 19150.12
-#> 4: WORCESTER     858898     FALSE                 -1298.25
+#> 1: MIDDLESEX    1623109      TRUE                41392.250
+#> 2: MIDDLESEX    1623109     FALSE                -2277.250
+#> 3: WORCESTER     858898      TRUE                19169.500
+#> 4: WORCESTER     858898     FALSE                -1289.625
 #>    mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                      <num>                   <num>
-#> 1:               40201.088               42505.400
-#> 2:               -2446.587               -2137.113
-#> 3:               18055.738               19982.844
-#> 4:               -1473.400               -1138.600
+#> 1:               40116.637               42478.044
+#> 2:               -2467.519               -2138.631
+#> 3:               18150.994               19989.300
+#> 4:               -1463.650               -1141.069
 ```
 
 See that the numbers are roughly the same for Suffolk county ? They
@@ -367,7 +374,7 @@ m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix,
                   outcomes_tbl = ma_outcomes_tbl, 
                   multi_zone = TRUE, global_cen = 15)
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBURNHAM,ASHBY,ASHLAND,ATHOL,AUBURN,AYER,BARRE,BEDFORD,BELMONT,BERLIN,BILLERICA,BLACKSTONE,BOLTON,BOXBOROUGH,BOYLSTON,BROOKFIELD,BURLINGTON,CAMBRIDGE,CARLISLE,CHARLTON,CHELMSFORD,CLINTON,CONCORD,DOUGLAS,DRACUT,DUDLEY,DUNSTABLE,EAST BROOKFIELD,EVERETT,FITCHBURG,FRAMINGHAM,GARDNER,GRAFTON,GROTON,HARDWICK,HARVARD,HOLDEN,HOLLISTON,HOPEDALE,HOPKINTON,HUBBARDSTON,HUDSON,LANCASTER,LEICESTER,LEOMINSTER,LEXINGTON,LINCOLN,LITTLETON,LOWELL,LUNENBURG,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,MENDON,MILFORD,MILLBURY,MILLVILLE,NATICK,NEW BRAINTREE,NEWTON,NORTH BROOKFIELD,NORTH READING,NORTHBOROUGH,NORTHBRIDGE,OAKHAM,OXFORD,PAXTON,PEPPERELL,PETERSHAM,PHILLIPSTON,PRINCETON,READING,ROYALSTON,RUTLAND,SHERBORN,SHIRLEY,SHREWSBURY,SOMERVILLE,SOUTHBOROUGH,SOUTHBRIDGE,SPENCER,STERLING,STONEHAM,STOW,STURBRIDGE,SUDBURY,SUTTON,TEMPLETON,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,UPTON,UXBRIDGE,WAKEFIELD,WALTHAM,WARREN,WATERTOWN,WAYLAND,WEBSTER,WEST BOYLSTON,WEST BROOKFIELD,WESTBOROUGH,WESTFORD,WESTMINSTER,WESTON,WILMINGTON,WINCHENDON,WINCHESTER,WOBURN,WORCESTER :
 #> 
 #> maxlag: 5 
 #> 
@@ -441,7 +448,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -469,7 +476,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -497,7 +504,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 

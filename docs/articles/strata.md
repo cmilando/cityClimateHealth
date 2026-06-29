@@ -280,7 +280,7 @@ m1 <- condPois_1stage(
   argvar = list(fun = 'strata', breaks = c(1.5, 2.5))
   )
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  BOSTON :
 #> 
 #> maxlag: 5 
 #> 

@@ -185,7 +185,7 @@ sim_tbl
 m1 <- condPois_1stage(exposure_matrix = exp_mat, 
                   outcomes_tbl = sim_tbl)
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  A_town :
 #> 
 #> maxlag: 5 
 #> 
@@ -267,7 +267,7 @@ cor(sim_out1, new_deaths)
 
 Great, now lets make two for different populations
 
-## Things to test
+## Research questions
 
 There are probably a few important edge cases:
 

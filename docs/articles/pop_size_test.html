@@ -110,7 +110,7 @@ data:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">ytrue</span>, <span class="st">'l'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, col <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">25</span>, col <span class="op">=</span> <span class="st">'brown'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="pop_size_test_files/figure-html/dlnmTest-1.png" class="r-plt" width="700"></p>
+<p><img src="pop_size_test_files/figure-html/dlnmTest-1.png" class="r-plt" alt="" width="700"></p>
 <p>And now get the underlying AF that are due to excess temperature</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AF_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="va">n</span><span class="op">)</span></span>
@@ -125,7 +125,7 @@ data:</p>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">#&gt; 0.00000 0.00000 0.00000 0.01745 0.00000 0.30000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">AF_vec</span>, <span class="st">'l'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="pop_size_test_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="700"></p>
+<p><img src="pop_size_test_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
 <p>And now simulate baseline deaths – this doesn’t need to be related to
 the exposure beecause all we are tracking is excess mortality.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -136,7 +136,7 @@ the exposure beecause all we are tracking is excess mortality.</p>
 <span><span class="va">new_deaths</span> <span class="op">=</span> <span class="va">baseline_deaths</span> <span class="op">+</span> <span class="va">excess_deaths</span></span>
 <span><span class="va">new_deaths</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">new_deaths</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">new_deaths</span>, <span class="st">'l'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="pop_size_test_files/figure-html/update_deaths-1.png" class="r-plt" width="700"></p>
+<p><img src="pop_size_test_files/figure-html/update_deaths-1.png" class="r-plt" alt="" width="700"></p>
 <p>So now get an estimate of the exposure response function here, using
 our package</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -226,7 +226,7 @@ our package</p>
 <code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">exp_mat</span>, </span>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">sim_tbl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args:</span></span>
+<span><span class="co">#&gt; crossbasis args for geo_unit  A_town :</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -245,7 +245,7 @@ our package</p>
 <span><span class="co">#&gt; A_town:yr2020:mn05:dow06</span></span>
 <span><span class="co">#&gt; strata_min: 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="pop_size_test_files/figure-html/testModel-1.png" class="r-plt" width="700"></p>
+<p><img src="pop_size_test_files/figure-html/testModel-1.png" class="r-plt" alt="" width="700"></p>
 <p>Looks good (an interesting to note that there is a bump up in the
 exposure response curve at the lower end when we know there is not
 relationship there … more on that later !)</p>
@@ -295,7 +295,7 @@ temperature.</p>
 <span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>Great, now lets make two for different populations</p>
 <div class="section level2">
-<h2 id="things-to-test">Things to test<a class="anchor" aria-label="anchor" href="#things-to-test"></a>
+<h2 id="research-questions">Research questions<a class="anchor" aria-label="anchor" href="#research-questions"></a>
 </h2>
 <p>There are probably a few important edge cases:</p>
 <ul>

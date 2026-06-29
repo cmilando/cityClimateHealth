@@ -4,6 +4,11 @@
 
 library(cityClimateHealth)
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 ```
 
 To create an exposure matrix for analysis, the time period must be

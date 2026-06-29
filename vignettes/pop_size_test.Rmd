@@ -177,7 +177,7 @@ cor(sim_out1, new_deaths)
 
 Great, now lets make two for different populations
 
-# Things to test
+# Research questions
 
 There are probably a few important edge cases:
 

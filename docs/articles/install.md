@@ -15,7 +15,7 @@ install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOpt
 After you’ve install `cmdstanr` try the `install_cmdstan()` function to
 download STAN.
 
-If you’re on MAC, you may need to install xcode
+If you’re on MAC, you may need to install xcode.
 
 ``` bash
 xcode-select --install

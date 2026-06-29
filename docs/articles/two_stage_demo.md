@@ -12,11 +12,17 @@ to estimate individual-zone impacts across many zones.
 ### Model
 
 First create the inputs, using the same `exposure_columns` and
-`outcome_columns` as before.
+`outcome_columns` as before. Again, remember that this data is
+**simulated**.
 
 ``` r
 
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 exposure_columns <- list(
   "date" = "date",
   "exposure" = "tmax_C",
@@ -72,7 +78,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -260,7 +266,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -288,7 +294,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -316,7 +322,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -462,7 +468,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> MIDDLESEX    
-#> crossbasis args:
+#> crossbasis args for geo_unit  MIDDLESEX :
 #> 
 #> maxlag: 5 
 #> 
@@ -485,11 +491,15 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value 6.693313e-12
+#> iter 0: value -6.217249e-13
+#> iter 1: value -2.259526e-12
 #> converged
 #> Newton iterations:
-#> initial  value -0.000000 
-#> iter   1 value 0.000000
+#> initial  value 0.000000 
+#> iter   2 value -0.000000
+#> iter   3 value -0.000000
+#> iter   3 value 0.000000
+#> iter   3 value 0.000000
 #> final  value -0.000000 
 #> converged
 #> -- stage 2
