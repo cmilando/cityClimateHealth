@@ -94,9 +94,10 @@ make_exposure_matrix <- function(data,
   }
 
   #
-  if(any(is.na(data))) {
-    warning("check about any NA, some corrections for this later,
-            but only in certain columns")
+  if(any(is.na(data[[column_mapping$exposure]]))) {
+    cat("-- NA values automatically removed\n")
+    rr <- which(is.na(data[[column_mapping$exposure]]))
+    data <- data[-rr, ]
   }
 
   if(exposure_is_factor) {
@@ -128,6 +129,101 @@ make_exposure_matrix <- function(data,
 
   #
   date_col <- column_mapping$date
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # COLLAPSE AND SUMMARIZE
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  # **************
+  ## first collapse to by summing
+  ## both by collapse to and by group
+  date_col         = column_mapping$date
+  geo_unit_col     = column_mapping$geo_unit
+  geo_unit_grp_col = column_mapping$geo_unit_grp
+  exposure_col      = column_mapping$exposure
+
+  # Next check about collapsing across factors
+  if(grp_level == FALSE) {
+
+    # collapse to = NULL --> so this collapses across factors
+    # grp_level = FALSE  --> and doesn't summarize to the group level
+    cat("> grp_level == FALSE, so using geo_unit as strata\n")
+
+    data <- data[,.(
+      xexposure = mean(get(exposure_col))
+    ), by = .(get(date_col),
+              get(geo_unit_col),
+              get(geo_unit_grp_col))]
+
+    names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, exposure_col)
+
+    column_mapping <- list(
+      "date" = date_col,
+      "exposure" = exposure_col,
+      "geo_unit" = geo_unit_col,
+      "geo_unit_grp" = geo_unit_grp_col
+    )
+
+  } else {
+
+    # collapse to = NULL --> so this collapses across factors
+    # grp_level = TRUE  --> and does summarize to the group level
+
+    if(keep_unit_outcomes == FALSE) {
+
+      cat("> grp_level == TRUE and keep_unit_exposures == FALSE, so
+          aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
+
+      data <- data[,.(
+        xexposure = mean(get(exposure_col))
+      ), by = .(get(date_col),
+                get(geo_unit_grp_col))]
+
+      names(data) <- c(date_col, geo_unit_grp_col, exposure_col)
+
+      data$spatial_grp <- 'ALL'
+
+      column_mapping <- list(
+        "date" = date_col,
+        "exposure" = exposure_col,
+        "geo_unit" = geo_unit_grp_col,
+        "geo_unit_grp" = 'spatial_grp'
+      )
+
+    } else {
+
+      cat("> grp_level == TRUE and keep_unit_exposures == TRUE, so
+          keeping to geo_unit data but using geo_unit_grp as strata\n")
+
+      data <- data[,.(
+        xexposure = mean(get(exposure_col))
+      ), by = .(get(date_col),
+                get(geo_unit_col),
+                get(geo_unit_grp_col))]
+
+      names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, exposure_col)
+
+    }
+
+  }
+
+  #
+  if(exposure_is_factor) {
+    data[, (exposure_col) := round(get(exposure_col))]
+  }
+
+  # overwrite date
+  data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
+
+  geo_unit_col = column_mapping$geo_unit
+  geo_unit_grp_col = column_mapping$geo_unit_grp
+
+  #
+  if(any(is.na(data))) {
+    stop("some NA in data, check why")
+  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -266,69 +362,6 @@ make_exposure_matrix <- function(data,
 
 
     exposure2_l[[i]] <- x
-  }
-
-  # //////////////////////////////////////////////////////////////////////////
-  # ==========================================================================
-  # GROUP LEVEL SUMMARY?
-  # ==========================================================================
-  # //////////////////////////////////////////////////////////////////////////
-
-  # grp_level summary?
-  if(grp_level) {
-
-    # get exposure2
-    exposure2   <- do.call(rbind, exposure2_l)
-    setDT(exposure2)
-
-    # no matter what since you are averaging to grp level you want to add this
-    exposure2$spatial_grp <- 'ALL'
-
-    # decide what resolution you are averaging to
-    # so here we are updating to the new geo_unit and geo_unit_grp
-    # but keeping the column names
-    if(keep_unit_exposures == TRUE) {
-
-      geo_col     <- column_mapping$geo_unit
-      geo_grp_col <- column_mapping$geo_unit_grp
-
-    } else {
-
-      geo_col     <- column_mapping$geo_unit_grp
-      geo_grp_col <- 'spatial_grp'
-
-    }
-
-    # 3. Aggregate by group
-    # Here I'm assuming you want the mean of exposure columns; adjust as needed
-    ##EDITED by Caroline to try to get rid of the X in column issue
-    by_cols <- c(geo_col, geo_grp_col, column_mapping$date, "strata", "match_strata")
-    exposure2avg <- exposure2[, lapply(.SD, mean, na.rm = TRUE),
-                              by = by_cols,
-                              .SDcols = exposure_col]
-
-    if(exposure_is_factor) {
-      exposure2avg[, (exposure_col) := round(get(exposure_col))]
-    }
-
-    # and make the dates ok again
-    # warning("make type checks  (e.g., so Date == Date),
-    #      for some reason this doesn't work in some cases? but ok in others?")
-
-    exposure2avg[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
-    exposure2avg$spatial_grp <- 'ALL'
-
-    # update the properties here
-
-    # then in order to set up lags you need to split again
-    exposure2_l <- split(exposure2avg, f = exposure2avg[, get(geo_col)])
-    length(exposure2_l)
-
-    #  update column_mapping
-    column_mapping$geo_unit <- column_mapping$geo_unit_grp
-    column_mapping$geo_unit_grp <- 'spatial_grp'
-
-
   }
 
   # //////////////////////////////////////////////////////////////////////////

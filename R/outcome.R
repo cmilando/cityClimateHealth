@@ -107,9 +107,11 @@ make_outcome_table <- function(data,
 
   ##remove NAs automatically
   ## Edit by CWM: moved above the check for values below 0
-  if(any(is.na(data))) {
+  # updated to just remove NAs in the outcome column
+  if(any(is.na(data[[column_mapping$outcome]]))) {
     cat("-- NA values automatically removed\n")
-    data <- na.omit(data)
+    rr <- which(is.na(data[[column_mapping$outcome]]))
+    data <- data[-rr, ]
   }
 
   # at the beginning there shouldn't be any outcomes < 0
@@ -131,6 +133,9 @@ make_outcome_table <- function(data,
     stop("`geo_unit` repeated across multiple `grps`")
   }
 
+  if(any(is.na(data))) {
+    stop("some NA in data, check why")
+  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================

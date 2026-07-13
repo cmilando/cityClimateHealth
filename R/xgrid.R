@@ -210,12 +210,18 @@ make_xgrid <- function(data,
     )
   }
 
+  if(nrow(xgrid) < nrow(data)) {
+    stop("rows of xgrid < rows of data, this means an averaging step
+         has been skipped. report to GitHub")
+  }
+
   xgrid <- data[
     xgrid,
     on = setNames(spatial_join_col, spatial_join_col)
   ]
 
   stopifnot(nrow(xgrid) > 0)
+
 
   return(xgrid)
 
