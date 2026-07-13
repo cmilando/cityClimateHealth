@@ -1029,7 +1029,7 @@ spatial_plot.condPois_sb <- function(x, shp, exposure_val,
   for(i in 1:n_geos) {
     rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
     if(length(rr) != 1) {
-      stop(paste0("Exposure value '", this_x, "' not in the
+      stop(paste0("Exposure value '", exposure_val, "' not in the
                   exposure column, try values (with one decimal) between:",
                   min(x$`_`$out[[i]]$RRdf[[exposure_col]]),
                   " and ",
@@ -1103,7 +1103,7 @@ spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
     for(j in 1:n_geos) {
       rr <- which(yy[[j]]$RRdf[[exposure_col]] == exposure_val)
       if(length(rr) != 1) {
-        stop(paste0("Exposure value '", this_x, "' not in the
+        stop(paste0("Exposure value '", exposure_val, "' not in the
                   exposure column, try values (with one decimal) between:",
                     min(yy[[j]]$RRdf[[exposure_col]]),
                     " and ",
