@@ -192,8 +192,6 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      keep_unit_exposures = F,
                                      time_subset = list(month = 5:9))
 
-
-
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 
                                  grp_level = T,

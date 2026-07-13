@@ -126,20 +126,20 @@ provide a number of outputs.</p>
 <span>                                       month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
 <span>                                       year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span></span>
 <span>                                     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(exposure_sub, exposure_columns, time_subset = list(month = 5:9, : check about any NA, some corrections for this later,</span></span>
-<span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; -- NA values automatically removed</span></span>
+<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
 <p>And lets preview this</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date  tmax_C TOWN20  COUNTY20                  strata     match_strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt;   &lt;num&gt; &lt;char&gt;    &lt;char&gt;                  &lt;char&gt;           &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2012-05-01 16.4633  ACTON MIDDLESEX ACTON:yr2012:mn05:dow03 ACTON:2012-05-01</span></span>
-<span><span class="co">#&gt; 2: 2012-05-02  8.6743  ACTON MIDDLESEX ACTON:yr2012:mn05:dow04 ACTON:2012-05-02</span></span>
-<span><span class="co">#&gt; 3: 2012-05-03 11.1778  ACTON MIDDLESEX ACTON:yr2012:mn05:dow05 ACTON:2012-05-03</span></span>
-<span><span class="co">#&gt; 4: 2012-05-04 12.4253  ACTON MIDDLESEX ACTON:yr2012:mn05:dow06 ACTON:2012-05-04</span></span>
-<span><span class="co">#&gt; 5: 2012-05-05 12.8489  ACTON MIDDLESEX ACTON:yr2012:mn05:dow07 ACTON:2012-05-05</span></span>
-<span><span class="co">#&gt; 6: 2012-05-06 17.7602  ACTON MIDDLESEX ACTON:yr2012:mn05:dow01 ACTON:2012-05-06</span></span>
+<span><span class="co">#&gt;          date TOWN20  COUNTY20  tmax_C                  strata     match_strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;    &lt;char&gt;   &lt;num&gt;                  &lt;char&gt;           &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2012-05-01  ACTON MIDDLESEX 16.4633 ACTON:yr2012:mn05:dow03 ACTON:2012-05-01</span></span>
+<span><span class="co">#&gt; 2: 2012-05-02  ACTON MIDDLESEX  8.6743 ACTON:yr2012:mn05:dow04 ACTON:2012-05-02</span></span>
+<span><span class="co">#&gt; 3: 2012-05-03  ACTON MIDDLESEX 11.1778 ACTON:yr2012:mn05:dow05 ACTON:2012-05-03</span></span>
+<span><span class="co">#&gt; 4: 2012-05-04  ACTON MIDDLESEX 12.4253 ACTON:yr2012:mn05:dow06 ACTON:2012-05-04</span></span>
+<span><span class="co">#&gt; 5: 2012-05-05  ACTON MIDDLESEX 12.8489 ACTON:yr2012:mn05:dow07 ACTON:2012-05-05</span></span>
+<span><span class="co">#&gt; 6: 2012-05-06  ACTON MIDDLESEX 17.7602 ACTON:yr2012:mn05:dow01 ACTON:2012-05-06</span></span>
 <span><span class="co">#&gt;    explag1 explag2 explag3 explag4 explag5</span></span>
 <span><span class="co">#&gt;      &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1: 14.0179 14.1931 12.7975 17.5538 16.2753</span></span>

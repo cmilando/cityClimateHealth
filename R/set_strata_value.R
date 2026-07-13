@@ -11,9 +11,7 @@
 #' @examples
 set_strata_value <- function(xgrid,
                              column_mapping,
-                             dt_by,
-                             grp_level,
-                             keep_unit) {
+                             dt_by) {
   #
   date_col <- column_mapping$date
   dow <- wday(xgrid[, get(date_col)])
@@ -26,56 +24,59 @@ set_strata_value <- function(xgrid,
     # DT = DAY
     # ************
     cat("strata dt_by = 'day', ")
-    if((grp_level & keep_unit) | !grp_level) {
-      cat("setting strata as geo_unit:yr:mn:dow\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
-                             ":yr", yr,
-                             ":mn", sprintf("%02i", mn),
-                             ":dow", sprintf("%02i", dow))
-    } else {
-      cat("setting strata as geo_unit_grp:yr:mn:dow\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
-                             ":yr",yr,
-                             ":mn",sprintf("%02i", mn),
-                             ":dow", sprintf("%02i", dow))
-    }
+    cat("setting strata as geo_unit:yr:mn:dow\n")
+    strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
+                     ":yr", yr,
+                     ":mn", sprintf("%02i", mn),
+                     ":dow", sprintf("%02i", dow))
+    # if((grp_level & keep_unit) | !grp_level) {
+    #
+    # } else {
+    #   cat("setting strata as geo_unit_grp:yr:mn:dow\n")
+    #   strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
+    #                          ":yr",yr,
+    #                          ":mn",sprintf("%02i", mn),
+    #                          ":dow", sprintf("%02i", dow))
+    # }
   } else if(dt_by == 'week') {
     # ************
     # DT = WEEK
     # ************
     cat("strata dt_by = 'week', ")
-    if((grp_level & keep_unit) | !grp_level) {
-      cat("setting strata as geo_unit:yr:mn:dow\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
-                       ":yr", yr,
-                       ":mn", sprintf("%02i", mn),
-                       ":dow", sprintf("%02i", dow))
-    } else {
-      cat("setting strata as geo_unit_grp:yr:mn:dow\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
-                       ":yr",yr,
-                       ":mn",sprintf("%02i", mn),
-                       ":dow", sprintf("%02i", dow))
-    }
+    cat("setting strata as geo_unit:yr:mn:dow\n")
+    strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
+                     ":yr", yr,
+                     ":mn", sprintf("%02i", mn),
+                     ":dow", sprintf("%02i", dow))
+    # if((grp_level & keep_unit) | !grp_level) {
+    #
+    # } else {
+    #   cat("setting strata as geo_unit_grp:yr:mn:dow\n")
+    #   strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
+    #                    ":yr",yr,
+    #                    ":mn",sprintf("%02i", mn),
+    #                    ":dow", sprintf("%02i", dow))
+    # }
 
   } else if(dt_by == 'month') {
     # ************
     # DT = MONTH
     # ************
     cat("strata dt_by = 'month', ")
-    if((grp_level & keep_unit) | !grp_level) {
-      cat("setting strata as geo_unit:yr:mn\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
-                       ":yr", yr,
-                       ":mn", sprintf("%02i", mn),
-                       ":dow", sprintf("%02i", dow))
-    } else {
-      cat("setting strata as geo_unit_grp:yr:mn\n")
-      strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
-                       ":yr",yr,
-                       ":mn",sprintf("%02i", mn),
-                       ":dow", sprintf("%02i", dow))
-    }
+    cat("setting strata as geo_unit:yr:mn\n")
+    strata <- paste0(xgrid[, get(column_mapping$geo_unit)],
+                     ":yr", yr,
+                     ":mn", sprintf("%02i", mn),
+                     ":dow", sprintf("%02i", dow))
+    # if((grp_level & keep_unit) | !grp_level) {
+    #
+    # } else {
+    #   cat("setting strata as geo_unit_grp:yr:mn\n")
+    #   strata <- paste0(xgrid[, get(column_mapping$geo_unit_grp)],
+    #                    ":yr",yr,
+    #                    ":mn",sprintf("%02i", mn),
+    #                    ":dow", sprintf("%02i", dow))
+    # }
   } else {
     stop("unknown dt_by value")
   }

@@ -171,7 +171,7 @@ make_exposure_matrix <- function(data,
     # collapse to = NULL --> so this collapses across factors
     # grp_level = TRUE  --> and does summarize to the group level
 
-    if(keep_unit_outcomes == FALSE) {
+    if(keep_unit_exposures == FALSE) {
 
       cat("> grp_level == TRUE and keep_unit_exposures == FALSE, so
           aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
@@ -244,9 +244,9 @@ make_exposure_matrix <- function(data,
   # set the strata
   xgrid$strata = set_strata_value(xgrid,
                                   column_mapping = column_mapping,
-                                  dt_by = dt_by,
-                                  grp_level = grp_level,
-                                  keep_unit = keep_unit_exposures)
+                                  dt_by = dt_by)
+                                  # grp_level = grp_level,
+                                  # keep_unit = keep_unit_exposures)
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -254,31 +254,35 @@ make_exposure_matrix <- function(data,
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
 
+  xgrid$match_strata = paste0(
+    xgrid[, get(column_mapping$geo_unit)], ":",
+    xgrid[, get(date_col)])
+
   # also make match strata
   # either do it here if you are keeping unit exposures, or later if you aren't
-  if(keep_unit_exposures & grp_level) {
-
-    xgrid$match_strata = paste0(
-      xgrid[, get(column_mapping$geo_unit)], ":",
-      xgrid[, get(date_col)])
-
-  } else {
-
-    if(grp_level) {
-
-      xgrid$match_strata = paste0(
-        xgrid[, get(column_mapping$geo_unit_grp)], ":",
-        xgrid[, get(date_col)])
-
-    } else {
-
-      xgrid$match_strata = paste0(
-        xgrid[, get(column_mapping$geo_unit)], ":",
-        xgrid[, get(date_col)])
-
-    }
-
-  }
+  # if(keep_unit_exposures & grp_level) {
+  #
+  #   xgrid$match_strata = paste0(
+  #     xgrid[, get(column_mapping$geo_unit)], ":",
+  #     xgrid[, get(date_col)])
+  #
+  # } else {
+  #
+  #   if(grp_level) {
+  #
+  #     xgrid$match_strata = paste0(
+  #       xgrid[, get(column_mapping$geo_unit_grp)], ":",
+  #       xgrid[, get(date_col)])
+  #
+  #   } else {
+  #
+  #     xgrid$match_strata = paste0(
+  #       xgrid[, get(column_mapping$geo_unit)], ":",
+  #       xgrid[, get(date_col)])
+  #
+  #   }
+  #
+  # }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================

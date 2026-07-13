@@ -133,9 +133,7 @@ make_outcome_table <- function(data,
     stop("`geo_unit` repeated across multiple `grps`")
   }
 
-  if(any(is.na(data))) {
-    stop("some NA in data, check why")
-  }
+
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -288,6 +286,7 @@ make_outcome_table <- function(data,
           "geo_unit_grp" = 'spatial_grp',
           "factor" = collapse_to
         )
+
       } else {
 
         cat("> grp_level == TRUE and keep_unit_outcomes == TRUE, so
@@ -318,6 +317,10 @@ make_outcome_table <- function(data,
 
   geo_unit_col = column_mapping$geo_unit
   geo_unit_grp_col = column_mapping$geo_unit_grp
+
+  if(any(is.na(data))) {
+    stop("some NA in data, check why")
+  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -360,9 +363,9 @@ make_outcome_table <- function(data,
   # should this be set to false ??? here ??? why ???
   xgrid$strata = set_strata_value(xgrid,
                                   column_mapping = column_mapping,
-                                  dt_by = dt_by,
-                                  grp_level = FALSE,
-                                  keep_unit = keep_unit_outcomes)
+                                  dt_by = dt_by)
+                                  # grp_level = FALSE,
+                                  # keep_unit = keep_unit_outcomes)
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
