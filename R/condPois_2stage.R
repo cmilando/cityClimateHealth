@@ -853,12 +853,16 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
 
   # join to sf object
   stopifnot(geo_unit_col %in% names(shp)) # not a bad first check
-  shp_w_data <- merge(shp, plt_slice)
+  shp_w_data <- merge(shp, plt_slice, by = geo_unit_col)
 
+  # subset to just the ones with data
+  shp_w_data <- subset(shp_w_data, !is.na(RR))
+
+  # set the RRlimits
   if(is.null(RRlimits)) RRlimits = range(shp_w_data$RR)
 
-
-  return(ggplot(shp_w_data) +
+  # plot
+  p <- ggplot(shp_w_data) +
     theme_classic() +
     geom_sf(aes(fill = log(RR))) +
     scale_fill_gradient2(
@@ -874,8 +878,9 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
           axis.ticks = element_blank(),
           axis.line = element_blank(),
           axis.title = element_blank()) +
-    ggtitle(paste0(exposure_col, " = ", exposure_val)))
+    ggtitle(paste0(exposure_col, " = ", exposure_val))
 
+  return(p)
 
 }
 

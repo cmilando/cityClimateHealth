@@ -957,7 +957,6 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
 
   stopifnot(table_type %in% c('rate', 'num'))
   stopifnot(above_MMT %in% c(T, F))
-  geo_unit_col <- attributes(x$`_`)$column_mapping
   ylab_flag <- if(above_MMT) 'Above MMT' else 'Below MMT'
 
   if(table_type == 'num') {
@@ -967,9 +966,17 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
     byX_df <- byX_df[rr, ]
     x_col <- names(byX_df)[1]
 
+    print(byX_df)
+
     # join to SF
-    stopifnot(geo_unit_col %in% names(shp)) # not a bad first check
-    shp_w_data <- merge(shp, byX_df)
+    stopifnot(x_col %in% names(shp)) # not a bad first check
+    shp_w_data <- merge(shp, byX_df, by = x_col)
+
+    # subset to just the ones with data
+    shp_w_data <- subset(shp_w_data, !is.na(mean_annual_attr_num_est))
+
+    print(shp_w_data)
+
 
     return(ggplot(shp_w_data) +
              theme_classic() +
@@ -990,8 +997,11 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
     x_col <- names(byX_df)[1]
 
     # join to SF
-    stopifnot(geo_unit_col %in% names(shp)) # not a bad first check
-    shp_w_data <- merge(shp, byX_df)
+    stopifnot(x_col %in% names(shp)) # not a bad first check
+    shp_w_data <- merge(shp, byX_df, by = x_col)
+
+    # subset to just the ones with data
+    shp_w_data <- subset(shp_w_data, !is.na(mean_annual_attr_rate_est))
 
     return(ggplot(shp_w_data) +
              theme_classic() +
