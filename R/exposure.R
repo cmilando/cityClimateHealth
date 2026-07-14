@@ -290,7 +290,7 @@ make_exposure_matrix <- function(data,
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
-  # FILL NA VALUES
+  # FILL NA VALUES with interpolation
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
 
@@ -307,6 +307,9 @@ make_exposure_matrix <- function(data,
   for(i in 1:length(exposure1_l)) {
 
     x <- exposure1_l[[i]]
+
+    # sort by date, this is redundant but not a bad check
+    setorderv(x, date_col)
 
     # check for NAs
     ev1 <- is.na(x[, get(exposure_col)])

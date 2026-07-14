@@ -124,8 +124,6 @@ make_outcome_table <- function(data,
     stop("some outcomes < 0, investigate")
   }
 
-
-
   # check that all are unique 1:1
   geo_cols <- c(
     column_mapping$geo_unit,
@@ -136,8 +134,6 @@ make_outcome_table <- function(data,
   if(length(unique_geos) != nrow(unique_geos_and_grps)) {
     stop("`geo_unit` repeated across multiple `grps`")
   }
-
-
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
