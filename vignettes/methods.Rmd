@@ -32,7 +32,8 @@ This approach represents exposure as a crossbasis matrix with separate component
 
 The interpretation of the crossbasis matrix is that it allows the model to account for nonlinear associations in exposure and in time. For example, temperatures of 100 °F do not have double the impact of temperatures of 50 °F, and exposures 2 days prior impact populations differently than those 1 day prior or 3 days prior.
 
-![Crossbasis Matrix Visualization.](/Users/carolinesarpy/Desktop/ClimateCityHealth/Crossbasis_Matrix.png)
+
+![Crossbasis Matrix Visualization.](img/Crossbasis_Matrix.png)
 *Crossbasis Matrix Visualization. Source: [Gasparrini et al., 2017](https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12645)*
 
 Turning a single exposure time-series into a crossbasis matrix is done via the [`crossbasis()`](https://www.rdocumentation.org/packages/dlnm/versions/2.4.7/topics/crossbasis) function as part of `dlnm` and users must specify several function arguments:
@@ -61,7 +62,7 @@ Any time-series of outcomes will work. Gaps and NA values in the outcome time-se
 
 We are also testing this for non-fatal outcomes, which as the literature shows for temperature does not always have a U-shaped exposure-response curve which also means that the choice of centering point becomes critical for effect estimation. For example:   
 
-![Example of Temperature Exposure-Response Curves without a U-shape.](/Users/carolinesarpy/Desktop/ClimateCityHealth/Temp_response_curve.png)
+![Example of Temperature Exposure-Response Curves without a U-shape.](img/Temp_response_curve.png)
 *Example of Temperature Exposure-Response Curves without a U-shape. Source: [Zeng et al., 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4808942/)*
 
 
