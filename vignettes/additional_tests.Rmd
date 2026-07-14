@@ -1,0 +1,69 @@
+---
+title: "additional_tests"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{additional_tests}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cityClimateHealth)
+```
+
+# if X is in a column name
+
+```{r x_test}
+
+library(data.table)
+library(cityClimateHealth)
+
+data("ma_exposure")
+data("ma_deaths")
+
+names(ma_exposure)[2] <- 'X'
+
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "X",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
+
+exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST)
+
+exposure_mat <- make_exposure_matrix(exposure, 
+                                     exposure_columns, 
+                                     grp_level = F,
+                                     time_subset = list(month = 5:9))
+
+
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = 'age_grp',
+  "factor" = 'sex',
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+deaths   <- subset(ma_deaths, TOWN20 %in%  TOWNLIST)
+
+
+
+
+deaths_tbl <- make_outcome_table(deaths,  
+                                 outcome_columns, 
+                                 grp_level = F,
+                                 time_subset = list(month = 5:9))
+
+```

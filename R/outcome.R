@@ -71,6 +71,10 @@ make_outcome_table <- function(data,
     stop('Names of column mapping is not one of the valid types:
           date, exposure, geo_unit, geo_unit_grp')
 
+  if(any(column_mapping == 'x')) {
+    stop("no columns can be called 'x', please rename")
+  }
+
   # check that all values are correct
   if(!all(column_mapping %in% names(data)))
     stop('Values of column mapping not matched with column names of data.
