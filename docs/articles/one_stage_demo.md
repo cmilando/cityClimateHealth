@@ -91,18 +91,18 @@ Next pass in your full temperature time-series in this step.
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, 
                                             exposure_columns,
                                             time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(boston_exposure_mat)
-#>          date  tmax_C TOWN20 COUNTY20                   strata
-#>        <IDat>   <num> <char>   <char>                   <char>
-#> 1: 2010-05-01 23.1386 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 26.1014 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 31.5648 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 27.7814 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 26.2820 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 25.8546 BOSTON  SUFFOLK BOSTON:yr2010:mn05:dow05
+#>          date TOWN20 COUNTY20  tmax_C                   strata
+#>        <IDat> <char>   <char>   <num>                   <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
+#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
+#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
+#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
+#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
+#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
 #>         match_strata  explag1  explag2  explag3  explag4  explag5
 #>               <char>    <num>    <num>    <num>    <num>    <num>
 #> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090
@@ -120,13 +120,13 @@ data – are gone now
 
 # Sept 17 2010 now has NA data
 boston_exposure_mat[138:142,]
-#>          date  tmax_C TOWN20 COUNTY20                   strata
-#>        <IDat>   <num> <char>   <char>                   <char>
-#> 1: 2010-09-15 22.5722 BOSTON  SUFFOLK BOSTON:yr2010:mn09:dow04
-#> 2: 2010-09-16 19.3761 BOSTON  SUFFOLK BOSTON:yr2010:mn09:dow05
-#> 3: 2010-09-17 19.2204 BOSTON  SUFFOLK BOSTON:yr2010:mn09:dow06
-#> 4: 2010-09-18 19.0647 BOSTON  SUFFOLK BOSTON:yr2010:mn09:dow07
-#> 5: 2010-09-19 19.6014 BOSTON  SUFFOLK BOSTON:yr2010:mn09:dow01
+#>          date TOWN20 COUNTY20  tmax_C                   strata
+#>        <IDat> <char>   <char>   <num>                   <char>
+#> 1: 2010-09-15 BOSTON  SUFFOLK 22.5722 BOSTON:yr2010:mn09:dow04
+#> 2: 2010-09-16 BOSTON  SUFFOLK 19.3761 BOSTON:yr2010:mn09:dow05
+#> 3: 2010-09-17 BOSTON  SUFFOLK 19.2204 BOSTON:yr2010:mn09:dow06
+#> 4: 2010-09-18 BOSTON  SUFFOLK 19.0647 BOSTON:yr2010:mn09:dow07
+#> 5: 2010-09-19 BOSTON  SUFFOLK 19.6014 BOSTON:yr2010:mn09:dow01
 #>         match_strata explag1 explag2 explag3 explag4 explag5
 #>               <char>   <num>   <num>   <num>   <num>   <num>
 #> 1: BOSTON:2010-09-15 19.8015 18.5063 22.8082 20.9759 22.0336
@@ -137,14 +137,14 @@ boston_exposure_mat[138:142,]
 
 # July 13 2010 is now not missing
 boston_exposure_mat[72:77,]
-#>          date  tmax_C TOWN20 COUNTY20                   strata
-#>        <IDat>   <num> <char>   <char>                   <char>
-#> 1: 2010-07-11 29.1988 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow01
-#> 2: 2010-07-12 31.7248 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow02
-#> 3: 2010-07-13 31.8311 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow03
-#> 4: 2010-07-14 31.9374 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow04
-#> 5: 2010-07-15 23.7004 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow05
-#> 6: 2010-07-16 28.7843 BOSTON  SUFFOLK BOSTON:yr2010:mn07:dow06
+#>          date TOWN20 COUNTY20  tmax_C                   strata
+#>        <IDat> <char>   <char>   <num>                   <char>
+#> 1: 2010-07-11 BOSTON  SUFFOLK 29.1988 BOSTON:yr2010:mn07:dow01
+#> 2: 2010-07-12 BOSTON  SUFFOLK 31.7248 BOSTON:yr2010:mn07:dow02
+#> 3: 2010-07-13 BOSTON  SUFFOLK 31.8311 BOSTON:yr2010:mn07:dow03
+#> 4: 2010-07-14 BOSTON  SUFFOLK 31.9374 BOSTON:yr2010:mn07:dow04
+#> 5: 2010-07-15 BOSTON  SUFFOLK 23.7004 BOSTON:yr2010:mn07:dow05
+#> 6: 2010-07-16 BOSTON  SUFFOLK 28.7843 BOSTON:yr2010:mn07:dow06
 #>         match_strata explag1 explag2 explag3 explag4 explag5
 #>               <char>   <num>   <num>   <num>   <num>   <num>
 #> 1: BOSTON:2010-07-11 33.0867 32.8450 34.5714 37.1773 36.2254
@@ -450,8 +450,8 @@ exposure_columns <- list(
 )
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
                                             time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
@@ -548,8 +548,8 @@ exposure_columns <- list(
 middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
 middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns,
                                                time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(middlesex_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table

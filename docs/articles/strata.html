@@ -283,8 +283,8 @@
 <span></span>
 <span><span class="va">boston_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">boston_exposure</span>, <span class="va">exposure_columns</span>,</span>
 <span>                                            time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,</span></span>
-<span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; -- NA values automatically removed</span></span>
+<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
 </div>
 <div class="section level2">

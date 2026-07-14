@@ -262,31 +262,17 @@ make_exposure_matrix <- function(data,
     xgrid[, get(column_mapping$geo_unit)], ":",
     xgrid[, get(date_col)])
 
-  # also make match strata
-  # either do it here if you are keeping unit exposures, or later if you aren't
-  # if(keep_unit_exposures & grp_level) {
-  #
-  #   xgrid$match_strata = paste0(
-  #     xgrid[, get(column_mapping$geo_unit)], ":",
-  #     xgrid[, get(date_col)])
-  #
-  # } else {
-  #
-  #   if(grp_level) {
-  #
-  #     xgrid$match_strata = paste0(
-  #       xgrid[, get(column_mapping$geo_unit_grp)], ":",
-  #       xgrid[, get(date_col)])
-  #
-  #   } else {
-  #
-  #     xgrid$match_strata = paste0(
-  #       xgrid[, get(column_mapping$geo_unit)], ":",
-  #       xgrid[, get(date_col)])
-  #
-  #   }
-  #
-  # }
+  # **************
+  # Lastly, re-set column mapping if group-level = TRUE but keep_orig = TRUE
+  if(grp_level & keep_unit_exposures) {
+    xgrid$spatial_grp <- 'ALL'
+    column_mapping <- list(
+      "date" = date_col,
+      "exposure" = exposure_col,
+      "geo_unit" = geo_unit_grp_col,
+      "geo_unit_grp" = 'spatial_grp'
+    )
+  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================

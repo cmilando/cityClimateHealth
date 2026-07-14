@@ -29,7 +29,7 @@ methods, and the R package
 Helpful references include this [dlnm
 PDF](https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf)
 and the methods explained in a [google
-sheet](https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396)
+sheet](https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396).
 
 This approach represents exposure as a crossbasis matrix with separate
 components for exposure magnitude and lag.
@@ -39,6 +39,11 @@ to account for nonlinear associations in exposure and in time. For
 example, temperatures of 100 °F do not have double the impact of
 temperatures of 50 °F, and exposures 2 days prior impact populations
 differently than those 1 day prior or 3 days prior.
+
+![Crossbasis Matrix
+Visualization.](img/Crossbasis_Matrix.png)*Crossbasis Matrix
+Visualization. Source: [Gasparrini et al.,
+2017](https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12645)*
 
 Turning a single exposure time-series into a crossbasis matrix is done
 via the
@@ -90,7 +95,13 @@ time-series are handled by
 
 We are also testing this for non-fatal outcomes, which as the literature
 shows for temperature does not always have a U-shaped exposure-response
-curve which also means that the choice of centering point become very
+curve which also means that the choice of centering point becomes
+critical for effect estimation. For example:
+
+![Example of Temperature Exposure-Response Curves without a
+U-shape.](img/Temp_response_curve.png)*Example of Temperature
+Exposure-Response Curves without a U-shape. Source: [Zeng et al.,
+2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4808942/)*
 
 ## Additional co-variates
 
@@ -137,8 +148,8 @@ What about covariates that change in space
 
 ## Timing
 
-You can use outcomes with a variety of timings: \* daily \* weekly \*
-monthly
+You can use outcomes with a variety of timings. This package supports
+daily, monthly, and yearly outcomes.
 
 These methods are still under development but the key is to ensure that
 the strata variables are correctly designed, if applicable. See the
@@ -150,7 +161,7 @@ for examples.
 
 We can perform exposure-outcome analyses several ways:
 
-- **space-time stratified case-crossover** – time is controlled by
+- **Space-time stratified case-crossover** – time is controlled by
   assigning a strata variable and comparing counts (or rates) of
   outcomes within strata. a common strata choice is \[spatial
   unit\]:\[year\]:\[month\]:\[day of week\]. The following model types
@@ -169,10 +180,22 @@ We can perform exposure-outcome analyses several ways:
   sheet](https://docs.google.com/spreadsheets/d/1eNbHk5S-NEwsu49rO7XXXCVJnmLdLUQRxH3OQ-5HwUU/edit?gid=0#gid=0)
   that show the similarities.
 
-- **time-series** – time is controlled by a natural spline with a
+- **Time-series** – time is controlled by a natural spline with a
   specific number of knots for year, day of year, season, and decade.
-  additional control is added by a categorical variable for day of week.
-  See below for examples
+  Additional control is added by a categorical variable for day of week.
+  See below for examples:
+
+  - [Chen et al.,
+    2021](https://www.sciencedirect.com/science/article/pii/S2542519621001686):
+    Time-series analysis of exposure to fine particulate matter and risk
+    of hospitalization.\
+  - [Gasparrini et al.,
+    2022](https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(22)00138-3/fulltext):
+    Time-series analysis of temperature-related mortality.\
+  - [Sugeno et al.,
+    2023](https://link.springer.com/article/10.1186/s12889-023-17277-0):
+    Time-series analysis of temperature and precipitation exposure and
+    risk of Dengue virus incidence.
 
 ### Conditional logistic
 
@@ -207,7 +230,7 @@ analysis) is because it has some built-in properties that can help with
 small numbers (i.e., dropping low or empty strata).
 
 As such there as several places where numeric cut-offs are necessary:
-MinN, strata_total. tHese are sensitivitity points
+MinN, strata_total. These are sensitivity points.
 
 ### Time-series
 
@@ -295,7 +318,7 @@ that compared to a 75°F day, there were 1,000 excess visits at 100°F.
 Changing the reference temperature (for example, to 80°F or 70°F) would
 change the estimated attributable number accordingly.
 
-Code examples include: \* [Gasparrini
+Code examples include: [Gasparrini
 2014](https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata)
 
 See the vignette

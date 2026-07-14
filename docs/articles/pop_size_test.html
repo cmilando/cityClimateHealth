@@ -156,16 +156,17 @@ our package</p>
 <span></span>
 <span><span class="va">exp_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">exp_df</span>, <span class="va">exposure_columns</span>,</span>
 <span>                                time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp_mat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        temp         dt TOWN20 COUNTY20                   strata</span></span>
-<span><span class="co">#&gt;       &lt;num&gt;     &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 24.67424 2020-05-01 A_town A_county A_town:yr2020:mn05:dow06</span></span>
-<span><span class="co">#&gt; 2: 24.18750 2020-05-02 A_town A_county A_town:yr2020:mn05:dow07</span></span>
-<span><span class="co">#&gt; 3: 24.46034 2020-05-03 A_town A_county A_town:yr2020:mn05:dow01</span></span>
-<span><span class="co">#&gt; 4: 24.62049 2020-05-04 A_town A_county A_town:yr2020:mn05:dow02</span></span>
-<span><span class="co">#&gt; 5: 25.71186 2020-05-05 A_town A_county A_town:yr2020:mn05:dow03</span></span>
-<span><span class="co">#&gt; 6: 24.50379 2020-05-06 A_town A_county A_town:yr2020:mn05:dow04</span></span>
+<span><span class="co">#&gt;            dt TOWN20 COUNTY20     temp                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;    &lt;num&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2020-05-01 A_town A_county 24.67424 A_town:yr2020:mn05:dow06</span></span>
+<span><span class="co">#&gt; 2: 2020-05-02 A_town A_county 24.18750 A_town:yr2020:mn05:dow07</span></span>
+<span><span class="co">#&gt; 3: 2020-05-03 A_town A_county 24.46034 A_town:yr2020:mn05:dow01</span></span>
+<span><span class="co">#&gt; 4: 2020-05-04 A_town A_county 24.62049 A_town:yr2020:mn05:dow02</span></span>
+<span><span class="co">#&gt; 5: 2020-05-05 A_town A_county 25.71186 A_town:yr2020:mn05:dow03</span></span>
+<span><span class="co">#&gt; 6: 2020-05-06 A_town A_county 24.50379 A_town:yr2020:mn05:dow04</span></span>
 <span><span class="co">#&gt;         match_strata  explag1  explag2  explag3  explag4  explag5</span></span>
 <span><span class="co">#&gt;               &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1: A_town:2020-05-01 24.05615 24.09483 24.14950 24.47164 24.51713</span></span>
