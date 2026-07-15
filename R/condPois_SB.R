@@ -93,9 +93,12 @@ condPois_sb <- function(exposure_matrix,
   }
 
   # 2. Is CmdStan installed?
-  ver <- cmdstanr::cmdstan_version(error_on_NA = FALSE)
+  path <- tryCatch(
+    cmdstanr::cmdstan_path(),
+    error = function(e) NULL
+  )
 
-  if (is.na(ver)) {
+  if (is.null(path)) {
     stop(
       "CmdStan is not installed.\n",
       "Install it with:\n",
