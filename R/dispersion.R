@@ -44,7 +44,14 @@ calc_dispersion <- function(y, X, beta, stratum_vector) {
     s = stratum_vector[n]
     pred_rescaled[n] = xBeta_out[n] * sum_y_stratum[s] / sum_pred_stratum[s]
   }
-  any(is.na(pred_rescaled))
+  if(any(is.na(pred_rescaled)) {
+    stop("some dispersion params = NA, which means an error occurred")
+  }
+
+  if(any(pred_rescaled == 0)) {
+    stop("some dispersion = 0, which means that you are using a temporal
+         collapse, which hasn't been coded yet :)")
+  }
 
   # compute pearson chi-squared
   pearson_x2 = 0
