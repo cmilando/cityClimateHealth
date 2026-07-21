@@ -44,7 +44,7 @@ calc_dispersion <- function(y, X, beta, stratum_vector) {
     s = stratum_vector[n]
     pred_rescaled[n] = xBeta_out[n] * sum_y_stratum[s] / sum_pred_stratum[s]
   }
-  if(any(is.na(pred_rescaled)) {
+  if(any(is.na(pred_rescaled))) {
     stop("some dispersion params = NA, which means an error occurred")
   }
 

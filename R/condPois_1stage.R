@@ -5,7 +5,7 @@
 #' @param argvar a list containing the `argvar` components for the `crossbasis`
 #' @param arglag a list containing the `arglag` components for the `crossbasis`
 #' @param maxlag an integer of the maximum lag
-#' @param min_n an integer describing the minimum number of cases for a single region
+#' @param min_n an integer describing the minimum number of cases for a single geo_unit
 #' @param strata_min an integer describing the minimum number of cases for a single strata
 #' @param global_cen global centering point
 #' @param multi_zone are multiple strata being used.
@@ -158,8 +158,9 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   }
 
   # CHECK 7
-  stopifnot(strata_min >= 0)
-  stopifnot(strata_min < min_n)
+  stopifnot(strata_min >= 0)     # the minimum allowed in a strata
+  stopifnot(min_n > 0)           # the minimum in a single geo-unit
+  stopifnot(strata_min < min_n)  # by definition
 
   # CHECK 8 check if multizone
   out_geo_unit <- sort(unlist(unique(outcomes_tbl[, get(out_geo_unit_col)])))
@@ -221,7 +222,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   if(is.null(maxlag)) {
     maxlag = 5
   } else {
-    stopifnot(maxlag %in% 1:10)
+    stopifnot(maxlag %in% 1:50)
   }
   if(verbose) {
     cat("maxlag:",maxlag,"\n")
@@ -260,6 +261,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   if(verbose) {
     cat("strata_min:",strata_min, "\n")
+    cat("\n")
+  }
+
+  if(verbose) {
+    cat("min_n:",min_n, "\n")
     cat("\n")
   }
 

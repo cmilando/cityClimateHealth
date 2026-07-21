@@ -9,6 +9,14 @@
 
 check_argvar <- function(argvar, this_exp) {
 
+  # quick validation check
+  if(any(is.na(this_exp))) {
+    stop("exposure column has unhandled NA values. This could mean
+    an error in the processing steps leading up to this: e.g.,
+         you are trying to work with a temporal factor but didn't
+         set collapse_is_temporal in make_outcome_table")
+  }
+
   if(is.null(argvar)) {
 
     x_knots = quantile(this_exp, probs = c(0.5, 0.9))
