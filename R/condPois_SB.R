@@ -279,6 +279,7 @@ condPois_sb <- function(exposure_matrix,
   cen_list    <- vector("list", n_geos);
   argvar_list <- vector("list", n_geos);
   coef_list   <- vector("list", n_geos);
+  match_strata   <- vector("list", n_geos);
   expisfct_list   <- vector("list", n_geos);
 
   # loop through geos
@@ -334,6 +335,7 @@ condPois_sb <- function(exposure_matrix,
     cb_list[[i]]     <- blup_cp$basis_cen
     outc_list[[i]]   <- single_outcomes_tbl
     cen_list[[i]]    <- local_cp$cen
+    match_strata[[i]]    <- local_cp$match_strata
     argvar_list[[i]] <- local_cp$argvar
 
     rm(local_cp)
@@ -771,6 +773,7 @@ condPois_sb <- function(exposure_matrix,
     single_outcomes_tbl = outcomes_tbl[rr, ,drop = FALSE]
     outcomes_vec = single_outcomes_tbl[, get(outcomes_col)]
     stopifnot(sum(outcomes_vec) == sum(outc_list[[i]][, get(outcomes_col)]))
+    stopifnot(identical(outcomes_vec, outc_list[[i]][, get(outcomes_col)]))
 
     #
     out[[i]] <- list(
@@ -780,7 +783,8 @@ condPois_sb <- function(exposure_matrix,
       this_exp = this_exp,
       cen = blup_cp$cp$cen,
       global_cen = global_cen,
-      outcomes = outc_list[[i]],
+      outcomes = outcomes_vec,
+      match_strata = match_strata[[i]],
       coef = cr_coef[[i]],
       vcov = cr_vcov[[i]],
       RRdf = RRdf

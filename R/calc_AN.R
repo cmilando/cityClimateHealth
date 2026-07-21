@@ -264,6 +264,20 @@ calc_AN <- function(model,
     cen          <- x$out[[i]]$cen
     global_cen   <- x$out[[i]]$global_cen
 
+    # Define the required field names
+    required_fields <- c("geo_unit", "basis_cen", "coef", "vcov",
+                         "outcomes", "match_strata", "this_exp",
+                         "cen", "global_cen")
+
+    # Identify which required fields are NULL (or missing)
+    null_fields <- required_fields[sapply(required_fields,
+                                          function(f) is.null(x$out[[i]][[f]]))]
+
+    if (length(null_fields) > 0) {
+      stop(paste("The following required field(s) are NULL in x$out[[", i, "]]:",
+                 paste(null_fields, collapse = ", ")))
+    }
+
     # stop if this isn't in pop_data
     if(! (this_geo %in% as.vector(unlist(safe_geos)))) {
       cat("skipping based on no population data: ", this_geo, "\t")
