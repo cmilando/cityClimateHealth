@@ -91,10 +91,6 @@ make_outcome_table <- function(data,
          column_mapping$geo_unit, "'")
   }
 
-  ## Time_subset validation
-  ## this isn't applied until the very end
-  time_subset <- time_subset_validate(time_subset)
-
   # type checks
   stopifnot(
     inherits(data[[column_mapping$date]], "Date"),
@@ -108,6 +104,11 @@ make_outcome_table <- function(data,
 
   # overwrite date
   data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
+
+  ## Time_subset validation
+  ## this isn't applied until the very end
+  data_years = unique(data.table::year(data[, (column_mapping$date)]))
+  time_subset <- time_subset_validate(time_subset, data_years)
 
   ##remove NAs automatically
   ## Edit by CWM: moved above the check for values below 0

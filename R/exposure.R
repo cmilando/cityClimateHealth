@@ -55,10 +55,6 @@ make_exposure_matrix <- function(data,
   # set some arbitrary limits on these but users could always make a local
   # copy and override if they really want to
 
-  ## Time_subset validation
-  ## this isn't applied until the very end
-  time_subset <- time_subset_validate(time_subset)
-
   ## Max Gap and Max Lag
   stopifnot(length(maxgap) == 1 & maxgap %in% 1:10)
   stopifnot(length(maxlag) == 1 & maxlag %in% 1:10)
@@ -130,6 +126,11 @@ make_exposure_matrix <- function(data,
 
   # overwrite date
   data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
+
+  ## Time_subset validation
+  ## this isn't applied until the very end
+  data_years = unique(data.table::year(data[, (column_mapping$date)]))
+  time_subset <- time_subset_validate(time_subset, data_years)
 
   #
   date_col <- column_mapping$date
