@@ -110,6 +110,13 @@ make_outcome_table <- function(data,
   data_years = unique(data.table::year(data[, (column_mapping$date)]))
   time_subset <- time_subset_validate(time_subset, data_years)
 
+  # COVID
+  if(2020 %in% data_years) {
+    warning("2020 in data years, Outcome counts likely impacted by the
+            COVID-19 Pandemic. Be sure to include a covariate adjustment
+            or exclude this year from analysis.")
+  }
+
   ##remove NAs automatically
   ## Edit by CWM: moved above the check for values below 0
   # updated to just remove NAs in the outcome column
