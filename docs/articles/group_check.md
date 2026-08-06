@@ -3,11 +3,6 @@
 ``` r
 
 library(data.table)
-#> 
-#> Attaching package: 'data.table'
-#> The following object is masked from 'package:base':
-#> 
-#>     %notin%
 library(cityClimateHealth)
 
 data("ma_exposure")
@@ -46,8 +41,8 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      exposure_columns, 
                                      grp_level = F,
                                      time_subset = list(month = 5:9))
-#> -- NA values automatically removed
-#> > grp_level == FALSE, so using geo_unit as strata
+#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = F, : check about any NA, some corrections for this later,
+#>             but only in certain columns
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 
@@ -134,9 +129,8 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      grp_level = T,
                                      keep_unit_exposures = T,
                                      time_subset = list(month = 5:9))
-#> -- NA values automatically removed
-#> > grp_level == TRUE and keep_unit_exposures == TRUE, so
-#>           keeping to geo_unit data but using geo_unit_grp as strata
+#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,
+#>             but only in certain columns
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 
@@ -232,10 +226,9 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      grp_level = T,
                                      keep_unit_exposures = F,
                                      time_subset = list(month = 5:9))
-#> -- NA values automatically removed
-#> > grp_level == TRUE and keep_unit_exposures == FALSE, so
-#>           aggregating to geo_unit_grp and using geo_unit_grp as strata
-#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,
+#>             but only in certain columns
+#> strata dt_by = 'day', setting strata as geo_unit_grp:yr:mn:dow
 
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 

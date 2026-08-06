@@ -208,8 +208,8 @@ exposure_columns <- list(
 
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
                                             time_subset = list(month = 5:9))
-#> -- NA values automatically removed
-#> > grp_level == FALSE, so using geo_unit as strata
+#> Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
+#>             but only in certain columns
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
@@ -280,7 +280,7 @@ m1 <- condPois_1stage(
   argvar = list(fun = 'strata', breaks = c(1.5, 2.5))
   )
 #> 
-#> crossbasis args for geo_unit  BOSTON :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 

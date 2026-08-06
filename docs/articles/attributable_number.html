@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Calculating attributable numbers and rates in `cityClimateHealth` • cityClimateHealth</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Calculating attributable numbers and rates in `cityClimateHealth`">
@@ -100,11 +100,6 @@ seen in <code><a href="../articles/get_pop_estimates.html">vignette("get_pop_est
 looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_pop_data"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="va">ma_pop_data</span><span class="op">)</span></span>
 <span><span class="va">ma_pop_data</span></span>
@@ -195,8 +190,8 @@ analysis, but you could also make a version of this dataset with a
 <span>  <span class="va">exposure_columns</span>,</span>
 <span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
 <span>                     year <span class="op">=</span> <span class="fl">2013</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,</span></span>
+<span><span class="co">#&gt;             but only in certain columns</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
 <p>outcomes</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -225,7 +220,7 @@ analysis, but you could also make a version of this dataset with a
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- stage 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args for geo_unit  ACTON :</span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -354,38 +349,38 @@ spatial resolution – either whatever the group variable was or “all”</p>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 2550.1830</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -140.3017</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 2231.8715</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -150.1488</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 2545.8241</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -140.3633</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 2232.2063</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -150.3671</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                       &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:                2471.5923                2617.0789</span></span>
-<span><span class="co">#&gt; 2:                -152.0242                -131.7614</span></span>
-<span><span class="co">#&gt; 3:                2113.2886                2327.3194</span></span>
-<span><span class="co">#&gt; 4:                -170.4102                -132.8526</span></span>
+<span><span class="co">#&gt; 1:                2477.4584                2618.8606</span></span>
+<span><span class="co">#&gt; 2:                -150.5837                -131.6601</span></span>
+<span><span class="co">#&gt; 3:                2112.4802                2327.7961</span></span>
+<span><span class="co">#&gt; 4:                -171.3693                -132.9130</span></span>
 <span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                41392.250</span></span>
-<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                -2277.250</span></span>
-<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                19169.500</span></span>
-<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                -1289.625</span></span>
+<span><span class="co">#&gt; 1: MIDDLESEX    1623109      TRUE                 41321.50</span></span>
+<span><span class="co">#&gt; 2: MIDDLESEX    1623109     FALSE                 -2278.25</span></span>
+<span><span class="co">#&gt; 3: WORCESTER     858898      TRUE                 19172.38</span></span>
+<span><span class="co">#&gt; 4: WORCESTER     858898     FALSE                 -1291.50</span></span>
 <span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1:               40116.637               42478.044</span></span>
-<span><span class="co">#&gt; 2:               -2467.519               -2138.631</span></span>
-<span><span class="co">#&gt; 3:               18150.994               19989.300</span></span>
-<span><span class="co">#&gt; 4:               -1463.650               -1141.069</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:               40211.850               42506.962</span></span>
+<span><span class="co">#&gt; 2:               -2444.137               -2136.988</span></span>
+<span><span class="co">#&gt; 3:               18144.050               19993.394</span></span>
+<span><span class="co">#&gt; 4:               -1471.887               -1141.588</span></span></code></pre></div>
 <p>See that the numbers are roughly the same for Suffolk county ? They
 won’t be exactly the same because of how the averaging works.</p>
 <p>Some plot functions exist:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-1.png" class="r-plt" width="768"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, table_type <span class="op">=</span> <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" alt="" width="768"></p>
+<p><img src="attributable_number_files/figure-html/grpsum3-2.png" class="r-plt" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---single">Estimating the AN - single<a class="anchor" aria-label="anchor" href="#estimating-the-an---single"></a>
@@ -398,7 +393,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">ma_outcomes_tbl</span>, </span>
 <span>                  multi_zone <span class="op">=</span> <span class="cn">TRUE</span>, global_cen <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBURNHAM,ASHBY,ASHLAND,ATHOL,AUBURN,AYER,BARRE,BEDFORD,BELMONT,BERLIN,BILLERICA,BLACKSTONE,BOLTON,BOXBOROUGH,BOYLSTON,BROOKFIELD,BURLINGTON,CAMBRIDGE,CARLISLE,CHARLTON,CHELMSFORD,CLINTON,CONCORD,DOUGLAS,DRACUT,DUDLEY,DUNSTABLE,EAST BROOKFIELD,EVERETT,FITCHBURG,FRAMINGHAM,GARDNER,GRAFTON,GROTON,HARDWICK,HARVARD,HOLDEN,HOLLISTON,HOPEDALE,HOPKINTON,HUBBARDSTON,HUDSON,LANCASTER,LEICESTER,LEOMINSTER,LEXINGTON,LINCOLN,LITTLETON,LOWELL,LUNENBURG,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,MENDON,MILFORD,MILLBURY,MILLVILLE,NATICK,NEW BRAINTREE,NEWTON,NORTH BROOKFIELD,NORTH READING,NORTHBOROUGH,NORTHBRIDGE,OAKHAM,OXFORD,PAXTON,PEPPERELL,PETERSHAM,PHILLIPSTON,PRINCETON,READING,ROYALSTON,RUTLAND,SHERBORN,SHIRLEY,SHREWSBURY,SOMERVILLE,SOUTHBOROUGH,SOUTHBRIDGE,SPENCER,STERLING,STONEHAM,STOW,STURBRIDGE,SUDBURY,SUTTON,TEMPLETON,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,UPTON,UXBRIDGE,WAKEFIELD,WALTHAM,WARREN,WATERTOWN,WAYLAND,WEBSTER,WEST BOYLSTON,WEST BROOKFIELD,WESTBOROUGH,WESTFORD,WESTMINSTER,WESTON,WILMINGTON,WINCHENDON,WINCHESTER,WOBURN,WORCESTER :</span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -443,7 +438,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; 3:               3599.10097               3682.85582</span></span>
 <span><span class="co">#&gt; 4:                -24.81450                -22.10172</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_s1</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="attributable_number_files/figure-html/checkSingle1-1.png" class="r-plt" width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="estimating-the-an---with-factors">Estimating the AN - with factors<a class="anchor" aria-label="anchor" href="#estimating-the-an---with-factors"></a>
@@ -469,7 +464,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- stage 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args for geo_unit  ACTON :</span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -497,7 +492,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- stage 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args for geo_unit  ACTON :</span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -525,7 +520,7 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- validation passed</span></span>
 <span><span class="co">#&gt; -- stage 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; crossbasis args for geo_unit  ACTON :</span></span>
+<span><span class="co">#&gt; crossbasis args:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; maxlag: 5 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -572,114 +567,12 @@ won’t be exactly the same because of how the averaging works.</p>
 <span><span class="co">#&gt; -- summarize by simulation</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="attributable_number_files/figure-html/fctrun-1.png" class="r-plt" width="768"></p>
 <p>These results are fictional of course but show what kind of outputs
 can be made easily.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_counties</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX     317065      TRUE                 32039.50</span></span>
-<span><span class="co">#&gt; 2: WORCESTER     178358      TRUE                 15227.25</span></span>
-<span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;  &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:                31174.96                33359.44    0-17</span></span>
-<span><span class="co">#&gt; 2:                14257.06                16017.36    0-17</span></span>
-<span><span class="co">#&gt; Simple feature collection with 2 features and 39 fields</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8</span></span>
-<span><span class="co">#&gt; Projected CRS: NAD83 / Massachusetts Mainland</span></span>
-<span><span class="co">#&gt;    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES</span></span>
-<span><span class="co">#&gt; 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875</span></span>
-<span><span class="co">#&gt; 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965</span></span>
-<span><span class="co">#&gt;   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20</span></span>
-<span><span class="co">#&gt; 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5</span></span>
-<span><span class="co">#&gt; 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5</span></span>
-<span><span class="co">#&gt;   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20</span></span>
-<span><span class="co">#&gt; 1   41115882  29498.13        25        017      00380   00618213 2501700380</span></span>
-<span><span class="co">#&gt; 2   62074807  37978.20        25        027      01885   00618356 2502701885</span></span>
-<span><span class="co">#&gt;        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20</span></span>
-<span><span class="co">#&gt; 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487</span></span>
-<span><span class="co">#&gt; 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188</span></span>
-<span><span class="co">#&gt;       TOWN20 TYPE population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt; 1      ACTON    T     317065      TRUE                 32039.50</span></span>
-<span><span class="co">#&gt; 2 ASHBURNHAM    T     178358      TRUE                 15227.25</span></span>
-<span><span class="co">#&gt;   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt; 1                31174.96                33359.44    0-17</span></span>
-<span><span class="co">#&gt; 2                14257.06                16017.36    0-17</span></span>
-<span><span class="co">#&gt;                         geometry</span></span>
-<span><span class="co">#&gt; 1 POLYGON ((208990.3 882273, ...</span></span>
-<span><span class="co">#&gt; 2 POLYGON ((158712.3 864187.3...</span></span>
-<span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX    1050640      TRUE                 10924.00</span></span>
-<span><span class="co">#&gt; 2: WORCESTER     541246      TRUE                  4151.75</span></span>
-<span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;  &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:                9782.419               12159.388   18-64</span></span>
-<span><span class="co">#&gt; 2:                3508.037                5006.394   18-64</span></span>
-<span><span class="co">#&gt; Simple feature collection with 2 features and 39 fields</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8</span></span>
-<span><span class="co">#&gt; Projected CRS: NAD83 / Massachusetts Mainland</span></span>
-<span><span class="co">#&gt;    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES</span></span>
-<span><span class="co">#&gt; 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875</span></span>
-<span><span class="co">#&gt; 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965</span></span>
-<span><span class="co">#&gt;   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20</span></span>
-<span><span class="co">#&gt; 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5</span></span>
-<span><span class="co">#&gt; 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5</span></span>
-<span><span class="co">#&gt;   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20</span></span>
-<span><span class="co">#&gt; 1   41115882  29498.13        25        017      00380   00618213 2501700380</span></span>
-<span><span class="co">#&gt; 2   62074807  37978.20        25        027      01885   00618356 2502701885</span></span>
-<span><span class="co">#&gt;        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20</span></span>
-<span><span class="co">#&gt; 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487</span></span>
-<span><span class="co">#&gt; 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188</span></span>
-<span><span class="co">#&gt;       TOWN20 TYPE population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt; 1      ACTON    T    1050640      TRUE                 10924.00</span></span>
-<span><span class="co">#&gt; 2 ASHBURNHAM    T     541246      TRUE                  4151.75</span></span>
-<span><span class="co">#&gt;   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt; 1                9782.419               12159.388   18-64</span></span>
-<span><span class="co">#&gt; 2                3508.037                5006.394   18-64</span></span>
-<span><span class="co">#&gt;                         geometry</span></span>
-<span><span class="co">#&gt; 1 POLYGON ((208990.3 882273, ...</span></span>
-<span><span class="co">#&gt; 2 POLYGON ((158712.3 864187.3...</span></span>
-<span><span class="co">#&gt;     COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt;       &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: MIDDLESEX     255404      TRUE                 21828.00</span></span>
-<span><span class="co">#&gt; 2: WORCESTER     139294      TRUE                 10647.38</span></span>
-<span><span class="co">#&gt;    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt;                      &lt;num&gt;                   &lt;num&gt;  &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:               20530.269                22583.89     65+</span></span>
-<span><span class="co">#&gt; 2:                9998.787                11295.23     65+</span></span>
-<span><span class="co">#&gt; Simple feature collection with 2 features and 39 fields</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8</span></span>
-<span><span class="co">#&gt; Projected CRS: NAD83 / Massachusetts Mainland</span></span>
-<span><span class="co">#&gt;    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES</span></span>
-<span><span class="co">#&gt; 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875</span></span>
-<span><span class="co">#&gt; 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965</span></span>
-<span><span class="co">#&gt;   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20</span></span>
-<span><span class="co">#&gt; 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5</span></span>
-<span><span class="co">#&gt; 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5</span></span>
-<span><span class="co">#&gt;   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20</span></span>
-<span><span class="co">#&gt; 1   41115882  29498.13        25        017      00380   00618213 2501700380</span></span>
-<span><span class="co">#&gt; 2   62074807  37978.20        25        027      01885   00618356 2502701885</span></span>
-<span><span class="co">#&gt;        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20</span></span>
-<span><span class="co">#&gt; 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487</span></span>
-<span><span class="co">#&gt; 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188</span></span>
-<span><span class="co">#&gt;       TOWN20 TYPE population above_MMT mean_annual_attr_num_est</span></span>
-<span><span class="co">#&gt; 1      ACTON    T     255404      TRUE                 21828.00</span></span>
-<span><span class="co">#&gt; 2 ASHBURNHAM    T     139294      TRUE                 10647.38</span></span>
-<span><span class="co">#&gt;   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp</span></span>
-<span><span class="co">#&gt; 1               20530.269                22583.89     65+</span></span>
-<span><span class="co">#&gt; 2                9998.787                11295.23     65+</span></span>
-<span><span class="co">#&gt;                         geometry</span></span>
-<span><span class="co">#&gt; 1 POLYGON ((208990.3 882273, ...</span></span>
-<span><span class="co">#&gt; 2 POLYGON ((158712.3 864187.3...</span></span></code></pre></div>
-<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" alt="" width="576"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_counties</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="attributable_number_files/figure-html/multi_plot3d-1.png" class="r-plt" width="576"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

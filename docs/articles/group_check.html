@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Group level aggregations check • cityClimateHealth</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Group level aggregations check">
@@ -81,11 +81,6 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_exposure"</span><span class="op">)</span></span>
@@ -121,8 +116,8 @@
 <span>                                     <span class="va">exposure_columns</span>, </span>
 <span>                                     grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = F, : check about any NA, some corrections for this later,</span></span>
+<span><span class="co">#&gt;             but only in certain columns</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span></span>
@@ -207,9 +202,8 @@
 <span>                                     grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                     keep_unit_exposures <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit_exposures == TRUE, so</span></span>
-<span><span class="co">#&gt;           keeping to geo_unit data but using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,</span></span>
+<span><span class="co">#&gt;             but only in certain columns</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span></span>
@@ -303,10 +297,9 @@
 <span>                                     grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                     keep_unit_exposures <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit_exposures == FALSE, so</span></span>
-<span><span class="co">#&gt;           aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
-<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,</span></span>
+<span><span class="co">#&gt;             but only in certain columns</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit_grp:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
 <span>                                 <span class="va">outcome_columns</span>, </span>

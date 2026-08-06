@@ -18,11 +18,6 @@ First create the inputs, using the same `exposure_columns` and
 ``` r
 
 library(data.table)
-#> 
-#> Attaching package: 'data.table'
-#> The following object is masked from 'package:base':
-#> 
-#>     %notin%
 exposure_columns <- list(
   "date" = "date",
   "exposure" = "tmax_C",
@@ -37,8 +32,8 @@ ma_exposure_matrix <- make_exposure_matrix(
        month = 5:9,
        year = 2012:2015
      ))
-#> -- NA values automatically removed
-#> > grp_level == FALSE, so using geo_unit as strata
+#> Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,
+#>             but only in certain columns
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 outcome_columns <- list(
@@ -78,7 +73,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args for geo_unit  ACTON :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 
@@ -266,7 +261,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args for geo_unit  ACTON :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 
@@ -294,7 +289,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args for geo_unit  ACTON :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 
@@ -322,7 +317,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args for geo_unit  ACTON :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 
@@ -435,9 +430,8 @@ ma_exposure_matrix <- make_exposure_matrix(
      ),
   grp_level = T, 
   keep_unit_exposures = T)
-#> -- NA values automatically removed
-#> > grp_level == TRUE and keep_unit_exposures == TRUE, so
-#>           keeping to geo_unit data but using geo_unit_grp as strata
+#> Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,
+#>             but only in certain columns
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 attributes(ma_exposure_matrix)
@@ -6465,11 +6459,11 @@ attributes(ma_exposure_matrix)
 #> [1] "data.table" "data.frame" "exposure"  
 #> 
 #> $.internal.selfref
-#> <pointer: 0x104005800>
+#> <pointer: 0x14f8118e0>
 #> 
 #> $names
-#>  [1] "date"         "TOWN20"       "COUNTY20"     "tmax_C"       "strata"      
-#>  [6] "match_strata" "spatial_grp"  "explag1"      "explag2"      "explag3"     
+#>  [1] "TOWN20"       "COUNTY20"     "date"         "strata"       "match_strata"
+#>  [6] "tmax_C"       "spatial_grp"  "explag1"      "explag2"      "explag3"     
 #> [11] "explag4"      "explag5"     
 #> 
 #> $column_mapping
@@ -6516,14 +6510,14 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> MIDDLESEX    
-#> crossbasis args for geo_unit  MIDDLESEX :
+#> crossbasis args:
 #> 
 #> maxlag: 5 
 #> 
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.6 30.8
+#>  $ knots: Named num [1:2] 25.6 30.7
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -6539,17 +6533,23 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value 5.282885e-12
-#> iter 1: value 3.471001e-12
+#> iter 0: value 3.527845e-12
+#> iter 1: value 2.504663e-12
+#> iter 2: value -1.389111e-12
+#> iter 3: value -2.586376e-12
+#> iter 4: value -4.728662e-12
+#> iter 5: value 1.300293e-12
 #> converged
 #> Newton iterations:
 #> initial  value 0.000000 
-#> iter   2 value 0.000000
+#> iter   2 value -0.000000
+#> iter   3 value -0.000000
 #> iter   3 value 0.000000
-#> iter   4 value 0.000000
-#> iter   4 value 0.000000
-#> iter   4 value 0.000000
-#> final  value 0.000000 
+#> iter   4 value -0.000000
+#> iter   5 value -0.000000
+#> iter   5 value -0.000000
+#> iter   5 value 0.000000
+#> final  value -0.000000 
 #> converged
 #> -- stage 2
 #> MIDDLESEX    WORCESTER   SUFFOLK     
