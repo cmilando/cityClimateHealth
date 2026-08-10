@@ -129,7 +129,7 @@ make_exposure_matrix <- function(data,
 
   ## Time_subset validation
   ## this isn't applied until the very end
-  data_years = unique(data.table::year(data[, (column_mapping$date)]))
+  data_years = unique(data.table::year(data[, get(column_mapping$date)]))
   time_subset <- time_subset_validate(time_subset, data_years)
 
   #
