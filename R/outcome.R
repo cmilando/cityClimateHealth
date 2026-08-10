@@ -55,14 +55,6 @@ make_outcome_table <- function(data,
   #
   stopifnot(typeof(column_mapping) == 'list')
 
-  ##validation for time_subset
-
-  if (missing(time_subset)) {
-    stop("`time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.")
-  }
-
-  time_subset_validation(time_subset)
-
   # column types
   col_types <- c('date', 'factor', 'outcome', 'geo_unit', 'geo_unit_grp')
 

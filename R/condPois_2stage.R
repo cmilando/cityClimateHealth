@@ -836,18 +836,31 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
 
+  # error checking
+  minExp = Inf
+  maxExp = -Inf
+  graphError = FALSE
+  anyMiss = FALSE
+
   for(i in 1:n_geos) {
     rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
-    if(length(rr) != 1) {
-      stop(paste0("Exposure value '", exposure_val, "' not in the
-                  exposure column, try values (with one decimal) between:",
-                  min(x$`_`$out[[i]]$RRdf[[exposure_col]]),
-                  " and ",
-                  max(x$`_`$out[[i]]$RRdf[[exposure_col]])))
+    minExp = min(minExp, min(x$`_`$out[[i]]$RRdf[[exposure_col]]))
+    maxExp = max(maxExp, max(x$`_`$out[[i]]$RRdf[[exposure_col]]))
+    if(length(rr) > 1) {
+      print(length(rr))
+      graphError = TRUE
     }
-
-    plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
+    if(length(rr) == 1) {
+      plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
+    }
   }
+
+  if(graphError) {
+    stop(paste0("Exposure value '", exposure_val, "' not in the
+                  exposure column, try values (with one decimal) between:",
+                minExp, " and ", maxExp))
+  }
+
 
   plt_slice <- do.call(rbind, plt_slice)
 
