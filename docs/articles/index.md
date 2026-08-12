@@ -24,6 +24,8 @@ Vignettes aimed at advanced users
   sizes](http://climatehealth.city/articles/pop_size_test.md):
 - [time_subset](http://climatehealth.city/articles/time_subset.md):
 - [faq](http://climatehealth.city/articles/faq.md):
+- [Demo of Collapse
+  funcationality](http://climatehealth.city/articles/collapse.md):
 - [SB_WNV_test](http://climatehealth.city/articles/bayesian_wnv_test.md):
 - [Using Stratified
   Exposures](http://climatehealth.city/articles/strata.md):

@@ -108,16 +108,18 @@ exposure_columns <- list(
 
 exp_mat <- make_exposure_matrix(exp_df, exposure_columns,
                                 time_subset = list(month = 5:9))
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exp_mat)
-#>        temp         dt TOWN20 COUNTY20                   strata
-#>       <num>     <IDat> <char>   <char>                   <char>
-#> 1: 24.67424 2020-05-01 A_town A_county A_town:yr2020:mn05:dow06
-#> 2: 24.18750 2020-05-02 A_town A_county A_town:yr2020:mn05:dow07
-#> 3: 24.46034 2020-05-03 A_town A_county A_town:yr2020:mn05:dow01
-#> 4: 24.62049 2020-05-04 A_town A_county A_town:yr2020:mn05:dow02
-#> 5: 25.71186 2020-05-05 A_town A_county A_town:yr2020:mn05:dow03
-#> 6: 24.50379 2020-05-06 A_town A_county A_town:yr2020:mn05:dow04
+#>            dt TOWN20 COUNTY20     temp                   strata
+#>        <IDat> <char>   <char>    <num>                   <char>
+#> 1: 2020-05-01 A_town A_county 24.67424 A_town:yr2020:mn05:dow06
+#> 2: 2020-05-02 A_town A_county 24.18750 A_town:yr2020:mn05:dow07
+#> 3: 2020-05-03 A_town A_county 24.46034 A_town:yr2020:mn05:dow01
+#> 4: 2020-05-04 A_town A_county 24.62049 A_town:yr2020:mn05:dow02
+#> 5: 2020-05-05 A_town A_county 25.71186 A_town:yr2020:mn05:dow03
+#> 6: 2020-05-06 A_town A_county 24.50379 A_town:yr2020:mn05:dow04
 #>         match_strata  explag1  explag2  explag3  explag4  explag5
 #>               <char>    <num>    <num>    <num>    <num>    <num>
 #> 1: A_town:2020-05-01 24.05615 24.09483 24.14950 24.47164 24.51713
@@ -151,6 +153,9 @@ sim_tbl <- make_outcome_table(deaths_df,  outcome_columns,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths_df, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 sim_tbl
 #>              dt TOWN20 COUNTY20 deaths                   strata strata_total
 #>          <IDat> <char>   <char>  <int>                   <char>        <int>
@@ -185,7 +190,7 @@ sim_tbl
 m1 <- condPois_1stage(exposure_matrix = exp_mat, 
                   outcomes_tbl = sim_tbl)
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  A_town :
 #> 
 #> maxlag: 5 
 #> 
@@ -202,7 +207,13 @@ m1 <- condPois_1stage(exposure_matrix = exp_mat,
 #> 
 #> strata:
 #> A_town:yr2020:mn05:dow06
-#> strata_min: 0
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    deaths ~ cb
+#> family: quasipoisson
 plot(m1)
 ```
 

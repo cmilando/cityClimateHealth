@@ -1,5 +1,5 @@
 #' Function to create the outcome table
-#' TO DO : EDIT XGRID
+#'
 #' @param data a dataset of outcomes
 #' @param column_mapping a named list that indicates relevant columns in `data`. for the exposure
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
@@ -56,7 +56,8 @@ make_outcome_table <- function(data,
   stopifnot(typeof(column_mapping) == 'list')
 
   # column types
-  col_types <- c('date', 'factor', 'outcome', 'geo_unit', 'geo_unit_grp')
+  col_types <- c('date', 'factor', 'outcome', 'covariate',
+                 'geo_unit', 'geo_unit_grp')
 
   # check that all the types are valid
   if(!all(names(column_mapping) %in% col_types))
@@ -68,12 +69,13 @@ make_outcome_table <- function(data,
   }
 
   # check that all values are correct
-  if(!all(column_mapping %in% names(data)))
+  column_mapping_flat = unlist(column_mapping)
+  if(!all(column_mapping_flat %in% names(data)))
     stop('Values of column mapping not matched with column names of data.
           Look for a typo')
 
   #check for duplicate column mapping (there should not be column repeats in the inputs)
-  if(length(unlist(column_mapping)) != length(unique(unlist(column_mapping)))) {
+  if(length(column_mapping_flat) != length(unique(column_mapping_flat))) {
     stop("Duplicate columns found in `column_mapping` — each column must be mapped to a unique value")
   }
 
@@ -90,8 +92,15 @@ make_outcome_table <- function(data,
     is.character(data[[column_mapping$geo_unit]]),
     is.character(data[[column_mapping$geo_unit_grp]])
   )
+
   if("factor" %in% names(column_mapping)) {
-    stopifnot(is.character(data[[column_mapping$factor]]))
+    # ok so there may be more than one factor here
+    factor_vector = unlist(column_mapping$factor)
+    for(ff_i in 1:length(factor_vector)) {
+      factor_col = factor_vector[ff_i]
+      stopifnot(is.character(unlist(data[, get(factor_col)])))
+    }
+
   }
 
   # overwrite date
@@ -101,13 +110,6 @@ make_outcome_table <- function(data,
   ## this isn't applied until the very end
   data_years = unique(data.table::year(data[, get(column_mapping$date)]))
   time_subset <- time_subset_validate(time_subset, data_years)
-
-  # COVID
-  if(2020 %in% data_years) {
-    warning("2020 in data years, Outcome counts likely impacted by the
-            COVID-19 Pandemic. Be sure to include a covariate adjustment
-            or exclude this year from analysis.")
-  }
 
   ##remove NAs automatically
   ## Edit by CWM: moved above the check for values below 0
@@ -141,186 +143,24 @@ make_outcome_table <- function(data,
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
 
-  # **************
-  ## first collapse to by summing
-  ## both by collapse to and by group
-  date_col         = column_mapping$date
-  geo_unit_col     = column_mapping$geo_unit
-  geo_unit_grp_col = column_mapping$geo_unit_grp
-  outcome_col      = column_mapping$outcome
+  # collapse data based on geo_unit and factors etc
+  d2 = collapse_data(data = data,
+                     column_mapping = column_mapping,
+                     fcn = sum,
+                     data_type = 'outcome',
+                     grp_level = grp_level,
+                     keep_unit = keep_unit_outcomes,
+                     collapse_to = collapse_to)
 
-  # Next check about collapsing across factors
-  if(is.null(collapse_to)) {
+  # and reset
+  data = d2$data
+  column_mapping = d2$column_mapping
+  collapse_to = d2$collapse_to
 
-    cat("> No factors to collapse to, using all data\n")
-
-    collapse_to = 'ALL'
-
-    if(grp_level == FALSE) {
-
-      # collapse to = NULL --> so this collapses across factors
-      # grp_level = FALSE  --> and doesn't summarize to the group level
-      cat("> grp_level == FALSE, so using geo_unit as strata\n")
-
-      data <- data[,.(
-        xoutcome = sum(get(outcome_col))
-      ), by = .(get(date_col),
-                get(geo_unit_col),
-                get(geo_unit_grp_col))]
-
-      names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, outcome_col)
-
-      column_mapping <- list(
-        "date" = date_col,
-        "outcome" = outcome_col,
-        "geo_unit" = geo_unit_col,
-        "geo_unit_grp" = geo_unit_grp_col
-      )
-
-    } else {
-
-      # collapse to = NULL --> so this collapses across factors
-      # grp_level = TRUE  --> and does summarize to the group level
-
-      if(keep_unit_outcomes == FALSE) {
-
-        cat("> grp_level == TRUE and keep_unit_outcomes == FALSE, so
-            aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
-
-        data <- data[,.(
-          xoutcome = sum(get(outcome_col))
-        ), by = .(get(date_col),
-                  get(geo_unit_grp_col))]
-
-        names(data) <- c(date_col, geo_unit_grp_col, outcome_col)
-
-        data$spatial_grp <- 'ALL'
-
-        column_mapping <- list(
-          "date" = date_col,
-          "outcome" = outcome_col,
-          "geo_unit" = geo_unit_grp_col,
-          "geo_unit_grp" = 'spatial_grp'
-        )
-
-      } else {
-
-        cat("> grp_level == TRUE and keep_unit_outcomes == TRUE, so
-            keeping to geo_unit data but using geo_unit_grp as strata\n")
-
-        data <- data[,.(
-          xoutcome = sum(get(outcome_col))
-        ), by = .(get(date_col),
-                  get(geo_unit_col),
-                  get(geo_unit_grp_col))]
-
-        names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, outcome_col)
-
-        # and SKIP column re-mapping until later
-        # except remove factor
-        rr <- which(names(column_mapping) == 'factor')
-        column_mapping[rr] <- NULL
-
-      }
-
-    }
-
-  } else {
-
-    cat("> Factors in data\n")
-    factor_cols <- which(names(column_mapping) == 'factor')
-    factor_cols <- unlist(column_mapping[factor_cols])
-    stopifnot(collapse_to %in% factor_cols)
-
-    if(grp_level == FALSE) {
-
-      # collapse to = NOT NULL
-      # grp_level = FALSE
-      cat("> grp_level == FALSE, so using geo_unit as strata\n")
-
-      data <- data[,.(
-        xoutcome = sum(get(outcome_col))
-      ), by = .(get(date_col),
-                get(geo_unit_col),
-                get(geo_unit_grp_col),
-                get(collapse_to))]
-
-      names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col,
-                       collapse_to, outcome_col)
-
-      # update the properties here
-      column_mapping <- list(
-        "date" = date_col,
-        "outcome" = outcome_col,
-        "geo_unit" = geo_unit_col,
-        "geo_unit_grp" = geo_unit_grp_col,
-        "factor" = collapse_to
-      )
-    } else {
-
-      # collapse to = NOT NULL
-      # grp_level = TRUE
-
-      if(keep_unit_outcomes == FALSE) {
-
-        cat("> grp_level == TRUE and keep_unit_outcomes == FALSE, so
-            aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
-
-        data <- data[,.(
-          xoutcome = sum(get(outcome_col))
-        ), by = .(get(date_col),
-                  get(geo_unit_grp_col),
-                  get(collapse_to))]
-
-        names(data) <- c(date_col, geo_unit_grp_col,
-                         collapse_to, outcome_col)
-
-        #
-        data$spatial_grp <- 'ALL'
-
-        # update the properties here
-        column_mapping <- list(
-          "date" = date_col,
-          "outcome" = outcome_col,
-          "geo_unit" = geo_unit_grp_col,
-          "geo_unit_grp" = 'spatial_grp',
-          "factor" = collapse_to
-        )
-
-      } else {
-
-        cat("> grp_level == TRUE and keep_unit_outcomes == TRUE, so
-            keeping to geo_unit data but using geo_unit_grp as strata\n")
-
-        data <- data[,.(
-          xoutcome = sum(get(outcome_col))
-        ), by = .(get(date_col),
-                  get(geo_unit_col),
-                  get(geo_unit_grp_col),
-                  get(collapse_to))]
-
-        names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col,
-                         collapse_to, outcome_col)
-
-        # just over-write the collapse_to
-        rr <- which(names(column_mapping) == 'factor')
-        column_mapping[rr] <- NULL
-        column_mapping[['factor']] <- collapse_to
-
-      }
-
-    }
-  }
-
-  # overwrite date
-  data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
-
+  # update
   geo_unit_col = column_mapping$geo_unit
   geo_unit_grp_col = column_mapping$geo_unit_grp
-
-  if(any(is.na(data))) {
-    stop("some NA in data, check why")
-  }
+  date_col = column_mapping$date
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -376,6 +216,9 @@ make_outcome_table <- function(data,
   # Label strata that have no cases, these will be removed later
   # Extract outcome column name programmatically
   group_col   <- "strata"
+  if(!is.null(collapse_to)) {
+    group_col <- c(group_col, collapse_to)
+  }
 
   # 1. Aggregate by group and create the 'keep' flag
   xgrid_agg <- xgrid[, .(
@@ -401,7 +244,7 @@ make_outcome_table <- function(data,
   # Lastly, re-set column mapping if group-level = TRUE but keep_orig = TRUE
   if(grp_level & keep_unit_outcomes) {
     xgrid_comb$spatial_grp <- 'ALL'
-    if(collapse_to == 'ALL') {
+    if(!("factor" %in% names(column_mapping))) {
       column_mapping <- list(
         "date" = date_col,
         "outcome" = outcome_col,
@@ -452,6 +295,14 @@ make_outcome_table <- function(data,
   # at the end there shouldn't be any NAs, so give a warning to investigate
   if(any(is.na(xgrid_comb))) {
     stop("some NAs persist, investigate and submit a Github issue :) ")
+  }
+
+  # COVID
+  data_years = unique(data.table::year(xgrid_comb[, get(column_mapping$date)]))
+  if(2020 %in% data_years) {
+    warning("2020 in data years, Outcome counts likely impacted by the
+            COVID-19 Pandemic. Be sure to include a covariate adjustment
+            or exclude this year from analysis.")
   }
 
   return(xgrid_comb)

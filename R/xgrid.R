@@ -100,13 +100,17 @@ make_xgrid <- function(data,
 
     stopifnot(length(which(names(column_mapping) == 'factor')) == 1)
 
-    factor_col <- column_mapping$factor
+    factor_vector = unlist(column_mapping$factor)
 
-    unique_fcts <- unlist(unique(data[, get(factor_col)]))
+    input_list = list(date = all_dt, geo_unit = unique_areas)
 
-    xgrid <- tidyr::expand_grid(date = all_dt,
-                                geo_unit = unique_areas,
-                                fct = unique_fcts)
+    for(ff_i in 1:length(factor_vector)) {
+      factor_col = factor_vector[ff_i]
+      unique_fcts <- unlist(unique(data[, get(factor_col)]))
+      input_list[[factor_col]] = unique_fcts
+    }
+
+    xgrid <- do.call(tidyr::expand_grid, input_list)
 
     # if collapse is spatial, reduce this
     # so what this means is that
@@ -114,13 +118,13 @@ make_xgrid <- function(data,
     # so you need to subset xgrid
     if(collapse_is_spatial) {
 
-      xcols = c(geo_col, factor_col)
+      xcols = c(geo_col, factor_vector)
       uq <- unique(data[, ..xcols])
-      names(uq) = c('geo_unit', 'fct')
+      names(uq) = c('geo_unit', factor_vector)
 
       xg <- as.data.table(xgrid)
 
-      join_cols <- c('geo_unit', 'fct')
+      join_cols <- c('geo_unit', factor_vector)
       xgrid <- xg[uq, ,on = join_cols]
 
     }
@@ -131,20 +135,20 @@ make_xgrid <- function(data,
     # so you
     if(collapse_is_temporal) {
 
-      xcols = c(date_col, factor_col)
+      xcols = c(date_col, factor_vector)
       uq <- unique(data[, ..xcols])
-      names(uq) = c('date', 'fct')
+      names(uq) = c('date', factor_vector)
 
       xg <- as.data.table(xgrid)
 
-      join_cols <- c('date', 'fct')
+      join_cols <- c('date', factor_vector)
       xgrid <- xg[uq, ,on = join_cols]
 
     }
 
     names(xgrid) = c(column_mapping$date,
                      column_mapping$geo_unit,
-                     column_mapping$factor)
+                     factor_vector)
 
   } else {
 
@@ -200,7 +204,7 @@ make_xgrid <- function(data,
       column_mapping$date,
       column_mapping$geo_unit,
       column_mapping$geo_unit_grp,
-      column_mapping$factor
+      factor_vector
     )
   } else {
     spatial_join_col <- c(

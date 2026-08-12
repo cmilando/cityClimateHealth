@@ -208,8 +208,9 @@ exposure_columns <- list(
 
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
                                             time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(boston_exposure, exposure_columns, time_subset = list(month = 5:9)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
@@ -246,6 +247,9 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 head(boston_deaths_tbl)
 #>          date TOWN20 COUNTY20 daily_deaths                   strata
 #>        <IDat> <char>   <char>        <int>                   <char>
@@ -280,7 +284,7 @@ m1 <- condPois_1stage(
   argvar = list(fun = 'strata', breaks = c(1.5, 2.5))
   )
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  BOSTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -296,7 +300,13 @@ m1 <- condPois_1stage(
 #> 
 #> strata:
 #> BOSTON:yr2010:mn05:dow07
-#> strata_min: 0
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 
 plot(m1)
 ```

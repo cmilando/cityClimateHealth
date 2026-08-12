@@ -45,6 +45,13 @@ respectively) so each of these methods can be explored.
 We also provide several additional vignettes for common questions – see
 “More articles””
 
+## Funding attribution
+
+Support for this project comes from the Massachusetts Municipal
+Vulnerability Prepared-ness (MVP) program, and the Wellcome Foundation
+for the Community Adaptations for City Heat Project (CATCH) at Boston
+University (Climate Impact Award 311886/Z/24/Z).
+
 # Package index
 
 ## All functions
@@ -288,6 +295,8 @@ Vignettes aimed at advanced users
   sizes](http://climatehealth.city/articles/pop_size_test.md):
 - [time_subset](http://climatehealth.city/articles/time_subset.md):
 - [faq](http://climatehealth.city/articles/faq.md):
+- [Demo of Collapse
+  funcationality](http://climatehealth.city/articles/collapse.md):
 - [SB_WNV_test](http://climatehealth.city/articles/bayesian_wnv_test.md):
 - [Using Stratified
   Exposures](http://climatehealth.city/articles/strata.md):

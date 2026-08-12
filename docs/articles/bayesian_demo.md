@@ -60,8 +60,9 @@ exposure_mat <- make_exposure_matrix(exposure,
                                        month = 5:9,
                                        year = 2012:2015
                                      ))
-#> Warning in make_exposure_matrix(exposure, exposure_columns, time_subset = list(month = 5:9, : check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
@@ -123,7 +124,7 @@ for(bb in 1:4) {
   
 }
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
 #> 
@@ -142,8 +143,13 @@ for(bb in 1:4) {
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
+#> min_n: 50 
 #> 
-#> crossbasis args:
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
+#> 
+#> crossbasis args for geo_unit  EVERETT :
 #> 
 #> maxlag: 5 
 #> 
@@ -162,8 +168,13 @@ for(bb in 1:4) {
 #> EVERETT:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
+#> min_n: 50 
 #> 
-#> crossbasis args:
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
+#> 
+#> crossbasis args for geo_unit  REVERE :
 #> 
 #> maxlag: 5 
 #> 
@@ -182,8 +193,13 @@ for(bb in 1:4) {
 #> REVERE:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
+#> min_n: 50 
 #> 
-#> crossbasis args:
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
+#> 
+#> crossbasis args for geo_unit  MALDEN :
 #> 
 #> maxlag: 5 
 #> 
@@ -200,7 +216,13 @@ for(bb in 1:4) {
 #> 
 #> strata:
 #> MALDEN:yr2012:mn05:dow03
-#> strata_min: 0
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 mx <- do.call(cbind, beta_l) # COEFS NOT THE SAME
 colnames(mx)  = TOWNLIST
 mx
@@ -267,7 +289,7 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
-#> crossbasis args:
+#> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
 #> 
@@ -286,6 +308,11 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> EVERETT  MALDEN  REVERE  
 #> Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one
 #> polygon per row in `shp`
@@ -318,13 +345,13 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 27.5 seconds.
+#> Chain 1 finished in 27.9 seconds.
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 28.2 seconds.
+#> Chain 2 finished in 28.6 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 27.8 seconds.
-#> Total execution time: 28.3 seconds.
+#> Mean chain execution time: 28.2 seconds.
+#> Total execution time: 28.7 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -384,7 +411,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
-#> crossbasis args:
+#> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
 #> 
@@ -403,6 +430,11 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> EVERETT  MALDEN  REVERE  
 #> Warning in getSW(shp = shp_sf_safe, ni = 1, include_self = F): has to be one
 #> polygon per row in `shp`
@@ -415,7 +447,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>      142      -6737.27   9.71025e-05        1.0085           1           1      166    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.2 seconds.
+#> Finished in  0.1 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -430,7 +462,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.5 seconds.
+#> Finished in  0.6 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
@@ -488,7 +520,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> -- validation passed
 #> -- prepare inputs
 #> CHELSEA  
-#> crossbasis args:
+#> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
 #> 
@@ -505,7 +537,13 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> 
 #> strata:
 #> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.90, x_b = (7.00, 36.00).
 #>         This means your zones are across too large of an area, or if exposure is factor there could
 #>         be too few events in this area, or

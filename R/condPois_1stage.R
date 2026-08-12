@@ -22,35 +22,40 @@
 #' @export
 #'
 #' @examples
-#' library(dlnm)
-#' library(gnm)
-#' library(ggplot2)
-#' library(data.table)
-#' # create exposure matrix
-#' exposure_columns <- list(
-#'   "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#' boston_exposure_mat <- make_exposure_matrix(
-#' subset(ma_exposure, TOWN20 == 'BOSTON'),
-#' exposure_columns)
-#'
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
-#'
-#'# run the model
-#' m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
-#'                     outcomes_tbl = boston_deaths_tbl)
+# library(dlnm)
+# library(gnm)
+# library(ggplot2)
+# library(data.table)
+# # create exposure matrix
+# exposure_columns <- list(
+#   "date" = "date",
+#  "exposure" = "tmax_C",
+#  "geo_unit" = "TOWN20",
+#  "geo_unit_grp" = "COUNTY20"
+# )
+# boston_exposure_mat <- make_exposure_matrix(
+# subset(ma_exposure, TOWN20 == 'BOSTON'),
+# exposure_columns, time_subset = list(year = 2012:2015))
+#
+# # add holiday
+# exposure_matrix <- add_us_holiday(boston_exposure_mat)
+#
+# # create outcome table
+# outcome_columns <- list(
+#  "date" = "date",
+#  "outcome" = "daily_deaths",
+#  "factor" = 'age_grp',
+#  "factor" = 'sex',
+#  "geo_unit" = "TOWN20",
+#  "geo_unit_grp" = "COUNTY20"
+# )
+# boston_deaths <- subset(ma_deaths, TOWN20 == 'BOSTON')
+# outcomes_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+#                                         time_subset = list(year = 2012:2015))
+#
+# # run the model
+# m1 <- condPois_1stage(exposure_matrix,
+#                     outcomes_tbl)
 #' condPois_1stage
 condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                         argvar = NULL, arglag = NULL, maxlag = NULL,
@@ -193,101 +198,94 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
   #' CREATE CROSSBASIS for this single zone
-  #'
-  #' TODO: HOW TO HANDLE MULTIPLE exposures ...
-  #'       maybe this becomes a function and you have?
-  #'       well no because then arglag etc would have to be lists
-  #'       so do you want to move this into exposure ?
-  #'       no i think thats what you do, you move this into exposure
-  #'       and then you keep one main exposure and the other gets labeled
-  #'       as "control" and some of the control are cb and
-  #'       some are single vectors
-  #'       maybe exposure_col also needs to be a named list
-  #'       so you know if its a one off or a cb
-  #'       or you could do control_cb or
-  #'
   #' ==========================================================================
   #' //////////////////////////////////////////////////////////////////////////
-  exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
 
-  if(verbose) {
-    cat("\n")
-    cat("crossbasis args for geo_unit ",
-        paste0(unique_geos, collapse = ","),
-        ":\n")
-    cat("\n")
+  cb_out <- make_crossbasis(exposure_matrix = exposure_matrix,
+                        outcomes_tbl = outcomes_tbl,
+                        unique_geos = unique_geos,
+                        maxlag = maxlag,
+                        argvar = argvar,
+                        arglag = arglag,
+                        strata_min = strata_min,
+                        min_n = min_n,
+                        verbose = verbose)
+
+  cb <- cb_out$cb
+  exposure_is_factor <- cb_out$exposure_is_factor
+  argvar <- cb_out$argvar
+
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # Add Covariates and Create the formula
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  # start with crossbasis
+  ff_str = paste(outcome_col, "~ cb")
+
+  # get attributes columns
+  exp_cols <- attributes(exposure_matrix)$column_mapping
+  out_cols <- attributes(outcomes_tbl)$column_mapping
+
+  # any outcomes covariates
+  if(any(names(out_cols) == 'covariate')) {
+    rr <- which(names(out_cols) == 'covariate')
+    check_covariate_names(out_cols[rr])
+    rr_str <- paste(out_cols[rr], collapse = "+")
+    ff_str <- paste(ff_str, "+", rr_str)
   }
 
-  # maxlag
-  if(is.null(maxlag)) {
-    maxlag = 5
-  } else {
-    stopifnot(maxlag %in% 1:50)
-  }
-  if(verbose) {
-    cat("maxlag:",maxlag,"\n")
-    cat("\n")
-  }
+  # any exposure covariates
+  if(any(names(exp_cols) == 'covariate')) {
 
-  # argvar
-  this_exp = exposure_matrix[, get(exposure_col)]
-  argvar <- check_argvar(argvar, this_exp)
-  exposure_is_factor <- argvar$fun == 'strata'
-  if(verbose) {
-    cat("argvar:\n")
-    str(argvar)
-    cat("\n")
-  }
+    rr <- which(names(exp_cols) == 'covariate')
+    check_covariate_names(exp_cols[rr])
+    rr_str <- paste(exp_cols[rr], collapse = "+")
+    ff_str <- paste(ff_str, "+", rr_str)
 
-  # arglag
-  if(is.null(arglag)) {
-    arglag <- list(fun = 'ns', knots = logknots(maxlag, nk = 2))
-  } else {
-    if(verbose) {
-      warning("check that arglag is valid")
+    for(rr_i in 1:length(rr)) {
+      out_cols[length(out_cols) + 1] <- exp_cols[rr[rr_i]]
+      names(out_cols)[length(out_cols)] <- 'covariate'
     }
+
+    # in addition, you need to join these to outcome data
+    covariate_cols <- c('match_strata', unlist(unname(exp_cols[rr])))
+    cov_dt = exposure_matrix[, ..covariate_cols]
+    outcomes_tbl <- outcomes_tbl[
+      cov_dt, on = 'match_strata'
+    ]
+
+    # and update column_mapping now
+    attributes(outcomes_tbl)$column_mapping = out_cols
+
+    # re-validate
+    validated <- input_validation(exposure_matrix, outcomes_tbl)
+    exposure_matrix <- validated$exposure_matrix
+    outcomes_tbl    <- validated$outcomes_tbl
+
   }
+
+  # create formula
+  ff = as.formula(ff_str)
+
   if(verbose) {
-    cat("arglag:\n")
-    str(arglag)
+    cat("formula:\n")
+    cat("  ",ff_str)
     cat("\n")
   }
 
+  # the distribution that is used
   if(verbose) {
-    cat("strata:\n")
-    cat(paste(outcomes_tbl$strata[1]))
-    cat("\n")
+    cat("family: quasipoisson\n")
   }
 
-  if(verbose) {
-    cat("strata_min:",strata_min, "\n")
-    cat("\n")
-  }
-
-  if(verbose) {
-    cat("min_n:",min_n, "\n")
-    cat("\n")
-  }
-
-  ## get the columns you need
-  ## TODO: HAVE TO CONFIRM THAT THESE COLUMNS EXIST
-  xcols <- c(exposure_col, paste0('explag',1:maxlag))
-  x_mat <- exposure_matrix[, ..xcols]
-
-  ## if you are safe to proceed, make the x_mat
-  ## since you are passing in a matrix, you dont need to do
-  ## group = year or location, because all the data you need
-  ## are in each row, and this also means the order doesn't matter
-  cb <- crossbasis(x_mat, lag = maxlag, argvar = argvar, arglag = arglag)
-
-  # there should be no NAs here
-  if(any(is.na(cb))) stop("crossbasis has NULL, something went wrong")
-
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' RUN GNM
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # RUN GNM
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   ## (1) if using GNM, you get COEF and VCOV as part of the model objects
   ##
@@ -299,14 +297,15 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   ## TODO: <<< PERHAPS NOT TRUE, maybe you should make this the default
   ## since you are doing conditional poisson. if you are doing time-series
   ## you would need to do this
-  ff = as.formula(paste(outcome_col, "~ cb"))
 
+  # run the model
   m_sub <- gnm(formula = ff,
                data = outcomes_tbl,
                family = quasipoisson,
                eliminate = factor(strata),
                subset = strata_total > strata_min)
 
+  # get the coefficients
   m_coef <- coef(m_sub)
   m_vcov <- vcov(m_sub)
 
@@ -320,11 +319,16 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   if(any(is.na(m_vcov))) stop("vcov has NULL, something went wrong")
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' CROSSPRED and CROSSREDUCE
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # and subset to just the ones for the crossbasis
+  rr <- grepl("^cb", names(m_coef))
+  m_coef <- m_coef[rr]
+  m_vcov <- m_vcov[rr, rr]
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CROSSPRED and CROSSREDUCE
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
   geo_unit_col <- attributes(outcomes_tbl)$column_mapping$geo_unit
@@ -368,11 +372,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                     cen = cen,
                     by = 0.1)
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' Make a single centered basis
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # Make a single centered basis
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   this_exp <- exposure_matrix[, get(exposure_col)]
   x_b <- c(floor(min(this_exp)), ceiling(max(this_exp)))
@@ -388,11 +392,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   overall_centered_basis <- centered_basis$basis_cen
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' OUTPUT OBJECTS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OUTPUT OBJECTS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   outcome_columns <- attributes(outcomes_tbl)$column_mapping
 

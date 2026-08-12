@@ -134,6 +134,7 @@ make_exposure_matrix <- function(data,
 
   #
   date_col <- column_mapping$date
+  exposure_col <- column_mapping$exposure
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -141,94 +142,28 @@ make_exposure_matrix <- function(data,
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
 
-  # **************
-  ## first collapse to by summing
-  ## both by collapse to and by group
-  date_col         = column_mapping$date
-  geo_unit_col     = column_mapping$geo_unit
-  geo_unit_grp_col = column_mapping$geo_unit_grp
-  exposure_col      = column_mapping$exposure
+  # collapse data based on geo_unit and factors etc
+  d2 = collapse_data(data = data,
+                     column_mapping = column_mapping,
+                     fcn = mean,
+                     data_type = 'exposure',
+                     grp_level = grp_level,
+                     keep_unit = keep_unit_exposures,
+                     collapse_to = NULL)
 
-  # Next check about collapsing across factors
-  if(grp_level == FALSE) {
+  # and reset
+  data = d2$data
+  column_mapping = d2$column_mapping
 
-    # collapse to = NULL --> so this collapses across factors
-    # grp_level = FALSE  --> and doesn't summarize to the group level
-    cat("> grp_level == FALSE, so using geo_unit as strata\n")
-
-    data <- data[,.(
-      xexposure = mean(get(exposure_col))
-    ), by = .(get(date_col),
-              get(geo_unit_col),
-              get(geo_unit_grp_col))]
-
-    names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, exposure_col)
-
-    column_mapping <- list(
-      "date" = date_col,
-      "exposure" = exposure_col,
-      "geo_unit" = geo_unit_col,
-      "geo_unit_grp" = geo_unit_grp_col
-    )
-
-  } else {
-
-    # collapse to = NULL --> so this collapses across factors
-    # grp_level = TRUE  --> and does summarize to the group level
-
-    if(keep_unit_exposures == FALSE) {
-
-      cat("> grp_level == TRUE and keep_unit_exposures == FALSE, so
-          aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
-
-      data <- data[,.(
-        xexposure = mean(get(exposure_col))
-      ), by = .(get(date_col),
-                get(geo_unit_grp_col))]
-
-      names(data) <- c(date_col, geo_unit_grp_col, exposure_col)
-
-      data$spatial_grp <- 'ALL'
-
-      column_mapping <- list(
-        "date" = date_col,
-        "exposure" = exposure_col,
-        "geo_unit" = geo_unit_grp_col,
-        "geo_unit_grp" = 'spatial_grp'
-      )
-
-    } else {
-
-      cat("> grp_level == TRUE and keep_unit_exposures == TRUE, so
-          keeping to geo_unit data but using geo_unit_grp as strata\n")
-
-      data <- data[,.(
-        xexposure = mean(get(exposure_col))
-      ), by = .(get(date_col),
-                get(geo_unit_col),
-                get(geo_unit_grp_col))]
-
-      names(data) <- c(date_col, geo_unit_col, geo_unit_grp_col, exposure_col)
-
-    }
-
-  }
-
-  #
+  # check
   if(exposure_is_factor) {
     data[, (exposure_col) := round(get(exposure_col))]
   }
 
-  # overwrite date
-  data[, (column_mapping$date) := as.IDate(get(column_mapping$date))]
-
+  # update
   geo_unit_col = column_mapping$geo_unit
   geo_unit_grp_col = column_mapping$geo_unit_grp
 
-  #
-  if(any(is.na(data))) {
-    stop("some NA in data, check why")
-  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -308,7 +243,7 @@ make_exposure_matrix <- function(data,
       next
     }
 
-    # fix the edge case where either the first or last one
+    # fix the edge case where either the first or last one is empty
     j = 1
     cont = F
     while(is.na(x[j, get(exposure_col)])) {
@@ -349,15 +284,14 @@ make_exposure_matrix <- function(data,
     # should i let this fail and then it gets caught later?
     x[, (exposure_col) := zoo::na.approx(get(exposure_col),
                                          maxgap = maxgap)]
-    # if(any(is.na(x[, get(exposure_col)])))
-    #   stop(paste0("zoo::na.approx() was not able to remove all NAs in ",
-    #               x[1, get(join_col)]))
+    if(any(is.na(x[, get(exposure_col)])))
+      stop(paste0("zoo::na.approx() was not able to remove all NAs in ",
+                  x[1, get(join_col)]))
 
     # if its a factor round
     if(exposure_is_factor) {
       x[, (exposure_col) := round(get(exposure_col))]
     }
-
 
     exposure2_l[[i]] <- x
   }

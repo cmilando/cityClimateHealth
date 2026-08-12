@@ -136,8 +136,9 @@ ma_exposure_matrix <- make_exposure_matrix(
   exposure_columns,
   time_subset = list(month = 5:9,
                      year = 2013:2015))
-#> Warning in make_exposure_matrix(subset(ma_exposure, COUNTY20 %in% c("MIDDLESEX", : check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
@@ -174,7 +175,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, gl
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -193,6 +194,11 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, gl
 #> ACTON:yr2013:mn05:dow04
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -369,7 +375,7 @@ m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix,
                   outcomes_tbl = ma_outcomes_tbl, 
                   multi_zone = TRUE, global_cen = 15)
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBURNHAM,ASHBY,ASHLAND,ATHOL,AUBURN,AYER,BARRE,BEDFORD,BELMONT,BERLIN,BILLERICA,BLACKSTONE,BOLTON,BOXBOROUGH,BOYLSTON,BROOKFIELD,BURLINGTON,CAMBRIDGE,CARLISLE,CHARLTON,CHELMSFORD,CLINTON,CONCORD,DOUGLAS,DRACUT,DUDLEY,DUNSTABLE,EAST BROOKFIELD,EVERETT,FITCHBURG,FRAMINGHAM,GARDNER,GRAFTON,GROTON,HARDWICK,HARVARD,HOLDEN,HOLLISTON,HOPEDALE,HOPKINTON,HUBBARDSTON,HUDSON,LANCASTER,LEICESTER,LEOMINSTER,LEXINGTON,LINCOLN,LITTLETON,LOWELL,LUNENBURG,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,MENDON,MILFORD,MILLBURY,MILLVILLE,NATICK,NEW BRAINTREE,NEWTON,NORTH BROOKFIELD,NORTH READING,NORTHBOROUGH,NORTHBRIDGE,OAKHAM,OXFORD,PAXTON,PEPPERELL,PETERSHAM,PHILLIPSTON,PRINCETON,READING,ROYALSTON,RUTLAND,SHERBORN,SHIRLEY,SHREWSBURY,SOMERVILLE,SOUTHBOROUGH,SOUTHBRIDGE,SPENCER,STERLING,STONEHAM,STOW,STURBRIDGE,SUDBURY,SUTTON,TEMPLETON,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,UPTON,UXBRIDGE,WAKEFIELD,WALTHAM,WARREN,WATERTOWN,WAYLAND,WEBSTER,WEST BOYLSTON,WEST BROOKFIELD,WESTBOROUGH,WESTFORD,WESTMINSTER,WESTON,WILMINGTON,WINCHENDON,WINCHESTER,WOBURN,WORCESTER :
 #> 
 #> maxlag: 5 
 #> 
@@ -386,7 +392,13 @@ m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix,
 #> 
 #> strata:
 #> ACTON:yr2013:mn05:dow04
-#> strata_min: 0
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 
 ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
                  spatial_agg_type = 'COUNTY20', 
@@ -443,7 +455,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -462,6 +474,11 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> ACTON:yr2013:mn05:dow04
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -471,7 +488,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -490,6 +507,11 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> ACTON:yr2013:mn05:dow04
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -499,7 +521,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> -- validation passed
 #> -- stage 1
 #> 
-#> crossbasis args:
+#> crossbasis args for geo_unit  ACTON :
 #> 
 #> maxlag: 5 
 #> 
@@ -518,6 +540,11 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> ACTON:yr2013:mn05:dow04
 #> strata_min: 0 
 #> 
+#> min_n: 50 
+#> 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
 #> 
 #> -- mixmeta
 #> formula: ~ 1 | COUNTY20/TOWN20 
@@ -556,6 +583,108 @@ be made easily.
 ``` r
 
 spatial_plot(ma_AN_fct, shp = ma_counties, table_type = "num", above_MMT = T)
+#>     COUNTY20 population above_MMT mean_annual_attr_num_est
+#>       <char>      <num>    <lgcl>                    <num>
+#> 1: MIDDLESEX     317065      TRUE                 32120.38
+#> 2: WORCESTER     178358      TRUE                 15185.25
+#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#>                      <num>                   <num>  <char>
+#> 1:                31065.96                33180.09    0-17
+#> 2:                14235.55                16140.26    0-17
+#> Simple feature collection with 2 features and 39 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
+#> Projected CRS: NAD83 / Massachusetts Mainland
+#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
+#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
+#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
+#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
+#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
+#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
+#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
+#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
+#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
+#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
+#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
+#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
+#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
+#> 1      ACTON    T     317065      TRUE                 32120.38
+#> 2 ASHBURNHAM    T     178358      TRUE                 15185.25
+#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#> 1                31065.96                33180.09    0-17
+#> 2                14235.55                16140.26    0-17
+#>                         geometry
+#> 1 POLYGON ((208990.3 882273, ...
+#> 2 POLYGON ((158712.3 864187.3...
+#>     COUNTY20 population above_MMT mean_annual_attr_num_est
+#>       <char>      <num>    <lgcl>                    <num>
+#> 1: MIDDLESEX    1050640      TRUE                 10931.88
+#> 2: WORCESTER     541246      TRUE                  4178.00
+#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#>                      <num>                   <num>  <char>
+#> 1:                9820.975               12134.212   18-64
+#> 2:                3474.825                5005.444   18-64
+#> Simple feature collection with 2 features and 39 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
+#> Projected CRS: NAD83 / Massachusetts Mainland
+#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
+#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
+#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
+#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
+#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
+#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
+#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
+#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
+#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
+#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
+#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
+#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
+#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
+#> 1      ACTON    T    1050640      TRUE                 10931.88
+#> 2 ASHBURNHAM    T     541246      TRUE                  4178.00
+#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#> 1                9820.975               12134.212   18-64
+#> 2                3474.825                5005.444   18-64
+#>                         geometry
+#> 1 POLYGON ((208990.3 882273, ...
+#> 2 POLYGON ((158712.3 864187.3...
+#>     COUNTY20 population above_MMT mean_annual_attr_num_est
+#>       <char>      <num>    <lgcl>                    <num>
+#> 1: MIDDLESEX     255404      TRUE                 21815.88
+#> 2: WORCESTER     139294      TRUE                 10677.25
+#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#>                      <num>                   <num>  <char>
+#> 1:                20545.32                22571.59     65+
+#> 2:                10018.87                11316.54     65+
+#> Simple feature collection with 2 features and 39 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
+#> Projected CRS: NAD83 / Massachusetts Mainland
+#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
+#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
+#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
+#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
+#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
+#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
+#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
+#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
+#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
+#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
+#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
+#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
+#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
+#> 1      ACTON    T     255404      TRUE                 21815.88
+#> 2 ASHBURNHAM    T     139294      TRUE                 10677.25
+#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
+#> 1                20545.32                22571.59     65+
+#> 2                10018.87                11316.54     65+
+#>                         geometry
+#> 1 POLYGON ((208990.3 882273, ...
+#> 2 POLYGON ((158712.3 864187.3...
 ```
 
 ![](attributable_number_files/figure-html/multi_plot3d-1.png)

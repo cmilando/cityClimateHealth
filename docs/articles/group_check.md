@@ -41,8 +41,9 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      exposure_columns, 
                                      grp_level = F,
                                      time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = F, : check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 
@@ -56,6 +57,9 @@ deaths_tbl <- make_outcome_table(deaths,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, grp_level = F, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -72,6 +76,9 @@ deaths_tbl <- make_outcome_table(deaths,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -93,6 +100,9 @@ deaths_tbl <- make_outcome_table(deaths,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -112,6 +122,9 @@ deaths_tbl <- make_outcome_table(deaths,
 #> > Factors in data
 #> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -129,8 +142,10 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      grp_level = T,
                                      keep_unit_exposures = T,
                                      time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == TRUE and keep_unit == TRUE, so
+#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 
@@ -141,11 +156,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
 #> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit_outcomes == TRUE, so
+#> > grp_level == TRUE and keep_unit == TRUE, so
 #>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, grp_level = T, keep_unit_outcomes = T, : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -160,11 +178,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == TRUE, so
+#> > grp_level == TRUE and keep_unit == TRUE, so
 #>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -183,11 +204,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == TRUE, so
+#> > grp_level == TRUE and keep_unit == TRUE, so
 #>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -206,9 +230,12 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == TRUE, so
+#> > grp_level == TRUE and keep_unit == TRUE, so
 #>             keeping to geo_unit data but using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -226,9 +253,11 @@ exposure_mat <- make_exposure_matrix(exposure,
                                      grp_level = T,
                                      keep_unit_exposures = F,
                                      time_subset = list(month = 5:9))
-#> Warning in make_exposure_matrix(exposure, exposure_columns, grp_level = T, : check about any NA, some corrections for this later,
-#>             but only in certain columns
-#> strata dt_by = 'day', setting strata as geo_unit_grp:yr:mn:dow
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == TRUE and keep_unit == FALSE, so
+#>             aggregating to geo_unit_grp and using geo_unit_grp as strata
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 
@@ -236,11 +265,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
 #> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit_outcomes == FALSE, so
+#> > grp_level == TRUE and keep_unit == FALSE, so
 #>             aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, grp_level = T, keep_unit_outcomes = F, : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -254,11 +286,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == FALSE, so
+#> > grp_level == TRUE and keep_unit == FALSE, so
 #>             aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -277,11 +312,14 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == FALSE, so
+#> > grp_level == TRUE and keep_unit == FALSE, so
 #>             aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
@@ -300,9 +338,12 @@ deaths_tbl <- make_outcome_table(deaths,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
 #> > Factors in data
-#> > grp_level == TRUE and keep_unit_outcomes == FALSE, so
+#> > grp_level == TRUE and keep_unit == FALSE, so
 #>             aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+#> Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the
+#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
+#>             or exclude this year from analysis.
 
 # checks
 stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))

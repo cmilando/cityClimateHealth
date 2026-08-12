@@ -95,8 +95,7 @@
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in list(date = "date", exposure = "tmax_C", geo_unit = "TOWN20",     ):</span> argument 4 is empty</span>
 <span class="r-in"><span><span class="va">middlesex_exposure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">COUNTY20</span> <span class="op">==</span> <span class="st">'MIDDLESEX'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">middlesex_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">middlesex_exposure</span>, <span class="va">exposure_columns</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in time_subset_validate(time_subset):</span> A `time_subset` must be explicitly provided, e.g. list(month = 5:9).</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>     To indicate using all available time, put time_subset = 'use_all'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'exposure_columns' not found</span>
 <span class="r-in"><span><span class="co"># create outcome table</span></span></span>
 <span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span> <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span></span>
@@ -108,7 +107,8 @@
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">middlesex_deaths</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">COUNTY20</span> <span class="op">==</span> <span class="st">'MIDDLESEX'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">middlesex_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">middlesex_deaths</span>,  <span class="va">outcome_columns</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_outcome_table(middlesex_deaths, outcome_columns):</span> `time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in time_subset_validate(time_subset, data_years):</span> A `time_subset` must be explicitly provided, e.g. list(month = 5:9).</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>     To indicate using all available time, put time_subset = 'use_all'</span>
 <span class="r-in"><span><span class="co"># run the model</span></span></span>
 <span class="r-in"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>,</span></span>
 <span class="r-in"><span>outcomes_tbl <span class="op">=</span> <span class="va">middlesex_deaths_tbl</span>, multi_zone <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>

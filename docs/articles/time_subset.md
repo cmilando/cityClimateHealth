@@ -25,24 +25,25 @@ ma_exposure_matrix <- make_exposure_matrix(
   exposure_columns,
   time_subset = list(year = 2012:2015) 
 )
-#> Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset = list(year = 2012:2015)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 ma_exposure_matrix
-#>               date  tmax_C   TOWN20   COUNTY20                     strata
-#>             <IDat>   <num>   <char>     <char>                     <char>
-#>      1: 2012-01-01  4.0592 ABINGTON   PLYMOUTH ABINGTON:yr2012:mn01:dow01
-#>      2: 2012-01-02  9.6909 ABINGTON   PLYMOUTH ABINGTON:yr2012:mn01:dow02
-#>      3: 2012-01-03  4.5612 ABINGTON   PLYMOUTH ABINGTON:yr2012:mn01:dow03
-#>      4: 2012-01-04 -4.9586 ABINGTON   PLYMOUTH ABINGTON:yr2012:mn01:dow04
-#>      5: 2012-01-05 -4.5164 ABINGTON   PLYMOUTH ABINGTON:yr2012:mn01:dow05
+#>               date   TOWN20   COUNTY20  tmax_C                     strata
+#>             <IDat>   <char>     <char>   <num>                     <char>
+#>      1: 2012-01-01 ABINGTON   PLYMOUTH  4.0592 ABINGTON:yr2012:mn01:dow01
+#>      2: 2012-01-02 ABINGTON   PLYMOUTH  9.6909 ABINGTON:yr2012:mn01:dow02
+#>      3: 2012-01-03 ABINGTON   PLYMOUTH  4.5612 ABINGTON:yr2012:mn01:dow03
+#>      4: 2012-01-04 ABINGTON   PLYMOUTH -4.9586 ABINGTON:yr2012:mn01:dow04
+#>      5: 2012-01-05 ABINGTON   PLYMOUTH -4.5164 ABINGTON:yr2012:mn01:dow05
 #>     ---                                                                  
-#> 511346: 2015-12-27  9.7547 YARMOUTH BARNSTABLE YARMOUTH:yr2015:mn12:dow01
-#> 511347: 2015-12-28 10.6210 YARMOUTH BARNSTABLE YARMOUTH:yr2015:mn12:dow02
-#> 511348: 2015-12-29 -0.4467 YARMOUTH BARNSTABLE YARMOUTH:yr2015:mn12:dow03
-#> 511349: 2015-12-30 -0.5062 YARMOUTH BARNSTABLE YARMOUTH:yr2015:mn12:dow04
-#> 511350: 2015-12-31  1.1314 YARMOUTH BARNSTABLE YARMOUTH:yr2015:mn12:dow05
+#> 511346: 2015-12-27 YARMOUTH BARNSTABLE  9.7547 YARMOUTH:yr2015:mn12:dow01
+#> 511347: 2015-12-28 YARMOUTH BARNSTABLE 10.6210 YARMOUTH:yr2015:mn12:dow02
+#> 511348: 2015-12-29 YARMOUTH BARNSTABLE -0.4467 YARMOUTH:yr2015:mn12:dow03
+#> 511349: 2015-12-30 YARMOUTH BARNSTABLE -0.5062 YARMOUTH:yr2015:mn12:dow04
+#> 511350: 2015-12-31 YARMOUTH BARNSTABLE  1.1314 YARMOUTH:yr2015:mn12:dow05
 #>                match_strata explag1 explag2 explag3 explag4 explag5
 #>                      <char>   <num>   <num>   <num>   <num>   <num>
 #>      1: ABINGTON:2012-01-01  3.0964  0.1248  5.5685 12.8328  4.4747
@@ -77,24 +78,25 @@ ma_exposure_matrix <- make_exposure_matrix(
   exposure_columns,
   time_subset = list(month = 6:8)   # 6 = June, 7 = July, 8 = August 
 )
-#> Warning in make_exposure_matrix(ma_exposure, exposure_columns, time_subset = list(month = 6:8)): check about any NA, some corrections for this later,
-#>             but only in certain columns
+#> -- NA values automatically removed
+#> > No factors to collapse to, using all data
+#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 ma_exposure_matrix
-#>               date  tmax_C   TOWN20   COUNTY20                     strata
-#>             <IDat>   <num>   <char>     <char>                     <char>
-#>      1: 2010-06-01 28.5766 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn06:dow03
-#>      2: 2010-06-02 26.1360 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn06:dow04
-#>      3: 2010-06-03 29.0638 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn06:dow05
-#>      4: 2010-06-04 27.8157 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn06:dow06
-#>      5: 2010-06-05 29.4976 ABINGTON   PLYMOUTH ABINGTON:yr2010:mn06:dow07
+#>               date   TOWN20   COUNTY20  tmax_C                     strata
+#>             <IDat>   <char>     <char>   <num>                     <char>
+#>      1: 2010-06-01 ABINGTON   PLYMOUTH 28.5766 ABINGTON:yr2010:mn06:dow03
+#>      2: 2010-06-02 ABINGTON   PLYMOUTH 26.1360 ABINGTON:yr2010:mn06:dow04
+#>      3: 2010-06-03 ABINGTON   PLYMOUTH 29.0638 ABINGTON:yr2010:mn06:dow05
+#>      4: 2010-06-04 ABINGTON   PLYMOUTH 27.8157 ABINGTON:yr2010:mn06:dow06
+#>      5: 2010-06-05 ABINGTON   PLYMOUTH 29.4976 ABINGTON:yr2010:mn06:dow07
 #>     ---                                                                  
-#> 354196: 2020-08-27 23.1338 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn08:dow05
-#> 354197: 2020-08-28 18.9940 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn08:dow06
-#> 354198: 2020-08-29 26.0081 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn08:dow07
-#> 354199: 2020-08-30 24.1151 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn08:dow01
-#> 354200: 2020-08-31 22.4953 YARMOUTH BARNSTABLE YARMOUTH:yr2020:mn08:dow02
+#> 354196: 2020-08-27 YARMOUTH BARNSTABLE 23.1338 YARMOUTH:yr2020:mn08:dow05
+#> 354197: 2020-08-28 YARMOUTH BARNSTABLE 18.9940 YARMOUTH:yr2020:mn08:dow06
+#> 354198: 2020-08-29 YARMOUTH BARNSTABLE 26.0081 YARMOUTH:yr2020:mn08:dow07
+#> 354199: 2020-08-30 YARMOUTH BARNSTABLE 24.1151 YARMOUTH:yr2020:mn08:dow01
+#> 354200: 2020-08-31 YARMOUTH BARNSTABLE 22.4953 YARMOUTH:yr2020:mn08:dow02
 #>                match_strata explag1 explag2 explag3 explag4 explag5
 #>                      <char>   <num>   <num>   <num>   <num>   <num>
 #>      1: ABINGTON:2010-06-01 26.9500 25.3234 26.3356 26.0529 35.4982

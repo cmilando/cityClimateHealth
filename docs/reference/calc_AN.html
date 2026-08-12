@@ -192,7 +192,8 @@
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
 <span class="r-in"><span>           <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="va">exposure_columns</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in time_subset_validate(time_subset):</span> A `time_subset` must be explicitly provided, e.g. list(month = 5:9).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- NA values automatically removed</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in time_subset_validate(time_subset, data_years):</span> A `time_subset` must be explicitly provided, e.g. list(month = 5:9).</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span>     To indicate using all available time, put time_subset = 'use_all'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
@@ -207,7 +208,8 @@
 <span class="r-in"><span><span class="va">ma_outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
 <span class="r-in"><span>           <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span><span class="op">)</span>, <span class="va">outcome_columns</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_outcome_table(subset(ma_deaths, COUNTY20 %in% c("MIDDLESEX",     "WORCESTER") &amp; year(date) %in% 2012:2015), outcome_columns):</span> `time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in time_subset_validate(time_subset, data_years):</span> A `time_subset` must be explicitly provided, e.g. list(month = 5:9).</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>     To indicate using all available time, put time_subset = 'use_all'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ma_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, verbose <span class="op">=</span> <span class="fl">1</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'ma_exposure_matrix' not found</span>
@@ -312,6 +314,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         this_exp &lt;- x$out[[i]]$this_exp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         cen &lt;- x$out[[i]]$cen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         global_cen &lt;- x$out[[i]]$global_cen</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         required_fields &lt;- c("geo_unit", "basis_cen", "coef", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             "vcov", "outcomes", "match_strata", "this_exp", "cen", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             "global_cen")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         null_fields &lt;- required_fields[sapply(required_fields, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             function(f) is.null(x$out[[i]][[f]]))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         if (length(null_fields) &gt; 0) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             stop(paste("The following required field(s) are NULL in x$out[[", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 i, "]]:", paste(null_fields, collapse = ", ")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         if (!(this_geo %in% as.vector(unlist(safe_geos)))) {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             cat("skipping based on no population data: ", this_geo, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 "\t")</span>
@@ -480,7 +491,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     class(outlist) &lt;- "calcAN"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     return(outlist)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x13ca3d5f0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x145c911c8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:cityClimateHealth&gt;</span>
 </code></pre></div>
     </div>

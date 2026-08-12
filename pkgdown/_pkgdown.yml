@@ -50,6 +50,7 @@ articles:
   - pop_size_test
   - time_subset
   - faq
+  - collapse
   - bayesian_wnv_test
   - strata
   - get_pop_estimates

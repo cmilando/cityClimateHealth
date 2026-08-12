@@ -98,7 +98,8 @@ ma_exposure_matrix <- make_exposure_matrix(
   subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
            year(date) %in% 2012:2015),
   exposure_columns)
-#> Error in time_subset_validate(time_subset): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
+#> -- NA values automatically removed
+#> Error in time_subset_validate(time_subset, data_years): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
 #>     To indicate using all available time, put time_subset = 'use_all'
 
 outcome_columns <- list(
@@ -113,7 +114,8 @@ outcome_columns <- list(
 ma_outcomes_tbl <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
            year(date) %in% 2012:2015), outcome_columns)
-#> Error in make_outcome_table(subset(ma_deaths, COUNTY20 %in% c("MIDDLESEX",     "WORCESTER") & year(date) %in% 2012:2015), outcome_columns): `time_subset` must be explicitly provided, e.g. list(month = 5:9), or NULL to use all time periods.
+#> Error in time_subset_validate(time_subset, data_years): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
+#>     To indicate using all available time, put time_subset = 'use_all'
 
 ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
 #> Error: object 'ma_exposure_matrix' not found
@@ -218,6 +220,15 @@ calc_AN
 #>         this_exp <- x$out[[i]]$this_exp
 #>         cen <- x$out[[i]]$cen
 #>         global_cen <- x$out[[i]]$global_cen
+#>         required_fields <- c("geo_unit", "basis_cen", "coef", 
+#>             "vcov", "outcomes", "match_strata", "this_exp", "cen", 
+#>             "global_cen")
+#>         null_fields <- required_fields[sapply(required_fields, 
+#>             function(f) is.null(x$out[[i]][[f]]))]
+#>         if (length(null_fields) > 0) {
+#>             stop(paste("The following required field(s) are NULL in x$out[[", 
+#>                 i, "]]:", paste(null_fields, collapse = ", ")))
+#>         }
 #>         if (!(this_geo %in% as.vector(unlist(safe_geos)))) {
 #>             cat("skipping based on no population data: ", this_geo, 
 #>                 "\t")
@@ -386,6 +397,6 @@ calc_AN
 #>     class(outlist) <- "calcAN"
 #>     return(outlist)
 #> }
-#> <bytecode: 0x13ca3d5f0>
+#> <bytecode: 0x145c911c8>
 #> <environment: namespace:cityClimateHealth>
 ```
