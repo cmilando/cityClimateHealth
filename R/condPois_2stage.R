@@ -349,8 +349,9 @@ condPois_2stage <- function(exposure_matrix,
     rf = as.formula(rf)
   }
 
-  if(verbose > -1) {
-    cat("formula:", as.character(rf), "\n")
+  if(verbose > 0) {
+    cat("formula: coef_matrix ~ exp_mean + exp_IQR\n")
+    cat("random:", as.character(rf), "\n")
   }
 
   # see function description for references for this
