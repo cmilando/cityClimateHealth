@@ -60,8 +60,6 @@ head(boston_deaths)
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )

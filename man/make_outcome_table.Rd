@@ -2,17 +2,15 @@
 % Please edit documentation in R/outcome.R
 \name{make_outcome_table}
 \alias{make_outcome_table}
-\title{Function to create the outcome table
-TO DO : EDIT XGRID}
+\title{Function to create the outcome table}
 \usage{
 make_outcome_table(
   data,
   column_mapping,
   time_subset,
   dt_by = "day",
-  collapse_to = NULL,
-  collapse_is_spatial = FALSE,
-  collapse_is_temporal = FALSE,
+  factor_is_spatial = FALSE,
+  factor_is_temporal = FALSE,
   grp_level = FALSE,
   keep_unit_outcomes = FALSE
 )
@@ -28,11 +26,9 @@ must be specified by user - no default}
 
 \item{dt_by}{is it daily data, or weekly or ...}
 
-\item{collapse_to}{which factors to collapse across}
+\item{factor_is_spatial}{is collapse a spatial variable}
 
-\item{collapse_is_spatial}{is collapse a spatial variable}
-
-\item{collapse_is_temporal}{is collapse a temporal variable}
+\item{factor_is_temporal}{is collapse a temporal variable}
 
 \item{grp_level}{whether to summarize to the group level or not (default)}
 
@@ -43,7 +39,6 @@ a data.table of class("outcome")
 }
 \description{
 Function to create the outcome table
-TO DO : EDIT XGRID
 }
 \examples{
 outcome_columns <- list(

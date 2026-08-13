@@ -5,7 +5,7 @@ Set the strata column of xgrid
 ## Usage
 
 ``` r
-set_strata_value(xgrid, column_mapping, dt_by, grp_level, keep_unit)
+set_strata_value(xgrid, column_mapping, dt_by)
 ```
 
 ## Arguments

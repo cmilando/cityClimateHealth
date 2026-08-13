@@ -8,7 +8,9 @@
 <url><loc>http://climatehealth.city/articles/cityClimateHealth.html</loc></url>
 <url><loc>http://climatehealth.city/articles/collapse.html</loc></url>
 <url><loc>http://climatehealth.city/articles/comparison.html</loc></url>
+<url><loc>http://climatehealth.city/articles/covariate.html</loc></url>
 <url><loc>http://climatehealth.city/articles/dlnm_sensitivity.html</loc></url>
+<url><loc>http://climatehealth.city/articles/factor.html</loc></url>
 <url><loc>http://climatehealth.city/articles/faq.html</loc></url>
 <url><loc>http://climatehealth.city/articles/get_pop_estimates.html</loc></url>
 <url><loc>http://climatehealth.city/articles/group-check.html</loc></url>
@@ -25,11 +27,15 @@
 <url><loc>http://climatehealth.city/articles/validation.html</loc></url>
 <url><loc>http://climatehealth.city/authors.html</loc></url>
 <url><loc>http://climatehealth.city/index.html</loc></url>
+<url><loc>http://climatehealth.city/reference/add_factor_col.html</loc></url>
+<url><loc>http://climatehealth.city/reference/add_us_holiday.html</loc></url>
 <url><loc>http://climatehealth.city/reference/calc_AN.html</loc></url>
 <url><loc>http://climatehealth.city/reference/calc_dispersion.html</loc></url>
 <url><loc>http://climatehealth.city/reference/calc_vcov.html</loc></url>
 <url><loc>http://climatehealth.city/reference/check_argvar.html</loc></url>
+<url><loc>http://climatehealth.city/reference/check_covariate_names.html</loc></url>
 <url><loc>http://climatehealth.city/reference/cityClimateHealth-package.html</loc></url>
+<url><loc>http://climatehealth.city/reference/collapse_data.html</loc></url>
 <url><loc>http://climatehealth.city/reference/condPois_1stage.html</loc></url>
 <url><loc>http://climatehealth.city/reference/condPois_2stage.html</loc></url>
 <url><loc>http://climatehealth.city/reference/condPois_sb.html</loc></url>
@@ -60,6 +66,7 @@
 <url><loc>http://climatehealth.city/reference/ma_pop_data.html</loc></url>
 <url><loc>http://climatehealth.city/reference/ma_towns.html</loc></url>
 <url><loc>http://climatehealth.city/reference/make_cb_list.html</loc></url>
+<url><loc>http://climatehealth.city/reference/make_crossbasis.html</loc></url>
 <url><loc>http://climatehealth.city/reference/make_exposure_matrix.html</loc></url>
 <url><loc>http://climatehealth.city/reference/make_outcome_table.html</loc></url>
 <url><loc>http://climatehealth.city/reference/make_xgrid.html</loc></url>

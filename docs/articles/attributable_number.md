@@ -137,8 +137,6 @@ ma_exposure_matrix <- make_exposure_matrix(
   time_subset = list(month = 5:9,
                      year = 2013:2015))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
@@ -149,8 +147,6 @@ outcomes
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -160,8 +156,6 @@ ma_outcomes_tbl <- make_outcome_table(
   outcome_columns,
   time_subset = list(month = 5:9,
                    year = 2012:2015))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -436,13 +430,19 @@ In the case where you have factors, you can easily extend this
 
 ``` r
 
+
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
 ma_outcomes_tbl_fct <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
   outcome_columns, 
-  time_subset = list(month = 5:9, year = 2012:2015),
-  collapse_to = 'age_grp')
-#> > Factors in data
-#> > grp_level == FALSE, so using geo_unit as strata
+  time_subset = list(month = 5:9, year = 2012:2015))
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

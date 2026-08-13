@@ -1,0 +1,59 @@
+---
+title: "Demo of factor uses"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Demo of factor uses}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cityClimateHealth)
+```
+
+```{r outcomes}
+
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20",
+  "factor" = "age_grp"
+)
+
+ma_outcomes_tbl_fct <- make_outcome_table(
+  ma_deaths, outcome_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
+
+head(ma_outcomes_tbl_fct)
+
+```
+
+```{r o2}
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20",
+  "factor" = c("age_grp", 'sex')
+)
+
+ma_outcomes_tbl_fct <- make_outcome_table(
+  ma_deaths, outcome_columns, 
+  time_subset = list(
+       month = 5:9,
+       year = 2012:2015
+     ))
+
+head(ma_outcomes_tbl_fct)
+```

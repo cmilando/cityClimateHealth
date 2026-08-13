@@ -8,8 +8,8 @@ make_xgrid(
   data,
   column_mapping,
   dt_by = "day",
-  collapse_is_spatial = FALSE,
-  collapse_is_temporal = FALSE
+  factor_is_spatial = FALSE,
+  factor_is_temporal = FALSE
 )
 }
 \arguments{
@@ -19,9 +19,9 @@ make_xgrid(
 
 \item{dt_by}{either by day or by week}
 
-\item{collapse_is_spatial}{logical, is the collapse spatial}
+\item{factor_is_spatial}{logical, is the collapse spatial}
 
-\item{collapse_is_temporal}{logical, is the collapse temporal}
+\item{factor_is_temporal}{logical, is the collapse temporal}
 }
 \value{
 a datatable of all date and geo unit combinations

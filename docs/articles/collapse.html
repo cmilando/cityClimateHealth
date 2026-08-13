@@ -104,8 +104,6 @@
 <span>    time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
@@ -135,9 +133,8 @@
 <span>    keep_unit_exposures <span class="op">=</span> <span class="cn">F</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date COUNTY20   tmax_C spatial_grp                    strata</span></span>
@@ -167,9 +164,6 @@
 <span>    keep_unit_exposures <span class="op">=</span> <span class="cn">T</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
@@ -217,8 +211,6 @@
 <span>  <span class="va">outcome_columns</span>,</span>
 <span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -227,22 +219,22 @@
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20 daily_deaths                   strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01</span></span>
-<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02</span></span>
-<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03</span></span>
-<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04</span></span>
-<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;      &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M          385 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M          363 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 3: 2010-05-01 BOSTON  SUFFOLK       65+|M          374 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F          378 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F          365 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 6: 2010-05-01 BOSTON  SUFFOLK       65+|F          373 BOSTON:yr2010:mn05:dow07</span></span>
 <span><span class="co">#&gt;    strata_total      match_strata</span></span>
 <span><span class="co">#&gt;           &lt;int&gt;            &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:        11312 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 2:        10929 BOSTON:2010-05-02</span></span>
-<span><span class="co">#&gt; 3:        11435 BOSTON:2010-05-03</span></span>
-<span><span class="co">#&gt; 4:         9372 BOSTON:2010-05-04</span></span>
-<span><span class="co">#&gt; 5:         9193 BOSTON:2010-05-05</span></span>
-<span><span class="co">#&gt; 6:         8657 BOSTON:2010-05-06</span></span>
+<span><span class="co">#&gt; 1:         2002 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 2:         1790 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 3:         1893 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 4:         1936 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 5:         1810 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 6:         1881 BOSTON:2010-05-01</span></span>
 <span></span>
 <span><span class="co">## group</span></span>
 <span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
@@ -252,9 +244,8 @@
 <span>  grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>  keep_unit_outcomes <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -263,22 +254,22 @@
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date COUNTY20 daily_deaths spatial_grp                    strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt;   &lt;char&gt;        &lt;int&gt;      &lt;char&gt;                    &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01  SUFFOLK         2370         ALL SUFFOLK:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; 2: 2010-05-02  SUFFOLK         2220         ALL SUFFOLK:yr2010:mn05:dow01</span></span>
-<span><span class="co">#&gt; 3: 2010-05-03  SUFFOLK         2511         ALL SUFFOLK:yr2010:mn05:dow02</span></span>
-<span><span class="co">#&gt; 4: 2010-05-04  SUFFOLK         2492         ALL SUFFOLK:yr2010:mn05:dow03</span></span>
-<span><span class="co">#&gt; 5: 2010-05-05  SUFFOLK         2634         ALL SUFFOLK:yr2010:mn05:dow04</span></span>
-<span><span class="co">#&gt; 6: 2010-05-06  SUFFOLK         2323         ALL SUFFOLK:yr2010:mn05:dow05</span></span>
-<span><span class="co">#&gt;    strata_total       match_strata</span></span>
-<span><span class="co">#&gt;           &lt;int&gt;             &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:        11954 SUFFOLK:2010-05-01</span></span>
-<span><span class="co">#&gt; 2:        11593 SUFFOLK:2010-05-02</span></span>
-<span><span class="co">#&gt; 3:        12108 SUFFOLK:2010-05-03</span></span>
-<span><span class="co">#&gt; 4:         9909 SUFFOLK:2010-05-04</span></span>
-<span><span class="co">#&gt; 5:         9728 SUFFOLK:2010-05-05</span></span>
-<span><span class="co">#&gt; 6:         9176 SUFFOLK:2010-05-06</span></span>
+<span><span class="co">#&gt;          date COUNTY20 age_grp|sex daily_deaths spatial_grp</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt;   &lt;char&gt;      &lt;char&gt;        &lt;int&gt;      &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01  SUFFOLK      0-17|M          408         ALL</span></span>
+<span><span class="co">#&gt; 2: 2010-05-01  SUFFOLK     18-64|M          384         ALL</span></span>
+<span><span class="co">#&gt; 3: 2010-05-01  SUFFOLK       65+|M          396         ALL</span></span>
+<span><span class="co">#&gt; 4: 2010-05-01  SUFFOLK      0-17|F          400         ALL</span></span>
+<span><span class="co">#&gt; 5: 2010-05-01  SUFFOLK     18-64|F          387         ALL</span></span>
+<span><span class="co">#&gt; 6: 2010-05-01  SUFFOLK       65+|F          395         ALL</span></span>
+<span><span class="co">#&gt;                       strata strata_total       match_strata</span></span>
+<span><span class="co">#&gt;                       &lt;char&gt;        &lt;int&gt;             &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: SUFFOLK:yr2010:mn05:dow07         2115 SUFFOLK:2010-05-01</span></span>
+<span><span class="co">#&gt; 2: SUFFOLK:yr2010:mn05:dow07         1891 SUFFOLK:2010-05-01</span></span>
+<span><span class="co">#&gt; 3: SUFFOLK:yr2010:mn05:dow07         2000 SUFFOLK:2010-05-01</span></span>
+<span><span class="co">#&gt; 4: SUFFOLK:yr2010:mn05:dow07         2046 SUFFOLK:2010-05-01</span></span>
+<span><span class="co">#&gt; 5: SUFFOLK:yr2010:mn05:dow07         1914 SUFFOLK:2010-05-01</span></span>
+<span><span class="co">#&gt; 6: SUFFOLK:yr2010:mn05:dow07         1988 SUFFOLK:2010-05-01</span></span>
 <span></span>
 <span><span class="co">## group but keep unit outcomes</span></span>
 <span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
@@ -288,9 +279,6 @@
 <span>  grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>  keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -299,41 +287,22 @@
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20 daily_deaths                   strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01</span></span>
-<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02</span></span>
-<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03</span></span>
-<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04</span></span>
-<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;      &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M          385 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M          363 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 3: 2010-05-01 BOSTON  SUFFOLK       65+|M          374 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F          378 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F          365 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 6: 2010-05-01 BOSTON  SUFFOLK       65+|F          373 BOSTON:yr2010:mn05:dow07</span></span>
 <span><span class="co">#&gt;    strata_total      match_strata spatial_grp</span></span>
 <span><span class="co">#&gt;           &lt;int&gt;            &lt;char&gt;      &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:        11312 BOSTON:2010-05-01         ALL</span></span>
-<span><span class="co">#&gt; 2:        10929 BOSTON:2010-05-02         ALL</span></span>
-<span><span class="co">#&gt; 3:        11435 BOSTON:2010-05-03         ALL</span></span>
-<span><span class="co">#&gt; 4:         9372 BOSTON:2010-05-04         ALL</span></span>
-<span><span class="co">#&gt; 5:         9193 BOSTON:2010-05-05         ALL</span></span>
-<span><span class="co">#&gt; 6:         8657 BOSTON:2010-05-06         ALL</span></span>
-<span></span>
-<span><span class="co">## add a factor</span></span>
-<span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
-<span>  <span class="va">boston_deaths</span>,  </span>
-<span>  <span class="va">outcome_columns</span>,</span>
-<span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>,</span>
-<span>  grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  collapse_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'sex'</span>, <span class="st">'age_grp'</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
-<span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
-<span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
-<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9), : 2020 in data years, Outcome counts likely impacted by the</span></span>
-<span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
-<span><span class="co">#&gt;             or exclude this year from analysis.</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:         2002 BOSTON:2010-05-01         ALL</span></span>
+<span><span class="co">#&gt; 2:         1790 BOSTON:2010-05-01         ALL</span></span>
+<span><span class="co">#&gt; 3:         1893 BOSTON:2010-05-01         ALL</span></span>
+<span><span class="co">#&gt; 4:         1936 BOSTON:2010-05-01         ALL</span></span>
+<span><span class="co">#&gt; 5:         1810 BOSTON:2010-05-01         ALL</span></span>
+<span><span class="co">#&gt; 6:         1881 BOSTON:2010-05-01         ALL</span></span></code></pre></div>
   </main>
 </div>
 

@@ -4,7 +4,7 @@
 \alias{time_subset_validate}
 \title{validation of the time_subset argumetn}
 \usage{
-time_subset_validate(time_subset)
+time_subset_validate(time_subset, data_years)
 }
 \arguments{
 \item{time_subset}{a time_subset input}

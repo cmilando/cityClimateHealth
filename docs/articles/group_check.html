@@ -101,8 +101,6 @@
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'sex'</span>,</span>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
@@ -117,8 +115,6 @@
 <span>                                     grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span></span>
@@ -127,8 +123,6 @@
 <span>                                 <span class="va">outcome_columns</span>, </span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -141,17 +135,21 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with factor</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"age_grp"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
 <span>                                 <span class="va">outcome_columns</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, grp_level = F, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -160,22 +158,24 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with spatial collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctTOWN20</span> <span class="op">=</span> <span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctTOWN20'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">isCHELSEA</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span> <span class="op">==</span> <span class="st">'CHELSEA'</span>, <span class="st">"isChelsea"</span>, <span class="st">"notChelsea"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"isCHELSEA"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctTOWN20'</span>,</span>
-<span>                                 collapse_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_spatial = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -184,20 +184,21 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with temporal collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctWeekend'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span>, <span class="st">"weekend"</span>, <span class="st">"weekday"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"fctWeekend"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctWeekend'</span>,</span>
-<span>                                 collapse_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_temporal = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -216,9 +217,6 @@
 <span>                                     keep_unit_exposures <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span></span>
@@ -228,9 +226,6 @@
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -244,19 +239,22 @@
 <span></span>
 <span></span>
 <span><span class="co"># with factor</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"age_grp"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
 <span>                                 <span class="va">outcome_columns</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, grp_level = T, keep_unit_outcomes = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -265,24 +263,24 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with spatial collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctTOWN20</span> <span class="op">=</span> <span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctTOWN20'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">isCHELSEA</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span> <span class="op">==</span> <span class="st">'CHELSEA'</span>, <span class="st">"isChelsea"</span>, <span class="st">"notChelsea"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"isCHELSEA"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctTOWN20'</span>,</span>
-<span>                                 collapse_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_spatial = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -291,22 +289,22 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with temporal collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctWeekend'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span>, <span class="st">"weekend"</span>, <span class="st">"weekday"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"fctWeekend"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctWeekend'</span>,</span>
-<span>                                 collapse_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_temporal = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -325,9 +323,8 @@
 <span>                                     keep_unit_exposures <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                     time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
@@ -335,9 +332,8 @@
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -350,19 +346,24 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with factor</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"age_grp"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
 <span>                                 <span class="va">outcome_columns</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, collapse_to = "age_grp", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, grp_level = T, keep_unit_outcomes = F, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -371,24 +372,26 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with spatial collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctTOWN20</span> <span class="op">=</span> <span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctTOWN20'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">isCHELSEA</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">TOWN20</span> <span class="op">==</span> <span class="st">'CHELSEA'</span>, <span class="st">"isChelsea"</span>, <span class="st">"notChelsea"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"isCHELSEA"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctTOWN20'</span>,</span>
-<span>                                 collapse_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_spatial <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctTOWN20", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_spatial = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
@@ -397,22 +400,24 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">deaths_tbl</span><span class="op">$</span><span class="va">strata</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exposure_mat</span><span class="op">$</span><span class="va">strata</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># with temporal collapse</span></span>
-<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">tmp_cols</span> <span class="op">&lt;-</span> <span class="va">outcome_columns</span></span>
-<span><span class="va">tmp_cols</span><span class="op">$</span><span class="va">factor2</span> <span class="op">=</span> <span class="st">'fctWeekend'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tmp_cols</span><span class="op">)</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="st">'factor'</span></span>
+<span><span class="va">deaths</span><span class="op">$</span><span class="va">fctWeekend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span>, <span class="st">"weekend"</span>, <span class="st">"weekday"</span><span class="op">)</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"fctWeekend"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths</span>,  </span>
-<span>                                 <span class="va">tmp_cols</span>, </span>
-<span>                                 collapse_to <span class="op">=</span> <span class="st">'fctWeekend'</span>,</span>
-<span>                                 collapse_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                                 <span class="va">outcome_columns</span>, </span>
+<span>                                 factor_is_temporal <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 grp_level <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                                 keep_unit_outcomes <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>                                 time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
 <span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == FALSE, so</span></span>
-<span><span class="co">#&gt;             aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
+<span><span class="co">#&gt;         aggregating to geo_unit_grp and using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(deaths, tmp_cols, collapse_to = "fctWeekend", : 2020 in data years, Outcome counts likely impacted by the</span></span>
+<span><span class="co">#&gt; Warning in make_outcome_table(deaths, outcome_columns, factor_is_temporal = T, : 2020 in data years, Outcome counts likely impacted by the</span></span>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>

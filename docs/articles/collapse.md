@@ -29,8 +29,6 @@ exposure_mat <-
     time_subset = list(month = 5:9)
 )
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
 #>          date TOWN20 COUNTY20  tmax_C                   strata
@@ -60,9 +58,8 @@ exposure_mat <-
     keep_unit_exposures = F
   )
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
 #> > grp_level == TRUE and keep_unit == FALSE, so
-#>             aggregating to geo_unit_grp and using geo_unit_grp as strata
+#>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
 #>          date COUNTY20   tmax_C spatial_grp                    strata
@@ -92,9 +89,6 @@ exposure_mat <-
     keep_unit_exposures = T
   )
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit == TRUE, so
-#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
 #>          date TOWN20 COUNTY20  tmax_C                   strata
@@ -146,8 +140,6 @@ outcomes_tbl <- make_outcome_table(
   outcome_columns,
   time_subset = list(month = 5:9)
 )
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -156,22 +148,22 @@ outcomes_tbl <- make_outcome_table(
 #>             or exclude this year from analysis.
 
 head(outcomes_tbl)
-#>          date TOWN20 COUNTY20 daily_deaths                   strata
-#>        <IDat> <char>   <char>        <int>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05
+#>          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata
+#>        <IDat> <char>   <char>      <char>        <int>                   <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M          385 BOSTON:yr2010:mn05:dow07
+#> 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M          363 BOSTON:yr2010:mn05:dow07
+#> 3: 2010-05-01 BOSTON  SUFFOLK       65+|M          374 BOSTON:yr2010:mn05:dow07
+#> 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F          378 BOSTON:yr2010:mn05:dow07
+#> 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F          365 BOSTON:yr2010:mn05:dow07
+#> 6: 2010-05-01 BOSTON  SUFFOLK       65+|F          373 BOSTON:yr2010:mn05:dow07
 #>    strata_total      match_strata
 #>           <int>            <char>
-#> 1:        11312 BOSTON:2010-05-01
-#> 2:        10929 BOSTON:2010-05-02
-#> 3:        11435 BOSTON:2010-05-03
-#> 4:         9372 BOSTON:2010-05-04
-#> 5:         9193 BOSTON:2010-05-05
-#> 6:         8657 BOSTON:2010-05-06
+#> 1:         2002 BOSTON:2010-05-01
+#> 2:         1790 BOSTON:2010-05-01
+#> 3:         1893 BOSTON:2010-05-01
+#> 4:         1936 BOSTON:2010-05-01
+#> 5:         1810 BOSTON:2010-05-01
+#> 6:         1881 BOSTON:2010-05-01
 
 ## group
 outcomes_tbl <- make_outcome_table(
@@ -181,9 +173,8 @@ outcomes_tbl <- make_outcome_table(
   grp_level = T,
   keep_unit_outcomes = F
 )
-#> > No factors to collapse to, using all data
 #> > grp_level == TRUE and keep_unit == FALSE, so
-#>             aggregating to geo_unit_grp and using geo_unit_grp as strata
+#>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -192,22 +183,22 @@ outcomes_tbl <- make_outcome_table(
 #>             or exclude this year from analysis.
 
 head(outcomes_tbl)
-#>          date COUNTY20 daily_deaths spatial_grp                    strata
-#>        <IDat>   <char>        <int>      <char>                    <char>
-#> 1: 2010-05-01  SUFFOLK         2370         ALL SUFFOLK:yr2010:mn05:dow07
-#> 2: 2010-05-02  SUFFOLK         2220         ALL SUFFOLK:yr2010:mn05:dow01
-#> 3: 2010-05-03  SUFFOLK         2511         ALL SUFFOLK:yr2010:mn05:dow02
-#> 4: 2010-05-04  SUFFOLK         2492         ALL SUFFOLK:yr2010:mn05:dow03
-#> 5: 2010-05-05  SUFFOLK         2634         ALL SUFFOLK:yr2010:mn05:dow04
-#> 6: 2010-05-06  SUFFOLK         2323         ALL SUFFOLK:yr2010:mn05:dow05
-#>    strata_total       match_strata
-#>           <int>             <char>
-#> 1:        11954 SUFFOLK:2010-05-01
-#> 2:        11593 SUFFOLK:2010-05-02
-#> 3:        12108 SUFFOLK:2010-05-03
-#> 4:         9909 SUFFOLK:2010-05-04
-#> 5:         9728 SUFFOLK:2010-05-05
-#> 6:         9176 SUFFOLK:2010-05-06
+#>          date COUNTY20 age_grp|sex daily_deaths spatial_grp
+#>        <IDat>   <char>      <char>        <int>      <char>
+#> 1: 2010-05-01  SUFFOLK      0-17|M          408         ALL
+#> 2: 2010-05-01  SUFFOLK     18-64|M          384         ALL
+#> 3: 2010-05-01  SUFFOLK       65+|M          396         ALL
+#> 4: 2010-05-01  SUFFOLK      0-17|F          400         ALL
+#> 5: 2010-05-01  SUFFOLK     18-64|F          387         ALL
+#> 6: 2010-05-01  SUFFOLK       65+|F          395         ALL
+#>                       strata strata_total       match_strata
+#>                       <char>        <int>             <char>
+#> 1: SUFFOLK:yr2010:mn05:dow07         2115 SUFFOLK:2010-05-01
+#> 2: SUFFOLK:yr2010:mn05:dow07         1891 SUFFOLK:2010-05-01
+#> 3: SUFFOLK:yr2010:mn05:dow07         2000 SUFFOLK:2010-05-01
+#> 4: SUFFOLK:yr2010:mn05:dow07         2046 SUFFOLK:2010-05-01
+#> 5: SUFFOLK:yr2010:mn05:dow07         1914 SUFFOLK:2010-05-01
+#> 6: SUFFOLK:yr2010:mn05:dow07         1988 SUFFOLK:2010-05-01
 
 ## group but keep unit outcomes
 outcomes_tbl <- make_outcome_table(
@@ -217,9 +208,6 @@ outcomes_tbl <- make_outcome_table(
   grp_level = T,
   keep_unit_outcomes = T
 )
-#> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit == TRUE, so
-#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -228,39 +216,20 @@ outcomes_tbl <- make_outcome_table(
 #>             or exclude this year from analysis.
 
 head(outcomes_tbl)
-#>          date TOWN20 COUNTY20 daily_deaths                   strata
-#>        <IDat> <char>   <char>        <int>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05
+#>          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata
+#>        <IDat> <char>   <char>      <char>        <int>                   <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M          385 BOSTON:yr2010:mn05:dow07
+#> 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M          363 BOSTON:yr2010:mn05:dow07
+#> 3: 2010-05-01 BOSTON  SUFFOLK       65+|M          374 BOSTON:yr2010:mn05:dow07
+#> 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F          378 BOSTON:yr2010:mn05:dow07
+#> 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F          365 BOSTON:yr2010:mn05:dow07
+#> 6: 2010-05-01 BOSTON  SUFFOLK       65+|F          373 BOSTON:yr2010:mn05:dow07
 #>    strata_total      match_strata spatial_grp
 #>           <int>            <char>      <char>
-#> 1:        11312 BOSTON:2010-05-01         ALL
-#> 2:        10929 BOSTON:2010-05-02         ALL
-#> 3:        11435 BOSTON:2010-05-03         ALL
-#> 4:         9372 BOSTON:2010-05-04         ALL
-#> 5:         9193 BOSTON:2010-05-05         ALL
-#> 6:         8657 BOSTON:2010-05-06         ALL
-
-## add a factor
-outcomes_tbl <- make_outcome_table(
-  boston_deaths,  
-  outcome_columns,
-  time_subset = list(month = 5:9),
-  grp_level = T,
-  keep_unit_outcomes = T,
-  collapse_to = c('sex', 'age_grp')
-)
-#> > Factors in data
-#> > grp_level == TRUE and keep_unit == TRUE, so
-#>             keeping to geo_unit data but using geo_unit_grp as strata
-#> Missing outcome values introduced by xgrid were set to 0;
-#>             assumes that every time in the dataset should have an outcome value
-#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9), : 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
+#> 1:         2002 BOSTON:2010-05-01         ALL
+#> 2:         1790 BOSTON:2010-05-01         ALL
+#> 3:         1893 BOSTON:2010-05-01         ALL
+#> 4:         1936 BOSTON:2010-05-01         ALL
+#> 5:         1810 BOSTON:2010-05-01         ALL
+#> 6:         1881 BOSTON:2010-05-01         ALL
 ```

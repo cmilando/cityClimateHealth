@@ -92,8 +92,6 @@ boston_exposure_mat <- make_exposure_matrix(boston_exposure,
                                             exposure_columns,
                                             time_subset = list(month = 5:9))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(boston_exposure_mat)
 #>          date TOWN20 COUNTY20  tmax_C                   strata
@@ -205,8 +203,6 @@ Starts with defining the outcome columns:
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -225,8 +221,6 @@ using and to the correct spatial unit for this analysis. The
 
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -455,23 +449,17 @@ exposure_columns <- list(
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
                                             time_subset = list(month = 5:9))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -563,24 +551,18 @@ middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
 middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns,
                                                time_subset = list(month = 5:9))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
 middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
 middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns,
                                            time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -667,15 +649,19 @@ you can also get it for factors
 
 ``` r
 
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 middlesex_deaths_tbl <- make_outcome_table(
-  middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9),
-  collapse_to = 'age_grp')
-#> > Factors in data
-#> > grp_level == FALSE, so using geo_unit as strata
+  middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9))
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9), : 2020 in data years, Outcome counts likely impacted by the
+#> Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
 #>             COVID-19 Pandemic. Be sure to include a covariate adjustment
 #>             or exclude this year from analysis.
 

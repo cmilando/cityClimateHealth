@@ -156,8 +156,6 @@ our package</p>
 <span></span>
 <span><span class="va">exp_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="va">exp_df</span>, <span class="va">exposure_columns</span>,</span>
 <span>                                time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp_mat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            dt TOWN20 COUNTY20     temp                   strata</span></span>
@@ -192,8 +190,6 @@ our package</p>
 <span></span>
 <span><span class="va">sim_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="va">deaths_df</span>,  <span class="va">outcome_columns</span>,</span>
 <span>                              time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>

@@ -24,7 +24,7 @@ a data.table of relative risk estimates across factor levels
 ``` r
 middlesex_deaths_tbl <- make_outcome_table(
 middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-#> Error: object 'middlesex_deaths' not found
+#> Error in make_outcome_table(middlesex_deaths, outcome_columns, collapse_to = "age_grp"): unused argument (collapse_to = "age_grp")
 
 # run the model
 m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,

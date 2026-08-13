@@ -26,6 +26,8 @@ Vignettes aimed at advanced users
 - [faq](http://climatehealth.city/articles/faq.md):
 - [Demo of Collapse
   funcationality](http://climatehealth.city/articles/collapse.md):
+- [covariate](http://climatehealth.city/articles/covariate.md):
+- [Demo of factor uses](http://climatehealth.city/articles/factor.md):
 - [SB_WNV_test](http://climatehealth.city/articles/bayesian_wnv_test.md):
 - [Using Stratified
   Exposures](http://climatehealth.city/articles/strata.md):

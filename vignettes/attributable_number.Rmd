@@ -97,8 +97,6 @@ outcomes
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -197,11 +195,19 @@ plot(ma_AN_s1, "num", above_MMT = T)
 In the case where you have factors, you can easily extend this
 
 ```{r fctrun, fig.height=3, fig.width=8}
+
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
 ma_outcomes_tbl_fct <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
   outcome_columns, 
-  time_subset = list(month = 5:9, year = 2012:2015),
-  collapse_to = 'age_grp')
+  time_subset = list(month = 5:9, year = 2012:2015))
 
 ma_model_fct <- condPois_2stage(ma_exposure_matrix, 
                                 ma_outcomes_tbl_fct, 

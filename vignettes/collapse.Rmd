@@ -113,14 +113,4 @@ outcomes_tbl <- make_outcome_table(
 
 head(outcomes_tbl)
 
-## add a factor
-outcomes_tbl <- make_outcome_table(
-  boston_deaths,  
-  outcome_columns,
-  time_subset = list(month = 5:9),
-  grp_level = T,
-  keep_unit_outcomes = T,
-  collapse_to = c('sex', 'age_grp')
-)
-
 ```

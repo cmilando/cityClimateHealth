@@ -9,8 +9,8 @@ make_xgrid(
   data,
   column_mapping,
   dt_by = "day",
-  collapse_is_spatial = FALSE,
-  collapse_is_temporal = FALSE
+  factor_is_spatial = FALSE,
+  factor_is_temporal = FALSE
 )
 ```
 
@@ -28,11 +28,11 @@ make_xgrid(
 
   either by day or by week
 
-- collapse_is_spatial:
+- factor_is_spatial:
 
   logical, is the collapse spatial
 
-- collapse_is_temporal:
+- factor_is_temporal:
 
   logical, is the collapse temporal
 

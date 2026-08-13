@@ -5,9 +5,8 @@
 #' data table, these need to be one of: c('date', "outcome",'factor, 'geo_unit', 'geo_unit_grp')
 #' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
-#' @param collapse_to which factors to collapse across
-#' @param collapse_is_spatial is collapse a spatial variable
-#' @param collapse_is_temporal is collapse a temporal variable
+#' @param factor_is_spatial is collapse a spatial variable
+#' @param factor_is_temporal is collapse a temporal variable
 #' @param grp_level whether to summarize to the group level or not (default)
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
@@ -36,9 +35,8 @@ make_outcome_table <- function(data,
                                column_mapping,
                                time_subset,
                                dt_by = 'day',
-                               collapse_to = NULL,
-                               collapse_is_spatial = FALSE,
-                               collapse_is_temporal = FALSE,
+                               factor_is_spatial = FALSE,
+                               factor_is_temporal = FALSE,
                                grp_level = FALSE,
                                keep_unit_outcomes = FALSE) {
 
@@ -149,13 +147,11 @@ make_outcome_table <- function(data,
                      fcn = sum,
                      data_type = 'outcome',
                      grp_level = grp_level,
-                     keep_unit = keep_unit_outcomes,
-                     collapse_to = collapse_to)
+                     keep_unit = keep_unit_outcomes)
 
   # and reset
   data = d2$data
   column_mapping = d2$column_mapping
-  collapse_to = d2$collapse_to
 
   # update
   geo_unit_col = column_mapping$geo_unit
@@ -173,8 +169,8 @@ make_outcome_table <- function(data,
   xgrid <- make_xgrid(data = data,
                       column_mapping = column_mapping,
                       dt_by = dt_by,
-                      collapse_is_spatial = collapse_is_spatial,
-                      collapse_is_temporal = collapse_is_temporal)
+                      factor_is_spatial = factor_is_spatial,
+                      factor_is_temporal = factor_is_temporal)
 
   # **************
   ## set missing outcome values to 0
@@ -193,19 +189,16 @@ make_outcome_table <- function(data,
     # xgrid <- xgrid[-rr, ]
   }
 
-  if(any(is.na(xgrid))) {
-    message('some remaining NA in outcome xgrid, investigate')
-    return(xgrid)
-  }
+  # if(any(is.na(xgrid))) {
+  #   message('ERROR -- some remaining NA in outcome xgrid, investigate')
+  #   return(xgrid)
+  # }
 
   # ******************
   # set strata
-  # should this be set to false ??? here ??? why ???
   xgrid$strata = set_strata_value(xgrid,
                                   column_mapping = column_mapping,
                                   dt_by = dt_by)
-                                  # grp_level = FALSE,
-                                  # keep_unit = keep_unit_outcomes)
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -216,8 +209,8 @@ make_outcome_table <- function(data,
   # Label strata that have no cases, these will be removed later
   # Extract outcome column name programmatically
   group_col   <- "strata"
-  if(!is.null(collapse_to)) {
-    group_col <- c(group_col, collapse_to)
+  if("factor" %in% names(column_mapping)) {
+    group_col <- c(group_col, column_mapping$factor)
   }
 
   # 1. Aggregate by group and create the 'keep' flag
@@ -257,7 +250,7 @@ make_outcome_table <- function(data,
         "outcome" = outcome_col,
         "geo_unit" = geo_unit_grp_col,
         "geo_unit_grp" = 'spatial_grp',
-        "factor" = collapse_to
+        "factor" = column_mapping$factor
       )
     }
   }

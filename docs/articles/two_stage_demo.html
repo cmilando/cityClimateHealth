@@ -107,15 +107,11 @@ data is <strong>simulated</strong>.</p>
 <span>       year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'sex'</span>,</span>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
@@ -126,8 +122,6 @@ data is <strong>simulated</strong>.</p>
 <span>       month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
 <span>       year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
@@ -269,16 +263,20 @@ shapefile:</p>
 <p>Only a small change is required to run the model by factor, e.g.,
 age_grp:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ma_outcomes_tbl_fct</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
+<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"age_grp"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">ma_outcomes_tbl_fct</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>,<span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="va">outcome_columns</span>,</span>
 <span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,</span>
 <span>       year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span></span>
-<span>     <span class="op">)</span>,</span>
-<span>  collapse_to <span class="op">=</span> <span class="st">'age_grp'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Factors in data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == FALSE, so using geo_unit as strata</span></span>
+<span>     <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
@@ -471,9 +469,6 @@ to be a sub-strata level.</p>
 <span>  grp_level <span class="op">=</span> <span class="cn">T</span>, </span>
 <span>  keep_unit_exposures <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span><span class="op">)</span></span>
@@ -6501,7 +6496,7 @@ to be a sub-strata level.</p>
 <span><span class="co">#&gt; [1] "data.table" "data.frame" "exposure"  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $.internal.selfref</span></span>
-<span><span class="co">#&gt; &lt;pointer: 0x1368118e0&gt;</span></span>
+<span><span class="co">#&gt; &lt;pointer: 0x13e00c2e0&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $names</span></span>
 <span><span class="co">#&gt;  [1] "date"         "TOWN20"       "COUNTY20"     "tmax_C"       "strata"      </span></span>
@@ -6524,12 +6519,9 @@ to be a sub-strata level.</p>
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'age_grp'</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'sex'</span>,</span>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
 <span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
 <span><span class="op">)</span></span>
-<span></span>
 <span></span>
 <span><span class="va">ma_outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">COUNTY20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MIDDLESEX'</span>, <span class="st">'WORCESTER'</span>, <span class="st">'SUFFOLK'</span><span class="op">)</span><span class="op">)</span>, </span>
@@ -6539,9 +6531,6 @@ to be a sub-strata level.</p>
 <span>       year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2015</span></span>
 <span>     <span class="op">)</span>,</span>
 <span>  grp_level <span class="op">=</span> <span class="cn">T</span>, keep_unit_outcomes <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; No factors to collapse to, using all data</span></span>
-<span><span class="co">#&gt; &gt; grp_level == TRUE and keep_unit == TRUE, so</span></span>
-<span><span class="co">#&gt;             keeping to geo_unit data but using geo_unit_grp as strata</span></span>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>

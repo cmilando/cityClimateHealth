@@ -2,6 +2,12 @@
 
 ## All functions
 
+- [`add_factor_col()`](http://climatehealth.city/reference/add_factor_col.md)
+  : make factor column
+
+- [`add_us_holiday()`](http://climatehealth.city/reference/add_us_holiday.md)
+  : Function to add US holidays
+
 - [`calc_AN()`](http://climatehealth.city/reference/calc_AN.md) :
   Calculate attributable number and attributable rates
 
@@ -15,9 +21,15 @@
 - [`check_argvar()`](http://climatehealth.city/reference/check_argvar.md)
   : Internal function to check argvar
 
+- [`check_covariate_names()`](http://climatehealth.city/reference/check_covariate_names.md)
+  : check covariate names
+
 - [`cityClimateHealth-package`](http://climatehealth.city/reference/cityClimateHealth-package.md)
   [`cityClimateHealth`](http://climatehealth.city/reference/cityClimateHealth-package.md)
   : The 'cityClimateHealth' package.
+
+- [`collapse_data()`](http://climatehealth.city/reference/collapse_data.md)
+  : collapse the data based on factors and group level strata
 
 - [`condPois_1stage()`](http://climatehealth.city/reference/condPois_1stage.md)
   : Run a conditional poisson model for a single geographic unit
@@ -111,11 +123,14 @@
   : IN-PROGRESS functions that creates a list of cross-basis objects to
   try
 
+- [`make_crossbasis()`](http://climatehealth.city/reference/make_crossbasis.md)
+  : Make crossbasis object
+
 - [`make_exposure_matrix()`](http://climatehealth.city/reference/make_exposure_matrix.md)
   : Function to clean and prepare the exposure data matrix
 
 - [`make_outcome_table()`](http://climatehealth.city/reference/make_outcome_table.md)
-  : Function to create the outcome table TO DO : EDIT XGRID
+  : Function to create the outcome table
 
 - [`make_xgrid()`](http://climatehealth.city/reference/make_xgrid.md) :
   An internal function to make the xgrid
@@ -211,6 +226,3 @@
 
 - [`time_subset_validate()`](http://climatehealth.city/reference/time_subset_validate.md)
   : validation of the time_subset argumetn
-
-- [`time_subset_validation()`](http://climatehealth.city/reference/time_subset_validation.md)
-  : Validate time_subset input

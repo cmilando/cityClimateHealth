@@ -46,8 +46,6 @@ ma_exposure_matrix <- make_exposure_matrix(
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -107,14 +105,20 @@ getRR(ma_model)
 Only a small change is required to run the model by factor, e.g., age_grp:
 
 ```{r multi_town_setup_factor}
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 ma_outcomes_tbl_fct <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')),
   outcome_columns,
   time_subset = list(
        month = 5:9,
        year = 2012:2015
-     ),
-  collapse_to = 'age_grp')
+     ))
 
 head(ma_outcomes_tbl_fct)
 ```
@@ -176,12 +180,9 @@ attributes(ma_exposure_matrix)
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-
 
 ma_outcomes_tbl <- make_outcome_table(
   subset(ma_deaths, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK')), 

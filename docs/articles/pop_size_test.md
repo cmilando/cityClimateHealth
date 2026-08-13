@@ -108,8 +108,6 @@ exposure_columns <- list(
 
 exp_mat <- make_exposure_matrix(exp_df, exposure_columns,
                                 time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exp_mat)
 #>            dt TOWN20 COUNTY20     temp                   strata
@@ -148,8 +146,6 @@ outcome_columns <- list(
 
 sim_tbl <- make_outcome_table(deaths_df,  outcome_columns,
                               time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

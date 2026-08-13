@@ -29,7 +29,7 @@ calc_AN(
 
 \item{by_year}{Export annual counts}
 
-\item{scale}{scalar that you multiply outcomes by, mostly used for collapse_is_temporal adjustment}
+\item{scale}{scalar that you multiply outcomes by, mostly used for factor_is_temporal adjustment}
 
 \item{nsim}{number of simulations required for calculation of empirical CI (default = 300)}
 

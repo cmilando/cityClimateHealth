@@ -80,8 +80,6 @@ deaths_sub <-
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -328,13 +326,20 @@ Very often, we also get asked to run these results, with differences by both mod
 We can easily do this, by using the `collapse_to` argument:
 
 ```{r multi_town_setup_factor}
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20",
+  "factor" = "age_grp"
+)
+
 ma_outcomes_tbl_fct <- make_outcome_table(
   deaths_sub, outcome_columns, 
   time_subset = list(
        month = 5:9,
        year = 2012:2015
-     ),
-  collapse_to = 'age_grp')
+     ))
 ```
 
 Lets look at the result:

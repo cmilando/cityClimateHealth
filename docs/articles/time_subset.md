@@ -26,8 +26,6 @@ ma_exposure_matrix <- make_exposure_matrix(
   time_subset = list(year = 2012:2015) 
 )
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 ma_exposure_matrix
@@ -79,8 +77,6 @@ ma_exposure_matrix <- make_exposure_matrix(
   time_subset = list(month = 6:8)   # 6 = June, 7 = July, 8 = August 
 )
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 ma_exposure_matrix

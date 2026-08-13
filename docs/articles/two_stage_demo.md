@@ -33,15 +33,11 @@ ma_exposure_matrix <- make_exposure_matrix(
        year = 2012:2015
      ))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -52,8 +48,6 @@ ma_outcomes_tbl <- make_outcome_table(
        month = 5:9,
        year = 2012:2015
      ))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -224,16 +218,20 @@ age_grp:
 
 ``` r
 
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 ma_outcomes_tbl_fct <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')),
   outcome_columns,
   time_subset = list(
        month = 5:9,
        year = 2012:2015
-     ),
-  collapse_to = 'age_grp')
-#> > Factors in data
-#> > grp_level == FALSE, so using geo_unit as strata
+     ))
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -452,9 +450,6 @@ ma_exposure_matrix <- make_exposure_matrix(
   grp_level = T, 
   keep_unit_exposures = T)
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit == TRUE, so
-#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 attributes(ma_exposure_matrix)
@@ -6482,7 +6477,7 @@ attributes(ma_exposure_matrix)
 #> [1] "data.table" "data.frame" "exposure"  
 #> 
 #> $.internal.selfref
-#> <pointer: 0x1368118e0>
+#> <pointer: 0x13e00c2e0>
 #> 
 #> $names
 #>  [1] "date"         "TOWN20"       "COUNTY20"     "tmax_C"       "strata"      
@@ -6505,12 +6500,9 @@ attributes(ma_exposure_matrix)
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-
 
 ma_outcomes_tbl <- make_outcome_table(
   subset(ma_deaths, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER', 'SUFFOLK')), 
@@ -6520,9 +6512,6 @@ ma_outcomes_tbl <- make_outcome_table(
        year = 2012:2015
      ),
   grp_level = T, keep_unit_outcomes = T)
-#> > No factors to collapse to, using all data
-#> > grp_level == TRUE and keep_unit == TRUE, so
-#>             keeping to geo_unit data but using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

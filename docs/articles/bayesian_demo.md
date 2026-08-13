@@ -61,16 +61,12 @@ exposure_mat <- make_exposure_matrix(exposure,
                                        year = 2012:2015
                                      ))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 # create outcome table
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -80,8 +76,6 @@ deaths_tbl <- make_outcome_table(deaths,  outcome_columns,
                                        month = 5:9,
                                        year = 2012:2015
                                      ))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -345,13 +339,13 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 27.9 seconds.
+#> Chain 1 finished in 29.5 seconds.
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 28.6 seconds.
+#> Chain 2 finished in 31.0 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 28.2 seconds.
-#> Total execution time: 28.7 seconds.
+#> Mean chain execution time: 30.2 seconds.
+#> Total execution time: 31.2 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -596,7 +590,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>     3310      -6423.86   7.02828e-07       42.1594           1           1     3488    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  1.6 seconds.
+#> Finished in  2.0 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -611,7 +605,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.5 seconds.
+#> Finished in  0.9 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates

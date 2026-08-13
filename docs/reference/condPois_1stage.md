@@ -44,7 +44,8 @@ condPois_1stage(
 
 - min_n:
 
-  an integer describing the minimum number of cases for a single region
+  an integer describing the minimum number of cases for a single
+  geo_unit
 
 - strata_min:
 

@@ -51,6 +51,8 @@ articles:
   - time_subset
   - faq
   - collapse
+  - covariate
+  - factor
   - bayesian_wnv_test
   - strata
   - get_pop_estimates

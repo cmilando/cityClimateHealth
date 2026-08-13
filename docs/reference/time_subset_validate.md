@@ -5,7 +5,7 @@ validation of the time_subset argumetn
 ## Usage
 
 ``` r
-time_subset_validate(time_subset)
+time_subset_validate(time_subset, data_years)
 ```
 
 ## Arguments

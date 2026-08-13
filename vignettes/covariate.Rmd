@@ -1,0 +1,92 @@
+---
+title: "covariate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{covariate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cityClimateHealth)
+```
+
+
+No covariates are added to the exposure matrix, this is just the exposures
+
+```{r exposure}
+library(dlnm)
+library(gnm)
+library(ggplot2)
+library(data.table)
+
+# create exposure matrix
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+## basic
+exposure_mat <- 
+  make_exposure_matrix(
+    subset(ma_exposure, TOWN20 %in% c('BOSTON', 'CHELSEA')),
+    exposure_columns, 
+    time_subset = list(month = 5:9)
+  )
+
+```
+
+Ok now you can add covariates to the outcome 
+This includes environmental covariates 
+
+```{r outcome}
+
+## *** (1) you could add it before in exposure columns ***
+## add covariate for something else, like is 2010
+# * assume the user 
+ma_deaths$is_2010 <- data.table::year(ma_deaths$date) == 2010
+
+##
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = c('age_grp', 'sex'),
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20",
+  "covariate" = "is_2010"
+)
+
+boston_deaths <- subset(ma_deaths, TOWN20 %in% c('BOSTON', 'CHELSEA'))
+
+## basic
+outcomes_tbl <- make_outcome_table(
+  boston_deaths,  
+  outcome_columns,
+  time_subset = list(month = 5:9)
+)
+head(outcomes_tbl)
+
+```
+
+Special case of adding US holidays
+```{r holidays}
+
+outcomes_tbl <- add_us_holiday(outcomes_tbl)
+head(outcomes_tbl)
+
+attributes(outcomes_tbl)$column_mapping
+```
+
+And then two other cases:
+* of adding a single variable after 
+* and adding a crosbasis variable after

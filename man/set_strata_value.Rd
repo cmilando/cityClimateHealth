@@ -4,7 +4,7 @@
 \alias{set_strata_value}
 \title{Set the strata column of xgrid}
 \usage{
-set_strata_value(xgrid, column_mapping, dt_by, grp_level, keep_unit)
+set_strata_value(xgrid, column_mapping, dt_by)
 }
 \arguments{
 \item{xgrid}{the xgrid data.table}

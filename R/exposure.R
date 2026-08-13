@@ -148,8 +148,7 @@ make_exposure_matrix <- function(data,
                      fcn = mean,
                      data_type = 'exposure',
                      grp_level = grp_level,
-                     keep_unit = keep_unit_exposures,
-                     collapse_to = NULL)
+                     keep_unit = keep_unit_exposures)
 
   # and reset
   data = d2$data
@@ -178,15 +177,13 @@ make_exposure_matrix <- function(data,
   xgrid <- make_xgrid(data = data,
                       column_mapping = column_mapping,
                       dt_by = dt_by,
-                      collapse_is_spatial = FALSE,  # these are never applied for exposure
-                      collapse_is_temporal = FALSE) # these are never applied for exposure
+                      factor_is_spatial = FALSE,  # these are never applied for exposure
+                      factor_is_temporal = FALSE) # these are never applied for exposure
 
   # set the strata
   xgrid$strata = set_strata_value(xgrid,
                                   column_mapping = column_mapping,
                                   dt_by = dt_by)
-                                  # grp_level = grp_level,
-                                  # keep_unit = keep_unit_exposures)
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================

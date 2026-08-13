@@ -36,8 +36,6 @@ exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST)
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -65,9 +63,15 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with factor
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 
-                                 collapse_to = 'age_grp',
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
 
@@ -76,14 +80,18 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with spatial collapse
-deaths$fctTOWN20 = deaths$TOWN20
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctTOWN20'
-names(tmp_cols)[7] = 'factor'
+deaths$isCHELSEA = ifelse(deaths$TOWN20 == 'CHELSEA', "isChelsea", "notChelsea")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "isCHELSEA",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctTOWN20',
-                                 collapse_is_spatial = T,
+                                 outcome_columns, 
+                                 factor_is_spatial = T,
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
 
@@ -92,14 +100,17 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with temporal collapse
-deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctWeekend'
-names(tmp_cols)[7] = 'factor'
+deaths$fctWeekend = ifelse(wday(deaths$date) %in% c(6,7), "weekend", "weekday")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "fctWeekend",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctWeekend',
-                                 collapse_is_temporal = T,
+                                 outcome_columns, 
+                                 factor_is_temporal = T,
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
 
@@ -134,9 +145,15 @@ stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 
 # with factor
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 
-                                 collapse_to = 'age_grp',
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
@@ -146,14 +163,17 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with spatial collapse
-deaths$fctTOWN20 = deaths$TOWN20
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctTOWN20'
-names(tmp_cols)[7] = 'factor'
+deaths$isCHELSEA = ifelse(deaths$TOWN20 == 'CHELSEA', "isChelsea", "notChelsea")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "isCHELSEA",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctTOWN20',
-                                 collapse_is_spatial = T,
+                                 outcome_columns, 
+                                 factor_is_spatial = T,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
@@ -163,14 +183,17 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with temporal collapse
-deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctWeekend'
-names(tmp_cols)[7] = 'factor'
+deaths$fctWeekend = ifelse(wday(deaths$date) %in% c(6,7), "weekend", "weekday")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "fctWeekend",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctWeekend',
-                                 collapse_is_temporal = T,
+                                 outcome_columns, 
+                                 factor_is_temporal = T,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
@@ -203,9 +226,15 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with factor
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
                                  outcome_columns, 
-                                 collapse_to = 'age_grp',
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
@@ -215,14 +244,17 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with spatial collapse
-deaths$fctTOWN20 = deaths$TOWN20
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctTOWN20'
-names(tmp_cols)[7] = 'factor'
+deaths$isCHELSEA = ifelse(deaths$TOWN20 == 'CHELSEA', "isChelsea", "notChelsea")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "isCHELSEA",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctTOWN20',
-                                 collapse_is_spatial = T,
+                                 outcome_columns, 
+                                 factor_is_spatial = T,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
@@ -232,14 +264,17 @@ stopifnot(all(deaths_tbl$match_strata %in% exposure_mat$match_strata ))
 stopifnot(all(deaths_tbl$strata %in% exposure_mat$strata ))
 
 # with temporal collapse
-deaths$fctWeekend = wday(deaths$date) %in% c(6,7)
-tmp_cols <- outcome_columns
-tmp_cols$factor2 = 'fctWeekend'
-names(tmp_cols)[7] = 'factor'
+deaths$fctWeekend = ifelse(wday(deaths$date) %in% c(6,7), "weekend", "weekday")
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "fctWeekend",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 deaths_tbl <- make_outcome_table(deaths,  
-                                 tmp_cols, 
-                                 collapse_to = 'fctWeekend',
-                                 collapse_is_temporal = T,
+                                 outcome_columns, 
+                                 factor_is_temporal = T,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))

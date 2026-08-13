@@ -8,7 +8,7 @@
 #' @param nsim number of simulations required for calculation of empirical CI (default = 300)
 #' @param verbose 0 = no printing, 1 = headers, 2 = detailed
 #' @param by_year Export annual counts
-#' @param scale scalar that you multiply outcomes by, mostly used for collapse_is_temporal adjustment
+#' @param scale scalar that you multiply outcomes by, mostly used for factor_is_temporal adjustment
 #' @importFrom data.table setDT
 #' @importFrom data.table setorder
 #' @importFrom data.table setorder `:=`

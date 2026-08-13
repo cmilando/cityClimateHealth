@@ -3,8 +3,8 @@
 #' @param data a matrix of exposures or outcomes
 #' @param column_mapping  named list that indicates relevant columns in `data`.
 #' @param dt_by either by day or by week
-#' @param collapse_is_spatial logical, is the collapse spatial
-#' @param collapse_is_temporal logical, is the collapse temporal
+#' @param factor_is_spatial logical, is the collapse spatial
+#' @param factor_is_temporal logical, is the collapse temporal
 #' @importFrom data.table setDT as.data.table wday year month as.IDate
 #' @importFrom lubridate make_date
 #' @importFrom tidyr expand_grid
@@ -22,8 +22,8 @@
 make_xgrid <- function(data,
                        column_mapping,
                        dt_by = 'day',
-                       collapse_is_spatial = FALSE,
-                       collapse_is_temporal = FALSE) {
+                       factor_is_spatial = FALSE,
+                       factor_is_temporal = FALSE) {
 
   #
   setDT(data)
@@ -101,6 +101,7 @@ make_xgrid <- function(data,
     stopifnot(length(which(names(column_mapping) == 'factor')) == 1)
 
     factor_vector = unlist(column_mapping$factor)
+    stopifnot(length(factor_vector) == 1)
 
     input_list = list(date = all_dt, geo_unit = unique_areas)
 
@@ -116,7 +117,7 @@ make_xgrid <- function(data,
     # so what this means is that
     # not every _geo_unit_ exists in every fct
     # so you need to subset xgrid
-    if(collapse_is_spatial) {
+    if(factor_is_spatial) {
 
       xcols = c(geo_col, factor_vector)
       uq <- unique(data[, ..xcols])
@@ -133,7 +134,7 @@ make_xgrid <- function(data,
     # so what this means is that not every
     # not every _date_ exists in every fct
     # so you
-    if(collapse_is_temporal) {
+    if(factor_is_temporal) {
 
       xcols = c(date_col, factor_vector)
       uq <- unique(data[, ..xcols])

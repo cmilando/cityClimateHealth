@@ -209,8 +209,6 @@ exposure_columns <- list(
 boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
                                             time_subset = list(month = 5:9))
 #> -- NA values automatically removed
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 ```
 
@@ -234,16 +232,12 @@ head(boston_deaths)
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
 
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
-#> > No factors to collapse to, using all data
-#> > grp_level == FALSE, so using geo_unit as strata
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

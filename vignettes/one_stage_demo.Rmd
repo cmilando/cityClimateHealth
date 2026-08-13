@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 Let's use built-in functions to examine a single set of beta coefficients for heat-health relationships in a single or multiple geographic unit. We'll start with a review of DLNM, and then show how its implemented in `cityClimateHealth` for both the single and multi-zone cases.
-
+ 
 For testing purposes, start with your largest geographic unit! 
 
 ```{r setup}
@@ -100,8 +100,6 @@ Starts with defining the outcome columns:
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -246,8 +244,6 @@ boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -292,8 +288,6 @@ middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_colu
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
@@ -325,9 +319,15 @@ getRR(m2)
 you can also get it for factors
 
 ```{r ff2}
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "factor" = "age_grp",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
 middlesex_deaths_tbl <- make_outcome_table(
-  middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9),
-  collapse_to = 'age_grp')
+  middlesex_deaths,  outcome_columns, time_subset = list(month = 5:9))
 
 # run the model
 m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 

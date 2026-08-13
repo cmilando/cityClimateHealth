@@ -226,7 +226,6 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   ff_str = paste(outcome_col, "~ cb")
 
   # get attributes columns
-  exp_cols <- attributes(exposure_matrix)$column_mapping
   out_cols <- attributes(outcomes_tbl)$column_mapping
 
   # any outcomes covariates
@@ -235,36 +234,6 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
     check_covariate_names(out_cols[rr])
     rr_str <- paste(out_cols[rr], collapse = "+")
     ff_str <- paste(ff_str, "+", rr_str)
-  }
-
-  # any exposure covariates
-  if(any(names(exp_cols) == 'covariate')) {
-
-    rr <- which(names(exp_cols) == 'covariate')
-    check_covariate_names(exp_cols[rr])
-    rr_str <- paste(exp_cols[rr], collapse = "+")
-    ff_str <- paste(ff_str, "+", rr_str)
-
-    for(rr_i in 1:length(rr)) {
-      out_cols[length(out_cols) + 1] <- exp_cols[rr[rr_i]]
-      names(out_cols)[length(out_cols)] <- 'covariate'
-    }
-
-    # in addition, you need to join these to outcome data
-    covariate_cols <- c('match_strata', unlist(unname(exp_cols[rr])))
-    cov_dt = exposure_matrix[, ..covariate_cols]
-    outcomes_tbl <- outcomes_tbl[
-      cov_dt, on = 'match_strata'
-    ]
-
-    # and update column_mapping now
-    attributes(outcomes_tbl)$column_mapping = out_cols
-
-    # re-validate
-    validated <- input_validation(exposure_matrix, outcomes_tbl)
-    exposure_matrix <- validated$exposure_matrix
-    outcomes_tbl    <- validated$outcomes_tbl
-
   }
 
   # create formula
