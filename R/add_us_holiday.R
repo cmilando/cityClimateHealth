@@ -1,6 +1,6 @@
 #' Function to add US holidays
 #'
-#' @param outcome_table
+#' @param exposure_matrix
 #'
 #' @returns an outcome table object with an additional covariate
 #' @export
@@ -18,20 +18,22 @@
 #'
 #' exp_data = subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 #'
-#' outcome_table <- make_outcome_table(
+#' exposure_matrix <- make_exposure_matrix(
 #'   data = exp_data,
 #'   column_mapping = exposure_columns,
 #'   time_subset = list(year = 2012:2015)
 #' )
 #'
-#' outcome_table <- add_us_holiday(outcome_table)
-add_us_holiday <- function(outcome_table) {
+#' exposure_matrix <- add_us_holiday(exposure_matrix)
+add_US_holiday <- function(exposure_matrix) {
+
+  stopifnot("exposure" %in% class(exposure_matrix))
 
   # column mapping
-  column_mapping = attributes(outcome_table)$column_mapping
+  column_mapping = attributes(exposure_matrix)$column_mapping
 
   # convert all dates
-  dt_all <- as.Date(outcome_table[, get(column_mapping$date)])
+  dt_all <- as.Date(exposure_matrix[, get(column_mapping$date)])
   dt_range = range(dt_all)
 
   # get almanac object
@@ -39,7 +41,7 @@ add_us_holiday <- function(outcome_table) {
                           until = as.Date(dt_range[2]))
 
   # check if in
-  outcome_table$is_holiday <- almanac::alma_in(dt_all, xhol)
+  exposure_matrix$is_holiday <- almanac::alma_in(dt_all, xhol)
 
   # update column_mapping
   # well does the covariate exist yet or no
@@ -50,9 +52,9 @@ add_us_holiday <- function(outcome_table) {
   }else {
     column_mapping[["covariate"]] <- 'is_holiday'
   }
-  attributes(outcome_table)$column_mapping <- column_mapping
+  attributes(exposure_matrix)$column_mapping <- column_mapping
 
-  return(outcome_table)
+  return(exposure_matrix)
 }
 
 

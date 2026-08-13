@@ -140,6 +140,7 @@ outcomes_tbl <- make_outcome_table(
   outcome_columns,
   time_subset = list(month = 5:9)
 )
+#> > Combined factor is  age_grp|sex
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -173,6 +174,7 @@ outcomes_tbl <- make_outcome_table(
   grp_level = T,
   keep_unit_outcomes = F
 )
+#> > Combined factor is  age_grp|sex 
 #> > grp_level == TRUE and keep_unit == FALSE, so
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
@@ -208,6 +210,7 @@ outcomes_tbl <- make_outcome_table(
   grp_level = T,
   keep_unit_outcomes = T
 )
+#> > Combined factor is  age_grp|sex
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

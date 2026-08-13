@@ -5,9 +5,6 @@
 - [`add_factor_col()`](http://climatehealth.city/reference/add_factor_col.md)
   : make factor column
 
-- [`add_us_holiday()`](http://climatehealth.city/reference/add_us_holiday.md)
-  : Function to add US holidays
-
 - [`calc_AN()`](http://climatehealth.city/reference/calc_AN.md) :
   Calculate attributable number and attributable rates
 
@@ -103,6 +100,9 @@
 
 - [`input_validation()`](http://climatehealth.city/reference/input_validation.md)
   : Input validation
+
+- [`join_exposure_covariate()`](http://climatehealth.city/reference/join_exposure_covariate.md)
+  : join exposure covariate
 
 - [`ma_counties`](http://climatehealth.city/reference/ma_counties.md) :
   Massachusetts Towns and Cities (2020 Census)

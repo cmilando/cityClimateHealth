@@ -57,7 +57,6 @@ make_exposure_matrix <- function(data,
 
   ## Max Gap and Max Lag
   stopifnot(length(maxgap) == 1 & maxgap %in% 1:10)
-  stopifnot(length(maxlag) == 1 & maxlag %in% 1:10)
 
   ## grp_level
   stopifnot(length(grp_level) == 1 & grp_level %in% c(T, F))
@@ -66,6 +65,7 @@ make_exposure_matrix <- function(data,
   stopifnot(typeof(column_mapping) == 'list')
 
   # column types
+  # so i think for exposure we allow covariates and remove factors
   col_types <- c('date', "exposure", 'geo_unit', 'geo_unit_grp')
 
   # check that all the types are valid
@@ -73,6 +73,19 @@ make_exposure_matrix <- function(data,
     stop('Names of column mapping is not one of the valid types:
           date, exposure, geo_unit, geo_unit_grp')
 
+  if("factor" %in% names(column_mapping)) {
+    stop("`factor` variables not allowed in `exposure_matrix` objects.
+         put those in `outcome_table` and be sure to specify
+         `factor_is_spatial` or `factor_is_temporal` when appropriate.")
+  }
+
+  if("covariate" %in% names(column_mapping)) {
+    stop("`covariate` variables are added to `exposure_matrix` objects.
+         using `make_exposure_matrix` and then joining to together
+         using `join_covariate`")
+  }
+
+  # learned this the hard way
   if(any(column_mapping == 'x')) {
     stop("no columns can be called 'x', please rename")
   }
@@ -359,7 +372,8 @@ make_exposure_matrix <- function(data,
 
   # at the end there shouldn't be any NAs, so give a warning to investigate
   if(any(is.na(exposure_subset))) {
-    warning("some NAs persist, investigate (might be zoo::na_approx) and submit a Github issue :)")
+    warning("some NAs persist, investigate (might be zoo::na_approx), could
+            also be covariates not existing for previously missing data.")
   }
 
   return(exposure_subset)

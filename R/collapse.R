@@ -6,7 +6,7 @@
 #' @param data_type
 #' @param grp_level
 #' @param keep_unit
-#'
+
 #' @returns
 #' @export
 #'
@@ -24,6 +24,7 @@ collapse_data <- function(data,
   geo_unit_col     = column_mapping$geo_unit
   geo_unit_grp_col = column_mapping$geo_unit_grp
 
+  ##
   if(data_type == 'exposure') {
     x_col      = column_mapping$exposure
   } else {
@@ -37,12 +38,7 @@ collapse_data <- function(data,
     data = d2$data
     column_mapping <- d2$column_mapping
     factor_col <- unlist(column_mapping[["factor"]])
-  }
-
-  # check for covariates -- these are variables included in each model
-  covariate_cols <- NULL
-  if("covariate" %in% names(column_mapping)) {
-    covariate_cols <- unlist(column_mapping[['covariate']])
+    cat("> Combined factor is ", factor_col, "\n")
   }
 
   # *************
@@ -53,10 +49,10 @@ collapse_data <- function(data,
     cat("> grp_level == TRUE and keep_unit == FALSE, so
         aggregating to geo_unit_grp and using geo_unit_grp as strata\n")
 
-    by_cols <- c(date_col, geo_unit_grp_col,
-                 factor_col, covariate_cols)
+    by_cols <- c(date_col, geo_unit_grp_col, factor_col)
 
-    data <- data[,.(
+    # exposure  are aggregated
+    data <- data[, c(
       xcol_agg = fcn(get(x_col))
     ), by = by_cols]
 
@@ -76,17 +72,18 @@ collapse_data <- function(data,
     if(!is.null(factor_col)) {
       column_mapping[['factor']] = factor_col
     }
-    if(!is.null(covariate_cols)) {
-      column_mapping[['covariate']] = covariate_cols
-    }
+    # if(!is.null(covariate_cols)) {
+    #   column_mapping[['covariate']] = covariate_cols
+    # }
 
   } else {
 
     # all other circumstances follow this pattern
-    by_cols <- c(date_col, geo_unit_col, geo_unit_grp_col,
-                 factor_col, covariate_cols)
+    by_cols <- c(date_col, geo_unit_col, geo_unit_grp_col, factor_col)
 
-    data <- data[,.(
+    # exposure and covariates are aggregated
+
+    data <- data[, c(
       xcol_agg = fcn(get(x_col))
     ), by = by_cols]
 

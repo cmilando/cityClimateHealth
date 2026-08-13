@@ -443,6 +443,7 @@ ma_outcomes_tbl_fct <- make_outcome_table(
   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER')), 
   outcome_columns, 
   time_subset = list(month = 5:9, year = 2012:2015))
+#> > Combined factor is  age_grp
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow

@@ -81,14 +81,37 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
-<p>No covariates are added to the exposure matrix, this is just the
-exposures</p>
+<div class="section level2">
+<h2 id="types-of-covariates">Types of covariates<a class="anchor" aria-label="anchor" href="#types-of-covariates"></a>
+</h2>
+<p>covariates that occur at the <code>geo_unit</code> level</p>
+<p>covariates that are at the exposure level</p>
+<div class="section level3">
+<h3 id="ways-to-add-covariates-to-exposure">Ways to add covariates to exposure<a class="anchor" aria-label="anchor" href="#ways-to-add-covariates-to-exposure"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<p>you add them after either the <code>exposure_matrix</code> object
+is created as:</p>
+<ol style="list-style-type: lower-alpha">
+<li>the special case of <code>is_us_holiday</code> which has its own
+function</li>
+<li>a single variable</li>
+<li>as another crossbasis variable</li>
+</ol>
+</li>
+</ol>
+<div class="section level4">
+<h4 id="method-1a-included-in-exposure-matrix-creation">method 1a: included in exposure matrix creation<a class="anchor" aria-label="anchor" href="#method-1a-included-in-exposure-matrix-creation"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gasparrini/dlnm" class="external-link">dlnm</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; This is dlnm 2.4.10. For details: help(dlnm) and vignette('dlnmOverview').</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hturner/gnm" class="external-link">gnm</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BOSTON'</span>, <span class="st">'CHELSEA'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create exposure matrix</span></span>
 <span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -101,30 +124,182 @@ exposures</p>
 <span><span class="co">## basic</span></span>
 <span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BOSTON'</span>, <span class="st">'CHELSEA'</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="va">ex2</span>,</span>
 <span>    <span class="va">exposure_columns</span>, </span>
 <span>    time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
-<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
-<p>Ok now you can add covariates to the outcome This includes
-environmental covariates</p>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;         match_strata  explag1  explag2  explag3  explag4  explag5</span></span>
+<span><span class="co">#&gt;               &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090</span></span>
+<span><span class="co">#&gt; 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320</span></span>
+<span><span class="co">#&gt; 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230</span></span>
+<span><span class="co">#&gt; 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770</span></span>
+<span><span class="co">#&gt; 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815</span></span>
+<span><span class="co">#&gt; 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="method-1a">method 1a<a class="anchor" aria-label="anchor" href="#method-1a"></a>
+</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co">## *** (1) you could add it before in exposure columns ***</span></span>
-<span><span class="co">## add covariate for something else, like is 2010</span></span>
-<span><span class="co"># * assume the user </span></span>
-<span><span class="va">ma_deaths</span><span class="op">$</span><span class="va">is_2010</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">ma_deaths</span><span class="op">$</span><span class="va">date</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2010</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ex2</span><span class="op">)</span>, <span class="fl">0.01</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ex2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ex2</span><span class="op">$</span><span class="va">randCov</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">ex2</span><span class="op">$</span><span class="va">randCov</span><span class="op">[</span><span class="va">rr</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span></span>
-<span><span class="co">##</span></span>
-<span><span class="co"># create outcome table</span></span>
+<span><span class="va">covariate_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"randCov"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># for a single variable you can do just maxlag = 0</span></span>
+<span><span class="co"># and we are doing exposure is factor = T</span></span>
+<span><span class="va">covariate_mat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span></span>
+<span>    <span class="va">ex2</span>,</span>
+<span>    <span class="va">covariate_columns</span>, </span>
+<span>    maxlag <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    exposure_is_factor <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(ex2, covariate_columns, maxlag = 2, exposure_is_factor = T, : if exposure is a factor, the code expects it to be numeric and ordered,</span></span>
+<span><span class="co">#&gt;             e.g., 1, 2, 3, ...</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">covariate_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 randCov                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow01</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow02</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow03</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow04</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK       0 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;         match_strata explag1 explag2</span></span>
+<span><span class="co">#&gt;               &lt;char&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1: BOSTON:2010-05-01       0       0</span></span>
+<span><span class="co">#&gt; 2: BOSTON:2010-05-02       0       0</span></span>
+<span><span class="co">#&gt; 3: BOSTON:2010-05-03       0       0</span></span>
+<span><span class="co">#&gt; 4: BOSTON:2010-05-04       0       0</span></span>
+<span><span class="co">#&gt; 5: BOSTON:2010-05-05       0       0</span></span>
+<span><span class="co">#&gt; 6: BOSTON:2010-05-06       0       0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">covariate_mat</span><span class="op">$</span><span class="va">randCov</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    0    1 </span></span>
+<span><span class="co">#&gt; 3330   36</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">## ok now join</span></span>
+<span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join_exposure_covariate.html">join_exposure_covariate</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">covariate_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in join_exposure_covariate(exposure_mat, covariate_mat): This could use</span></span>
+<span><span class="co">#&gt; more error checking</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;         match_strata  explag1  explag2  explag3  explag4  explag5 randCov</span></span>
+<span><span class="co">#&gt;               &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090       0</span></span>
+<span><span class="co">#&gt; 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320       0</span></span>
+<span><span class="co">#&gt; 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230       0</span></span>
+<span><span class="co">#&gt; 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770       0</span></span>
+<span><span class="co">#&gt; 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815       0</span></span>
+<span><span class="co">#&gt; 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860       0</span></span>
+<span><span class="co">#&gt;    randCovlag1 randCovlag2</span></span>
+<span><span class="co">#&gt;          &lt;num&gt;       &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:           0           0</span></span>
+<span><span class="co">#&gt; 2:           0           0</span></span>
+<span><span class="co">#&gt; 3:           0           0</span></span>
+<span><span class="co">#&gt; 4:           0           0</span></span>
+<span><span class="co">#&gt; 5:           0           0</span></span>
+<span><span class="co">#&gt; 6:           0           0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span><span class="op">$</span><span class="va">column_mapping</span></span>
+<span><span class="co">#&gt; $date</span></span>
+<span><span class="co">#&gt; [1] "date"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $exposure</span></span>
+<span><span class="co">#&gt; [1] "tmax_C"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $geo_unit</span></span>
+<span><span class="co">#&gt; [1] "TOWN20"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $geo_unit_grp</span></span>
+<span><span class="co">#&gt; [1] "COUNTY20"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $covariate</span></span>
+<span><span class="co">#&gt; [1] "randCov"     "randCovlag1" "randCovlag2"</span></span></code></pre></div>
+<p>Special case of adding US holidays</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># and add holiday</span></span>
+<span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> <span class="fu">add_US_holiday</span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;         match_strata  explag1  explag2  explag3  explag4  explag5 randCov</span></span>
+<span><span class="co">#&gt;               &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090       0</span></span>
+<span><span class="co">#&gt; 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320       0</span></span>
+<span><span class="co">#&gt; 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230       0</span></span>
+<span><span class="co">#&gt; 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770       0</span></span>
+<span><span class="co">#&gt; 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815       0</span></span>
+<span><span class="co">#&gt; 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860       0</span></span>
+<span><span class="co">#&gt;    randCovlag1 randCovlag2 is_holiday</span></span>
+<span><span class="co">#&gt;          &lt;num&gt;       &lt;num&gt;     &lt;lgcl&gt;</span></span>
+<span><span class="co">#&gt; 1:           0           0      FALSE</span></span>
+<span><span class="co">#&gt; 2:           0           0      FALSE</span></span>
+<span><span class="co">#&gt; 3:           0           0      FALSE</span></span>
+<span><span class="co">#&gt; 4:           0           0      FALSE</span></span>
+<span><span class="co">#&gt; 5:           0           0      FALSE</span></span>
+<span><span class="co">#&gt; 6:           0           0      FALSE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">exposure_mat</span><span class="op">)</span><span class="op">$</span><span class="va">column_mapping</span></span>
+<span><span class="co">#&gt; $date</span></span>
+<span><span class="co">#&gt; [1] "date"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $exposure</span></span>
+<span><span class="co">#&gt; [1] "tmax_C"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $geo_unit</span></span>
+<span><span class="co">#&gt; [1] "TOWN20"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $geo_unit_grp</span></span>
+<span><span class="co">#&gt; [1] "COUNTY20"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $covariate</span></span>
+<span><span class="co">#&gt; [1] "randCov"     "randCovlag1" "randCovlag2" "is_holiday"</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">##</span></span>
 <span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
-<span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'age_grp'</span>, <span class="st">'sex'</span><span class="op">)</span>,</span>
 <span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span>
-<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span>,</span>
-<span>  <span class="st">"covariate"</span> <span class="op">=</span> <span class="st">"is_2010"</span></span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span>
+<span>  </span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">boston_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BOSTON'</span>, <span class="st">'CHELSEA'</span><span class="op">)</span><span class="op">)</span></span>
@@ -142,65 +317,80 @@ environmental covariates</p>
 <span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
 <span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20 age_grp|sex is_2010 daily_deaths</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;      &lt;char&gt;  &lt;lgcl&gt;        &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M    TRUE          385</span></span>
-<span><span class="co">#&gt; 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M    TRUE          363</span></span>
-<span><span class="co">#&gt; 3: 2010-05-01 BOSTON  SUFFOLK       65+|M    TRUE          374</span></span>
-<span><span class="co">#&gt; 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F    TRUE          378</span></span>
-<span><span class="co">#&gt; 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F    TRUE          365</span></span>
-<span><span class="co">#&gt; 6: 2010-05-01 BOSTON  SUFFOLK       65+|F    TRUE          373</span></span>
-<span><span class="co">#&gt;                      strata strata_total      match_strata</span></span>
-<span><span class="co">#&gt;                      &lt;char&gt;        &lt;int&gt;            &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: BOSTON:yr2010:mn05:dow07         2002 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 2: BOSTON:yr2010:mn05:dow07         1790 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 3: BOSTON:yr2010:mn05:dow07         1893 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 4: BOSTON:yr2010:mn05:dow07         1936 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 5: BOSTON:yr2010:mn05:dow07         1810 BOSTON:2010-05-01</span></span>
-<span><span class="co">#&gt; 6: BOSTON:yr2010:mn05:dow07         1881 BOSTON:2010-05-01</span></span></code></pre></div>
-<p>Special case of adding US holidays</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_us_holiday.html">add_us_holiday</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20 age_grp|sex is_2010 daily_deaths</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;      &lt;char&gt;  &lt;lgcl&gt;        &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK      0-17|M    TRUE          385</span></span>
-<span><span class="co">#&gt; 2: 2010-05-01 BOSTON  SUFFOLK     18-64|M    TRUE          363</span></span>
-<span><span class="co">#&gt; 3: 2010-05-01 BOSTON  SUFFOLK       65+|M    TRUE          374</span></span>
-<span><span class="co">#&gt; 4: 2010-05-01 BOSTON  SUFFOLK      0-17|F    TRUE          378</span></span>
-<span><span class="co">#&gt; 5: 2010-05-01 BOSTON  SUFFOLK     18-64|F    TRUE          365</span></span>
-<span><span class="co">#&gt; 6: 2010-05-01 BOSTON  SUFFOLK       65+|F    TRUE          373</span></span>
-<span><span class="co">#&gt;                      strata strata_total      match_strata is_holiday</span></span>
-<span><span class="co">#&gt;                      &lt;char&gt;        &lt;int&gt;            &lt;char&gt;     &lt;lgcl&gt;</span></span>
-<span><span class="co">#&gt; 1: BOSTON:yr2010:mn05:dow07         2002 BOSTON:2010-05-01      FALSE</span></span>
-<span><span class="co">#&gt; 2: BOSTON:yr2010:mn05:dow07         1790 BOSTON:2010-05-01      FALSE</span></span>
-<span><span class="co">#&gt; 3: BOSTON:yr2010:mn05:dow07         1893 BOSTON:2010-05-01      FALSE</span></span>
-<span><span class="co">#&gt; 4: BOSTON:yr2010:mn05:dow07         1936 BOSTON:2010-05-01      FALSE</span></span>
-<span><span class="co">#&gt; 5: BOSTON:yr2010:mn05:dow07         1810 BOSTON:2010-05-01      FALSE</span></span>
-<span><span class="co">#&gt; 6: BOSTON:yr2010:mn05:dow07         1881 BOSTON:2010-05-01      FALSE</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 daily_deaths                   strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05</span></span>
+<span><span class="co">#&gt;    strata_total      match_strata</span></span>
+<span><span class="co">#&gt;           &lt;int&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1:        11312 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 2:        10929 BOSTON:2010-05-02</span></span>
+<span><span class="co">#&gt; 3:        11435 BOSTON:2010-05-03</span></span>
+<span><span class="co">#&gt; 4:         9372 BOSTON:2010-05-04</span></span>
+<span><span class="co">#&gt; 5:         9193 BOSTON:2010-05-05</span></span>
+<span><span class="co">#&gt; 6:         8657 BOSTON:2010-05-06</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">exposure_mat</span>,</span>
+<span>                      <span class="va">outcomes_tbl</span>, </span>
+<span>                      multi_zone <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                      global_cen <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args for geo_unit  BOSTON,CHELSEA :</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 5 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 26.2 31.7</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
+<span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; min_n: 50 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; formula:</span></span>
+<span><span class="co">#&gt;    daily_deaths ~ cb + randCov + randCovlag1 + randCovlag2 + is_holiday</span></span>
+<span><span class="co">#&gt; family: quasipoisson</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">outcomes_tbl</span><span class="op">)</span><span class="op">$</span><span class="va">column_mapping</span></span>
-<span><span class="co">#&gt; $date</span></span>
-<span><span class="co">#&gt; [1] "date"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $outcome</span></span>
-<span><span class="co">#&gt; [1] "daily_deaths"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $factor</span></span>
-<span><span class="co">#&gt; [1] "age_grp|sex"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $geo_unit</span></span>
-<span><span class="co">#&gt; [1] "TOWN20"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $geo_unit_grp</span></span>
-<span><span class="co">#&gt; [1] "COUNTY20"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $covariate</span></span>
-<span><span class="co">#&gt; [1] "is_2010"    "is_holiday"</span></span></code></pre></div>
-<p>And then two other cases: * of adding a single variable after * and
-adding a crosbasis variable after</p>
-  </main>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="covariate_files/figure-html/run%20model2-1.png" class="r-plt" width="700"></p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="method-2b-included-as-a-single-variable">method 2b: included as a single variable<a class="anchor" aria-label="anchor" href="#method-2b-included-as-a-single-variable"></a>
+</h2>
+<p>to do this just change maxlag = 0 in the step above</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># for a single variable you can do just maxlag = 0</span></span>
+<span><span class="co"># and we are doing exposure is factor = T</span></span>
+<span><span class="va">covariate_mat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span></span>
+<span>    <span class="va">ex2</span>,</span>
+<span>    <span class="va">covariate_columns</span>, </span>
+<span>    maxlag <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    exposure_is_factor <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in make_exposure_matrix(ex2, covariate_columns, maxlag = 0, exposure_is_factor = T, : if exposure is a factor, the code expects it to be numeric and ordered,</span></span>
+<span><span class="co">#&gt;             e.g., 1, 2, 3, ...</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

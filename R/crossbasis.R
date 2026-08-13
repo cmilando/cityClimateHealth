@@ -34,7 +34,7 @@ make_crossbasis <- function(exposure_matrix, outcomes_tbl,
   if(is.null(maxlag)) {
     maxlag = 5
   } else {
-    stopifnot(maxlag %in% 1:50)
+    stopifnot(maxlag %in% 0:50)
   }
   if(verbose) {
     cat("maxlag:",maxlag,"\n")

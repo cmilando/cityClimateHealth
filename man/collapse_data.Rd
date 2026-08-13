@@ -6,9 +6,6 @@
 \usage{
 collapse_data(data, column_mapping, fcn, data_type, grp_level, keep_unit)
 }
-\arguments{
-\item{keep_unit}{}
-}
 \description{
 collapse the data based on factors and group level strata
 }

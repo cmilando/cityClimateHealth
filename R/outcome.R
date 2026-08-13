@@ -54,8 +54,9 @@ make_outcome_table <- function(data,
   stopifnot(typeof(column_mapping) == 'list')
 
   # column types
-  col_types <- c('date', 'factor', 'outcome', 'covariate',
-                 'geo_unit', 'geo_unit_grp')
+  # so opposite to the exposure, for outcomes
+  # remove `covariate` but keep `factor`
+  col_types <- c('date', 'factor', 'outcome', 'geo_unit', 'geo_unit_grp')
 
   # check that all the types are valid
   if(!all(names(column_mapping) %in% col_types))

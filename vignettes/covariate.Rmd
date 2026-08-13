@@ -18,14 +18,29 @@ knitr::opts_chunk$set(
 library(cityClimateHealth)
 ```
 
+# Types of covariates
 
-No covariates are added to the exposure matrix, this is just the exposures
+covariates that occur at the `geo_unit` level
+
+covariates that are at the exposure level
+
+## Ways to add covariates to exposure 
+
+(1) you add them after either the `exposure_matrix` object is created as:
+
+    a. the special case of `is_us_holiday` which has its own function
+    b. a single variable
+    c. as another crossbasis variable
+
+### method 1a: included in exposure matrix creation
 
 ```{r exposure}
 library(dlnm)
 library(gnm)
 library(ggplot2)
 library(data.table)
+
+ex2 <- subset(ma_exposure, TOWN20 %in% c('BOSTON', 'CHELSEA'))
 
 # create exposure matrix
 exposure_columns <- list(
@@ -38,32 +53,72 @@ exposure_columns <- list(
 ## basic
 exposure_mat <- 
   make_exposure_matrix(
-    subset(ma_exposure, TOWN20 %in% c('BOSTON', 'CHELSEA')),
+    ex2,
     exposure_columns, 
     time_subset = list(month = 5:9)
   )
 
+head(exposure_mat)
+
 ```
 
-Ok now you can add covariates to the outcome 
-This includes environmental covariates 
+### method 1a
 
-```{r outcome}
+```{r metho1a}
 
-## *** (1) you could add it before in exposure columns ***
-## add covariate for something else, like is 2010
-# * assume the user 
-ma_deaths$is_2010 <- data.table::year(ma_deaths$date) == 2010
+set.seed(123)
+rr <- sample(1:nrow(ex2), 0.01 * nrow(ex2))
+ex2$randCov <- 0
+ex2$randCov[rr] <- 1
 
+covariate_columns <- list(
+  "date" = "date",
+  "exposure" = "randCov",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+# for a single variable you can do just maxlag = 0
+# and we are doing exposure is factor = T
+covariate_mat <- 
+  make_exposure_matrix(
+    ex2,
+    covariate_columns, 
+    maxlag = 2,
+    exposure_is_factor = T,
+    time_subset = list(month = 5:9)
+  )
+
+head(covariate_mat)
+table(covariate_mat$randCov)
+```
+
+```{r join1}
+
+## ok now join
+exposure_mat <- join_exposure_covariate(exposure_mat, covariate_mat)
+head(exposure_mat)
+attributes(exposure_mat)$column_mapping
+```
+
+Special case of adding US holidays
+```{r holidays}
+
+# and add holiday
+exposure_mat <- add_US_holiday(exposure_mat)
+head(exposure_mat)
+attributes(exposure_mat)$column_mapping
+```
+
+
+```{r ityouce} 
 ##
-# create outcome table
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
-  "factor" = c('age_grp', 'sex'),
   "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20",
-  "covariate" = "is_2010"
+  "geo_unit_grp" = "COUNTY20"
+  
 )
 
 boston_deaths <- subset(ma_deaths, TOWN20 %in% c('BOSTON', 'CHELSEA'))
@@ -78,15 +133,35 @@ head(outcomes_tbl)
 
 ```
 
-Special case of adding US holidays
-```{r holidays}
 
-outcomes_tbl <- add_us_holiday(outcomes_tbl)
-head(outcomes_tbl)
 
-attributes(outcomes_tbl)$column_mapping
+```{r run model2}
+m1 <- condPois_1stage(exposure_mat,
+                      outcomes_tbl, 
+                      multi_zone = T,
+                      global_cen = 25)
+
+plot(m1)
+
+
 ```
 
-And then two other cases:
-* of adding a single variable after 
-* and adding a crosbasis variable after
+# method 2b: included as a single variable
+
+to do this just change maxlag = 0 in the step above
+
+```{r sodfj12}
+
+# for a single variable you can do just maxlag = 0
+# and we are doing exposure is factor = T
+covariate_mat <- 
+  make_exposure_matrix(
+    ex2,
+    covariate_columns, 
+    maxlag = 0,
+    exposure_is_factor = T,
+    time_subset = list(month = 5:9)
+  )
+
+
+```

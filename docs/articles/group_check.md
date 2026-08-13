@@ -71,6 +71,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  outcome_columns, 
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  age_grp
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -97,6 +98,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  factor_is_spatial = T,
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  isCHELSEA
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -122,6 +124,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  factor_is_temporal = T,
                                  grp_level = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  fctWeekend 
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 #> Warning in make_outcome_table(deaths, outcome_columns, factor_is_temporal = T, : 2020 in data years, Outcome counts likely impacted by the
 #>             COVID-19 Pandemic. Be sure to include a covariate adjustment
@@ -153,6 +156,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  fctWeekend
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -178,6 +182,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  age_grp
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -204,6 +209,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  isCHELSEA
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
@@ -230,6 +236,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = T,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  fctWeekend 
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 #> Warning in make_outcome_table(deaths, outcome_columns, factor_is_temporal = T, : 2020 in data years, Outcome counts likely impacted by the
 #>             COVID-19 Pandemic. Be sure to include a covariate adjustment
@@ -261,6 +268,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  fctWeekend 
 #> > grp_level == TRUE and keep_unit == FALSE, so
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
@@ -287,6 +295,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  age_grp 
 #> > grp_level == TRUE and keep_unit == FALSE, so
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
@@ -315,6 +324,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  isCHELSEA 
 #> > grp_level == TRUE and keep_unit == FALSE, so
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> Missing outcome values introduced by xgrid were set to 0;
@@ -343,6 +353,7 @@ deaths_tbl <- make_outcome_table(deaths,
                                  grp_level = T,
                                  keep_unit_outcomes = F,
                                  time_subset = list(month = 5:9))
+#> > Combined factor is  fctWeekend 
 #> > grp_level == TRUE and keep_unit == FALSE, so
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
