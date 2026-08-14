@@ -458,7 +458,7 @@ condPois_2stage <- function(exposure_matrix,
                   y = RR)) +
     facet_wrap(~geo_unit_grp, axes = 'all') +
     scale_y_continuous(transform = 'log') +
-    coord_cartesian(ylim = c(0.75, 1.5)) +
+    # coord_cartesian(ylim = c(0.75, 1.5)) +
     theme(strip.background = element_blank(),
           strip.text = element_text(face = 'bold'))  +
     ylab("Relative Risk") +
