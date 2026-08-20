@@ -38,7 +38,7 @@ time_subset_validate <- function(time_subset, data_years) {
     stop("`time_subset$month` must be values in 1:12")
 
   if ("year" %in% names(time_subset) && !all(time_subset$year %in% data_years))
-    stop(paste0("`time_subset$year` must be values in years of data", data_years))
+    stop(paste0("`time_subset$year` must be values in years of data ", data_years))
 
   ## add fcns so you can pass these on at the end of the exposure and outcome
   time_subset$time_fns <- time_fns

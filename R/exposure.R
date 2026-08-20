@@ -294,9 +294,19 @@ make_exposure_matrix <- function(data,
     # should i let this fail and then it gets caught later?
     x[, (exposure_col) := zoo::na.approx(get(exposure_col),
                                          maxgap = maxgap)]
-    if(any(is.na(x[, get(exposure_col)])))
+    if(any(is.na(x[, get(exposure_col)]))) {
+
+      print("HERE !!")
+      cat("i = ", i, "\n")
+      print(x)
+      rr <- which(is.na(x[, get(exposure_col)]))
+      if(length(rr) == 0) stop()
+
+      print(x[rr,])
+
       stop(paste0("zoo::na.approx() was not able to remove all NAs in ",
                   x[1, get(join_col)]))
+    }
 
     # if its a factor round
     if(exposure_is_factor) {
@@ -350,10 +360,22 @@ make_exposure_matrix <- function(data,
   # Get the subset expressed in time_subset
   time_fns <- time_subset$time_fns
   time_subset$time_fns <- NULL
-  rr <- rep(TRUE, nrow(exposure2))
+  rr <- NA
+  rr_init  = T
+  print("here")
+  print(time_subset)
   for (unit in names(time_subset)) {
     fn  <- time_fns[[unit]]
-    rr  <- rr & fn(exposure2[, get(column_mapping$date)]) %in% time_subset[[unit]]
+    ## this subset
+    local_rr <- fn(exposure2[, get(column_mapping$date)]) %in% time_subset[[unit]]
+    local_rr <- which(local_rr)
+    ## update this to be intersection
+    if(rr_init) {
+      rr <- local_rr
+      rr_init <- F
+    } else {
+      rr <- intersect(rr, local_rr)
+    }
   }
   exposure_subset <- exposure2[rr, ]
   stopifnot(length(rr) > 1)  # CHANGED: moved down, now checks after filtering

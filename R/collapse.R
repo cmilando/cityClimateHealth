@@ -96,7 +96,10 @@ collapse_data <- function(data,
 
   # NA check
   if(any(is.na(data))) {
-    stop("some NA in data, check why")
+    print("some NA in data, check why")
+    rr <- which(is.na(data$htimax_C))
+    print(head(data[rr, ]))
+    stop()
   }
 
   return(list(data = data,
