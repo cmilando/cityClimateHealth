@@ -11,6 +11,7 @@
 #' @param global_cen a global centering point, if it exists
 #' @param cen the local centering point
 #' @param exposure_is_factor logical, if exposure is a factor
+#' @param truncate
 #'
 #' @importFrom dlnm onebasis
 #' @importFrom dlnm crosspred
@@ -35,7 +36,8 @@
 get_centered_cp <- function(argvar, xcoef, xvcov,
                             this_exp, x_b,
                             global_cen, cen,
-                            exposure_is_factor) {
+                            exposure_is_factor,
+                            truncate) {
 
   # define grid
   grid <- seq(from =  x_b[1], to = x_b[2], by = 0.1)
@@ -116,6 +118,27 @@ get_centered_cp <- function(argvar, xcoef, xvcov,
                        vcov = xvcov,
                        model.link = "log",
                        at = grid)
+
+  # *********************
+  # TRUNCATE THE BASIS
+  if(truncate > 0) {
+    qX = quantile(this_exp, probs = 1 - truncate)
+    rr = which.min(abs(this_exp - qX))
+    br = basis_cen[rr, ]
+    tt = which(this_exp > qX)
+    for(i in 1:length(tt)) {
+      basis_cen[tt[i], ] = br
+    }
+
+    qX = quantile(this_exp, probs = 0 + truncate)
+    rr = which.min(abs(this_exp - qX))
+    br = basis_cen[rr, ]
+    tt = which(this_exp < qX)
+    for(i in 1:length(tt)) {
+      basis_cen[tt[i], ] = br
+    }
+  }
+  # *********************
 
   # return the centered cp and the basis_cen, which you need for AN
   return(list(cp = centered_cp, basis_cen = basis_cen))

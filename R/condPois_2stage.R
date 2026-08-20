@@ -25,6 +25,7 @@
 #' @param min_n an integer describing the minimum number of cases for a single region
 #' @param strata_min minimum number of cases per strata
 #' @param rf optional character string to use as the random formula in mixmeta
+#' @param truncate
 #'
 #' @importFrom mixmeta mixmeta
 #' @importFrom mixmeta blup
@@ -71,7 +72,8 @@ condPois_2stage <- function(exposure_matrix,
                             min_n = NULL,
                             rf = NULL,
                             strata_min = 0,
-                            verbose = 0) {
+                            verbose = 0,
+                            truncate = 0.01) {
 
 
   ## Check 1 -- that both inputs are the right class of variables
@@ -197,6 +199,10 @@ condPois_2stage <- function(exposure_matrix,
   stopifnot(strata_min >= 0)
   stopifnot(strata_min < min_n)
 
+  #
+  stopifnot(length(truncate) == 1)
+  stopifnot(truncate >= 0 & truncate <= 0.05)
+
   # CHECK5
   if(!is.null(global_cen)) {
     stopifnot(is.numeric(global_cen))
@@ -218,6 +224,10 @@ condPois_2stage <- function(exposure_matrix,
       stop("global_cen is outside the exposure matrix range!")
     }
 
+  }
+
+  if(verbose > 0) {
+    cat("truncate final RR and basis cen: ", truncate, "\n")
   }
 
   #' //////////////////////////////////////////////////////////////////////////
@@ -280,7 +290,8 @@ condPois_2stage <- function(exposure_matrix,
                           global_cen = global_cen,
                           min_n = min_n,
                           strata_min = strata_min,
-                          verbose = i == 1)
+                          verbose = i == 1,
+                          truncate = 0) # in 2stage or SB, truncate only at the end
 
     # get the named list object
     cp_list[[i]] <- d1$`_`$out[[this_geo]]
@@ -422,7 +433,8 @@ condPois_2stage <- function(exposure_matrix,
                               xvcov = pred$vcov,
                               global_cen = global_cen,
                               cen = datapred[grp_i, cen],
-                              exposure_is_factor = exposure_is_factor)
+                              exposure_is_factor = exposure_is_factor,
+                              truncate = 0) # in 2stage or SB, truncate only at the end
 
     grp_l[[grp_i]] <- list(
       cp = grp_cp$cp,
@@ -502,7 +514,40 @@ condPois_2stage <- function(exposure_matrix,
                                cen = cp_list[[i]]$cen,
                                this_exp = this_exp,
                                x_b = x_b,
-                               exposure_is_factor = exposure_is_factor)
+                               exposure_is_factor = exposure_is_factor,
+                               truncate = truncate)
+
+    # ***********
+    # TRUNCATE THE BLUP CR
+    if(truncate > 0) {
+      this_exp_local <- as.vector(exposure_matrix[, get(exposure_col)])
+
+      # truncate CR
+      qX = quantile(this_exp_local, probs = 1 - truncate)
+      rr = which.min(abs(blup_cp$cp$predvar - qX))
+      br1 = blup_cp$cp$allRRfit[rr]
+      br2 = blup_cp$cp$allRRlow[rr]
+      br3 = blup_cp$cp$allRRhigh[rr]
+      tt = which(blup_cp$cp$predvar > qX)
+      for(jj in 1:length(tt)) {
+        blup_cp$cp$allRRfit[tt[jj]] = br1
+        blup_cp$cp$allRRlow[tt[jj]] = br2
+        blup_cp$cp$allRRhigh[tt[jj]] = br3
+      }
+
+      qX = quantile(this_exp_local, probs = 0 + truncate)
+      rr = which.min(abs(blup_cp$cp$predvar - qX))
+      br1 = blup_cp$cp$allRRfit[rr]
+      br2 = blup_cp$cp$allRRlow[rr]
+      br3 = blup_cp$cp$allRRhigh[rr]
+      tt = which(blup_cp$cp$predvar < qX)
+      for(jj in 1:length(tt)) {
+        blup_cp$cp$allRRfit[tt[jj]] = br1
+        blup_cp$cp$allRRlow[tt[jj]] = br2
+        blup_cp$cp$allRRhigh[tt[jj]] = br3
+      }
+    }
+    # ***********
 
     ## make the out
     RRdf <- data.frame(

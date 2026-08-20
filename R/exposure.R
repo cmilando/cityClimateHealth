@@ -362,8 +362,7 @@ make_exposure_matrix <- function(data,
   time_subset$time_fns <- NULL
   rr <- NA
   rr_init  = T
-  print("here")
-  print(time_subset)
+
   for (unit in names(time_subset)) {
     fn  <- time_fns[[unit]]
     ## this subset

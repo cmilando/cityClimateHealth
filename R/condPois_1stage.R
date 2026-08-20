@@ -60,7 +60,8 @@
 condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                         argvar = NULL, arglag = NULL, maxlag = NULL,
                        min_n = 50, strata_min = 0, global_cen = NULL,
-                       multi_zone = FALSE, verbose = TRUE) {
+                       multi_zone = FALSE, verbose = TRUE,
+                       truncate = 0.025) {
 
   ## Check 1 -- that both inputs are the right class of variables
   stopifnot("exposure" %in% class(exposure_matrix))
@@ -100,7 +101,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                                               min_n = min_n,
                                               strata_min = strata_min,
                                               multi_zone = multi_zone,
-                                              verbose = verbose)
+                                              verbose = verbose,
+                                              truncate = truncate)
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]
@@ -181,6 +183,10 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   }
 
+  #
+  stopifnot(length(truncate) == 1)
+  stopifnot(truncate >= 0 & truncate <= 0.05)
+
   # Check for global_cen being in range of exposures!
   exp_range <- range(exposure_matrix[,get(exposure_col)], na.rm = TRUE)
 
@@ -193,6 +199,10 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
       stop("global_cen is outside the exposure matrix range!")
     }
 
+  }
+
+  if(verbose > 0) {
+    cat("truncate final RR and basis cen: ", truncate, "\n")
   }
 
   #' //////////////////////////////////////////////////////////////////////////
@@ -376,6 +386,42 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
+  # TRUNCATE THE CR
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  #
+  if(truncate > 0) {
+    this_exp <- as.vector(exposure_matrix[, get(exposure_col)])
+
+    # truncate CR
+    qX = quantile(this_exp, probs = 1 - truncate)
+    rr = which.min(abs(cr$predvar - qX))
+    br1 = cr$RRfit[rr]
+    br2 = cr$RRlow[rr]
+    br3 = cr$RRhigh[rr]
+    tt = which(cr$predvar > qX)
+    for(i in 1:length(tt)) {
+      cr$RRfit[tt[i]] = br1
+      cr$RRlow[tt[i]] = br2
+      cr$RRhigh[tt[i]] = br3
+    }
+
+    qX = quantile(this_exp, probs = 0 + truncate)
+    rr = which.min(abs(cr$predvar - qX))
+    br1 = cr$RRfit[rr]
+    br2 = cr$RRlow[rr]
+    br3 = cr$RRhigh[rr]
+    tt = which(cr$predvar < qX)
+    for(i in 1:length(tt)) {
+      cr$RRfit[tt[i]] = br1
+      cr$RRlow[tt[i]] = br2
+      cr$RRhigh[tt[i]] = br3
+    }
+  }
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
   # Make a single centered basis
   # ==========================================================================
   # //////////////////////////////////////////////////////////////////////////
@@ -390,7 +436,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                                     cen = cen,
                                     this_exp = this_exp,
                                     x_b = x_b,
-                                    exposure_is_factor = exposure_is_factor)
+                                    exposure_is_factor = exposure_is_factor,
+                                    truncate = truncate)
 
   overall_centered_basis <- centered_basis$basis_cen
 
@@ -446,7 +493,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                                  cen = cen,
                                  this_exp = this_exp,
                                  x_b = x_b,
-                      exposure_is_factor = exposure_is_factor
+                      exposure_is_factor = exposure_is_factor,
+                      truncate = truncate
                         )
     }, error = function(e) {
       warning(sprintf('a check of making the centered basis for a geo-unit %s did not pass. this likely means that the knots for the overall basis are outside the range of exposures in this geographic unit. Consider adjusting either the geo-units you are passing in, or the exposure variable (e.g., switching from absolute to relative measures)', this_geo))
