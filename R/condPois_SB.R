@@ -737,6 +737,7 @@ condPois_sb <- function(exposure_matrix,
 
   if(verbose > 0) {
     cat("-- apply estimates\n")
+    cat("truncate final RR and basis cen: ", truncate, "\n")
   }
 
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure

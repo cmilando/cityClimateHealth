@@ -226,10 +226,6 @@ condPois_2stage <- function(exposure_matrix,
 
   }
 
-  if(verbose > 0) {
-    cat("truncate final RR and basis cen: ", truncate, "\n")
-  }
-
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
   #' STAGE 1
@@ -485,7 +481,9 @@ condPois_2stage <- function(exposure_matrix,
 
   if(verbose > 0) {
     cat("-- stage 2\n")
+    cat("truncate final RR and basis cen: ", truncate, "\n")
   }
+
 
   out   <- vector("list", n_geos);
 
