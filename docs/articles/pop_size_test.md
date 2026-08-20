@@ -207,6 +207,7 @@ m1 <- condPois_1stage(exposure_matrix = exp_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    deaths ~ cb
 #> family: quasipoisson

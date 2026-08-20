@@ -293,6 +293,7 @@ m1 <- condPois_1stage(exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb + randCov + randCovlag1 + randCovlag2 + is_holiday
 #> family: quasipoisson

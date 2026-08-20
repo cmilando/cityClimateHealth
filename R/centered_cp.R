@@ -121,7 +121,7 @@ get_centered_cp <- function(argvar, xcoef, xvcov,
 
   # *********************
   # TRUNCATE THE BASIS
-  if(truncate > 0) {
+  if(truncate > 0 & !exposure_is_factor) {
     qX = quantile(this_exp, probs = 1 - truncate)
     rr = which.min(abs(this_exp - qX))
     br = basis_cen[rr, ]

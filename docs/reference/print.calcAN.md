@@ -397,6 +397,6 @@ calc_AN
 #>     class(outlist) <- "calcAN"
 #>     return(outlist)
 #> }
-#> <bytecode: 0x1330100a8>
+#> <bytecode: 0x137333d88>
 #> <environment: namespace:cityClimateHealth>
 ```

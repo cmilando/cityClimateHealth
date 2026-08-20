@@ -737,7 +737,9 @@ condPois_sb <- function(exposure_matrix,
 
   if(verbose > 0) {
     cat("-- apply estimates\n")
-    cat("truncate final RR and basis cen: ", truncate, "\n")
+    if(!expisfct_list[[1]]) {
+      cat("truncate final RR and basis cen: ", truncate, "\n")
+    }
   }
 
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
@@ -771,7 +773,7 @@ condPois_sb <- function(exposure_matrix,
 
     # ***********
     # TRUNCATE THE BLUP CR
-    if(truncate > 0) {
+    if(truncate > 0 & !expisfct_list[[i]]) {
       this_exp_local <- this_exp
 
       # truncate CR

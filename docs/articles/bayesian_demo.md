@@ -139,6 +139,7 @@ for(bb in 1:4) {
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -164,6 +165,7 @@ for(bb in 1:4) {
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -189,6 +191,7 @@ for(bb in 1:4) {
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -214,6 +217,7 @@ for(bb in 1:4) {
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -281,6 +285,7 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  STAN TYPE = mcmc 
 #>  SPATIAL MODEL = none 
 #> -- validation passed
+#> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
 #> CHELSEA  
 #> crossbasis args for geo_unit  CHELSEA :
@@ -304,6 +309,7 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -339,17 +345,18 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 28.3 seconds.
+#> Chain 1 finished in 27.9 seconds.
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 29.3 seconds.
+#> Chain 2 finished in 28.6 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 28.8 seconds.
-#> Total execution time: 29.5 seconds.
+#> Mean chain execution time: 28.3 seconds.
+#> Total execution time: 28.7 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
+#> truncate final RR and basis cen:  0.01
 ```
 
 Compare, first you can see that with spatial_model = F, there is
@@ -403,6 +410,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = bym2 
 #> -- validation passed
+#> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
 #> CHELSEA  
 #> crossbasis args for geo_unit  CHELSEA :
@@ -426,6 +434,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -460,6 +469,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
+#> truncate final RR and basis cen:  0.01
 ```
 
 Compare, now you can see these are different
@@ -512,6 +522,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = leroux 
 #> -- validation passed
+#> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
 #> CHELSEA  
 #> crossbasis args for geo_unit  CHELSEA :
@@ -535,6 +546,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -605,10 +617,11 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.6 seconds.
+#> Finished in  0.5 seconds.
 #>  ...laplace draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
 #> -- apply estimates
+#> truncate final RR and basis cen:  0.01
 ```
 
 As you can see, lots of smoothing to a central estimate !

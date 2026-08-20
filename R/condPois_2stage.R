@@ -481,7 +481,9 @@ condPois_2stage <- function(exposure_matrix,
 
   if(verbose > 0) {
     cat("-- stage 2\n")
-    cat("truncate final RR and basis cen: ", truncate, "\n")
+    if(!exposure_is_factor) {
+      cat("truncate final RR and basis cen: ", truncate, "\n")
+    }
   }
 
 
@@ -517,7 +519,7 @@ condPois_2stage <- function(exposure_matrix,
 
     # ***********
     # TRUNCATE THE BLUP CR
-    if(truncate > 0) {
+    if(truncate > 0 & !exposure_is_factor) {
       this_exp_local <- as.vector(exposure_matrix[, get(exposure_col)])
 
       # truncate CR

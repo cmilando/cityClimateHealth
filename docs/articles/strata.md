@@ -298,6 +298,7 @@ m1 <- condPois_1stage(
 #> 
 #> min_n: 50 
 #> 
+#> exposure_is_factor means truncate is not applied 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson

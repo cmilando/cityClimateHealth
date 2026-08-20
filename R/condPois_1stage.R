@@ -201,9 +201,6 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   }
 
-  if(verbose > 0) {
-    cat("truncate final RR and basis cen: ", truncate, "\n")
-  }
 
   #' //////////////////////////////////////////////////////////////////////////
   #' ==========================================================================
@@ -225,6 +222,13 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   exposure_is_factor <- cb_out$exposure_is_factor
   argvar <- cb_out$argvar
 
+  if(verbose > 0) {
+    if(!exposure_is_factor) {
+      cat("truncate final RR and basis cen: ", truncate, "\n")
+    } else {
+      cat("exposure_is_factor means truncate is not applied \n")
+    }
+  }
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -391,7 +395,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   # //////////////////////////////////////////////////////////////////////////
 
   #
-  if(truncate > 0) {
+  if(truncate > 0 & !exposure_is_factor) {
     this_exp <- as.vector(exposure_matrix[, get(exposure_col)])
 
     # truncate CR

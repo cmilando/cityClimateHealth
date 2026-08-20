@@ -492,6 +492,7 @@ m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -517,17 +518,17 @@ You can also get the RR table for your own usage
 getRR(m1)
 #>      tmax_C       RR     RRlb     RRub n_geo_names     model_class
 #>       <num>    <num>    <num>    <num>      <char>          <char>
-#>   1:    5.4 1.000000 1.000000 1.000000      BOSTON condPois_1stage
-#>   2:    5.5 1.000395 1.000155 1.000636      BOSTON condPois_1stage
-#>   3:    5.6 1.000791 1.000309 1.001272      BOSTON condPois_1stage
-#>   4:    5.7 1.001186 1.000464 1.001909      BOSTON condPois_1stage
-#>   5:    5.8 1.001582 1.000619 1.002546      BOSTON condPois_1stage
+#>   1:    5.4 1.033913 1.016336 1.051793      BOSTON condPois_1stage
+#>   2:    5.5 1.033913 1.016336 1.051793      BOSTON condPois_1stage
+#>   3:    5.6 1.033913 1.016336 1.051793      BOSTON condPois_1stage
+#>   4:    5.7 1.033913 1.016336 1.051793      BOSTON condPois_1stage
+#>   5:    5.8 1.033913 1.016336 1.051793      BOSTON condPois_1stage
 #>  ---                                                              
-#> 329:   38.2 1.440253 1.367101 1.517320      BOSTON condPois_1stage
-#> 330:   38.3 1.443200 1.368934 1.521494      BOSTON condPois_1stage
-#> 331:   38.4 1.446152 1.370766 1.525684      BOSTON condPois_1stage
-#> 332:   38.5 1.449111 1.372597 1.529891      BOSTON condPois_1stage
-#> 333:   38.6 1.452077 1.374427 1.534113      BOSTON condPois_1stage
+#> 329:   38.2 1.316280 1.279493 1.354125      BOSTON condPois_1stage
+#> 330:   38.3 1.316280 1.279493 1.354125      BOSTON condPois_1stage
+#> 331:   38.4 1.316280 1.279493 1.354125      BOSTON condPois_1stage
+#> 332:   38.5 1.316280 1.279493 1.354125      BOSTON condPois_1stage
+#> 333:   38.6 1.316280 1.279493 1.354125      BOSTON condPois_1stage
 ```
 
 ### Multi-zone DLNM
@@ -596,6 +597,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -617,17 +619,17 @@ And get RR
 getRR(m2)
 #>      tmax_C        RR      RRlb      RRub                   n_geo_names
 #>       <num>     <num>     <num>     <num>                        <char>
-#>   1:    3.4 0.9301212 0.9231059 0.9371897 ACTON:ARLINGTON...(truncated)
-#>   2:    3.5 0.9306360 0.9236853 0.9376389 ACTON:ARLINGTON...(truncated)
-#>   3:    3.6 0.9311511 0.9242651 0.9380884 ACTON:ARLINGTON...(truncated)
-#>   4:    3.7 0.9316666 0.9248454 0.9385382 ACTON:ARLINGTON...(truncated)
-#>   5:    3.8 0.9321825 0.9254260 0.9389884 ACTON:ARLINGTON...(truncated)
+#>   1:    3.4 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
+#>   2:    3.5 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
+#>   3:    3.6 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
+#>   4:    3.7 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
+#>   5:    3.8 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
 #>  ---                                                                   
-#> 350:   38.3 1.3907853 1.3754494 1.4062922 ACTON:ARLINGTON...(truncated)
-#> 351:   38.4 1.3936034 1.3779618 1.4094226 ACTON:ARLINGTON...(truncated)
-#> 352:   38.5 1.3964278 1.3804785 1.4125612 ACTON:ARLINGTON...(truncated)
-#> 353:   38.6 1.3992582 1.3829997 1.4157079 ACTON:ARLINGTON...(truncated)
-#> 354:   38.7 1.4020947 1.3855253 1.4188624 ACTON:ARLINGTON...(truncated)
+#> 350:   38.3 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
+#> 351:   38.4 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
+#> 352:   38.5 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
+#> 353:   38.6 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
+#> 354:   38.7 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
 #>          model_class
 #>               <char>
 #>   1: condPois_1stage
@@ -695,6 +697,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -721,6 +724,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -747,6 +751,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -764,17 +769,17 @@ And get RR
 getRR(m3)
 #>       tmax_C age_grp        RR      RRlb      RRub          model_class
 #>        <num>  <char>     <num>     <num>     <num>               <char>
-#>    1:    3.4    0-17 0.9003521 0.8929348 0.9078311 condPois_1stage_list
-#>    2:    3.5    0-17 0.9010769 0.8937259 0.9084883 condPois_1stage_list
-#>    3:    3.6    0-17 0.9018023 0.8945178 0.9091461 condPois_1stage_list
-#>    4:    3.7    0-17 0.9025284 0.8953105 0.9098045 condPois_1stage_list
-#>    5:    3.8    0-17 0.9032552 0.8961040 0.9104636 condPois_1stage_list
+#>    1:    3.4    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
+#>    2:    3.5    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
+#>    3:    3.6    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
+#>    4:    3.7    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
+#>    5:    3.8    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
 #>   ---                                                                  
-#> 1058:   38.3     65+ 1.3780432 1.3611392 1.3951572 condPois_1stage_list
-#> 1059:   38.4     65+ 1.3805675 1.3633300 1.3980230 condPois_1stage_list
-#> 1060:   38.5     65+ 1.3830968 1.3655239 1.4008958 condPois_1stage_list
-#> 1061:   38.6     65+ 1.3856309 1.3677209 1.4037754 condPois_1stage_list
-#> 1062:   38.7     65+ 1.3881698 1.3699211 1.4066616 condPois_1stage_list
+#> 1058:   38.3     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
+#> 1059:   38.4     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
+#> 1060:   38.5     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
+#> 1061:   38.6     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
+#> 1062:   38.7     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
 ```
 
 ### Changing the global_cen
@@ -808,6 +813,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -834,6 +840,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
@@ -860,6 +867,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson

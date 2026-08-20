@@ -89,13 +89,16 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
 #> 
 #> -- mixmeta
-#> formula: ~ 1 | COUNTY20/TOWN20 
+#> formula: coef_matrix ~ exp_mean + exp_IQR
+#> random: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
+#> truncate final RR and basis cen:  0.01
 ```
 
 You can still view the RR output from a single zone:
@@ -196,19 +199,19 @@ and You can get an RR table
 ``` r
 
 getRR(ma_model)
-#>           TOWN20  COUNTY20 tmax_C        RR      RRlb     RRub     model_class
-#>           <char>    <char>  <num>     <num>     <num>    <num>          <char>
-#>     1:     ACTON MIDDLESEX    7.0 0.9844671 0.9679222 1.001295 condPois_2stage
-#>     2:     ACTON MIDDLESEX    7.1 0.9849752 0.9689752 1.001239 condPois_2stage
-#>     3:     ACTON MIDDLESEX    7.2 0.9854837 0.9700294 1.001184 condPois_2stage
-#>     4:     ACTON MIDDLESEX    7.3 0.9859924 0.9710848 1.001129 condPois_2stage
-#>     5:     ACTON MIDDLESEX    7.4 0.9865016 0.9721413 1.001074 condPois_2stage
-#>    ---                                                                        
-#> 32510: WORCESTER WORCESTER   33.6 1.2626515 1.1955548 1.333514 condPois_2stage
-#> 32511: WORCESTER WORCESTER   33.7 1.2644009 1.1966017 1.336042 condPois_2stage
-#> 32512: WORCESTER WORCESTER   33.8 1.2661529 1.1976434 1.338581 condPois_2stage
-#> 32513: WORCESTER WORCESTER   33.9 1.2679074 1.1986804 1.341132 condPois_2stage
-#> 32514: WORCESTER WORCESTER   34.0 1.2696643 1.1997131 1.343694 condPois_2stage
+#>           TOWN20  COUNTY20 tmax_C       RR      RRlb     RRub     model_class
+#>           <char>    <char>  <num>    <num>     <num>    <num>          <char>
+#>     1:     ACTON MIDDLESEX    7.0 1.005964 0.9999591 1.012006 condPois_2stage
+#>     2:     ACTON MIDDLESEX    7.1 1.005964 0.9999591 1.012006 condPois_2stage
+#>     3:     ACTON MIDDLESEX    7.2 1.005964 0.9999591 1.012006 condPois_2stage
+#>     4:     ACTON MIDDLESEX    7.3 1.005964 0.9999591 1.012006 condPois_2stage
+#>     5:     ACTON MIDDLESEX    7.4 1.005964 0.9999591 1.012006 condPois_2stage
+#>    ---                                                                       
+#> 32510: WORCESTER WORCESTER   33.6 1.262651 1.1955548 1.333514 condPois_2stage
+#> 32511: WORCESTER WORCESTER   33.7 1.264401 1.1966017 1.336042 condPois_2stage
+#> 32512: WORCESTER WORCESTER   33.8 1.266153 1.1976434 1.338581 condPois_2stage
+#> 32513: WORCESTER WORCESTER   33.9 1.267907 1.1986804 1.341132 condPois_2stage
+#> 32514: WORCESTER WORCESTER   34.0 1.267907 1.1986804 1.341132 condPois_2stage
 ```
 
 ### Model by factor
@@ -287,13 +290,16 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
 #> 
 #> -- mixmeta
-#> formula: ~ 1 | COUNTY20/TOWN20 
+#> formula: coef_matrix ~ exp_mean + exp_IQR
+#> random: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
+#> truncate final RR and basis cen:  0.01 
 #> 
 #> < age_grp : 18-64 >
 #> -- validation passed
@@ -320,13 +326,16 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
 #> 
 #> -- mixmeta
-#> formula: ~ 1 | COUNTY20/TOWN20 
+#> formula: coef_matrix ~ exp_mean + exp_IQR
+#> random: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
+#> truncate final RR and basis cen:  0.01 
 #> 
 #> < age_grp : 65+ >
 #> -- validation passed
@@ -353,13 +362,16 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
 #> 
 #> -- mixmeta
-#> formula: ~ 1 | COUNTY20/TOWN20 
+#> formula: coef_matrix ~ exp_mean + exp_IQR
+#> random: ~ 1 | COUNTY20/TOWN20 
 #> -- stage 2
+#> truncate final RR and basis cen:  0.01
 ```
 
 And plot
@@ -398,19 +410,19 @@ an RR table
 ``` r
 
 getRR(ma_model_fct)
-#>           TOWN20  COUNTY20 tmax_C        RR      RRlb     RRub age_grp
-#>           <char>    <char>  <num>     <num>     <num>    <num>  <char>
-#>     1:     ACTON MIDDLESEX    7.0 0.9791444 0.9572711 1.001518    0-17
-#>     2:     ACTON MIDDLESEX    7.1 0.9798242 0.9586651 1.001450    0-17
-#>     3:     ACTON MIDDLESEX    7.2 0.9805045 0.9600612 1.001383    0-17
-#>     4:     ACTON MIDDLESEX    7.3 0.9811855 0.9614593 1.001316    0-17
-#>     5:     ACTON MIDDLESEX    7.4 0.9818670 0.9628594 1.001250    0-17
-#>    ---                                                                
-#> 97538: WORCESTER WORCESTER   33.6 1.2671613 1.2062789 1.331117     65+
-#> 97539: WORCESTER WORCESTER   33.7 1.2686961 1.2070137 1.333531     65+
-#> 97540: WORCESTER WORCESTER   33.8 1.2702324 1.2077292 1.335970     65+
-#> 97541: WORCESTER WORCESTER   33.9 1.2717706 1.2084263 1.338435     65+
-#> 97542: WORCESTER WORCESTER   34.0 1.2733105 1.2091064 1.340924     65+
+#>           TOWN20  COUNTY20 tmax_C       RR     RRlb     RRub age_grp
+#>           <char>    <char>  <num>    <num>    <num>    <num>  <char>
+#>     1:     ACTON MIDDLESEX    7.0 1.008063 1.000032 1.016157    0-17
+#>     2:     ACTON MIDDLESEX    7.1 1.008063 1.000032 1.016157    0-17
+#>     3:     ACTON MIDDLESEX    7.2 1.008063 1.000032 1.016157    0-17
+#>     4:     ACTON MIDDLESEX    7.3 1.008063 1.000032 1.016157    0-17
+#>     5:     ACTON MIDDLESEX    7.4 1.008063 1.000032 1.016157    0-17
+#>    ---                                                              
+#> 97538: WORCESTER WORCESTER   33.6 1.267161 1.206279 1.331117     65+
+#> 97539: WORCESTER WORCESTER   33.7 1.268696 1.207014 1.333531     65+
+#> 97540: WORCESTER WORCESTER   33.8 1.270232 1.207729 1.335970     65+
+#> 97541: WORCESTER WORCESTER   33.9 1.271771 1.208426 1.338435     65+
+#> 97542: WORCESTER WORCESTER   34.0 1.271771 1.208426 1.338435     65+
 #>                 model_class
 #>                      <char>
 #>     1: condPois_2stage_list
@@ -6478,7 +6490,7 @@ attributes(ma_exposure_matrix)
 #> [1] "data.table" "data.frame" "exposure"  
 #> 
 #> $.internal.selfref
-#> <pointer: 0x14280a0e0>
+#> <pointer: 0x1408118e0>
 #> 
 #> $names
 #>  [1] "date"         "TOWN20"       "COUNTY20"     "tmax_C"       "strata"      
@@ -6544,12 +6556,14 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
 #> WORCESTER    SUFFOLK     
 #> -- mixmeta
-#> formula: ~ 1 | COUNTY20 
+#> formula: coef_matrix ~ exp_mean + exp_IQR
+#> random: ~ 1 | COUNTY20 
 #> IGLS iterations:
 #> iter 0: value 7.865708e-12
 #> converged
@@ -6563,6 +6577,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> final  value 0.000000 
 #> converged
 #> -- stage 2
+#> truncate final RR and basis cen:  0.01 
 #> MIDDLESEX    WORCESTER   SUFFOLK     
 
 plot(ma_model, geo_unit = "SUFFOLK")
