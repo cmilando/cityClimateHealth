@@ -260,6 +260,13 @@ And plot the relative risk
 ```{r single_plot, fig.height=3, fig.width=5}
 plot(m1)
 ```
+The truncation is controlled by the `truncate` argument in model calls, which can range from 0 to 0.05, which indicates the percentile cutoffs.
+
+You can also plots the lags:
+
+```{r getRR1lags}
+plot_lag(m1, exposure_val = 33)
+```
 
 You can also get the RR table for your own usage
 

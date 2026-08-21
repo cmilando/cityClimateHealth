@@ -17,7 +17,8 @@ condPois_sb(
   maxlag = NULL,
   min_n = NULL,
   strata_min = 0,
-  verbose = 0
+  verbose = 0,
+  truncate = 0.01
 )
 }
 \arguments{
@@ -44,6 +45,8 @@ condPois_sb(
 \item{strata_min}{minimum number of cases per strata}
 
 \item{verbose}{whether to print geo_units as they are run}
+
+\item{truncate}{}
 }
 \value{
 an object of class condPois_sb

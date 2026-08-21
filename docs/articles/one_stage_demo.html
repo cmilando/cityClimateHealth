@@ -391,11 +391,11 @@ RR</p>
 <span>    RRhigh <span class="op">=</span> <span class="va">cp</span><span class="op">$</span><span class="va">allRRhigh</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_cp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">RR</span>, ymin <span class="op">=</span> <span class="va">RRlb</span>, ymax <span class="op">=</span> <span class="va">RRhigh</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="st">'11'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">'grey75'</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Tmax (degC)"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_cp</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">RR</span>, ymin <span class="op">=</span> <span class="va">RRlb</span>, ymax <span class="op">=</span> <span class="va">RRhigh</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="st">'11'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">'grey75'</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Tmax (degC)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="one_stage_demo_files/figure-html/cp_plot-1.png" class="r-plt" width="480"></p>
 <p>Finally, do some basic checks of the math using other utility
 functions to estimate the dispersion parameters and the
@@ -506,9 +506,16 @@ this is using <code>gnm</code> under the hood.</p>
 <p>And plot the relative risk</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" width="480"></p>
-<p>You can also get the RR table for your own usage</p>
+<p><img src="one_stage_demo_files/figure-html/single_plot-1.png" class="r-plt" width="480">
+The truncation is controlled by the <code>truncate</code> argument in
+model calls, which can range from 0 to 0.05, which indicates the
+percentile cutoffs.</p>
+<p>You can also plots the lags:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_lag.html">plot_lag</a></span><span class="op">(</span><span class="va">m1</span>, exposure_val <span class="op">=</span> <span class="fl">33</span><span class="op">)</span></span></code></pre></div>
+<p><img src="one_stage_demo_files/figure-html/getRR1lags-1.png" class="r-plt" width="700"></p>
+<p>You can also get the RR table for your own usage</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      tmax_C       RR     RRlb     RRub n_geo_names     model_class</span></span>
 <span><span class="co">#&gt;       &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;      &lt;char&gt;          &lt;char&gt;</span></span>
@@ -532,7 +539,7 @@ need to include population offset because within the
 geo_unit:year:month:dow strata the populations don’t change (one of the
 benefits of the conditional poisson setup – you would need to include a
 population offset if you were doing a time-series design).</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create exposure matrix</span></span>
 <span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
@@ -594,11 +601,11 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span></code></pre></div>
 <p>And plot - notice the tighter confidence interval</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="one_stage_demo_files/figure-html/single_plot2b-1.png" class="r-plt" width="480"></p>
 <p>And get RR</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      tmax_C        RR      RRlb      RRub                   n_geo_names</span></span>
 <span><span class="co">#&gt;       &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;                        &lt;char&gt;</span></span>
@@ -631,7 +638,7 @@ population offset if you were doing a time-series design).</p>
 <h3 id="multi-factor-single-beta-coeff">Multi-factor single beta coeff<a class="anchor" aria-label="anchor" href="#multi-factor-single-beta-coeff"></a>
 </h3>
 <p>you can also get it for factors</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span>
@@ -741,7 +748,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="one_stage_demo_files/figure-html/ff2-1.png" class="r-plt" width="700"></p>
 <p>And get RR</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       tmax_C age_grp        RR      RRlb      RRub          model_class</span></span>
 <span><span class="co">#&gt;        &lt;num&gt;  &lt;char&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;               &lt;char&gt;</span></span>
@@ -761,7 +768,7 @@ population offset if you were doing a time-series design).</p>
 <h3 id="changing-the-global_cen">Changing the global_cen<a class="anchor" aria-label="anchor" href="#changing-the-global_cen"></a>
 </h3>
 <p>You can change the global_cen and view the impact.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run the model</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, global_cen <span class="op">=</span> <span class="fl">20</span>, outcomes_tbl <span class="op">=</span> <span class="va">middlesex_deaths_tbl</span>, multi_zone <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 0-17 &gt;</span></span>

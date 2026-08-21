@@ -744,6 +744,53 @@ plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
     geom_line() + xlab(xlab) + ylab(ylab)
 }
 
+#' Plot lag method for condPois_1stage
+#'
+#' @param x an object of class condPois_1stage
+#' @param xlab xlab override
+#' @param ylab ylab override
+#' @param title title override
+#' @import ggplot2
+#' @returns a ggplot object
+#' @export
+#'
+#' @examples
+plot_lag <- function(x, exposure_val) {
+
+  n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
+  exposure_col <- x$`_`$out[[1]]$exposure_col
+
+  if(is.null(ylab)) ylab = "RR"
+  title = paste0(n_geo_names, ": ", paste0(exposure_col, " = ", exposure_val))
+
+  xcp <- x$`_`$out[[1]]$stage1_cp
+  laglabs <- type.convert(gsub("lag", "", names(xcp$matfit[1,])), as.is = T)
+  ci.level = 0.95
+  z <- qnorm(1 - (1 - ci.level)/2)
+  mathigh <- exp(xcp$matfit + z * xcp$matse)
+  matlow <- exp(xcp$matfit - z * xcp$matse)
+  matfit <- exp(xcp$matfit)
+  rr <- which.min(abs(xcp$predvar - exposure_val))
+
+  LagRRdf <- data.frame(
+    lag = laglabs,
+    RR = matfit[rr, ],
+    RRlb = matlow[rr, ],
+    RRub = mathigh[rr, ]
+  )
+
+  ggplot(LagRRdf, aes(x = lag,
+                      y = RR, ymin = RRlb, ymax = RRub)) +
+    geom_hline(yintercept = 1, linetype = '11') +
+    theme_classic() +
+    ggtitle(title) +
+    scale_y_continuous(transform = 'log') +
+    geom_ribbon(fill = 'lightblue', alpha = 0.2) +
+    geom_line() + xlab(xlab) + ylab(ylab)
+
+
+}
+
 #' getRR method for condPois_1stage_list
 #'
 #' @param x an object of class condPois_1stage_list

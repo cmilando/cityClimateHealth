@@ -12,7 +12,8 @@ get_centered_cp(
   x_b,
   global_cen,
   cen,
-  exposure_is_factor
+  exposure_is_factor,
+  truncate
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ get_centered_cp(
 \item{cen}{the local centering point}
 
 \item{exposure_is_factor}{logical, if exposure is a factor}
+
+\item{truncate}{}
 }
 \value{
 a list object, with the centered basis and centered crosspred output

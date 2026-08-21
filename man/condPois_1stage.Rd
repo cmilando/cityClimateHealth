@@ -14,7 +14,8 @@ condPois_1stage(
   strata_min = 0,
   global_cen = NULL,
   multi_zone = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  truncate = 0.025
 )
 }
 \arguments{

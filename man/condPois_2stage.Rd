@@ -14,7 +14,8 @@ condPois_2stage(
   min_n = NULL,
   rf = NULL,
   strata_min = 0,
-  verbose = 0
+  verbose = 0,
+  truncate = 0.01
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ condPois_2stage(
 \item{strata_min}{minimum number of cases per strata}
 
 \item{verbose}{whether to print geo_units as they are run}
+
+\item{truncate}{}
 }
 \value{
 an object of class condPois_2stage
