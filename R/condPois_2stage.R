@@ -246,6 +246,7 @@ condPois_2stage <- function(exposure_matrix,
 
   # get things you need
   cp_list     <- vector("list", n_geos);
+  stage1_cp   <- vector("list", n_geos);
   vcov_model  <- vector("list", n_geos);
   argvar_list <- vector("list", n_geos);
   cen_list    <- vector("list", n_geos);
@@ -313,6 +314,9 @@ condPois_2stage <- function(exposure_matrix,
 
     # and
     exposure_is_factor[i] = cp_list[[i]]$exposure_is_factor
+
+    # and also
+    stage1_cp[[i]] <- cp_list[[i]]$stage1_cp
 
   }
 
@@ -549,6 +553,21 @@ condPois_2stage <- function(exposure_matrix,
     }
     # ***********
 
+    ##
+    stage1_RRdf <- data.frame(
+      geo_unit = this_geo,
+      geo_unit_grp = this_geo_grp,
+      x = stage1_cp[[i]]$predvar,
+      RR = stage1_cp[[i]]$allRRfit,
+      RRlb = stage1_cp[[i]]$allRRlow,
+      RRub = stage1_cp[[i]]$allRRhigh,
+      stage = 'stage1'
+    )
+    names(stage1_RRdf)[1] <- out_geo_unit_col
+    names(stage1_RRdf)[2] <- out_geo_unit_grp_col
+    names(stage1_RRdf)[3] <- exposure_col
+    setDT(stage1_RRdf)
+
     ## make the out
     RRdf <- data.frame(
       geo_unit = this_geo,
@@ -556,12 +575,15 @@ condPois_2stage <- function(exposure_matrix,
       x = blup_cp$cp$predvar,
       RR = blup_cp$cp$allRRfit,
       RRlb = blup_cp$cp$allRRlow,
-      RRub = blup_cp$cp$allRRhigh
+      RRub = blup_cp$cp$allRRhigh,
+      stage = 'stage2'
     )
     names(RRdf)[1] <- out_geo_unit_col
     names(RRdf)[2] <- out_geo_unit_grp_col
     names(RRdf)[3] <- exposure_col
     setDT(RRdf)
+
+    RRdf = rbind(RRdf, stage1_RRdf)
 
     ## attach outcomes vector
     rr <- outcomes_tbl[, get(out_geo_unit_col)] == this_geo
@@ -732,13 +754,18 @@ plot.condPois_2stage <- function(x, geo_unit,
   if(is.null(xlab)) xlab = obj$exposure_col
 
   ggplot(obj$RRdf, aes(x = !!sym(obj$exposure_col), y = RR,
-                       ymin = RRlb, ymax = RRub)) +
+                       ymin = RRlb, ymax = RRub, fill = stage,
+                       color = stage)) +
     geom_hline(yintercept = 1, linetype = '11') +
     scale_y_continuous(transform = 'log') +
     theme_classic() +
     ggtitle(title) +
-    geom_ribbon(fill = 'lightblue', alpha = 0.2) +
-    geom_line() + xlab(xlab) + ylab(ylab)
+    geom_ribbon(alpha = 0.2, linewidth = 0.25) +
+    geom_line() + xlab(xlab) + ylab(ylab) +
+    scale_fill_manual(name = 'Stage',
+                        values = c("#FFBE6A", "#512888")) +
+    scale_color_manual(name = 'Stage',
+                        values = c("#FFBE6A", "#512888"))
 }
 
 

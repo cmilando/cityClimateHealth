@@ -380,6 +380,14 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
     cen = cp$predvar[which.min(cp$allRRfit)]
   }
 
+  # also save the cp object for first stage analyses
+  stage1_cp <- crosspred(cb,
+                         coef = m_coef,
+                         vcov = m_vcov,
+                         model.link = "log",
+                         cen = cen,
+                         by = 0.1)
+
   # now apply to cr and export
   cr <- crossreduce(cb,
                     coef = m_coef,
@@ -387,6 +395,8 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                     model.link = "log",
                     cen = cen,
                     by = 0.1)
+
+
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -559,6 +569,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                orig_coef = m_coef,                ## whole group
                orig_vcov = m_vcov,                ## whole group
                cr = cr,                           ## whole group
+               stage1_cp = stage1_cp,             ## whole group
                coef = coef(cr),                   ## whole group
                vcov = vcov(cr),                   ## whole group
                exposure_col = exposure_col,       ## whole group
