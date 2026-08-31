@@ -3,6 +3,9 @@
 
 The package `cityClimateHealth` makes it simple to estimate climate-health impacts at small spatial scales. Starting from a messy exposure and outcome dataset, we can quickly estimate heat-health impacts.
 
+![](BU_CCH.png)
+![](BU_CATCH.png)
+
 ## Installing the package
 
 ```
