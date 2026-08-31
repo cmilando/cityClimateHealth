@@ -4,7 +4,7 @@
 
 - **[Chad Milando](https://chadmilando.com)**. Author, maintainer.
 
-- **[Caroline Sarpy](https://www.bu.edu/sph/profile/emma-gause/)**.
+- Caroline Sarpy.
   Author.
 
 - **[Emma Gause](https://www.bu.edu/sph/profile/emma-gause/)**. Author.
@@ -14,11 +14,10 @@
 - **[Zachary Popp](https://www.bu.edu/sph/profile/zachary-popp/)**.
   Author.
 
-- **[Alexis Arlak](https://www.bu.edu/sph/profile/emma-gause/)**.
+- Alexis Arlak.
   Author.
 
-- **[Gregory
-  Wellenius](https://www.bu.edu/sph/profile/gregory-wellenius/)**.
+- **[Gregory Wellenius](https://www.bu.edu/sph/profile/gregory-wellenius/)**.
   Author.
 
 ## Citation
@@ -27,10 +26,10 @@ Milando C, Sarpy C, Gause E, Adams Q, Popp Z, Arlak A, Wellenius G
 (2026). *cityClimateHealth: Estimating Heat-Health Impacts at Small
 Spatial Scales*. R package version 0.1.0, <http://climatehealth.city>.
 
-    @Manual{,
-      title = {cityClimateHealth: Estimating Heat-Health Impacts at Small Spatial Scales},
-      author = {Chad Milando and Caroline Sarpy and Emma Gause and Quinn Adams and Zachary Popp and Alexis Arlak and Gregory Wellenius},
-      year = {2026},
-      note = {R package version 0.1.0},
-      url = {http://climatehealth.city},
-    }
+  @Manual{,
+    title = {cityClimateHealth: Estimating Heat-Health Impacts at Small Spatial Scales},
+    author = {Chad Milando and Caroline Sarpy and Emma Gause and Quinn Adams and Zachary Popp and Alexis Arlak and Gregory Wellenius},
+    year = {2026},
+    note = {R package version 0.1.0},
+    url = {http://climatehealth.city},
+  }

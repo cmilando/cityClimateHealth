@@ -45,5 +45,5 @@ We also provide several additional vignettes for common questions -- see "More a
 
 ## Funding attribution
 
-Support for this project comes from the Massachusetts Municipal Vulnerability Prepared-ness (MVP) program, and the Wellcome Foundation for the Community Adaptations for City Heat Project (CATCH) at Boston University (Climate Impact Award 311886/Z/24/Z). 
+Support for this project comes from the Massachusetts Municipal Vulnerability Prepared-ness (MVP) program, and the Wellcome Foundation for the Community Adaptations for City Heat Project (CATCH) at Boston University (Climate Impact Award 311886/Z/24/Z), and the [Boston University Center for Climate and Health](https://sites.bu.edu/climateandhealth/).
 
