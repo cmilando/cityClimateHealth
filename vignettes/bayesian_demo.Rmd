@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+<div class="alert alert-warning"
+  <strong>Note:</strong> This page is in development
+</div>
+
 ```{r setup}
 library(cityClimateHealth)
 ```
