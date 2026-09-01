@@ -27,7 +27,8 @@ condPois_2stage(
   min_n = NULL,
   rf = NULL,
   strata_min = 0,
-  verbose = 0
+  verbose = 0,
+  truncate = 0.01
 )
 ```
 
@@ -73,6 +74,8 @@ condPois_2stage(
 - verbose:
 
   whether to print geo_units as they are run
+
+- truncate:
 
 ## Value
 

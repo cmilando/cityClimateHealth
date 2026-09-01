@@ -813,8 +813,10 @@ plot.condPois_2stage_list <- function(x, geo_unit,
     ggtitle(title) +
     geom_ribbon(aes(x = !!sym(exp_lab), y = RR,
                     ymin = RRlb, ymax = RRub,
+                    linetype = stage,
                     fill = !!sym(fct_lab)), alpha = 0.2) +
     geom_line(aes(x = !!sym(exp_lab), y = RR,
+                  linetype = stage,
                   color = !!sym(fct_lab))) + xlab(xlab) + ylab(ylab) +
     scale_y_continuous(transform = 'log') +
     scale_color_viridis_d() +
@@ -846,17 +848,26 @@ forest_plot.condPois_2stage <- function(x, exposure_val) {
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
 
-  for(i in 1:n_geos) {
-    rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
-    if(length(rr) != 1) {
-      stop(paste0("Exposure value '", exposure_val, "' not in the
-                exposure column, try values (with one decimal) between:",
-                  min(x$`_`$out[[i]]$RRdf[[exposure_col]]),
-                  " and ",
-                  max(x$`_`$out[[i]]$RRdf[[exposure_col]])))
-    }
+  graphError = FALSE
+  minExpVal = vector("numeric", n_geos)
+  maxExpVal = vector("numeric", n_geos)
 
-    plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
+  for(i in 1:n_geos) {
+    this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'stage2')
+    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    minExpVal[i] = min(this_sub[[exposure_col]])
+    maxExpVal[i] = max(this_sub[[exposure_col]])
+    if(length(rr) != 1) {
+      graphError = FALSE
+    }
+    plt_slice[[i]] <- this_sub[rr, ]
+  }
+
+  if(graphError) {
+    stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                "try values (with one decimal) between:",
+                max(minExpVal), " and ", min(maxExpVal)))
   }
 
   plt_slice <- do.call(rbind, plt_slice)
@@ -909,31 +920,27 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
 
-  # error checking
-  minExp = Inf
-  maxExp = -Inf
   graphError = FALSE
-  anyMiss = FALSE
+  minExpVal = vector("numeric", n_geos)
+  maxExpVal = vector("numeric", n_geos)
 
   for(i in 1:n_geos) {
-    rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
-    minExp = min(minExp, min(x$`_`$out[[i]]$RRdf[[exposure_col]]))
-    maxExp = max(maxExp, max(x$`_`$out[[i]]$RRdf[[exposure_col]]))
-    if(length(rr) > 1) {
-      print(length(rr))
-      graphError = TRUE
+    this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'stage2')
+    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    minExpVal[i] = min(this_sub[[exposure_col]])
+    maxExpVal[i] = max(this_sub[[exposure_col]])
+    if(length(rr) != 1) {
+      graphError = FALSE
     }
-    if(length(rr) == 1) {
-      plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
-    }
+    plt_slice[[i]] <- this_sub[rr, ]
   }
 
   if(graphError) {
     stop(paste0("Exposure value '", exposure_val, "' not in the
-                  exposure column, try values (with one decimal) between:",
-                minExp, " and ", maxExp))
+                exposure column of all geo units,",
+                "try values (with one decimal) between:",
+                max(minExpVal), " and ", min(maxExpVal)))
   }
-
 
   plt_slice <- do.call(rbind, plt_slice)
 
@@ -1001,17 +1008,27 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
     geo_unit_col <- names(yy[[1]]$RRdf)[1]
     geo_unit_grp_col <- names(yy[[1]]$RRdf)[2]
 
-    for(j in 1:n_geos) {
-      rr <- which(yy[[j]]$RRdf[[exposure_col]] == exposure_val)
-      if(length(rr) != 1) {
-        stop(paste0("Exposure value '", exposure_val, "' not in the
-                  exposure column, try values (with one decimal) between:",
-                    min(yy[[j]]$RRdf[[exposure_col]]),
-                    " and ",
-                    max(yy[[j]]$RRdf[[exposure_col]])))
-      }
+    graphError = FALSE
+    minExpVal = vector("numeric", n_geos)
+    maxExpVal = vector("numeric", n_geos)
 
-      plt_slice[[j]] <- yy[[j]]$RRdf[rr, ]
+    for(j in 1:n_geos) {
+      this_sub <- yy[[j]]$RRdf
+      rr <- which(this_sub[[exposure_col]] == exposure_val &
+                           this_sub$stage == 'stage2')
+      minExpVal[j] = min(this_sub[[exposure_col]])
+      maxExpVal[j] = max(this_sub[[exposure_col]])
+      if(length(rr) != 1) {
+        graphError = TRUE
+      }
+      plt_slice[[j]] <- this_sub[rr, ]
+    }
+
+    if(graphError) {
+      stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                  "try values (with one decimal) between:",
+                  max(minExpVal), " and ", min(maxExpVal)))
     }
 
     plt_slice <- do.call(rbind, plt_slice)
@@ -1065,16 +1082,27 @@ forest_plot.condPois_2stage_list <- function(x, exposure_val) {
     geo_unit_col <- names(yy[[1]]$RRdf)[1]
     geo_unit_grp_col <- names(yy[[1]]$RRdf)[2]
 
+    graphError = FALSE
+    minExpVal = vector("numeric", n_geos)
+    maxExpVal = vector("numeric", n_geos)
+
     for(j in 1:n_geos) {
-      rr <- which(yy[[j]]$RRdf[[exposure_col]] == exposure_val)
+      this_sub <- yy[[j]]$RRdf
+      rr <- which(this_sub[[exposure_col]] == exposure_val &
+                    this_sub$stage == 'stage2')
+      minExpVal[j] = min(this_sub[[exposure_col]])
+      maxExpVal[j] = max(this_sub[[exposure_col]])
       if(length(rr) != 1) {
-        stop(paste0("Exposure value '", exposure_val, "' not in the
-                exposure column, try values (with one decimal) between:",
-                    min(yy[[j]]$RRdf[[exposure_col]]),
-                    " and ",
-                    max(yy[[j]]$RRdf[[exposure_col]])))
+        graphError = TRUE
       }
-      plt_slice[[j]] <- yy[[j]]$RRdf[rr, ]
+      plt_slice[[j]] <- this_sub[rr, ]
+    }
+
+    if(graphError) {
+      stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                  "try values (with one decimal) between:",
+                  max(minExpVal), " and ", min(maxExpVal)))
     }
 
     plt_slice <- do.call(rbind, plt_slice)

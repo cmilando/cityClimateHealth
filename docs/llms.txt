@@ -5,6 +5,8 @@ climate-health impacts at small spatial scales. Starting from a messy
 exposure and outcome dataset, we can quickly estimate heat-health
 impacts.
 
+![](BU_CCH.png)![](BU_CATCH.png)
+
 ## Installing the package
 
     remotes::install_github("cmilando/cityClimateHealth")
@@ -50,11 +52,16 @@ We also provide several additional vignettes for common questions – see
 Support for this project comes from the Massachusetts Municipal
 Vulnerability Prepared-ness (MVP) program, and the Wellcome Foundation
 for the Community Adaptations for City Heat Project (CATCH) at Boston
-University (Climate Impact Award 311886/Z/24/Z).
+University (Climate Impact Award 311886/Z/24/Z), and the [Boston
+University Center for Climate and
+Health](https://sites.bu.edu/climateandhealth/).
 
 # Package index
 
 ## All functions
+
+- [`add_US_holiday()`](http://climatehealth.city/reference/add_US_holiday.md)
+  : Function to add US holidays
 
 - [`add_factor_col()`](http://climatehealth.city/reference/add_factor_col.md)
   : make factor column
@@ -220,6 +227,9 @@ University (Climate Impact Award 311886/Z/24/Z).
 
 - [`plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/plot.condPois_sb_list.md)
   : Plot method for condPois_sb_list
+
+- [`plot_lag()`](http://climatehealth.city/reference/plot_lag.md) : Plot
+  lag method for condPois_1stage
 
 - [`print.calcAN()`](http://climatehealth.city/reference/print.calcAN.md)
   : Print method for calcAN

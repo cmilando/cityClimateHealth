@@ -289,7 +289,7 @@ condPois_sb <- function(exposure_matrix,
   cen_list    <- vector("list", n_geos);
   argvar_list <- vector("list", n_geos);
   coef_list   <- vector("list", n_geos);
-  stage1_cp   <- vecotr("list", n_geos);
+  stage1_cp   <- vector("list", n_geos);
   match_strata   <- vector("list", n_geos);
   expisfct_list   <- vector("list", n_geos);
 
@@ -315,16 +315,16 @@ condPois_sb <- function(exposure_matrix,
     # run the model once
     # just using this to get cb so i don't repeat that code twice
     # because it also has a lot of nice validation built into it
-    # min_n is set to 0 because you want every region
-    # same with strata_min
+    # min_n is set to 1 because you want every region
+    # same with strata_min, set to 0
     local_cp <- condPois_1stage(exposure_matrix = single_exposure_matrix,
                                 outcomes_tbl = single_outcomes_tbl,
                                 argvar = argvar,
                                 arglag = arglag,
                                 maxlag = maxlag,
                                 global_cen = global_cen,
-                                min_n = min_n,
-                                strata_min = strata_min,
+                                min_n = 1,
+                                strata_min = 0,
                                 verbose = i == 1,
                                 truncate = 0) # in 2stage or SB, truncate only at the end
 
@@ -813,7 +813,7 @@ condPois_sb <- function(exposure_matrix,
       RR = stage1_cp[[i]]$allRRfit,
       RRlb = stage1_cp[[i]]$allRRlow,
       RRub = stage1_cp[[i]]$allRRhigh,
-      stage = 'stage1',
+      stage = 'stage1'
     )
     names(stage1_RRdf)[1] <- out_geo_unit_col
     names(stage1_RRdf)[2] <- out_geo_unit_grp_col
@@ -1011,8 +1011,10 @@ plot.condPois_sb_list <- function(x, geo_unit,
     ggtitle(title) +
     geom_ribbon(aes(x = !!sym(exp_lab), y = RR,
                     ymin = RRlb, ymax = RRub,
+                    linetype = stage,
                     fill = !!sym(fct_lab)), alpha = 0.2) +
     geom_line(aes(x = !!sym(exp_lab), y = RR,
+                  linetype = stage,
                   color = !!sym(fct_lab))) + xlab(xlab) + ylab(ylab) +
     scale_y_continuous(transform = 'log') +
     scale_color_viridis_d() +
@@ -1044,17 +1046,26 @@ forest_plot.condPois_sb <- function(x, exposure_val) {
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
 
-  for(i in 1:n_geos) {
-    rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
-    if(length(rr) != 1) {
-      stop(paste0("Exposure value '", exposure_val, "' not in the
-                exposure column, try values (with one decimal) between:",
-                  min(x$`_`$out[[i]]$RRdf[[exposure_col]]),
-                  " and ",
-                  max(x$`_`$out[[i]]$RRdf[[exposure_col]])))
-    }
+  graphError = FALSE
+  minExpVal = vector("numeric", n_geos)
+  maxExpVal = vector("numeric", n_geos)
 
-    plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
+  for(i in 1:n_geos) {
+    this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'SpatialBayes')
+    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    minExpVal[i] = min(this_sub[[exposure_col]])
+    maxExpVal[i] = max(this_sub[[exposure_col]])
+    if(length(rr) != 1) {
+      graphError = FALSE
+    }
+    plt_slice[[i]] <- this_sub[rr, ]
+  }
+
+  if(graphError) {
+    stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                "try values (with one decimal) between:",
+                max(minExpVal), " and ", min(maxExpVal)))
   }
 
   plt_slice <- do.call(rbind, plt_slice)
@@ -1107,17 +1118,26 @@ spatial_plot.condPois_sb <- function(x, shp, exposure_val,
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
 
-  for(i in 1:n_geos) {
-    rr <- which(x$`_`$out[[i]]$RRdf[[exposure_col]] == exposure_val)
-    if(length(rr) != 1) {
-      stop(paste0("Exposure value '", exposure_val, "' not in the
-                  exposure column, try values (with one decimal) between:",
-                  min(x$`_`$out[[i]]$RRdf[[exposure_col]]),
-                  " and ",
-                  max(x$`_`$out[[i]]$RRdf[[exposure_col]])))
-    }
+  graphError = FALSE
+  minExpVal = vector("numeric", n_geos)
+  maxExpVal = vector("numeric", n_geos)
 
-    plt_slice[[i]] <- x$`_`$out[[i]]$RRdf[rr, ]
+  for(i in 1:n_geos) {
+    this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'SpatialBayes')
+    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    minExpVal[i] = min(this_sub[[exposure_col]])
+    maxExpVal[i] = max(this_sub[[exposure_col]])
+    if(length(rr) != 1) {
+      graphError = FALSE
+    }
+    plt_slice[[i]] <- this_sub[rr, ]
+  }
+
+  if(graphError) {
+    stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                "try values (with one decimal) between:",
+                max(minExpVal), " and ", min(maxExpVal)))
   }
 
   plt_slice <- do.call(rbind, plt_slice)
@@ -1181,17 +1201,27 @@ spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
     geo_unit_col <- names(yy[[1]]$RRdf)[1]
     geo_unit_grp_col <- names(yy[[1]]$RRdf)[2]
 
-    for(j in 1:n_geos) {
-      rr <- which(yy[[j]]$RRdf[[exposure_col]] == exposure_val)
-      if(length(rr) != 1) {
-        stop(paste0("Exposure value '", exposure_val, "' not in the
-                  exposure column, try values (with one decimal) between:",
-                    min(yy[[j]]$RRdf[[exposure_col]]),
-                    " and ",
-                    max(yy[[j]]$RRdf[[exposure_col]])))
-      }
+    graphError = FALSE
+    minExpVal = vector("numeric", n_geos)
+    maxExpVal = vector("numeric", n_geos)
 
-      plt_slice[[j]] <- yy[[j]]$RRdf[rr, ]
+    for(j in 1:n_geos) {
+      this_sub <- yy[[j]]$RRdf
+      rr <- which(this_sub[[exposure_col]] == exposure_val &
+                    this_sub$stage == 'SpatialBayes')
+      minExpVal[j] = min(this_sub[[exposure_col]])
+      maxExpVal[j] = max(this_sub[[exposure_col]])
+      if(length(rr) != 1) {
+        graphError = TRUE
+      }
+      plt_slice[[j]] <- this_sub[rr, ]
+    }
+
+    if(graphError) {
+      stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                  "try values (with one decimal) between:",
+                  max(minExpVal), " and ", min(maxExpVal)))
     }
 
     plt_slice <- do.call(rbind, plt_slice)
@@ -1245,16 +1275,27 @@ forest_plot.condPois_sb_list <- function(x, exposure_val) {
     geo_unit_col <- names(yy[[1]]$RRdf)[1]
     geo_unit_grp_col <- names(yy[[1]]$RRdf)[2]
 
+    graphError = FALSE
+    minExpVal = vector("numeric", n_geos)
+    maxExpVal = vector("numeric", n_geos)
+
     for(j in 1:n_geos) {
-      rr <- which(yy[[j]]$RRdf[[exposure_col]] == exposure_val)
+      this_sub <- yy[[j]]$RRdf
+      rr <- which(this_sub[[exposure_col]] == exposure_val &
+                    this_sub$stage == 'SpatialBayes')
+      minExpVal[j] = min(this_sub[[exposure_col]])
+      maxExpVal[j] = max(this_sub[[exposure_col]])
       if(length(rr) != 1) {
-        stop(paste0("Exposure value '", exposure_val, "' not in the
-                exposure column, try values (with one decimal) between:",
-                    min(yy[[j]]$RRdf[[exposure_col]]),
-                    " and ",
-                    max(yy[[j]]$RRdf[[exposure_col]])))
+        graphError = TRUE
       }
-      plt_slice[[j]] <- yy[[j]]$RRdf[rr, ]
+      plt_slice[[j]] <- this_sub[rr, ]
+    }
+
+    if(graphError) {
+      stop(paste0("Exposure value '", exposure_val, "' not in the
+                exposure column of all geo units,",
+                  "try values (with one decimal) between:",
+                  max(minExpVal), " and ", min(maxExpVal)))
     }
 
     plt_slice <- do.call(rbind, plt_slice)

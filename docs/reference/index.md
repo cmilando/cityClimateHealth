@@ -2,6 +2,9 @@
 
 ## All functions
 
+- [`add_US_holiday()`](http://climatehealth.city/reference/add_US_holiday.md)
+  : Function to add US holidays
+
 - [`add_factor_col()`](http://climatehealth.city/reference/add_factor_col.md)
   : make factor column
 
@@ -166,6 +169,9 @@
 
 - [`plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/plot.condPois_sb_list.md)
   : Plot method for condPois_sb_list
+
+- [`plot_lag()`](http://climatehealth.city/reference/plot_lag.md) : Plot
+  lag method for condPois_1stage
 
 - [`print.calcAN()`](http://climatehealth.city/reference/print.calcAN.md)
   : Print method for calcAN

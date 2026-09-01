@@ -18,7 +18,8 @@ condPois_sb(
   maxlag = NULL,
   min_n = NULL,
   strata_min = 0,
-  verbose = 0
+  verbose = 0,
+  truncate = 0.01
 )
 ```
 
@@ -72,6 +73,8 @@ condPois_sb(
 - verbose:
 
   whether to print geo_units as they are run
+
+- truncate:
 
 ## Value
 

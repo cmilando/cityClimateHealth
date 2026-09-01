@@ -275,19 +275,32 @@ For your own purposes, each of these objects has a `getRR` function
 ``` r
 
 getRR(ma_model)
-#>           TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub     model_class
-#>           <char>    <char>  <num>     <num>     <num>     <num>          <char>
-#>     1:     ACTON MIDDLESEX    7.0 0.9772782 0.9587192 0.9961965 condPois_2stage
-#>     2:     ACTON MIDDLESEX    7.1 0.9772782 0.9587192 0.9961965 condPois_2stage
-#>     3:     ACTON MIDDLESEX    7.2 0.9772782 0.9587192 0.9961965 condPois_2stage
-#>     4:     ACTON MIDDLESEX    7.3 0.9772782 0.9587192 0.9961965 condPois_2stage
-#>     5:     ACTON MIDDLESEX    7.4 0.9772782 0.9587192 0.9961965 condPois_2stage
-#>    ---                                                                         
-#> 32510: WORCESTER WORCESTER   33.6 1.2260190 1.1798181 1.2740291 condPois_2stage
-#> 32511: WORCESTER WORCESTER   33.7 1.2277178 1.1808892 1.2764033 condPois_2stage
-#> 32512: WORCESTER WORCESTER   33.8 1.2294189 1.1819524 1.2787916 condPois_2stage
-#> 32513: WORCESTER WORCESTER   33.9 1.2311225 1.1830083 1.2811935 condPois_2stage
-#> 32514: WORCESTER WORCESTER   34.0 1.2311225 1.1830083 1.2811935 condPois_2stage
+#>           TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage
+#>           <char>    <char>  <num>     <num>     <num>     <num> <char>
+#>     1:     ACTON MIDDLESEX    7.0 0.9772782 0.9587192 0.9961965 stage2
+#>     2:     ACTON MIDDLESEX    7.1 0.9772782 0.9587192 0.9961965 stage2
+#>     3:     ACTON MIDDLESEX    7.2 0.9772782 0.9587192 0.9961965 stage2
+#>     4:     ACTON MIDDLESEX    7.3 0.9772782 0.9587192 0.9961965 stage2
+#>     5:     ACTON MIDDLESEX    7.4 0.9772782 0.9587192 0.9961965 stage2
+#>    ---                                                                
+#> 64868: WORCESTER WORCESTER   33.0 1.2067807 1.1632921 1.2518951 stage1
+#> 64869: WORCESTER WORCESTER   33.1 1.2079470 1.1632097 1.2544049 stage1
+#> 64870: WORCESTER WORCESTER   33.2 1.2091133 1.1631117 1.2569342 stage1
+#> 64871: WORCESTER WORCESTER   33.3 1.2102799 1.1630002 1.2594816 stage1
+#> 64872: WORCESTER WORCESTER   33.4 1.2114471 1.1628771 1.2620457 stage1
+#>            model_class
+#>                 <char>
+#>     1: condPois_2stage
+#>     2: condPois_2stage
+#>     3: condPois_2stage
+#>     4: condPois_2stage
+#>     5: condPois_2stage
+#>    ---                
+#> 64868: condPois_2stage
+#> 64869: condPois_2stage
+#> 64870: condPois_2stage
+#> 64871: condPois_2stage
+#> 64872: condPois_2stage
 ```
 
 ## Calculate attributable numbers
@@ -835,32 +848,32 @@ You can also getRR:
 ``` r
 
 getRR(ma_model_fct)
-#>           TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub age_grp
-#>           <char>    <char>  <num>     <num>     <num>     <num>  <char>
-#>     1:     ACTON MIDDLESEX    7.0 0.9692331 0.9445686 0.9945417    0-17
-#>     2:     ACTON MIDDLESEX    7.1 0.9692331 0.9445686 0.9945417    0-17
-#>     3:     ACTON MIDDLESEX    7.2 0.9692331 0.9445686 0.9945417    0-17
-#>     4:     ACTON MIDDLESEX    7.3 0.9692331 0.9445686 0.9945417    0-17
-#>     5:     ACTON MIDDLESEX    7.4 0.9692331 0.9445686 0.9945417    0-17
-#>    ---                                                                 
-#> 97538: WORCESTER WORCESTER   33.6 1.2231257 1.1800147 1.2678116     65+
-#> 97539: WORCESTER WORCESTER   33.7 1.2246071 1.1807440 1.2700996     65+
-#> 97540: WORCESTER WORCESTER   33.8 1.2260900 1.1814480 1.2724190     65+
-#> 97541: WORCESTER WORCESTER   33.9 1.2275747 1.1821281 1.2747685     65+
-#> 97542: WORCESTER WORCESTER   34.0 1.2275747 1.1821281 1.2747685     65+
-#>                 model_class
-#>                      <char>
-#>     1: condPois_2stage_list
-#>     2: condPois_2stage_list
-#>     3: condPois_2stage_list
-#>     4: condPois_2stage_list
-#>     5: condPois_2stage_list
-#>    ---                     
-#> 97538: condPois_2stage_list
-#> 97539: condPois_2stage_list
-#> 97540: condPois_2stage_list
-#> 97541: condPois_2stage_list
-#> 97542: condPois_2stage_list
+#>            TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage age_grp
+#>            <char>    <char>  <num>     <num>     <num>     <num> <char>  <char>
+#>      1:     ACTON MIDDLESEX    7.0 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>      2:     ACTON MIDDLESEX    7.1 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>      3:     ACTON MIDDLESEX    7.2 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>      4:     ACTON MIDDLESEX    7.3 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>      5:     ACTON MIDDLESEX    7.4 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>     ---                                                                        
+#> 194612: WORCESTER WORCESTER   33.0 1.2047947 1.1612618 1.2499595 stage1     65+
+#> 194613: WORCESTER WORCESTER   33.1 1.2058778 1.1610980 1.2523846 stage1     65+
+#> 194614: WORCESTER WORCESTER   33.2 1.2069606 1.1609184 1.2548287 stage1     65+
+#> 194615: WORCESTER WORCESTER   33.3 1.2080433 1.1607252 1.2572904 stage1     65+
+#> 194616: WORCESTER WORCESTER   33.4 1.2091265 1.1605202 1.2597685 stage1     65+
+#>                  model_class
+#>                       <char>
+#>      1: condPois_2stage_list
+#>      2: condPois_2stage_list
+#>      3: condPois_2stage_list
+#>      4: condPois_2stage_list
+#>      5: condPois_2stage_list
+#>     ---                     
+#> 194612: condPois_2stage_list
+#> 194613: condPois_2stage_list
+#> 194614: condPois_2stage_list
+#> 194615: condPois_2stage_list
+#> 194616: condPois_2stage_list
 ```
 
 And finally, you can `calcAN`, note that both `ma_outcomes_tbl_fct` and

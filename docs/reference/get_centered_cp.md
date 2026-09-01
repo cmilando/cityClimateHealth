@@ -14,7 +14,8 @@ get_centered_cp(
   x_b,
   global_cen,
   cen,
-  exposure_is_factor
+  exposure_is_factor,
+  truncate
 )
 ```
 
@@ -52,6 +53,8 @@ get_centered_cp(
 - exposure_is_factor:
 
   logical, if exposure is a factor
+
+- truncate:
 
 ## Value
 

@@ -307,7 +307,7 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
-#> min_n: 50 
+#> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
@@ -345,12 +345,12 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 27.9 seconds.
+#> Chain 1 finished in 27.7 seconds.
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 28.6 seconds.
+#> Chain 2 finished in 28.5 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 28.3 seconds.
+#> Mean chain execution time: 28.1 seconds.
 #> Total execution time: 28.7 seconds.
 #> 
 #>  ...mcmc draws... 
@@ -432,7 +432,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
-#> min_n: 50 
+#> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
@@ -544,7 +544,7 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> CHELSEA:yr2012:mn05:dow03
 #> strata_min: 0 
 #> 
-#> min_n: 50 
+#> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:

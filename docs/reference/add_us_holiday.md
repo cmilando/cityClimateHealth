@@ -5,12 +5,12 @@ Function to add US holidays
 ## Usage
 
 ``` r
-add_us_holiday(outcome_table)
+add_US_holiday(exposure_matrix)
 ```
 
 ## Arguments
 
-- outcome_table:
+- exposure_matrix:
 
 ## Value
 
@@ -28,14 +28,14 @@ exposure_columns <- list(
 
 exp_data = subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'))
 
-outcome_table <- make_outcome_table(
+exposure_matrix <- make_exposure_matrix(
   data = exp_data,
   column_mapping = exposure_columns,
   time_subset = list(year = 2012:2015)
 )
-#> Error in make_outcome_table(data = exp_data, column_mapping = exposure_columns,     time_subset = list(year = 2012:2015)): Names of column mapping is not one of the valid types:
-#>           date, exposure, geo_unit, geo_unit_grp
+#> -- NA values automatically removed
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
-outcome_table <- add_us_holiday(outcome_table)
-#> Error: object 'outcome_table' not found
+exposure_matrix <- add_us_holiday(exposure_matrix)
+#> Error in add_us_holiday(exposure_matrix): could not find function "add_us_holiday"
 ```
