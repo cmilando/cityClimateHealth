@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
   <strong>Note:</strong> This page is in development
 </div>
 
-```{r setup}
-library(cityClimateHealth)
-```
+
 
 Another way that this model can be solved is by using Bayesian inference, implemented in STAN. We are including this implementation here so that it makes sense why we are including it later on. 
 
@@ -49,6 +47,7 @@ https://link.springer.com/article/10.1186/1471-2288-14-122
 A reminder that this data is **simulated**.
 
 ```{r setup2, fig.height=5, fig.width=5}
+library(cityClimateHealth)
 library(data.table)
 data("ma_exposure")
 data("ma_deaths")

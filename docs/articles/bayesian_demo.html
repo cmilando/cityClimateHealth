@@ -81,8 +81,6 @@
     
 <div class="alert alert-warning">Note: This page is in development
 </div>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
 <p>Another way that this model can be solved is by using Bayesian
 inference, implemented in STAN. We are including this implementation
 here so that it makes sense why we are including it later on.</p>
@@ -107,8 +105,9 @@ notes as so what is going on here</p>
 <p>Sb, basically a combination of these two things: <a href="https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=" class="external-link uri">https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=</a>
 <a href="https://link.springer.com/article/10.1186/1471-2288-14-122" class="external-link uri">https://link.springer.com/article/10.1186/1471-2288-14-122</a></p>
 <p>A reminder that this data is <strong>simulated</strong>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_exposure"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_deaths"</span><span class="op">)</span></span>
 <span></span>
@@ -158,7 +157,7 @@ notes as so what is going on here</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">local_shp</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">TOWN20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bayesian_demo_files/figure-html/setup2-1.png" class="r-plt" width="480"></p>
 <p>Now get initial estimates for each <code>geo_unit</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">beta_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="fl">4</span><span class="op">)</span> </span>
 <span><span class="va">cr_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="fl">4</span><span class="op">)</span> </span>
 <span><span class="va">plot_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="fl">4</span><span class="op">)</span></span>
@@ -332,7 +331,7 @@ produce similar curves.</p>
 </ul>
 <p>I think this makes for a good candidate because betas are normal and
 the model is not hierarchical</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_sb1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">deaths_tbl</span>, <span class="va">local_shp</span>, </span>
 <span>                     stan_type <span class="op">=</span> <span class="st">'mcmc'</span>,</span>
 <span>                     verbose <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -375,7 +374,6 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
-<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...mcmc... </span></span>
 <span><span class="co">#&gt; Running MCMC with 2 parallel chains...</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -402,13 +400,13 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) </span></span>
 <span><span class="co">#&gt; Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 1 finished in 27.7 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1 finished in 27.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) </span></span>
-<span><span class="co">#&gt; Chain 2 finished in 28.7 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2 finished in 28.0 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Both chains finished successfully.</span></span>
-<span><span class="co">#&gt; Mean chain execution time: 28.2 seconds.</span></span>
-<span><span class="co">#&gt; Total execution time: 28.9 seconds.</span></span>
+<span><span class="co">#&gt; Mean chain execution time: 27.6 seconds.</span></span>
+<span><span class="co">#&gt; Total execution time: 28.2 seconds.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ...mcmc draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
@@ -416,7 +414,7 @@ the model is not hierarchical</p>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.01</span></span></code></pre></div>
 <p>Compare, first you can see that with spatial_model = F, there is
 similarity in beta coefs</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mx</span></span>
 <span><span class="co">#&gt;               CHELSEA     EVERETT        REVERE       MALDEN</span></span>
 <span><span class="co">#&gt; cbv1.l1  0.0451309468  0.05298088 -0.0005224117  0.017711625</span></span>
@@ -450,7 +448,7 @@ similarity in beta coefs</p>
 <h3 id="compare-with-spatial-model">Compare with spatial model<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model"></a>
 </h3>
 <p>using laplace in this case, but you could try mcmc</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_sb2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">deaths_tbl</span>, <span class="va">local_shp</span>, </span>
 <span>                     stan_type <span class="op">=</span> <span class="st">'laplace'</span>,</span>
 <span>                     verbose <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -493,7 +491,6 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
-<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -6739.06 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
@@ -521,7 +518,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; -- apply estimates</span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.01</span></span></code></pre></div>
 <p>Compare, now you can see these are different</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mx</span></span>
 <span><span class="co">#&gt;               CHELSEA     EVERETT        REVERE       MALDEN</span></span>
 <span><span class="co">#&gt; cbv1.l1  0.0451309468  0.05298088 -0.0005224117  0.017711625</span></span>
@@ -556,7 +553,7 @@ similarity in beta coefs</p>
 <h3 id="compare-with-spatial-model-for-leroux">Compare with spatial model for leroux<a class="anchor" aria-label="anchor" href="#compare-with-spatial-model-for-leroux"></a>
 </h3>
 <p>using laplace in this case, but you could try mcmc</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_sb3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">exposure_mat</span>, </span>
 <span>                     <span class="va">deaths_tbl</span>, <span class="va">local_shp</span>, </span>
 <span>                     stan_type <span class="op">=</span> <span class="st">'laplace'</span>,</span>
@@ -607,7 +604,6 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; polygon per row in `shp`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -- run STAN</span></span>
-<span><span class="co">#&gt; ld: warning: object file (/Users/cwm/.cmdstan/cmdstan-2.38.0/src/cmdstan/main.o) was built for newer 'macOS' version (26.0) than being linked (15.5)</span></span>
 <span><span class="co">#&gt;  ...laplace optimize... </span></span>
 <span><span class="co">#&gt; Initial log joint probability = -7000.25 </span></span>
 <span><span class="co">#&gt;     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span></span>
@@ -661,13 +657,13 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; iteration: 700 </span></span>
 <span><span class="co">#&gt; iteration: 800 </span></span>
 <span><span class="co">#&gt; iteration: 900 </span></span>
-<span><span class="co">#&gt; Finished in  0.6 seconds.</span></span>
+<span><span class="co">#&gt; Finished in  0.5 seconds.</span></span>
 <span><span class="co">#&gt;  ...laplace draws... </span></span>
 <span><span class="co">#&gt; CHELSEA  EVERETT     MALDEN  REVERE  </span></span>
 <span><span class="co">#&gt; -- apply estimates</span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.01</span></span></code></pre></div>
 <p>As you can see, lots of smoothing to a central estimate !</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mx</span></span>
 <span><span class="co">#&gt;               CHELSEA     EVERETT        REVERE       MALDEN</span></span>
 <span><span class="co">#&gt; cbv1.l1  0.0451309468  0.05298088 -0.0005224117  0.017711625</span></span>
@@ -699,7 +695,7 @@ similarity in beta coefs</p>
 <span><span class="co">#&gt; [12,] -0.03937868 -0.03937865 -0.03937873 -0.03937892</span></span></code></pre></div>
 <p>And you can also see that the leroux <code>q</code> value is quite
 high</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">m_sb3</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">stan_summary</span>, <span class="va">variable</span> <span class="op">==</span> <span class="st">'q'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
 <span><span class="co">#&gt;   variable  mean median    sd      mad       q5   q95</span></span>
