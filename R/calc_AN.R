@@ -980,8 +980,6 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
     byX_df <- byX_df[rr, ]
     x_col <- names(byX_df)[1]
 
-    print(byX_df)
-
     # join to SF
     stopifnot(x_col %in% names(shp)) # not a bad first check
     shp_w_data <- merge(shp, byX_df, by = x_col)

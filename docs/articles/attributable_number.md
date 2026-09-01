@@ -597,30 +597,6 @@ be made easily.
 ``` r
 
 spatial_plot(ma_AN_fct, shp = ma_counties, table_type = "num", above_MMT = T)
-#>     COUNTY20 population above_MMT mean_annual_attr_num_est
-#>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX     317065      TRUE                 32083.50
-#> 2: WORCESTER     178358      TRUE                 15171.25
-#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                      <num>                   <num>  <char>
-#> 1:                31027.24                33144.89    0-17
-#> 2:                14218.93                16125.11    0-17
-#>     COUNTY20 population above_MMT mean_annual_attr_num_est
-#>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX    1050640      TRUE                 10915.88
-#> 2: WORCESTER     541246      TRUE                  4173.50
-#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                      <num>                   <num>  <char>
-#> 1:                9804.569               12119.031   18-64
-#> 2:                3470.750                5000.062   18-64
-#>     COUNTY20 population above_MMT mean_annual_attr_num_est
-#>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX     255404      TRUE                 21789.62
-#> 2: WORCESTER     139294      TRUE                 10667.25
-#>    mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                      <num>                   <num>  <char>
-#> 1:                20520.84                22546.97     65+
-#> 2:                10009.17                11305.87     65+
 ```
 
 ![](attributable_number_files/figure-html/multi_plot3d-1.png)

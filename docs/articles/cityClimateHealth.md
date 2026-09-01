@@ -518,32 +518,6 @@ You can also plot spatially
 ``` r
 
 spatial_plot(ma_AN, shp = ma_towns, table_type = "num", above_MMT = T)
-#>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
-#>          <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                 1238.000
-#>   2:  ARLINGTON MIDDLESEX      45906      TRUE                 2635.500
-#>   3: ASHBURNHAM WORCESTER       6337      TRUE                  255.125
-#>   4:      ASHBY MIDDLESEX       3187      TRUE                  156.750
-#>   5:    ASHLAND MIDDLESEX      18634      TRUE                  670.500
-#>  ---                                                                   
-#> 110: WILMINGTON MIDDLESEX      23191      TRUE                 1310.000
-#> 111: WINCHENDON WORCESTER      10372      TRUE                  549.125
-#> 112: WINCHESTER MIDDLESEX      22809      TRUE                 1422.500
-#> 113:     WOBURN MIDDLESEX      40992      TRUE                 2074.125
-#> 114:  WORCESTER WORCESTER     204191      TRUE                10227.375
-#>      mean_annual_attr_num_lb mean_annual_attr_num_ub
-#>                        <num>                   <num>
-#>   1:                974.4750               1535.4500
-#>   2:               2149.8562               3135.2437
-#>   3:                200.3687                315.5250
-#>   4:                115.2938                203.2750
-#>   5:                482.2125                840.6125
-#>  ---                                                
-#> 110:                944.2250               1711.0625
-#> 111:                422.2812                656.2625
-#> 112:               1155.9125               1671.7312
-#> 113:               1643.9500               2545.1750
-#> 114:               8228.7500              12237.3375
 ```
 
 ![](cityClimateHealth_files/figure-html/multi_plot3d-1.png)
@@ -845,84 +819,6 @@ You can also plot spatially
 ``` r
 
 spatial_plot(ma_AN_fct, shp = ma_towns, table_type = "num", above_MMT = T)
-#>               TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
-#>               <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:       WORCESTER WORCESTER      39908      TRUE                 5197.625
-#>   2:       CAMBRIDGE MIDDLESEX      14359      TRUE                 2918.625
-#>   3:          NEWTON MIDDLESEX      18368      TRUE                 2890.750
-#>   4:          LOWELL MIDDLESEX      23724      TRUE                 2714.750
-#>   5:      SOMERVILLE MIDDLESEX       8379      TRUE                 2388.250
-#>  ---                                                                        
-#> 110: EAST BROOKFIELD WORCESTER        371      TRUE                   22.000
-#> 111:       PETERSHAM WORCESTER        160      TRUE                   21.375
-#> 112:        HARDWICK WORCESTER        591      TRUE                   20.000
-#> 113:          OAKHAM WORCESTER        267      TRUE                   17.750
-#> 114:     PHILLIPSTON WORCESTER        359      TRUE                   13.875
-#>      mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                        <num>                   <num>  <char>
-#>   1:              4348.34375              6134.74375    0-17
-#>   2:              2497.53125              3354.62500    0-17
-#>   3:              2449.97500              3296.72500    0-17
-#>   4:              2233.20625              3284.89375    0-17
-#>   5:              2002.56875              2781.10000    0-17
-#>  ---                                                        
-#> 110:                 4.97500                38.88125    0-17
-#> 111:                -0.76250                41.52500    0-17
-#> 112:                -3.77500                39.00000    0-17
-#> 113:                 3.23750                31.63125    0-17
-#> 114:               -10.90625                34.77500    0-17
-#>               TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
-#>               <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:       WORCESTER WORCESTER     137115      TRUE                 1798.000
-#>   2:          LOWELL MIDDLESEX      77712      TRUE                 1002.500
-#>   3:          NEWTON MIDDLESEX      53545      TRUE                  970.125
-#>   4:       CAMBRIDGE MIDDLESEX      89583      TRUE                  935.125
-#>   5:      SOMERVILLE MIDDLESEX      64223      TRUE                  871.250
-#>  ---                                                                        
-#> 110:   NEW BRAINTREE WORCESTER        568      TRUE                    8.250
-#> 111:          OAKHAM WORCESTER       1006      TRUE                    8.000
-#> 112:       PETERSHAM WORCESTER        710      TRUE                    7.375
-#> 113: EAST BROOKFIELD WORCESTER       1218      TRUE                    7.250
-#> 114:     PHILLIPSTON WORCESTER       1283      TRUE                    6.750
-#>      mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                        <num>                   <num>  <char>
-#>   1:               816.13750              2702.78750   18-64
-#>   2:               358.06250              1638.00625   18-64
-#>   3:               507.83750              1399.08125   18-64
-#>   4:               450.35000              1366.08125   18-64
-#>   5:               435.61250              1315.54375   18-64
-#>  ---                                                        
-#> 110:                -1.88125                18.50000   18-64
-#> 111:                -1.89375                17.63125   18-64
-#> 112:                -5.25000                21.75000   18-64
-#> 113:                -3.50000                17.88125   18-64
-#> 114:                -9.38125                21.38125   18-64
-#>           TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
-#>           <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:   WORCESTER WORCESTER      27168      TRUE                 3566.875
-#>   2:   CAMBRIDGE MIDDLESEX      14020      TRUE                 1966.625
-#>   3:      NEWTON MIDDLESEX      16540      TRUE                 1926.125
-#>   4:      LOWELL MIDDLESEX      13301      TRUE                 1802.375
-#>   5:  SOMERVILLE MIDDLESEX       7862      TRUE                 1637.125
-#>  ---                                                                    
-#> 110:   ROYALSTON WORCESTER        268      TRUE                   20.000
-#> 111:      OAKHAM WORCESTER        312      TRUE                   17.000
-#> 112:   PETERSHAM WORCESTER        307      TRUE                    9.250
-#> 113: PHILLIPSTON WORCESTER        276      TRUE                    6.750
-#> 114:    HARDWICK WORCESTER        519      TRUE                    5.000
-#>      mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#>                        <num>                   <num>  <char>
-#>   1:              2927.46875              4301.10625     65+
-#>   2:              1541.15000              2335.39375     65+
-#>   3:              1570.94375              2324.43125     65+
-#>   4:              1305.36875              2319.20000     65+
-#>   5:              1317.62500              2013.95000     65+
-#>  ---                                                        
-#> 110:                 5.98750                31.27500     65+
-#> 111:                 5.00000                26.63125     65+
-#> 112:                -9.26250                26.13125     65+
-#> 113:               -12.64375                22.38125     65+
-#> 114:               -15.64375                24.13125     65+
 ```
 
 ![](cityClimateHealth_files/figure-html/multi_plot3db-1.png)
