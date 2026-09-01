@@ -175,8 +175,6 @@ ma_exposure_matrix <- make_exposure_matrix(
   grp_level = T, 
   keep_unit_exposures = T)
 
-attributes(ma_exposure_matrix)
-
 outcome_columns <- list(
   "date" = "date",
   "outcome" = "daily_deaths",
