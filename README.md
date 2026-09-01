@@ -46,6 +46,15 @@ This package comes pre-loaded with **simluated** datasets of each type (e.g., `m
 
 We also provide several additional vignettes for common questions -- see "More articles""
 
+## Example use cases
+
+So far, `cityClimateHealth` has been used in several submitted and 
+in preparation manuscripts, with associated press:
+
+* [NPR spent 2 years tracking deaths from heat. We found a staggering hidden toll](https://www.npr.org/2026/08/31/nx-s1-5724225/heat-wave-death-toll-tracker)
+* [Building a Cool Culture in the Lower Mystic: The Summer 2026 Cool Communications Campaign](https://www.mapc.org/planning101/building-a-cool-culture-in-the-lower-mystic/)
+
+
 ## Funding attribution
 
 Support for this project comes from the Massachusetts Municipal Vulnerability Prepared-ness (MVP) program, and the Wellcome Foundation for the [Community Adaptations for City Heat Project (CATCH)](https://www.catchcityheat.org/) at Boston University (Climate Impact Award 311886/Z/24/Z), and the [Boston University Center for Climate and Health](https://sites.bu.edu/climateandhealth/).

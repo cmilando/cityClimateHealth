@@ -990,7 +990,7 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
     return(ggplot(shp_w_data) +
              theme_classic() +
              geom_sf(aes(fill = mean_annual_attr_num_est)) +
-             scale_fill_binned(name = paste0("Annual Temp Attr.\nOutcomes\n",
+             scale_fill_binned(name = paste0("Annual Attr.\nOutcomes\n",
                                              ylab_flag, "\n(#)"),
                                palette = pal) +
              theme(axis.text = element_blank(),
@@ -1015,7 +1015,7 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
     return(ggplot(shp_w_data) +
              theme_classic() +
              geom_sf(aes(fill = mean_annual_attr_rate_est)) +
-             scale_fill_binned(name = paste0("Annual Temp Attr.\nOutcomes Rate\n",
+             scale_fill_binned(name = paste0("Annual Attr.\nOutcomes Rate\n",
                                              ylab_flag, "\n(# per 100,000)"),
                                palette = pal) +
              theme(axis.text = element_blank(),
