@@ -27,11 +27,6 @@ This package can be used in three main ways:
 
 In implementations, an attributable number calculation is applied to model outputs, see `vignette("attributable_number")`. 
 
-:::info
-Time-series functions are in-progress
-:::
-
-
 ## Starting a new analysis
 
 To start a new analysis, you will need the following **4** datasets:
