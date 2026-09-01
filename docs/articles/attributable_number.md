@@ -605,32 +605,6 @@ spatial_plot(ma_AN_fct, shp = ma_counties, table_type = "num", above_MMT = T)
 #>                      <num>                   <num>  <char>
 #> 1:                31027.24                33144.89    0-17
 #> 2:                14218.93                16125.11    0-17
-#> Simple feature collection with 2 features and 39 fields
-#> Geometry type: POLYGON
-#> Dimension:     XY
-#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
-#> Projected CRS: NAD83 / Massachusetts Mainland
-#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
-#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
-#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
-#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
-#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
-#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
-#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
-#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
-#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
-#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
-#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
-#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
-#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
-#> 1      ACTON    T     317065      TRUE                 32083.50
-#> 2 ASHBURNHAM    T     178358      TRUE                 15171.25
-#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#> 1                31027.24                33144.89    0-17
-#> 2                14218.93                16125.11    0-17
-#>                         geometry
-#> 1 POLYGON ((208990.3 882273, ...
-#> 2 POLYGON ((158712.3 864187.3...
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
 #> 1: MIDDLESEX    1050640      TRUE                 10915.88
@@ -639,32 +613,6 @@ spatial_plot(ma_AN_fct, shp = ma_counties, table_type = "num", above_MMT = T)
 #>                      <num>                   <num>  <char>
 #> 1:                9804.569               12119.031   18-64
 #> 2:                3470.750                5000.062   18-64
-#> Simple feature collection with 2 features and 39 fields
-#> Geometry type: POLYGON
-#> Dimension:     XY
-#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
-#> Projected CRS: NAD83 / Massachusetts Mainland
-#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
-#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
-#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
-#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
-#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
-#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
-#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
-#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
-#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
-#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
-#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
-#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
-#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
-#> 1      ACTON    T    1050640      TRUE                 10915.88
-#> 2 ASHBURNHAM    T     541246      TRUE                  4173.50
-#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#> 1                9804.569               12119.031   18-64
-#> 2                3470.750                5000.062   18-64
-#>                         geometry
-#> 1 POLYGON ((208990.3 882273, ...
-#> 2 POLYGON ((158712.3 864187.3...
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
 #> 1: MIDDLESEX     255404      TRUE                 21789.62
@@ -673,32 +621,6 @@ spatial_plot(ma_AN_fct, shp = ma_counties, table_type = "num", above_MMT = T)
 #>                      <num>                   <num>  <char>
 #> 1:                20520.84                22546.97     65+
 #> 2:                10009.17                11305.87     65+
-#> Simple feature collection with 2 features and 39 fields
-#> Geometry type: POLYGON
-#> Dimension:     XY
-#> Bounding box:  xmin: 132799.7 ymin: 862007.2 xmax: 239462 ymax: 942912.8
-#> Projected CRS: NAD83 / Massachusetts Mainland
-#>    COUNTY20  ALAND20 AWATER20 TOWN_ID FIPS_STCO2 FOURCOLOR AREA_ACRES SQ_MILES
-#> 1 MIDDLESEX 39262628  1104928   167.5      25017       2.5   10159.95   15.875
-#> 2 WORCESTER 59652748  2226374   195.0      25027       2.5   15339.02   23.965
-#>   POP1960 POP1970 POP1980 POP1990 POP2000 POP2010 POP2020 POPCH10_20 HOUSING20
-#> 1 12684.5   16625 17507.5 17761.5 20782.0 21680.5 23296.5     1841.5    8860.5
-#> 2  3972.5    5338  6131.5  6644.5  7430.5  8263.0  9016.0      373.5    3442.5
-#>   SHAPE_AREA SHAPE_LEN STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20    GEOID20
-#> 1   41115882  29498.13        25        017      00380   00618213 2501700380
-#> 2   62074807  37978.20        25        027      01885   00618356 2502701885
-#>        NAMELSAD20 LSAD20 CLASSFP20 MTFCC20 FUNCSTAT20  INTPTLAT20   INTPTLON20
-#> 1      Acton town     43        T1   G4040          A +42.1959508 -071.0546487
-#> 2 Ashburnham town     43        T1   G4040          A +42.0366420 -071.5214188
-#>       TOWN20 TYPE population above_MMT mean_annual_attr_num_est
-#> 1      ACTON    T     255404      TRUE                 21789.62
-#> 2 ASHBURNHAM    T     139294      TRUE                 10667.25
-#>   mean_annual_attr_num_lb mean_annual_attr_num_ub age_grp
-#> 1                20520.84                22546.97     65+
-#> 2                10009.17                11305.87     65+
-#>                         geometry
-#> 1 POLYGON ((208990.3 882273, ...
-#> 2 POLYGON ((158712.3 864187.3...
 ```
 
 ![](attributable_number_files/figure-html/multi_plot3d-1.png)

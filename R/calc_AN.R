@@ -738,7 +738,7 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
       theme(axis.text.x = element_text(angle= 90, hjust = 1, vjust = 0.5),
             axis.title.y = element_text(angle = 0, vjust = 0.5)) +
       xlab(x_col) +
-      ylab(paste0("Annual Temp Attr.\nOutcomes\n", ylab_flag, "\n(#)"))
+      ylab(paste0("Annual Attr.\nOutcomes\n", ylab_flag, "\n(#)"))
 
   } else {
 
@@ -780,7 +780,7 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
       theme(axis.text.x = element_text(angle= 90, hjust = 1, vjust = 0.5),
             axis.title.y = element_text(angle = 0, vjust = 0.5)) +
       xlab(x_col) +
-      ylab(paste0("Annual Temp Attr.\nOutcomes Rate\n",
+      ylab(paste0("Annual Attr.\nOutcomes Rate\n",
                   ylab_flag, "\n(# per 100,000)"))
 
   }
@@ -879,7 +879,7 @@ plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
       theme(axis.text.x = element_text(angle= 90, hjust = 1, vjust = 0.5),
             axis.title.y = element_text(angle = 0, vjust = 0.5)) +
       xlab(x_col) +
-      ylab(paste0("Annual Temp Attr.\nOutcomes\n", ylab_flag, "\n(#)"))
+      ylab(paste0("Annual Attr.\nOutcomes\n", ylab_flag, "\n(#)"))
 
   } else {
 
@@ -942,7 +942,7 @@ plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
       theme(axis.text.x = element_text(angle= 90, hjust = 1, vjust = 0.5),
             axis.title.y = element_text(angle = 0, vjust = 0.5)) +
       xlab(x_col) +
-      ylab(paste0("Annual Temp Attr.\nOutcomes Rate\n",
+      ylab(paste0("Annual Attr.\nOutcomes Rate\n",
                   ylab_flag, "\n(# per 100,000)"))
 
   }
@@ -988,9 +988,6 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
 
     # subset to just the ones with data
     shp_w_data <- subset(shp_w_data, !is.na(mean_annual_attr_num_est))
-
-    print(shp_w_data)
-
 
     return(ggplot(shp_w_data) +
              theme_classic() +

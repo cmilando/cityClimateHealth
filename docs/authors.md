@@ -4,8 +4,7 @@
 
 - **[Chad Milando](https://chadmilando.com)**. Author, maintainer.
 
-- **[Caroline Sarpy](https://www.bu.edu/sph/profile/emma-gause/)**.
-  Author.
+- **Caroline Sarpy**. Author.
 
 - **[Emma Gause](https://www.bu.edu/sph/profile/emma-gause/)**. Author.
 
@@ -14,8 +13,7 @@
 - **[Zachary Popp](https://www.bu.edu/sph/profile/zachary-popp/)**.
   Author.
 
-- **[Alexis Arlak](https://www.bu.edu/sph/profile/emma-gause/)**.
-  Author.
+- **Alexis Arlak**. Author.
 
 - **[Gregory
   Wellenius](https://www.bu.edu/sph/profile/gregory-wellenius/)**.
