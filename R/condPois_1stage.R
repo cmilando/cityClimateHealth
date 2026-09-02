@@ -326,7 +326,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   # there should be no NAs
   if(any(is.na(m_coef)))
   stop("coef has NULL, something went wrong.
-  Usually this happens
+  Usually this happens:
   (1) when strata counts are too low,
   (2) when maxlag is low (< 3) and you haven't adjusted
   argvar and arglag (switching to fun='lin' can be a good starting point)
