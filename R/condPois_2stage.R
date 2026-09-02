@@ -114,7 +114,8 @@ condPois_2stage <- function(exposure_matrix,
                                               min_n = min_n,
                                               rf = rf,
                                               strata_min = strata_min,
-                                              verbose = verbose)
+                                              verbose = verbose,
+                                              truncate = truncate)
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]

@@ -157,7 +157,8 @@ condPois_sb <- function(exposure_matrix,
                                           maxlag = maxlag,
                                           min_n = min_n,
                                           strata_min = strata_min,
-                                          verbose = verbose)
+                                          verbose = verbose,
+                                          truncate = truncate)
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]
@@ -1321,6 +1322,7 @@ forest_plot.condPois_sb_list <- function(x, exposure_val) {
       ggtitle(paste0(exposure_col, " = ", exposure_val))
   } else {
     ggplot(obj, aes(x = RR, xmin = RRlb, xmax = RRub,
+                    color = !!sym(fct_lab),
                     y = reorder(!!sym(geo_unit_col), RR))) +
       geom_vline(xintercept = 1.0, linetype = '11') +
       theme_classic() +
