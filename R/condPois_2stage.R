@@ -829,6 +829,7 @@ plot.condPois_2stage_list <- function(x, geo_unit,
 #'
 #' @param x an object of class condPois_2stage
 #' @param exposure_val exposure value at which to plot
+#' @param show_as_boxplot
 #' @importFrom ggplot2 ggplot
 #' @returns a ggplot object
 #' @export
@@ -839,7 +840,7 @@ plot.condPois_2stage_list <- function(x, geo_unit,
 #'   model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
 #'   forest_plot(model, exposure_val = 30.0)
 #' }
-forest_plot.condPois_2stage <- function(x, exposure_val) {
+forest_plot.condPois_2stage <- function(x, exposure_val, show_as_boxplot = F) {
 
   # get subset of X
   n_geos <- length(x$`_`$out)
@@ -873,24 +874,46 @@ forest_plot.condPois_2stage <- function(x, exposure_val) {
   plt_slice <- do.call(rbind, plt_slice)
 
   # forest_plot
-  if(n_geos > 20) {
-    warning("plotting by group since n_geos > 20")
-    ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
-                          y = reorder(!!sym(geo_unit_grp_col), RR))) +
-      geom_vline(xintercept = 1.0, linetype = '11') +
-      ylab(geo_unit_grp_col) +
-      theme_classic() +
-      scale_x_continuous(transform = 'log') +
-      geom_pointrange(position = position_jitterdodge()) +
-      ggtitle(paste0(exposure_col, " = ", exposure_val))
+  if(show_as_boxplot) {
+    if(n_geos > 20) {
+      warning("plotting by group since n_geos > 20")
+      ggplot(plt_slice, aes(x = RR, #xmin = RRlb, xmax = RRub,
+                            y = reorder(!!sym(geo_unit_grp_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        ylab(geo_unit_grp_col) +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_boxplot() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    } else {
+      ggplot(plt_slice, aes(x = RR, #xmin = RRlb, xmax = RRub,
+                            y = reorder(!!sym(geo_unit_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_boxplot() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    }
   } else {
-    ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
-                          y = reorder(!!sym(geo_unit_col), RR))) +
-      geom_vline(xintercept = 1.0, linetype = '11') +
-      theme_classic() +
-      scale_x_continuous(transform = 'log') +
-      geom_pointrange() +
-      ggtitle(paste0(exposure_col, " = ", exposure_val))
+    if(n_geos > 20) {
+      warning("plotting by group since n_geos > 20")
+      ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
+                            y = reorder(!!sym(geo_unit_grp_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        ylab(geo_unit_grp_col) +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_pointrange(position = position_jitterdodge()) +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    } else {
+      ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
+                            y = reorder(!!sym(geo_unit_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_pointrange() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    }
   }
 
 }
@@ -1068,7 +1091,7 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 #'   model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
 #'   forest_plot(model_list, exposure_val = 30.0)
 #' }
-forest_plot.condPois_2stage_list <- function(x, exposure_val) {
+forest_plot.condPois_2stage_list <- function(x, exposure_val, show_as_boxplot = FALSE) {
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col
@@ -1114,26 +1137,53 @@ forest_plot.condPois_2stage_list <- function(x, exposure_val) {
   obj <- do.call(rbind, obj_l)
 
   # forest_plot
-  if(n_geos > 20) {
-    warning("plotting by group since n_geos > 20")
-    ggplot(obj, aes(x = RR, xmin = RRlb, xmax = RRub,
-                          color = !!sym(fct_lab),
-                          y = reorder(!!sym(geo_unit_grp_col), RR))) +
-      geom_vline(xintercept = 1.0, linetype = '11') +
-      ylab(geo_unit_grp_col) +
-      theme_classic() +
-      scale_color_viridis_d() +
-      scale_x_continuous(transform = 'log') +
-      geom_pointrange(position = position_jitterdodge()) +
-      ggtitle(paste0(exposure_col, " = ", exposure_val))
+  if(show_as_boxplot) {
+    if(n_geos > 20) {
+      warning("plotting by group since n_geos > 20")
+      ggplot(obj, aes(x = RR,
+                            color = !!sym(fct_lab),
+                            y = reorder(!!sym(geo_unit_grp_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        ylab(geo_unit_grp_col) +
+        theme_classic() +
+        scale_color_viridis_d() +
+        scale_x_continuous(transform = 'log') +
+        geom_boxplot() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    } else {
+      ggplot(obj, aes(x = RR,
+                      color = !!sym(fct_lab),
+                            y = reorder(!!sym(geo_unit_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_boxplot() +
+        scale_color_viridis_d() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    }
   } else {
-    ggplot(obj, aes(x = RR, xmin = RRlb, xmax = RRub,
-                          y = reorder(!!sym(geo_unit_col), RR))) +
-      geom_vline(xintercept = 1.0, linetype = '11') +
-      theme_classic() +
-      scale_x_continuous(transform = 'log') +
-      geom_pointrange() +
-      scale_color_viridis_d() +
-      ggtitle(paste0(exposure_col, " = ", exposure_val))
+    if(n_geos > 20) {
+      warning("plotting by group since n_geos > 20")
+      ggplot(obj, aes(x = RR, xmin = RRlb, xmax = RRub,
+                      color = !!sym(fct_lab),
+                      y = reorder(!!sym(geo_unit_grp_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        ylab(geo_unit_grp_col) +
+        theme_classic() +
+        scale_color_viridis_d() +
+        scale_x_continuous(transform = 'log') +
+        geom_pointrange(position = position_jitterdodge()) +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    } else {
+      ggplot(obj, aes(x = RR, xmin = RRlb, xmax = RRub,
+                      color = !!sym(fct_lab),
+                      y = reorder(!!sym(geo_unit_col), RR))) +
+        geom_vline(xintercept = 1.0, linetype = '11') +
+        theme_classic() +
+        scale_x_continuous(transform = 'log') +
+        geom_pointrange() +
+        scale_color_viridis_d() +
+        ggtitle(paste0(exposure_col, " = ", exposure_val))
+    }
   }
 }
