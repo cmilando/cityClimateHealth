@@ -326,12 +326,15 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   # there should be no NAs
   if(any(is.na(m_coef)))
   stop("coef has NULL, something went wrong.
-  Usually this happens (1) when strata counts are too low,
+  Usually this happens
+  (1) when strata counts are too low,
   (2) when maxlag is low (< 3) and you haven't adjusted
   argvar and arglag (switching to fun='lin' can be a good starting point)
   (3) if exposure_is_factor then
   you need to make sure that `breaks` is set correctly or
-  (4) if you have a covariate that has no variation within each strata")
+  (4) if you have a covariate that has no variation within each strata -- e.g.,
+       if you have US_holiday and you are doing factors by month, August has no
+       federal holidays so there will be no contrast for this variable.")
 
   if(any(is.na(m_vcov))) stop("vcov has NULL, something went wrong")
 
