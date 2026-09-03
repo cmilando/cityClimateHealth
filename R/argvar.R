@@ -46,11 +46,13 @@ check_argvar <- function(argvar, this_exp) {
       )
       this_argvar <- list(fun = argvar$fun, breaks = argvar$breaks)
 
+
     } else {
 
-      stop("argvar fun that isn't `ns`, `bs`, or `strata` not implemented yet")
+      stop("argvar fun that isn't `ns`, `bs`, or `strata`, not implemented yet")
 
     }
   }
+
   return(this_argvar)
 }

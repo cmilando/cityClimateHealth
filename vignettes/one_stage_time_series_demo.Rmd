@@ -1,0 +1,574 @@
+---
+title: "one_stage_time_series_demo"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+devtools::load_all("..")
+```
+
+
+```{r}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Time-Series Analysis and CityClimateHealth
+
+Let's use built-in functions to examine a single set of beta coefficients for heat-health relationships in a single or multiple geographic unit. We'll start with a review of DLNM, and then show how it's implemented with time-series analysis in `cityClimateHealth` for both the single and multi-zone cases.
+
+For testing purposes, start with your largest geographic unit! 
+
+```{r}
+library(cityClimateHealth)
+```
+
+### Exposure data
+
+First let's make the exposure matrix for this single zone. There is a **simulated** exposure dataset included in the package called `ma_exposure`, which lists **daily maximum** temperatures each day in each town. Let's take a look at the available data: 
+
+```{r load_exposure} 
+head(ma_exposure)
+```
+
+Notice how this dataset contains temperature for the whole year. This is a good starting place.
+
+Now, we'll subset to just Boston, to start with a single-zone example. 
+
+```{r boston exposure}
+boston_exposure <- subset(ma_exposure, TOWN20 == 'BOSTON')
+head(boston_exposure)
+```
+
+Also notice that these data are messy, as is common in environmental data, there are both NA values and days where there are no measurements:
+
+```{r exp_clean}
+# Sept 17 2010 has NA data
+boston_exposure[255:260,]
+
+# July 13 2010 is missing
+boston_exposure[190:195,]
+```
+
+In the next step we'll introduce a function which (a) cleans the data and (b) subsets to just warm season months (which in Boston is May through September). It's good to keep the full temperature range before this point so we can use extra data around the cutoffs to make sure the temperature matrix is full. 
+
+First, define the column mapping. The main geographic unit of analysis (the `geo_unit`) is called `TOWN20`, however we may also want to aggregate in some later steps to the group level, so the grouping variable (`geo_unit_grp`) is called `COUNTY20`. Providing a named list in this way avoids having to rename columns throughout the process. 
+
+```{r exp_cols}
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+```
+
+Next pass in your full temperature time-series in this step.
+```{r convertExp}
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, 
+                                            exposure_columns,
+                                            time_subset = list(month = 5:9))
+head(boston_exposure_mat)
+```
+
+You can check that the two problems we saw before -- missing data and NA data -- are gone now
+```{r exp_check}
+# Sept 17 2010 now has no NA data
+boston_exposure_mat[138:142,]
+
+# July 13 2010 is now not missing
+boston_exposure_mat[72:77,]
+```
+
+It's probably a good idea to see if there is any systematic bias in the missingness (i.e., are the data "missing at random") but for the purposes of this tutorial we'll assume that they are (which is true since these are simulated data!).
+
+It may also be a good idea to check that the exposure values generally look like you expect them to look (e.g., with some summary statistics), just to make sure you don't need to do anys additional pre-processing (e.g., if there are location-specific wildly high or low temperatures, this script as is will not catch those).
+
+```{r exp_summary}
+summary(boston_exposure_mat$tmax_C)
+```
+
+For a time-series of daily maximum temperatures in warm-season months in Boston MA, looks good!
+
+### Outcome data
+
+Next let's investigate the deaths dataset - you can see that this has town level daily deaths with by category for age group (0-17, 18-64, and 65+) as well as a binary-coded sex variable. Again, note that this data is **simulated**.
+
+```{r load_deaths} 
+boston_deaths <- subset(ma_deaths, TOWN20 == 'BOSTON')
+
+boston_deaths <- aggregate(
+  daily_deaths ~ TOWN20 + date + COUNTY20,
+  data = boston_deaths,
+  FUN  = function(x) sum(x, na.rm = TRUE)
+)
+
+head(boston_deaths)
+```
+
+Start with defining the outcome columns. First, population. 
+
+```{r outcome_columns}
+
+library(data.table)
+
+data("ma_pop_data")
+setDT(ma_pop_data)
+
+ma_pop_data_long <- melt(
+  ma_pop_data,
+  id.vars = "TOWN20",
+  variable.name = "sex_age",
+  value.name = "population"
+)
+
+ma_pop_data_long <- aggregate(
+  population ~ TOWN20,
+  data = ma_pop_data_long,
+  FUN  = function(x) sum(x, na.rm = TRUE)
+)
+
+boston_deaths <- merge(boston_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
+```
+
+Now, the rest of the outcome columns: 
+
+```{r outcome columns manual example}
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+head(boston_deaths)
+```
+
+
+As with the exposure dataset, there may be some days that are missing data, and we want to aggregate these data across the factors we aren't using and to the correct spatial unit for this analysis. The `make_outcome_table` function accomplishes these goals. 
+
+```{r make_outcome_table}
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
+
+head(boston_deaths_tbl)
+
+```
+We can also add a DOW variable: 
+
+```{r dow manual example}
+
+boston_deaths_tbl[, dow := wday(date)]
+
+head(boston_deaths_tbl)
+```
+
+Now, we add in a population offset: 
+
+```{r population offset data}
+population_columns <- list(
+  "geo_unit" = "TOWN20",
+  "date" = "date", 
+  "population" = "population"
+)
+
+boston_deaths_tbl <- add_population_offset(
+  outcomes_tbl       = boston_deaths_tbl,
+  population_data    = boston_deaths,
+  population_columns = population_columns
+)
+
+head(boston_deaths_tbl)
+```
+And it's all there! Yay!
+
+### Basic DLNM (manual walkthrough)
+
+Now, we'll walk through a basic DLNM of heat-health associations for a single zone. This assumes some basic knowledge of `library(dlnm)`.
+
+Here are the libraries we'll need to run a time-series model.
+```{r dlnm_libraries, message=FALSE}
+library(dlnm)
+library(ggplot2)
+library(data.table)
+```
+
+Here are the inputs to define the crossbasis matrix. We use a default of `ns` so that the behavior at the the tails of the distribution is linear.
+```{r dlnm_other}
+arg_fun = 'ns'
+lag_fun = 'ns'
+x_knots = quantile(boston_exposure_mat$tmax_C, probs = c(0.5, 0.9))
+maxlag = 5
+nk = 2
+```
+
+And put these into the lists for `argvar` and `arglag`:
+```{r dlmn_lists}
+argvar <- list(fun = arg_fun, knots = x_knots)
+arglag <- list(fun = lag_fun, knots = logknots(maxlag, nk = nk))
+```
+
+Time-series models depend on adjustment for short- and long-term time-trends, such as seasonality. Here, we are using only summer months rather than a whole year of data, so we will use a default of 4 degrees of freedom and natural splines.
+
+```{r seasonality}
+library(splines)
+
+boston_deaths_tbl$time_index <- as.numeric(boston_deaths_tbl$date - min(boston_deaths_tbl$date))
+
+time_trend <- ns(boston_deaths_tbl$time_index, df = 4)
+```
+
+
+Limit the columns of the exposure matrix to be just the ones up to `maxlag`:
+```{r create_cb}
+xcols <- c('tmax_C', paste0('explag',1:maxlag))
+x_mat <- boston_exposure_mat[, ..xcols]
+
+cb <- crossbasis(x_mat, lag = maxlag, argvar = argvar, arglag = arglag)
+```
+
+Now run the model:
+```{r run_model}
+m_sub <- glm(daily_deaths ~ cb + dow + time_trend,
+             data = boston_deaths_tbl,
+             family = quasipoisson)
+summary(m_sub)
+```
+
+Notice that the dispersion parameter is quite high! but again, these are simulated data -- this is part of how the quasipoisson model works and is used to re-scale the variance covariance matrix.
+
+Next get the crosspred outputs correctly centered at the minimum RR
+```{r crosspred}
+cp <- crosspred(cb, m_sub, cen = 20, by = 0.1)
+
+cen = cp$predvar[which.min(cp$allRRfit)]
+
+cp <- crosspred(cb, m_sub, cen = cen, by = 0.1)
+```
+
+And plot:
+```{r cp_plot, fig.height=3, fig.width=5}
+plot_cp = data.frame(
+    x = cp$predvar,
+    RR = cp$allRRfit,
+    RRlb = cp$allRRlow,
+    RRhigh = cp$allRRhigh
+)
+
+ggplot(plot_cp, aes(x = x, y = RR, ymin = RRlb, ymax = RRhigh)) +
+  geom_hline(yintercept = 1, linetype = '11') +
+  theme_classic() +
+  geom_ribbon(fill = 'grey75', alpha = 0.2) +
+  geom_line() + xlab("Tmax (degC)")
+```
+
+### Basic DLNM (using `cityClimateHealth` functions in `R`)
+
+The functionality above is what is encapsulated in the `timeseries_1stage_glm` function. This is one of the chief innovations of this package. Starting from messy exposure and outcome datasets, we can quickly estimate heat-health impacts in 3 lines.
+
+We have built-in defaults for `argvar`, `arglag`, and `maxlag` for the investigation of warm-season non-fatal health impacts associated with increases in temperature. We also have built-in defaults for time trends, with both seasonal (ns, df = 4) and annual (ns, df = 7) trends available based on your research question. Natural splines are used here to smoothly model long-term patterns that can vary over time (see: [Bhaskaran et al.](https://academic.oup.com/ije/article/42/4/1187/657875). There is no consensus regarding the optimal number of df for time trends; we refer to [Gasparini et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC2998707/) for the purposes of this tutorial. For the purposes of this package, we define season as a sub-pattern of the full annual seasonal cycle, e.g., summer.  
+
+An important note is that day of the week is *automatically* included as a covariate in the `timeseries_1stage_glm` function, to further adjust for potential time trends in the data.
+
+Let's dive in, and look at the associations between heat and mortality in Boston. For this example, a seasonal trend is being used, same as the example above. 
+
+```{r single_zone}
+# create exposure matrix
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+boston_exposure_mat <- make_exposure_matrix(boston_exposure, exposure_columns,
+                                            time_subset = list(month = 5:9))
+
+
+##prep outcome data 
+
+boston_deaths <- aggregate(
+  daily_deaths ~ TOWN20 + date + COUNTY20,
+  data = boston_deaths,
+  FUN  = function(x) sum(x, na.rm = TRUE)
+)
+
+boston_deaths$dow <- weekdays(as.Date(boston_deaths$date))
+
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
+
+
+
+# run the model
+m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat, 
+                  outcomes_tbl = boston_deaths_tbl, time_trend = "season", global_cen = 20)
+
+```
+
+And plot the relative risk
+```{r single_plot, fig.height=3, fig.width=5}
+plot.timeseries_1stage(m1)
+```
+
+You can also get the RR table for your own usage
+
+```{r getRR1}
+getRR.timeseries_1stage(m1)
+```
+
+
+### Compare: Gasparinni et al. 
+
+We can compare the functionality of cityclimateHealth to the gold standard of DLNM: [Gasparrini et al.'s work](https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf).
+
+First, let us look at Gasparrini et al.'s simulated dataset, looking at cardiovascular, respiratory, and mortality outcomes in a Chicago population: 
+
+```{r chicago data glimpse}
+
+library(dlnm)
+head(chicagoNMMAPS)
+
+```
+
+Gasparrini et al. specify a model to examine the association between mortality and particulate matter 10 microns across or smaller (PM10), while adjusting for temperature. The research team defined the crossbasis objects and models accordingly:
+
+```{r gasparrini et al. crossbasis specification}
+
+head(chicagoNMMAPS)
+
+cb1.temp <- crossbasis(chicagoNMMAPS$temp, lag=15, argvar=list(fun="bs", degree=3, Boundary.knots = c(-26.66667, 33.33333)),
+arglag=list(fun="poly",degree=4))
+
+summary(cb1.temp)
+
+```
+
+```{r gasparrini et al. model specification}
+
+library(splines)
+
+
+##we're going to subset to 1988 and beyond, so there's no NAs for 1987 
+sel <- chicagoNMMAPS$year >= 1988
+
+
+gasparrini_model <- glm(death ~ cb1.temp + ns(time, 7*13) + dow, ##similar to our package, 7 df is used per year, and we're using 13 years here  
+              
+family=quasipoisson(), chicagoNMMAPS, subset = sel)
+
+```
+
+Now, we can build the same model using our package, and observe the same output from both. 
+
+```{r cityclimateHealth chicago dataset exposure matrix}
+
+##prep data to have geo_units which are required 
+
+chiacgo_exposure <- chicagoNMMAPS
+
+chiacgo_exposure$town <- "Chicago"
+chiacgo_exposure$county <- "Cook"
+
+# create exposure matrix
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "temp", 
+  "geo_unit" = "town",
+  "geo_unit_grp" = "county"
+)
+chicago_exposure_mat <- 
+  make_exposure_matrix(
+    chiacgo_exposure, 
+    exposure_columns, 
+    maxlag = 15, 
+    maxgap = 10, 
+    time_subset = list(year = 1988:2000))
+
+```
+Now, we prep the outcome data: 
+
+```{r outcome data cityclimateHealth example}
+##prep outcome data 
+
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "death",
+  "geo_unit" = "town",
+  "geo_unit_grp" = "county"
+)
+
+chicago_deaths_tbl <- make_outcome_table(chiacgo_exposure,  outcome_columns,
+                                        time_subset = list(year = 1988:2000))
+
+```
+
+
+And run the model: 
+
+```{r cityclimatehealth model chicago dataset}
+
+# run the model
+cityclimatehealth_model <- timeseries_1stage_glm(
+  exposure_matrix = chicago_exposure_mat,
+  outcomes_tbl = chicago_deaths_tbl,
+  maxlag = 15,
+  argvar = list(fun = "bs", degree = 3),   ##we have to override the internal cityclimateHealth argvar and                                             arglag functions, to match Gasparrini et al.
+  arglag = list(fun = "poly", degree = 4),
+  time_trend = "annual",
+  global_cen = 5
+)
+
+```
+
+Now we have both models to compare! Here's the output from the Gasparrini et al. model: 
+
+```{r Gasparrini et al. model graph output}
+
+library(ggplot2)
+
+gasp_cp <- crosspred(cb1.temp, gasparrini_model)
+plot(gasp_cp, 'overall')
+
+```
+Versus ours: 
+
+```{r cityclimatehealth_model graph output}
+
+plot.timeseries_1stage(cityclimatehealth_model)
+
+```
+And if we want to look at RRs for specific values from Gasparrini: 
+
+```{r gasparrini RR value prediction}
+
+gasp_cp$allRRfit["-26"]
+
+```
+
+Versus ours: 
+
+```{r cityclimatehealth RR value prediction}
+
+getRR.timeseries_1stage(cityclimatehealth_model)
+
+```
+
+
+### Multi-zone DLNM 
+
+You can also easily extend to a 1 stage multi-zone case. Now we're going to need to include a population offset, to account for the different numbers of people per geo-unit.
+
+First, let's make the exposure and outcome matrices, as before: 
+
+```{r single_zone2b}
+
+# create exposure matrix
+exposure_columns <- list(
+  "date" = "date",
+  "exposure" = "tmax_C",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+suffolk_exposure <- subset(ma_exposure, COUNTY20 == 'SUFFOLK')
+suffolk_exposure_mat <- make_exposure_matrix(suffolk_exposure, exposure_columns,
+                                               time_subset = list(month = 5:9))
+
+suffolk_exposure_mat[, date := as.Date(date)] 
+
+# create outcome table
+outcome_columns <- list(
+  "date" = "date",
+  "outcome" = "daily_deaths",
+  "geo_unit" = "TOWN20",
+  "geo_unit_grp" = "COUNTY20"
+)
+
+suffolk_deaths   <- subset(ma_deaths, COUNTY20 == 'SUFFOLK')
+
+suffolk_deaths <- merge(suffolk_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
+
+suffolk_deaths <- aggregate(
+  daily_deaths ~ TOWN20 + date + COUNTY20,
+  data = suffolk_deaths,
+  FUN  = function(x) sum(x, na.rm = TRUE)
+)
+
+suffolk_deaths_tbl <- make_outcome_table(suffolk_deaths,  outcome_columns,
+                                        time_subset = list(month = 5:9))
+
+
+head(suffolk_deaths_tbl)
+
+```
+
+Now, we add in the population offset: 
+
+```{r single_zone2b population offset}
+
+population_columns <- list(
+  "geo_unit" = "TOWN20",
+  "date" = "date", 
+  "population" = "population"
+)
+
+##add in population data 
+suffolk_deaths_tbl_df <- as.data.frame(suffolk_deaths_tbl)
+unique_town_date <- unique(suffolk_deaths_tbl_df[, c("TOWN20", "date")])
+
+pop_lookup <- unique(as.data.frame(ma_pop_data_long)[, c("TOWN20", "population")])
+
+population_data <- merge(unique_town_date, pop_lookup, by = "TOWN20", all.x = TRUE)
+
+##here we go! 
+
+suffolk_deaths_tbl <- add_population_offset(
+  outcomes_tbl = suffolk_deaths_tbl,
+  population_data = population_data,
+  population_columns = population_columns
+)
+
+suffolk_deaths_tbl[, date := as.Date(date)]
+
+head(suffolk_deaths_tbl)
+
+```
+
+And finally, we run the model: 
+
+```{r multi zone time series 1 stage model}
+
+# run the model
+m2 <- timeseries_1stage_glm(
+  exposure_matrix = suffolk_exposure_mat, 
+  outcomes_tbl = suffolk_deaths_tbl,
+  multi_zone = TRUE,
+  global_cen = 20,
+  time_trend = "season",
+  population_col = "population"
+)
+
+```
+
+And plot - notice the tighter confidence interval
+```{r single_plot2b, fig.height=3, fig.width=5}
+cityClimateHealth:::plot.timeseries_1stage(m2)
+```
+
+
+And get RR:
+```{r getRR2}
+getRR.timeseries_1stage(m2)
+```
+
