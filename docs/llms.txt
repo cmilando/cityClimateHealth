@@ -5,7 +5,7 @@ climate-health impacts at small spatial scales. Starting from a messy
 exposure and outcome dataset, we can quickly estimate climate-health
 impacts.
 
-![](BU_CCH.png)![](BU_CATCH.png)
+![](BU.png)![](BU_CCH.png)![](BU_CATCH.png)
 
 ## Installing the package
 
@@ -28,8 +28,6 @@ In implementations, an attributable number calculation is applied to
 model outputs, see
 [`vignette("attributable_number")`](http://climatehealth.city/articles/attributable_number.md).
 
-Time-series functions are in-progress
-
 ## Starting a new analysis
 
 To start a new analysis, you will need the following **4** datasets:
@@ -42,10 +40,17 @@ This package comes pre-loaded with **simluated** datasets of each type
 (e.g., `ma_exposure`, `ma_deaths`, `ma_pop_data`, and `ma_towns`
 respectively) so each of these methods can be explored.
 
-## Additional vignettes
+## Use cases
 
-We also provide several additional vignettes for common questions – see
-“More articles””
+So far, `cityClimateHealth` has been used in several submitted and in
+preparation manuscripts, with associated press:
+
+- [NPR spent 2 years tracking deaths from heat. We found a staggering
+  hidden
+  toll](https://www.npr.org/2026/08/31/nx-s1-5724225/heat-wave-death-toll-tracker)
+- [Building a Cool Culture in the Lower Mystic: The Summer 2026 Cool
+  Communications
+  Campaign](https://www.mapc.org/planning101/building-a-cool-culture-in-the-lower-mystic/)
 
 ## Funding attribution
 

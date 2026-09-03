@@ -253,6 +253,8 @@ You can also make a forest plot at a specific exposure value
 ``` r
 
 forest_plot(ma_model, exposure_val = 25.1)
+#> Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): rounded
+#> to 1 decimal
 #> Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting
 #> by group since n_geos > 20
 ```
@@ -264,6 +266,8 @@ You can also make a spatial plot at a specific exposure value:
 ``` r
 
 spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
+#> Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val
+#> = 25.1): rounded to 1 decimal
 ```
 
 ![](cityClimateHealth_files/figure-html/spatial_plot-1.png)
@@ -709,6 +713,8 @@ plot(ma_model_fct, "CAMBRIDGE")
 
 forest_plot(ma_model_fct, exposure_val = 25.1)
 #> Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):
+#> rounded to 1 decimal
+#> Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):
 #> plotting by group since n_geos > 20
 ```
 
@@ -719,6 +725,14 @@ You can also make a spatial plot at a specific exposure value:
 ``` r
 
 spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
+#> Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
 ```
 
 ![](cityClimateHealth_files/figure-html/spatial_plot2-1.png)

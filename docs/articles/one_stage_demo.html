@@ -750,19 +750,32 @@ population offset if you were doing a time-series design).</p>
 <p>And get RR</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       tmax_C age_grp        RR      RRlb      RRub          model_class</span></span>
-<span><span class="co">#&gt;        &lt;num&gt;  &lt;char&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;               &lt;char&gt;</span></span>
-<span><span class="co">#&gt;    1:    3.4    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    2:    3.5    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    3:    3.6    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    4:    3.7    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    5:    3.8    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;   ---                                                                  </span></span>
-<span><span class="co">#&gt; 1058:   38.3     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1059:   38.4     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1060:   38.5     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1061:   38.6     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1062:   38.7     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list</span></span></code></pre></div>
+<span><span class="co">#&gt;       tmax_C age_grp                   n_geo_names        RR      RRlb</span></span>
+<span><span class="co">#&gt;        &lt;num&gt;  &lt;char&gt;                        &lt;char&gt;     &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt;    1:    3.4    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;    2:    3.5    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;    3:    3.6    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;    4:    3.7    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;    5:    3.8    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;   ---                                                                 </span></span>
+<span><span class="co">#&gt; 1058:   38.3     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt; 1059:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt; 1060:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt; 1061:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt; 1062:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt;            RRub          model_class</span></span>
+<span><span class="co">#&gt;           &lt;num&gt;               &lt;char&gt;</span></span>
+<span><span class="co">#&gt;    1: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    2: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    3: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    4: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    5: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;   ---                               </span></span>
+<span><span class="co">#&gt; 1058: 1.2689089 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1059: 1.2689089 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1060: 1.2689089 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1061: 1.2689089 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1062: 1.2689089 condPois_1stage_list</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="changing-the-global_cen">Changing the global_cen<a class="anchor" aria-label="anchor" href="#changing-the-global_cen"></a>

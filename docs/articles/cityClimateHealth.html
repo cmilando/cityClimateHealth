@@ -366,12 +366,16 @@ additional bugs to work out]):</p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): rounded</span></span>
+<span><span class="co">#&gt; to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting</span></span>
 <span><span class="co">#&gt; by group since n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val</span></span>
+<span><span class="co">#&gt; = 25.1): rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" width="480"></p>
 </div>
 <div class="section level3">
@@ -762,11 +766,21 @@ can follow along)</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
 <span><span class="co">#&gt; plotting by group since n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/forest_plot2b-1.png" class="r-plt" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" width="480"></p>
 <p>You can also getRR:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">

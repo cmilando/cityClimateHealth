@@ -128,6 +128,7 @@ You can also make a forest plot at a specific exposure value
 ``` r
 
 forest_plot(ma_model, 25.1)
+#> Warning in forest_plot.condPois_2stage(ma_model, 25.1): rounded to 1 decimal
 #> Warning in forest_plot.condPois_2stage(ma_model, 25.1): plotting by group since
 #> n_geos > 20
 ```
@@ -190,6 +191,8 @@ head(ma_towns)
 #> #   POPCH10_20 <dbl>, HOUSING20 <dbl>, SHAPE_AREA <dbl>, SHAPE_LEN <dbl>, …
 
 spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
+#> Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val
+#> = 25.1): rounded to 1 decimal
 ```
 
 ![](two_stage_demo_files/figure-html/multi_plot_multiple2-1.png)
@@ -406,6 +409,8 @@ plot(ma_model_fct$`18-64`, "CAMBRIDGE", title = 'CAMBRIDGE: 18-64')
 ``` r
 
 forest_plot(ma_model_fct, 25.1)
+#> Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): rounded to 1
+#> decimal
 #> Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): plotting by
 #> group since n_geos > 20
 ```
@@ -415,6 +420,14 @@ forest_plot(ma_model_fct, 25.1)
 ``` r
 
 spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
+#> Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
+#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
+#> rounded to 1 decimal
 ```
 
 ![](two_stage_demo_files/figure-html/multi_plot2d-1.png) and You can get

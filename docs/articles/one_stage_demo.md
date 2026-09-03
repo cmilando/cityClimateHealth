@@ -778,19 +778,32 @@ And get RR
 ``` r
 
 getRR(m3)
-#>       tmax_C age_grp        RR      RRlb      RRub          model_class
-#>        <num>  <char>     <num>     <num>     <num>               <char>
-#>    1:    3.4    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
-#>    2:    3.5    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
-#>    3:    3.6    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
-#>    4:    3.7    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
-#>    5:    3.8    0-17 0.9791124 0.9779958 0.9802304 condPois_1stage_list
-#>   ---                                                                  
-#> 1058:   38.3     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
-#> 1059:   38.4     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
-#> 1060:   38.5     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
-#> 1061:   38.6     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
-#> 1062:   38.7     65+ 1.2638340 1.2587795 1.2689089 condPois_1stage_list
+#>       tmax_C age_grp                   n_geo_names        RR      RRlb
+#>        <num>  <char>                        <char>     <num>     <num>
+#>    1:    3.4    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>    2:    3.5    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>    3:    3.6    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>    4:    3.7    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>    5:    3.8    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>   ---                                                                 
+#> 1058:   38.3     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#> 1059:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#> 1060:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#> 1061:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#> 1062:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#>            RRub          model_class
+#>           <num>               <char>
+#>    1: 0.9802304 condPois_1stage_list
+#>    2: 0.9802304 condPois_1stage_list
+#>    3: 0.9802304 condPois_1stage_list
+#>    4: 0.9802304 condPois_1stage_list
+#>    5: 0.9802304 condPois_1stage_list
+#>   ---                               
+#> 1058: 1.2689089 condPois_1stage_list
+#> 1059: 1.2689089 condPois_1stage_list
+#> 1060: 1.2689089 condPois_1stage_list
+#> 1061: 1.2689089 condPois_1stage_list
+#> 1062: 1.2689089 condPois_1stage_list
 ```
 
 ### Changing the global_cen

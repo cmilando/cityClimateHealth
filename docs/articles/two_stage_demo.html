@@ -184,6 +184,7 @@ this cleaner to get to)</p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, 25.1): rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, 25.1): plotting by group since</span></span>
 <span><span class="co">#&gt; n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot_multiple1-1.png" class="r-plt" width="480"></p>
@@ -241,7 +242,9 @@ shapefile:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   POP1980 &lt;dbl&gt;, POP1990 &lt;dbl&gt;, POP2000 &lt;dbl&gt;, POP2010 &lt;dbl&gt;, POP2020 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   POPCH10_20 &lt;dbl&gt;, HOUSING20 &lt;dbl&gt;, SHAPE_AREA &lt;dbl&gt;, SHAPE_LEN &lt;dbl&gt;, …</span></span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val</span></span>
+<span><span class="co">#&gt; = 25.1): rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot_multiple2-1.png" class="r-plt" width="768"></p>
 <p>and You can get an RR table</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -435,11 +438,21 @@ age_grp:</p>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2b-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): rounded to 1</span></span>
+<span><span class="co">#&gt; decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): plotting by</span></span>
 <span><span class="co">#&gt; group since n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2c-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2d-1.png" class="r-plt" width="576">
 and You can get an RR table</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
