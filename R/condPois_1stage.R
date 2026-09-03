@@ -940,7 +940,9 @@ forest_plot.condPois_1stage <- function(x, exposure_val, ...) {
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = n_geo_names
 
-  plt_slice <- subset(plt_slice, plt_slice[[exposure_col]] == exposure_val)
+  warning("rounded to 1 decimal")
+  plt_slice <- subset(plt_slice, round(plt_slice[[exposure_col]],1) ==
+                        round(exposure_val, 1))
 
   # forest_plot
   ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
@@ -977,7 +979,9 @@ forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = 
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = n_geo_names
 
-  plt_slice <- subset(plt_slice, plt_slice[[exposure_col]] == exposure_val)
+  warning("rounded to 1 decimal")
+  plt_slice <- subset(plt_slice, round(plt_slice[[exposure_col]],1) ==
+                        round(exposure_val, 1))
 
   # forest_plot
   ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,

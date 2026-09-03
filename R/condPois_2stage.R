@@ -849,10 +849,11 @@ forest_plot.condPois_2stage <- function(x, exposure_val, show_as_boxplot = F) {
   exposure_col <- x$`_`$out[[1]]$exposure_col
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
+  warning('rounded to 1 decimal')
 
   for(i in 1:n_geos) {
     this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'stage2')
-    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    rr <- which(round(this_sub[[exposure_col]],1) == round(exposure_val,1))
     minExpVal = min(this_sub[[exposure_col]])
     maxExpVal = max(this_sub[[exposure_col]])
     if(length(rr) != 1) {
@@ -938,10 +939,11 @@ spatial_plot.condPois_2stage <- function(x, shp, exposure_val,
   exposure_col <- x$`_`$out[[1]]$exposure_col
   geo_unit_col <- names(x$`_`$out[[1]]$RRdf)[1]
   geo_unit_grp_col <- names(x$`_`$out[[1]]$RRdf)[2]
+  warning('rounded to 1 decimal')
 
   for(i in 1:n_geos) {
     this_sub <- subset(x$`_`$out[[i]]$RRdf, stage == 'stage2')
-    rr <- which(this_sub[[exposure_col]] == exposure_val)
+    rr <- which(round(this_sub[[exposure_col]],1) == round(exposure_val, 1))
     minExpVal = min(this_sub[[exposure_col]])
     maxExpVal = max(this_sub[[exposure_col]])
     if(length(rr) != 1) {
@@ -1010,7 +1012,7 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col
-
+  warning('rounded to 1 decimal')
   for(i in 1:length(names(x))) {
 
     yy <- x[[names(x)[i]]]$`_`$out
@@ -1023,7 +1025,7 @@ spatial_plot.condPois_2stage_list <- function(x, shp, exposure_val) {
 
     for(j in 1:n_geos) {
       this_sub <- yy[[j]]$RRdf
-      rr <- which(this_sub[[exposure_col]] == exposure_val &
+      rr <- which(round(this_sub[[exposure_col]],1) == round(exposure_val,1) &
                            this_sub$stage == 'stage2')
       minExpVal = min(this_sub[[exposure_col]])
       maxExpVal = max(this_sub[[exposure_col]])
@@ -1078,6 +1080,7 @@ forest_plot.condPois_2stage_list <- function(x, exposure_val, show_as_boxplot = 
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col
+  warning('rounded to 1 decimal')
 
   for(i in 1:length(names(x))) {
     yy <- x[[names(x)[i]]]$"_"$out
@@ -1090,7 +1093,7 @@ forest_plot.condPois_2stage_list <- function(x, exposure_val, show_as_boxplot = 
 
     for(j in 1:n_geos) {
       this_sub <- yy[[j]]$RRdf
-      rr <- which(this_sub[[exposure_col]] == exposure_val &
+      rr <- which(round(this_sub[[exposure_col]],1) == round(exposure_val,1) &
                     this_sub$stage == 'stage2')
       minExpVal = min(this_sub[[exposure_col]])
       maxExpVal = max(this_sub[[exposure_col]])
