@@ -815,6 +815,11 @@ plot_lag <- function(x, exposure_val) {
 
 getRR.condPois_1stage_list <- function(x) {
 
+  n_geo_names <- paste0(names(x[[names(x)[1]]]$`_`$out), collapse = ":")
+
+  if(nchar(n_geo_names) > 20)
+    n_geo_names = paste0(substr(n_geo_names, 1, 15), "...(truncated)")
+
   fct_names <- names(x)
 
   plot_cl_l <- vector("list", length(names(x)))
@@ -825,6 +830,7 @@ getRR.condPois_1stage_list <- function(x) {
     plot_cl_l[[i]] = data.frame(
       x = x[[names(x)[i]]]$`_`$out[[1]]$cr$predvar,
       fct = names(x)[i],
+      n_geo_names = n_geo_names,
       RR = x[[names(x)[i]]]$`_`$out[[1]]$cr$RRfit,
       RRlb = x[[names(x)[i]]]$`_`$out[[1]]$cr$RRlow,
       RRub = x[[names(x)[i]]]$`_`$out[[1]]$cr$RRhigh
@@ -923,15 +929,30 @@ plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL)
 #' @examples
 #' x <- structure(list(), class = "condPois_1stage")
 #' forest_plot(x)
-forest_plot.condPois_1stage <- function(x, ...) {
-  warning("`forest_plot` method not implemented for objects of class `condPois_1stage`,
-      since there is only one 1_stage relative risk curve so all plot
-      values would be the same. 1stage attributable number results will change
-      over space, so those can be viewed instead by running `spatial_plot` on the
-      output of `calcAN` for a 1stage model!")
+forest_plot.condPois_1stage <- function(x, exposure_val, ...) {
+
+  # these will all be the same, so just pick 1
+  plt_slice = getRR(x)
+  exposure_col = x$`_`$out[[1]]$exposure_col
+  n_geo_names <- plt_slice$n_geo_names[1]
+
+  if(is.null(xlab)) xlab = x$`_`$out[[1]]$exposure_col
+  if(is.null(ylab)) ylab = "RR"
+  if(is.null(title)) title = n_geo_names
+
+  plt_slice <- subset(plt_slice, plt_slice[[exposure_col]] == exposure_val)
+
+  # forest_plot
+  ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
+                        y = "")) +
+    geom_vline(xintercept = 1.0, linetype = '11') +
+    theme_classic() +
+    scale_x_continuous(transform = 'log') +
+    geom_pointrange() +
+    ggtitle(paste0(exposure_col, " = ", exposure_val))
+
+
 }
-
-
 
 #' forest_plot method for condPois_1stage_list
 #'
@@ -943,12 +964,32 @@ forest_plot.condPois_1stage <- function(x, ...) {
 #' @examples
 #' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
 #' forest_plot(x)
-forest_plot.condPois_1stage_list <- function(x, ...) {
-  warning("`forest_plot` method not implemented for objects of class `condPois_1stage_list`,
-      since there is only one 1_stage relative risk curve so all plot
-      values would be the same. 1stage attributable number results will change
-      over space, so those can be viewed instead by running `spatial_plot` on the
-      output of `calcAN` for a 1stage model!")
+forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = F) {
+
+  # these will all be the same, so just pick 1
+  plt_slice = getRR(x)
+  exposure_col = x[[names(x)[1]]]$"_"$out[[1]]$exposure_col
+  geo_unit_col = names(plt_slice)[1]
+  fct_lab <- x[[names(x)[1]]]$factor_col
+  n_geo_names <- plt_slice$n_geo_names[1]
+
+  if(is.null(xlab)) xlab = exposure_col
+  if(is.null(ylab)) ylab = "RR"
+  if(is.null(title)) title = n_geo_names
+
+  plt_slice <- subset(plt_slice, plt_slice[[exposure_col]] == exposure_val)
+
+  # forest_plot
+  ggplot(plt_slice, aes(x = RR, xmin = RRlb, xmax = RRub,
+                        color = !!sym(fct_lab),
+                        y = "")) +
+    geom_vline(xintercept = 1.0, linetype = '11') +
+    theme_classic() +
+    ylab(n_geo_names) +
+    scale_x_continuous(transform = 'log') +
+    geom_pointrange() +
+    ggtitle(paste0(exposure_col, " = ", exposure_val))
+
 }
 
 
