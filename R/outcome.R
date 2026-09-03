@@ -38,7 +38,11 @@ make_outcome_table <- function(data,
                                factor_is_spatial = FALSE,
                                factor_is_temporal = FALSE,
                                grp_level = FALSE,
-                               keep_unit_outcomes = FALSE) {
+                               keep_unit_outcomes = FALSE,
+                               population_data = NULL,
+                               population_columns = NULL,
+                               population_col_name = "population"
+                               ) {
 
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
@@ -52,6 +56,12 @@ make_outcome_table <- function(data,
 
   #
   stopifnot(typeof(column_mapping) == 'list')
+
+  ## population args must come as a pair
+  if(xor(is.null(population_data), is.null(population_columns))) {
+    stop("population_data and population_columns must be supplied together
+         (both NULL, or both provided)")
+  }
 
   # column types
   # so opposite to the exposure, for outcomes
@@ -285,6 +295,26 @@ make_outcome_table <- function(data,
 
   # set attributes
   attr(xgrid_comb, "column_mapping") <- column_mapping
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OPTIONAL: POPULATION COLUMN (model-agnostic -- condPois_1stage() simply
+  # ignores this column; timeseries_1stage_glm() can use it via
+  # population_col). Joined last, on the FINAL geo_unit level (which may be
+  # geo_unit_grp if grp_level = TRUE), reusing the same validated join used
+  # by the standalone population_offset() helper.
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  if(!is.null(population_data)) {
+    xgrid_comb <- add_population_offset(
+      outcomes_tbl        = xgrid_comb,
+      population_data     = population_data,
+      population_columns  = population_columns,
+      population_col_name = population_col_name,
+      verbose              = TRUE
+    )
+  }
 
   # at the end there shouldn't be any NAs, so give a warning to investigate
   if(any(is.na(xgrid_comb))) {
