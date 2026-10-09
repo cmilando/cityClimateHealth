@@ -4,7 +4,7 @@
 \alias{forest_plot.condPois_2stage_list}
 \title{forest_plot method for condPois_2stage_list}
 \usage{
-\method{forest_plot}{condPois_2stage_list}(x, exposure_val)
+\method{forest_plot}{condPois_2stage_list}(x, exposure_val, show_as_boxplot = FALSE)
 }
 \arguments{
 \item{x}{an object of class condPois_2stage_list}

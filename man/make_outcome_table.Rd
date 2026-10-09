@@ -12,7 +12,10 @@ make_outcome_table(
   factor_is_spatial = FALSE,
   factor_is_temporal = FALSE,
   grp_level = FALSE,
-  keep_unit_outcomes = FALSE
+  keep_unit_outcomes = FALSE,
+  population_data = NULL,
+  population_columns = NULL,
+  population_col_name = "population"
 )
 }
 \arguments{

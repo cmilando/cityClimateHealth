@@ -47,6 +47,7 @@ articles:
   contents:
   - pop_size_test
   - time_subset
+  - one_stage_time_series_demo
   - faq
   - collapse
   - covariate

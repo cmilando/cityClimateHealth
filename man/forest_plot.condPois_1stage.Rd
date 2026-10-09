@@ -4,7 +4,7 @@
 \alias{forest_plot.condPois_1stage}
 \title{forest_plot method for condPois_1stage}
 \usage{
-\method{forest_plot}{condPois_1stage}(x, ...)
+\method{forest_plot}{condPois_1stage}(x, exposure_val, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_1stage}
