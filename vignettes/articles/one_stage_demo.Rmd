@@ -3,7 +3,7 @@ title: "One set of Heat-Health Associations for a single or multiple zones using
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{One set of Heat-Health Associations for a single or multiple zones using `cityClimateHealth`}
   %\VignetteEngine{knitr::rmarkdown}

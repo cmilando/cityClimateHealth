@@ -53,14 +53,12 @@ Suggests:
     posterior,
     kableExtra,
     dplyr
-Additional_repositories:
-  https://mc-stan.org/r-packages/
-  https://inla.r-inla-download.org/R/stable/
+Additional_repositories: https://stan-dev.r-universe.dev
 SystemRequirements: CmdStan (https://mc-stan.org/users/interfaces/cmdstan)
 LazyData: true
 LazyDataCompression: xz
 VignetteBuilder: knitr
-URL: http://climatehealth.city
+URL: https://climatehealth.city
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
 RoxygenNote: 7.3.3

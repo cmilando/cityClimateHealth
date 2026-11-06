@@ -271,7 +271,7 @@ ggplot(plot_cp, aes(x = x, y = RR, ymin = RRlb, ymax = RRhigh)) +
 
 The functionality above is what is encapsulated in the `timeseries_1stage_glm` function. This is one of the chief innovations of this package. Starting from messy exposure and outcome datasets, we can quickly estimate heat-health impacts in 3 lines.
 
-We have built-in defaults for `argvar`, `arglag`, and `maxlag` for the investigation of warm-season non-fatal health impacts associated with increases in temperature. We also have built-in defaults for time trends, with both seasonal (ns, df = 4) and annual (ns, df = 7) trends available based on your research question. Natural splines are used here to smoothly model long-term patterns that can vary over time (see: [Bhaskaran et al.](https://academic.oup.com/ije/article/42/4/1187/657875). There is no consensus regarding the optimal number of df for time trends; we refer to [Gasparini et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC2998707/) for the purposes of this tutorial. For the purposes of this package, we define season as a sub-pattern of the full annual seasonal cycle, e.g., summer.  
+We have built-in defaults for `argvar`, `arglag`, and `maxlag` for the investigation of warm-season non-fatal health impacts associated with increases in temperature. We also have built-in defaults for time trends, with both seasonal (ns, df = 4) and annual (ns, df = 7) trends available based on your research question. Natural splines are used here to smoothly model long-term patterns that can vary over time (see: [Bhaskaran et al.](https://doi.org/10.1093/ije/dyt092). There is no consensus regarding the optimal number of df for time trends; we refer to [Gasparini et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC2998707/) for the purposes of this tutorial. For the purposes of this package, we define season as a sub-pattern of the full annual seasonal cycle, e.g., summer.  
 
 An important note is that day of the week is *automatically* included as a covariate in the `timeseries_1stage_glm` function, to further adjust for potential time trends in the data.
 
@@ -331,7 +331,7 @@ getRR(m1)
 
 ### Compare: Gasparinni et al. 
 
-We can compare the functionality of cityclimateHealth to the gold standard of DLNM: [Gasparrini et al.'s work](https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf).
+We can compare the functionality of cityclimateHealth to the gold standard of DLNM: [Gasparrini et al.'s work](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf).
 
 First, let us look at Gasparrini et al.'s simulated dataset, looking at cardiovascular, respiratory, and mortality outcomes in a Chicago population: 
 

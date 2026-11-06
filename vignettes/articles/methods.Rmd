@@ -18,15 +18,15 @@ This package contains functions that streamline an analytical pipepline for esti
 Although situated in the contenxt of climate change and city-level health impacts,
 there are not any physical limitations on applying this code to other signals and responses.
 
-This package is drawn heavily from the work of [Dr. Antonio Gasparrini](http://www.ag-myresearch.com/).
+This package is drawn heavily from the work of [Dr. Antonio Gasparrini](https://www.ag-myresearch.com/).
 
 For any questions that you don't see here answered, we have an additional [`FAQ`](faq.md)
 
 # Exposures
 
-We applied a distributed lag non-linear modeling (DLNM) framework to capture both the non-linear and lagged effects of exposure on an outcome. [Gasparrini 2011](https://www.jstatsoft.org/article/view/v043i08) describes these methods, and the R package [`dlnm`](https://cran.r-project.org/web/packages/dlnm/index.html). 
+We applied a distributed lag non-linear modeling (DLNM) framework to capture both the non-linear and lagged effects of exposure on an outcome. [Gasparrini 2011](https://www.jstatsoft.org/article/view/v043i08) describes these methods, and the R package [`dlnm`](https://CRAN.R-project.org/package=dlnm). 
 
-Helpful references include this [dlnm PDF](https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf) and the methods explained in a [google sheet](https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396).
+Helpful references include this [dlnm PDF](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf) and the methods explained in a [google sheet](https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396).
 
 This approach represents exposure as a crossbasis matrix with separate components for exposure magnitude and lag. 
 
@@ -73,7 +73,7 @@ We are investigating incorporating how to integrate temporally and spatially var
 References:
 * the inclusion of time-invariant covariates (such as geographic variables) in the conditional poisson setting (which is different than the time-series setting)
 
-This paper has a nice exposition on what we were talking about https://academic.oup.com/ije/article/53/2/dyae020/7611599 under the (aptly-named) section "Adjustment of subpopulation time-invariant covariates".
+This paper has a nice exposition on what we were talking about https://doi.org/10.1093/ije/dyae020 under the (aptly-named) section "Adjustment of subpopulation time-invariant covariates".
 
 Essentially, since strata are being compared to themselves, anything that does not change with time is "conditioned out."
 
@@ -110,8 +110,8 @@ We can perform exposure-outcome analyses several ways:
   
 * **Time-series** -- time is controlled by a natural spline with a specific number of knots for year, day of year, season, and decade. Additional control is added by a categorical variable for day of week. See below for examples: 
 
-  * [Chen et al., 2021](https://www.sciencedirect.com/science/article/pii/S2542519621001686): Time-series analysis of exposure to fine particulate matter and risk of hospitalization.  
-  * [Gasparrini et al., 2022](https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(22)00138-3/fulltext): Time-series analysis of temperature-related mortality.  
+  * [Chen et al., 2021](https://doi.org/10.1016/S2542-5196(21)00168-6): Time-series analysis of exposure to fine particulate matter and risk of hospitalization.  
+  * [Gasparrini et al., 2022](https://doi.org/10.1016/S2542-5196(22)00138-3): Time-series analysis of temperature-related mortality.  
   * [Sugeno et al., 2023](https://link.springer.com/article/10.1186/s12889-023-17277-0): Time-series analysis of temperature and precipitation exposure and risk of Dengue virus incidence.  
 
 
@@ -194,7 +194,7 @@ See the vignette [`two_stage_demo`](two_stage_demo.md).
 
 [...]
 
-Combines the methods of [Gasparrini Armstrong 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) with those of [Quijal-Zamorano,2024](https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=), which was updated in [2025](https://academic.oup.com/ije/article-abstract/54/4/dyaf120/8210576)
+Combines the methods of [Gasparrini Armstrong 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) with those of [Quijal-Zamorano,2024](https://doi.org/10.1093/ije/dyae061), which was updated in [2025](https://doi.org/10.1093/ije/dyaf120)
 
 See the vignette [`bayesian_demo`](bayesian_demo.md).
 

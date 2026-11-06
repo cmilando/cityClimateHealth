@@ -3,7 +3,7 @@ title: "Heat-Health Associations across multiple towns using `cityClimateHealth`
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Heat-Health Associations across multiple towns using `cityClimateHealth`}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 library(cityClimateHealth)
 ```
 
-We can easily extend the functionality from `vignette("one_stage_demo")` to estimate individual-zone impacts across many zones.
+We can easily extend the functionality from the [one-stage demo](one_stage_demo.html) to estimate individual-zone impacts across many zones.
 
 ### Model
 

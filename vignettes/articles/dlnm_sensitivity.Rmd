@@ -3,7 +3,7 @@ title: "Exploring DLNM sensitivity in `cityClimateHealth`"
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Exploring DLNM sensitivity in `cityClimateHealth`}
   %\VignetteEngine{knitr::rmarkdown}

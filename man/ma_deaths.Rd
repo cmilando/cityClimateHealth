@@ -18,6 +18,7 @@ A data frame with one row per date and town and the following variables:
 \description{
 A SIMULATED dataset containing \emph{fictional} daily deaths linked to
 Massachusetts towns. Each row represents a single day–town observation.
+Covers 2010 to 2015.
 }
 \details{
 This dataset is typically used for environmental exposure assessment and

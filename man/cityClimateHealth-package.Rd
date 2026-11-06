@@ -17,7 +17,7 @@ designed for messy real-world epidemiologic data.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://climatehealth.city}
+  \item \url{https://climatehealth.city}
 }
 
 }

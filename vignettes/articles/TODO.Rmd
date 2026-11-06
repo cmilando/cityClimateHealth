@@ -3,7 +3,7 @@ title: "Todo"
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Todo}
   %\VignetteEngine{knitr::rmarkdown}

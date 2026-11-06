@@ -22,9 +22,9 @@ This package can be used in three main ways:
 
 | 1-stage design | 2-stage design | Spatial Bayes |
 |----------------|----------------|---------------|
-| A 1-stage model when estimating a *single set of beta coefficients* for heat-health impacts across single or multiple zones: `vignette("one_stage_demo")`| A 2-stage design is used when estimating heat-health impacts across many zones, but where *individual zone models* are desired: `vignette("two_stage_demo")`| If numbers are very small in the 2-stage design, spatial bayesian methods can be used to tighten confidence intervals: `vignette("bayesian_demo")`|
+| A 1-stage model when estimating a *single set of beta coefficients* for heat-health impacts across single or multiple zones: the [one-stage demo](https://climatehealth.city/articles/one_stage_demo.html)| A 2-stage design is used when estimating heat-health impacts across many zones, but where *individual zone models* are desired: the [two-stage demo](https://climatehealth.city/articles/two_stage_demo.html)| If numbers are very small in the 2-stage design, spatial bayesian methods can be used to tighten confidence intervals: the [Bayesian demo](https://climatehealth.city/articles/bayesian_demo.html)|
 
-In implementations, an attributable number calculation is applied to model outputs, see `vignette("attributable_number")`. 
+In implementations, an attributable number calculation is applied to model outputs, see the [attributable number article](https://climatehealth.city/articles/attributable_number.html). 
 
 ## Starting a new analysis
 

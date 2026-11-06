@@ -5,6 +5,10 @@
 #' for all cities and towns in Massachusetts, primarily based on the 2020 U.S.
 #' Census and TIGER/MAF products. See [link](https://www.mass.gov/info-details/massgis-data-2020-us-census-towns#downloads)
 #'
+#' Polygon boundaries are simplified (with `rmapshaper::ms_simplify()`, keeping
+#' 5% of vertices) to keep the package small; shared borders are simplified
+#' together, so neighbour relationships between areas are unchanged.
+#'
 #' @format A shapefile with one row per Massachusetts city or town and the
 #' following variables:
 #' \describe{
@@ -63,6 +67,10 @@ NULL
 #' land and water area, population counts, housing units, and related attributes
 #' for all counties in Massachusetts. See [link](https://www.mass.gov/info-details/massgis-data-counties#downloads)
 #'
+#' Polygon boundaries are simplified (with `rmapshaper::ms_simplify()`, keeping
+#' 5% of vertices) to keep the package small; shared borders are simplified
+#' together, so neighbour relationships between areas are unchanged.
+#'
 #' @format A shapefile with one row per Massachusetts city or town and the
 #' following variables:
 #' \describe{
@@ -92,7 +100,8 @@ NULL
 #'
 #' A SIMULATED dataset containing _fictional_ daily maximum temperature measurements linked to
 #' Massachusetts towns. Each row represents a single day–town observation
-#' with the corresponding maximum temperature in degrees Celsius.
+#' with the corresponding maximum temperature in degrees Celsius, rounded to
+#' 0.1 degrees. Covers 2010 to 2015.
 #'
 #' @format A data frame with one row per date and town and the following variables:
 #' \describe{
@@ -116,6 +125,7 @@ NULL
 #'
 #' A SIMULATED dataset containing _fictional_ daily deaths linked to
 #' Massachusetts towns. Each row represents a single day–town observation.
+#' Covers 2010 to 2015.
 #'
 #' @format A data frame with one row per date and town and the following variables:
 #' \describe{

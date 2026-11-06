@@ -3,7 +3,7 @@ title: "Obtaining population estimates from `tidycensus`"
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Obtaining population estimates from `tidycensus`}
   %\VignetteEngine{knitr::rmarkdown}

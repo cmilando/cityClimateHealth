@@ -3,7 +3,7 @@ title: "Calculating attributable numbers and rates in `cityClimateHealth`"
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Calculating attributable numbers and rates in `cityClimateHealth`}
   %\VignetteEngine{knitr::rmarkdown}
@@ -27,7 +27,7 @@ Estimating Attributable numbers (and rates of attributable numbers) are a key wa
 
 The first step of calculating attributable numbers is having a population data estimate. 
 
-This varies a lot by place and dataset, so we don't include functionality for it (but an example of how this could be done can be seen in `vignette("get_pop_estimates")`).
+This varies a lot by place and dataset, so we don't include functionality for it (but an example of how this could be done can be seen in the [population estimates article](get_pop_estimates.html)).
 
 Reminder - the data used in this example are **simulated**. 
 
