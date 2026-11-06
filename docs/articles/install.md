@@ -21,18 +21,9 @@ If you’re on MAC, you may need to install xcode.
 xcode-select --install
 ```
 
-Now, users must install the “remotes” package in R.
+Now, install from CRAN
 
 ``` r
 
-install.packages('remotes')
-```
-
-When these downloads are successfully completed, users can then install
-the cityClimateHealth package:
-
-``` r
-
-library(remotes)
-remotes::install_github("cmilando/cityClimateHealth")
+install.packages('cityClimateHealth')
 ```

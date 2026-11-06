@@ -8,7 +8,7 @@ The package `cityClimateHealth` makes it simple to estimate climate-health impac
 ## Installing the package
 
 ```
-remotes::install_github("cmilando/cityClimateHealth")
+install.packages('cityClimateHealth')
 ```
 
 you may have to first [install STAN](https://mc-stan.org/install/) and `cmdstanr`:

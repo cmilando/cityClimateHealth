@@ -9,9 +9,8 @@ This is where you can do the `dlnm_sweep` stuff
 
 ## DLNM Sweep
 
-DLNM Sweep uses a custom function called
-[`make_cb_list()`](https://climatehealth.city/reference/make_cb_list.md)
-to expand crossbasis options:
+DLNM Sweep uses a custom function called `make_cb_list()` to expand
+crossbasis options:
 
 ``` r
 

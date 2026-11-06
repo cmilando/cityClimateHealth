@@ -47,10 +47,6 @@
 - [`condPois_sb()`](https://climatehealth.city/reference/condPois_sb.md)
   : Run a conditional poisson model with Spatial Bayesian inference
 
-- [`expand_arglist()`](https://climatehealth.city/reference/expand_arglist.md)
-  : IN-PROGRESS functions that creates a list of cross-basis objects to
-  try
-
 - [`forest_plot()`](https://climatehealth.city/reference/forest_plot.md)
   : forest_plot base class
 
@@ -105,21 +101,6 @@
 - [`getRR(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/getRR.timeseries_1stage_list.md)
   : getRR method for timeseries_1stage_list
 
-- [`getSW()`](https://climatehealth.city/reference/getSW.md) :
-
-  Creates the list of spatial neighbors used in the `condPois_sb` Leroux
-  model
-
-- [`getSmat()`](https://climatehealth.city/reference/getSmat.md) :
-
-  Gets the matrix of strata, used in `condPois_sb`
-
-- [`get_centered_cp()`](https://climatehealth.city/reference/get_centered_cp.md)
-  : Internal function to get centered cp objects
-
-- [`indexByComponent()`](https://climatehealth.city/reference/indexByComponent.md)
-  : Index nodes by connected component
-
 - [`input_validation()`](https://climatehealth.city/reference/input_validation.md)
   : Input validation
 
@@ -141,10 +122,6 @@
 - [`ma_towns`](https://climatehealth.city/reference/ma_towns.md) :
   Massachusetts Towns and Cities (2020 Census)
 
-- [`make_cb_list()`](https://climatehealth.city/reference/make_cb_list.md)
-  : IN-PROGRESS functions that creates a list of cross-basis objects to
-  try
-
 - [`make_crossbasis()`](https://climatehealth.city/reference/make_crossbasis.md)
   : Make crossbasis object
 
@@ -153,17 +130,6 @@
 
 - [`make_outcome_table()`](https://climatehealth.city/reference/make_outcome_table.md)
   : Function to create the outcome table
-
-- [`make_xgrid()`](https://climatehealth.city/reference/make_xgrid.md) :
-  An internal function to make the xgrid
-
-- [`nb2graph()`](https://climatehealth.city/reference/nb2graph.md) :
-  Convert a neighbor list to a graph edge list
-
-- [`nb2subgraph()`](https://climatehealth.city/reference/nb2subgraph.md)
-  : Convert a neighbor list subgraph to node pairs
-
-- [`nx()`](https://climatehealth.city/reference/nx.md) : Title
 
 - [`plot(`*`<calcAN>`*`)`](https://climatehealth.city/reference/plot.calcAN.md)
   : Plot method for calcAN
@@ -227,9 +193,6 @@
 
 - [`print(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/print.timeseries_1stage_list.md)
   : Print method for timeseries_1stage_list
-
-- [`scale_nb_components()`](https://climatehealth.city/reference/scale_nb_components.md)
-  : Compute scaling factors for neighbor list components
 
 - [`set_strata_value()`](https://climatehealth.city/reference/set_strata_value.md)
   : Set the strata column of xgrid

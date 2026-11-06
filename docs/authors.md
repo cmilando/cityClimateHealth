@@ -22,11 +22,11 @@
 ## Citation
 
 Milando C, Sarpy C, Gause E, Adams Q, Popp Z, Arlak A, Wellenius G
-(2026). *cityClimateHealth: Estimating Heat-Health Impacts at Small
+(2026). *cityClimateHealth: Estimating Climate-Health Impacts at Small
 Spatial Scales*. R package version 0.1.0, <https://climatehealth.city>.
 
     @Manual{,
-      title = {cityClimateHealth: Estimating Heat-Health Impacts at Small Spatial Scales},
+      title = {cityClimateHealth: Estimating Climate-Health Impacts at Small Spatial Scales},
       author = {Chad Milando and Caroline Sarpy and Emma Gause and Quinn Adams and Zachary Popp and Alexis Arlak and Gregory Wellenius},
       year = {2026},
       note = {R package version 0.1.0},

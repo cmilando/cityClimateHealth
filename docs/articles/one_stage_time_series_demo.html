@@ -608,7 +608,7 @@ same as the example above.</p>
 <span><span class="co">#&gt; population offset: none</span></span>
 <span><span class="co">#&gt; model formula:</span></span>
 <span><span class="co">#&gt; daily_deaths ~ cb + ns(day_of_season, df = 4) * yr + dow</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x14c4228a8&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;environment: 0x397d56ba8&gt;</span></span></code></pre></div>
 <p>And plot the relative risk</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
@@ -798,7 +798,7 @@ same output from both.</p>
 <span><span class="co">#&gt; population offset: none</span></span>
 <span><span class="co">#&gt; model formula:</span></span>
 <span><span class="co">#&gt; death ~ cb + ns(time_num, df = 91) + dow</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x390739dc8&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;environment: 0x399299f70&gt;</span></span></code></pre></div>
 <p>Now we have both models to compare! Here’s the output from the
 Gasparrini et al. model:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -992,7 +992,7 @@ different numbers of people per geo-unit.</p>
 <span><span class="co">#&gt; model formula:</span></span>
 <span><span class="co">#&gt; daily_deaths ~ cb + yr:factor(geo_unit) + ns(day_of_season, df = 4):factor(geo_unit) * </span></span>
 <span><span class="co">#&gt;     yr + factor(geo_unit) + dow:factor(geo_unit) + offset(log(population))</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x14da1ddb0&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;environment: 0x1680d7a98&gt;</span></span></code></pre></div>
 <p>And plot - notice the tighter confidence interval</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>

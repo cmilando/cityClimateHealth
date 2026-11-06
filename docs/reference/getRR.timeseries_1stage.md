@@ -68,7 +68,7 @@ m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x1335fae48>
+#> <environment: 0x137b0e000>
 #> 
 getRR(m)
 #>      tmax_C       RR     RRlb     RRub n_geo_names       model_class
