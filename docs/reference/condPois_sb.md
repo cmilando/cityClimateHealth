@@ -163,6 +163,6 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.5 seconds.
+#> Finished in  0.3 seconds.
 #>  ...laplace draws... 
 ```

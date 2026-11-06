@@ -95,7 +95,7 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>      211       -3356.7   0.000175631      0.220171      0.9493     0.09493      267    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.2 seconds.
+#> Finished in  0.1 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -110,7 +110,7 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.4 seconds.
+#> Finished in  0.3 seconds.
 #>  ...laplace draws... 
 spatial_plot(m, shp = shp, exposure_val = 30)
 ```

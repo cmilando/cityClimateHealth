@@ -84,7 +84,7 @@ m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x151d73d78>
+#> <environment: 0x3a5e664b8>
 #> 
 #> < age_grp : 18-64 >
 #> 
@@ -114,7 +114,7 @@ m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x3ad06df90>
+#> <environment: 0x39bf9ae30>
 #> 
 #> < age_grp : 65+ >
 #> 
@@ -144,7 +144,7 @@ m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x3b21b9838>
+#> <environment: 0x3a059a2f8>
 #> 
 plot(m)
 ```

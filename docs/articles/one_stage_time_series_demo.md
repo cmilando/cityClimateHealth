@@ -617,7 +617,7 @@ m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat,
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(day_of_season, df = 4) * yr + dow
-#> <environment: 0x1480cc550>
+#> <environment: 0x14c4228a8>
 ```
 
 And plot the relative risk
@@ -838,7 +838,7 @@ cityclimatehealth_model <- timeseries_1stage_glm(
 #> population offset: none
 #> model formula:
 #> death ~ cb + ns(time_num, df = 91) + dow
-#> <environment: 0x12b0bbfa8>
+#> <environment: 0x390739dc8>
 ```
 
 Now we have both models to compare! Here’s the output from the
@@ -1059,7 +1059,7 @@ m2 <- timeseries_1stage_glm(
 #> model formula:
 #> daily_deaths ~ cb + yr:factor(geo_unit) + ns(day_of_season, df = 4):factor(geo_unit) * 
 #>     yr + factor(geo_unit) + dow:factor(geo_unit) + offset(log(population))
-#> <environment: 0x11b56af28>
+#> <environment: 0x14da1ddb0>
 ```
 
 And plot - notice the tighter confidence interval

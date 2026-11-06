@@ -80,7 +80,7 @@ m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 #> population offset: none
 #> model formula:
 #> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x3a4996d18>
+#> <environment: 0x131119c10>
 #> 
 plot(m)
 ```
