@@ -36,6 +36,16 @@ must be specified by user - no default}
 \item{grp_level}{whether to summarize to the group level or not (default)}
 
 \item{keep_unit_outcomes}{if grp_level is true, whether to keep original unit-level outcomes}
+
+\item{population_data}{optional data.frame of population estimates to join on
+as a population column; see \code{add_population_offset()}}
+
+\item{population_columns}{named list mapping columns in \code{population_data};
+required with \code{population_data}. See
+\code{add_population_offset()}}
+
+\item{population_col_name}{name of the population column added to the output
+(default \code{"population"})}
 }
 \value{
 a data.table of class("outcome")
@@ -53,8 +63,9 @@ outcome_columns <- list(
   "geo_unit_grp" = "COUNTY20"
 )
 ma_outcomes_tbl <- make_outcome_table(
- subset(ma_deaths,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-           outcome_columns,
-           time_subset = list(year = 2012:2015))
-make_outcome_table
+  subset(ma_deaths, TOWN20 == "BOSTON"),
+  outcome_columns,
+  time_subset = list(year = 2012)
+)
+head(ma_outcomes_tbl)
 }

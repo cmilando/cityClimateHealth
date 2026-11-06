@@ -14,7 +14,10 @@
 #' @param maxlag an integer of the maximum lag
 #' @param min_n an integer describing the minimum number of cases for a single region
 #' @param strata_min minimum number of cases per strata
-#' @param truncate
+#' @param truncate proportion of the exposure distribution to trim from each
+#'   tail when choosing the centering point (default 0.01)
+#' @param use_spatial_model spatial structure for the Stan model: `'bym2'`
+#'   (default), `'leroux'`, or `'none'`
 #'
 #' @importFrom mixmeta mixmeta
 #' @importFrom mixmeta blup
@@ -27,48 +30,19 @@
 #' @returns an object of class condPois_sb
 #' @export
 #'
-#' @examples
-#' library(data.table)
-#' data("ma_exposure")
-#' data("ma_deaths")
-#'
-#' # create exposure matrix
-#' exposure_columns <- list(
-#'   "date" = "date",
-#'   "exposure" = "tmax_C",
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#'
-#' TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
-#'
-#' exposure <- subset(ma_exposure, TOWN20 %in%  TOWNLIST & year(date) %in% 2012:2015)
-#'
-#' exposure_mat <- make_exposure_matrix(exposure, exposure_columns)
-#'
-#' # create outcome table
-#' outcome_columns <- list(
-#'   "date" = "date",
-#'   "outcome" = "daily_deaths",
-#'   "factor" = 'age_grp',
-#'   "factor" = 'sex',
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#' deaths   <- subset(ma_deaths, TOWN20 %in% TOWNLIST & year(date) %in% 2012:2015)
-#' deaths_tbl <- make_outcome_table(deaths,  outcome_columns)
-#' data("ma_towns")
-#' local_shp <- subset(ma_towns, TOWN20 %in%  TOWNLIST)
-
-#' #run spatial model
-#' m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
-#'                      stan_type = 'laplace',
-#'                      verbose = 2,
-#'                      global_cen = 15,
-#'                      stan_opts = list(refresh = 200),
-#'                      use_spatial_model = 'bym2')
-#' condPois_sb
-
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 condPois_sb <- function(exposure_matrix,
                         outcomes_tbl,
                         shp_sf,
@@ -121,11 +95,11 @@ condPois_sb <- function(exposure_matrix,
   stopifnot(use_spatial_model %in% c('none', 'bym2', 'leroux'))
   cat(" SPATIAL MODEL =", use_spatial_model, '\n')
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' IF the outcomes_tbl has a FACTOR, enter a recursive loop
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # IF the outcomes_tbl has a FACTOR, enter a recursive loop
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
   if("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) {
 
     factor_col <- attributes(outcomes_tbl)$column_mapping$factor
@@ -177,11 +151,11 @@ condPois_sb <- function(exposure_matrix,
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' VALIDATION
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # VALIDATION
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # Generic validation tests
   validated <- input_validation(exposure_matrix, outcomes_tbl)
@@ -261,11 +235,11 @@ condPois_sb <- function(exposure_matrix,
     cat("truncate final RR and basis cen: ", truncate, "\n")
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' STAGE 1
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # STAGE 1
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(verbose > 0) {
     cat("-- prepare inputs\n")
@@ -356,11 +330,11 @@ condPois_sb <- function(exposure_matrix,
     rm(local_cp)
   }
 
-  #' ////////////////////////////////////////////////////////////////////////////
-  #' ============================================================================
-  #' SETUP inputs
-  #' ============================================================================
-  #' #' /////////////////////////////////////////////////////////////////////////
+  # ////////////////////////////////////////////////////////////////////////////
+  # ============================================================================
+  # SETUP inputs
+  # ============================================================================
+  # #' /////////////////////////////////////////////////////////////////////////
 
   # n regions
   J = as.integer(n_geos)
@@ -408,11 +382,11 @@ condPois_sb <- function(exposure_matrix,
   stratum_id = as.integer(factor(outc_list[[1]]$strata))
   stratum_id
 
-  #' ////////////////////////////////////////////////////////////////////////////
-  #' ============================================================================
-  #' Get graph, has to make sure the shp is in the right order!
-  #' ============================================================================
-  #' #' /////////////////////////////////////////////////////////////////////////
+  # ////////////////////////////////////////////////////////////////////////////
+  # ============================================================================
+  # Get graph, has to make sure the shp is in the right order!
+  # ============================================================================
+  # #' /////////////////////////////////////////////////////////////////////////
 
   exp_geo_unit_col <- exposure_columns$geo_unit
 
@@ -440,11 +414,11 @@ condPois_sb <- function(exposure_matrix,
     cat("\n")
   }
 
-  #' ////////////////////////////////////////////////////////////////////////////
-  #' ============================================================================
-  #' Run STAN
-  #' ============================================================================
-  #' #' /////////////////////////////////////////////////////////////////////////
+  # ////////////////////////////////////////////////////////////////////////////
+  # ============================================================================
+  # Run STAN
+  # ============================================================================
+  # #' /////////////////////////////////////////////////////////////////////////
 
   if(verbose > 0) {
     cat("-- run STAN\n")
@@ -579,7 +553,7 @@ condPois_sb <- function(exposure_matrix,
     if(stan_type == 'variational') {
 
       default_stan_opts <- list(
-        init = init_fun,
+        init = init_fun
       )
 
       stan_opts <- modifyList(default_stan_opts, stan_opts %||% list())
@@ -603,7 +577,7 @@ condPois_sb <- function(exposure_matrix,
     if(stan_type == 'pathfinder') {
 
       default_stan_opts <- list(
-        init = init_fun,
+        init = init_fun
       )
 
       stan_opts <- modifyList(default_stan_opts, stan_opts %||% list())
@@ -730,13 +704,13 @@ condPois_sb <- function(exposure_matrix,
     cat("\n")
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' STAGE 2 - GET FINAL ESTIMATES
-  #'
-  #' sb geo needs coef and vcov
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # STAGE 2 - GET FINAL ESTIMATES
+  #
+  # sb geo needs coef and vcov
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(verbose > 0) {
     cat("-- apply estimates\n")
@@ -869,11 +843,11 @@ condPois_sb <- function(exposure_matrix,
     cat("\n")
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' OUTPUT
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # OUTPUT
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # yes, a list in a list, this will make sense later
   # aka, in the recursive call to this function that happens above
@@ -891,17 +865,26 @@ condPois_sb <- function(exposure_matrix,
 #' Print method for condPois_sb
 #'
 #' @param x an object of class condPois_sb
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   print(model)
-#' }
-print.condPois_sb <- function(x) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' print(m)
+print.condPois_sb <- function(x, ...) {
   cat("< an object of class `condPois_sb` >\n")
   invisible(x)
 }
@@ -909,17 +892,28 @@ print.condPois_sb <- function(x) {
 #' Print method for condPois_sb_list
 #'
 #' @param x an object of class condPois_sb_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   print(model_list)
-#' }
-print.condPois_sb_list <- function(x) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' # with a factor, a condPois_sb_list is returned
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' print(m)
+print.condPois_sb_list <- function(x, ...) {
   cat("< an object of class `condPois_sb_list`:",
       paste(names(x), collapse = ",")," >\n")
   invisible(x)
@@ -932,18 +926,27 @@ print.condPois_sb_list <- function(x) {
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @returns a ggplot object
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   plot(model, geo_unit = "BOSTON")
-#' }
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' plot(m, geo_unit = "CHELSEA")
 plot.condPois_sb <- function(x, geo_unit,
-                                 xlab = NULL, ylab = NULL, title = NULL) {
+                                 xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = geo_unit
@@ -975,18 +978,29 @@ plot.condPois_sb <- function(x, geo_unit,
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @returns a ggplot object
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   plot(model_list, geo_unit = "BOSTON")
-#' }
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' # with a factor, a condPois_sb_list is returned
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' plot(m, geo_unit = "CHELSEA")
 plot.condPois_sb_list <- function(x, geo_unit,
-                                      xlab = NULL, ylab = NULL, title = NULL) {
+                                      xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = geo_unit
@@ -1028,17 +1042,26 @@ plot.condPois_sb_list <- function(x, geo_unit,
 #'
 #' @param x an object of class condPois_sb
 #' @param exposure_val exposure value at which to plot
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @returns a ggplot object
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   forest_plot(model, exposure_val = 30.0)
-#' }
-forest_plot.condPois_sb <- function(x, exposure_val) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' forest_plot(m, exposure_val = 30)
+forest_plot.condPois_sb <- function(x, exposure_val, ...) {
 
   # get subset of X
   n_geos <- length(x$`_`$out)
@@ -1100,18 +1123,29 @@ forest_plot.condPois_sb <- function(x, exposure_val) {
 #' @param x an object of class condPois_sb
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
+#' @param ... further arguments passed to or from other methods (currently unused)
+#' @param RRlimits optional length-2 numeric vector of colour-scale limits for
+#'   RR; defaults to the range of the plotted values
 #' @importFrom ggplot2 ggplot
 #' @returns a ggplot object
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   spatial_plot(model, shp = ma_shp, exposure_val = 30.0)
-#' }
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' spatial_plot(m, shp = shp, exposure_val = 30)
 spatial_plot.condPois_sb <- function(x, shp, exposure_val,
-                                         RRlimits = NULL) {
+                                         RRlimits = NULL, ...) {
 
   n_geos <- length(x$`_`$out)
   plt_slice <- vector("list", n_geos)
@@ -1176,18 +1210,28 @@ spatial_plot.condPois_sb <- function(x, shp, exposure_val,
 #' @param x an object of class condPois_sb_list
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param exposure_val exposure value at which to plot
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom patchwork wrap_plots
-#' @import ggplot2
 #' @returns a patchwork of ggplot objects, one per factor level
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   spatial_plot(model_list, shp = ma_shp, exposure_val = 30.0)
-#' }
-spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' # with a factor, a condPois_sb_list is returned
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' spatial_plot(m, shp = shp, exposure_val = 30)
+spatial_plot.condPois_sb_list <- function(x, shp, exposure_val, ...) {
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col
@@ -1253,16 +1297,27 @@ spatial_plot.condPois_sb_list <- function(x, shp, exposure_val) {
 #'
 #' @param x an object of class condPois_sb_list
 #' @param exposure_val exposure value at which to plot
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @returns a ggplot object
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   forest_plot(model_list, exposure_val = 30.0)
-#' }
-forest_plot.condPois_sb_list <- function(x, exposure_val) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' # with a factor, a condPois_sb_list is returned
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' forest_plot(m, exposure_val = 30)
+forest_plot.condPois_sb_list <- function(x, exposure_val, ...) {
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col
@@ -1336,17 +1391,26 @@ forest_plot.condPois_sb_list <- function(x, exposure_val) {
 #' getRR method for condPois_sb
 #'
 #' @param x an object of class condPois_sb
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom data.table setDT
 #' @returns a data.table of relative risk estimates
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   getRR(model)
-#' }
-getRR.condPois_sb <- function(x) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' getRR(m)
+getRR.condPois_sb <- function(x, ...) {
   oo <- do.call(rbind, lapply(x$`_`$out, \(obj) obj$RRdf))
   oo$model_class = class(x)
   setDT(oo)
@@ -1356,17 +1420,28 @@ getRR.condPois_sb <- function(x) {
 #' getRR method for condPois_sb_list
 #'
 #' @param x an object of class condPois_sb_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#'   # set up exposure matrix and outcome table first (see condPois_2stage example)
-#'   model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-#'   getRR(model_list)
-#' }
-getRR.condPois_sb_list <- function(x) {
+#' @examplesIf requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' # with a factor, a condPois_sb_list is returned
+#' m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+#' getRR(m)
+getRR.condPois_sb_list <- function(x, ...) {
 
   obj_l <- vector("list", length(names(x)))
   fct_lab <- x[[names(x)[1]]]$factor_col

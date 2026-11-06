@@ -5,12 +5,13 @@
 #' data table, these need to be one of: c('date', "exposure", 'geo_unit', 'geo_unit_grp')
 #' @param time_subset the time period of interest for analysis, specified as years or months
 #' must be specified by user - no default
-#' @param maxgaps the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)
 #' @param maxlag the number of lags for the exposure variable (default is 5)
 #' @param grp_level whether to summarize to the group level or not (default)
 #' @param keep_unit_exposures if grp_level is true, whether to keep original unit-level exposures
 #' @param dt_by is it daily data, or weekly or ...
 #' @param exposure_is_factor exposure is a factor
+#' @param maxgap the maximum allowable gap of missing exposure data, passed to
+#'   `zoo::na.approx()` (default 5)
 #'
 #' @importFrom data.table setDT setorderv shift `:=` as.IDate
 #' @importFrom zoo na.approx
@@ -25,12 +26,12 @@
 #'   "geo_unit" = "TOWN20",
 #'   "geo_unit_grp" = "COUNTY20"
 #' )
-#'
-#' ma_exposure_matrix <- make_exposure_matrix(
-#'                       subset(ma_exposure,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER'),
-#'                       exposure_columns,
-#'                       time_subset = list(year = 2012:2015))
-#'make_exposure_matrix
+#' exposure_mat <- make_exposure_matrix(
+#'   subset(ma_exposure, TOWN20 == "BOSTON"),
+#'   exposure_columns,
+#'   time_subset = list(month = 5:9, year = 2012:2015)
+#' )
+#' head(exposure_mat)
 make_exposure_matrix <- function(data,
                                  column_mapping,
                                  time_subset, ##changed to "time" rather than months as default
@@ -97,7 +98,7 @@ make_exposure_matrix <- function(data,
 
   #check for duplicate column mapping (there should not be column repeats in the inputs)
   if(length(unlist(column_mapping)) != length(unique(unlist(column_mapping)))) {
-    stop("Duplicate columns found in `column_mapping` — each column must be mapped to a unique value")
+    stop("Duplicate columns found in `column_mapping` - each column must be mapped to a unique value")
   }
 
   # check that geo_unit and geo_unit_grp are not the same column

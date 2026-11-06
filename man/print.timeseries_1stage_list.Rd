@@ -4,10 +4,12 @@
 \alias{print.timeseries_1stage_list}
 \title{Print method for timeseries_1stage_list}
 \usage{
-print.timeseries_1stage_list(x)
+\method{print}{timeseries_1stage_list}(x, ...)
 }
 \arguments{
 \item{x}{an object of class timeseries_1stage_list}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 invisibly returns x

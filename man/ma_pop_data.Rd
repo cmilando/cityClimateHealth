@@ -8,13 +8,13 @@
 A data frame with one row per town and the following variables:
 \describe{
 \item{TOWN20}{Character. Name of the Massachusetts town}
-\item{Male_0_17}{Numeric. Estimated population of males aged 0--17 years.}
-\item{Male_18_64}{Numeric. Estimated population of males aged 18--64 years.}
-\item{Male_65_plus}{Numeric. Estimated population of males aged 65 years
+\item{Male_0-17}{Numeric. Estimated population of males aged 0--17 years.}
+\item{Male_18-64}{Numeric. Estimated population of males aged 18--64 years.}
+\item{Male_65+}{Numeric. Estimated population of males aged 65 years
 and older.}
-\item{Female_0_17}{Numeric. Estimated population of females aged 0--17 years.}
-\item{Female_18_64}{Numeric. Estimated population of females aged 18--64 years.}
-\item{Female_65_plus}{Numeric. Estimated population of females aged 65 years
+\item{Female_0-17}{Numeric. Estimated population of females aged 0--17 years.}
+\item{Female_18-64}{Numeric. Estimated population of females aged 18--64 years.}
+\item{Female_65+}{Numeric. Estimated population of females aged 65 years
 and older.}
 }
 }

@@ -27,6 +27,9 @@ must be specified by user - no default}
 
 \item{dt_by}{is it daily data, or weekly or ...}
 
+\item{maxgap}{the maximum allowable gap of missing exposure data, passed to
+\code{zoo::na.approx()} (default 5)}
+
 \item{maxlag}{the number of lags for the exposure variable (default is 5)}
 
 \item{grp_level}{whether to summarize to the group level or not (default)}
@@ -34,8 +37,6 @@ must be specified by user - no default}
 \item{keep_unit_exposures}{if grp_level is true, whether to keep original unit-level exposures}
 
 \item{exposure_is_factor}{exposure is a factor}
-
-\item{maxgaps}{the maximum allowable missing exposure data gap, to be passed to zoo::na.approx (default is 5)}
 }
 \value{
 a data.table of class("exposure")
@@ -50,10 +51,10 @@ exposure_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-
-ma_exposure_matrix <- make_exposure_matrix(
-                      subset(ma_exposure,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER'),
-                      exposure_columns,
-                      time_subset = list(year = 2012:2015))
-make_exposure_matrix
+exposure_mat <- make_exposure_matrix(
+  subset(ma_exposure, TOWN20 == "BOSTON"),
+  exposure_columns,
+  time_subset = list(month = 5:9, year = 2012:2015)
+)
+head(exposure_mat)
 }

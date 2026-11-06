@@ -33,7 +33,8 @@ get_centered_cp(
 
 \item{exposure_is_factor}{logical, if exposure is a factor}
 
-\item{truncate}{}
+\item{truncate}{proportion of \code{this_exp} to trim from each tail when bounding
+the centering point; 0 for no trimming}
 }
 \value{
 a list object, with the centered basis and centered crosspred output
@@ -43,18 +44,20 @@ Needed a function for this because we do it twice: once for regional RRs
 and once for BLUP
 }
 \examples{
-\dontrun{
-# after running condPois_1stage on a single geo_unit:
-result <- condPois_1stage(exposure_matrix, outcomes_tbl)
-centered <- get_centered_cp(
-  argvar = result$`_`$out[[1]]$argvar,
-  xcoef = result$`_`$out[[1]]$coef,
-  xvcov = result$`_`$out[[1]]$vcov,
-  this_exp = result$`_`$out[[1]]$this_exp,
-  x_b = c(0, 40),
-  global_cen = NULL,
-  cen = result$`_`$out[[1]]$cen,
-  exposure_is_factor = FALSE
-)
-}
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_1stage(exposure_mat, outcomes_tbl)
+fit <- m$`_`$out[[1]]
+centered <- cityClimateHealth:::get_centered_cp(
+  argvar = fit$argvar, xcoef = coef(fit$cr), xvcov = vcov(fit$cr),
+  this_exp = fit$this_exp, x_b = c(floor(min(fit$this_exp)), ceiling(max(fit$this_exp))),
+  global_cen = NULL, cen = fit$cen, exposure_is_factor = FALSE, truncate = 0.025)
+names(centered)
 }

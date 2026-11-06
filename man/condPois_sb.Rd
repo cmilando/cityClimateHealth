@@ -30,6 +30,9 @@ condPois_sb(
 
 \item{stan_type}{a choice of either laplace or sample}
 
+\item{use_spatial_model}{spatial structure for the Stan model: \code{'bym2'}
+(default), \code{'leroux'}, or \code{'none'}}
+
 \item{stan_opts}{a list of parameters to send to stan}
 
 \item{global_cen}{a global centering point}
@@ -46,7 +49,8 @@ condPois_sb(
 
 \item{verbose}{whether to print geo_units as they are run}
 
-\item{truncate}{}
+\item{truncate}{proportion of the exposure distribution to trim from each
+tail when choosing the centering point (default 0.01)}
 }
 \value{
 an object of class condPois_sb
@@ -55,85 +59,18 @@ an object of class condPois_sb
 https://mc-stan.org/docs/2_20/functions-reference/multinomial-distribution.html
 }
 \examples{
-library(data.table)
-data("ma_exposure")
-data("ma_deaths")
-
-# create exposure matrix
-exposure_columns <- list(
-  "date" = "date",
-  "exposure" = "tmax_C",
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-
-TOWNLIST <- c('CHELSEA', 'EVERETT', 'REVERE', 'MALDEN')
-
-exposure <- subset(ma_exposure, TOWN20 \%in\%  TOWNLIST & year(date) \%in\% 2012:2015)
-
-exposure_mat <- make_exposure_matrix(exposure, exposure_columns)
-
-# create outcome table
-outcome_columns <- list(
-  "date" = "date",
-  "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-deaths   <- subset(ma_deaths, TOWN20 \%in\% TOWNLIST & year(date) \%in\% 2012:2015)
-deaths_tbl <- make_outcome_table(deaths,  outcome_columns)
-data("ma_towns")
-local_shp <- subset(ma_towns, TOWN20 \%in\%  TOWNLIST)
-#run spatial model
-m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
-                     stan_type = 'laplace',
-                     verbose = 2,
-                     global_cen = 15,
-                     stan_opts = list(refresh = 200),
-                     use_spatial_model = 'bym2')
-condPois_sb
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-IF the outcomes_tbl has a FACTOR, enter a recursive loop
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-VALIDATION
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-STAGE 1
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-============================================================================
-SETUP inputs
-============================================================================
-#' /////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-============================================================================
-Get graph, has to make sure the shp is in the right order!
-============================================================================
-#' /////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-============================================================================
-Run STAN
-============================================================================
-#' /////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-STAGE 2 - GET FINAL ESTIMATES
-
-sb geo needs coef and vcov
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-OUTPUT
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
+\dontshow{if (requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))) withAutoprint(\{ # examplesIf}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+shp <- subset(ma_towns, TOWN20 \%in\% towns)
+m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+\dontshow{\}) # examplesIf}
 }

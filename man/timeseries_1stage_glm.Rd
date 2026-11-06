@@ -19,7 +19,8 @@ timeseries_1stage_glm(
   add_dow = TRUE,
   global_cen = NULL,
   multi_zone = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  truncate = 0.025
 )
 }
 \arguments{
@@ -57,6 +58,9 @@ ns(date, df = df_time) and if null is computed as round(dfseas * n_years).
 For "season" this is the df for the within-season smooth,
 ns(day_of_season, df = df_time), and if null defaults to 4.}
 
+\item{population_col}{optional name of a population column in \code{outcomes_tbl},
+used as an offset; see \code{add_population_offset()}}
+
 \item{add_dow}{logical, whether to add factor(dow) to the model as another time trend adjustment.
 Default TRUE.
 #' @param population_col optional, can be incorporated as population offset if that data is available}
@@ -66,6 +70,9 @@ Default TRUE.
 \item{multi_zone}{must be true}
 
 \item{verbose}{used to print crossbasis args the first time}
+
+\item{truncate}{proportion of the exposure distribution to trim from each
+tail when choosing the centering point (passed to \code{get_centered_cp})}
 }
 \value{
 a timeseries_1stage model object
@@ -75,36 +82,14 @@ Run a time series model for a single geographic unit
 One-stage POOLED time-series version of \code{condPois_1stage()}.
 }
 \examples{
-library(dlnm)
-library(glm)
-library(ggplot2)
-library(data.table)
-# create exposure matrix
-exposure_columns <- list(
-  "date" = "date",
- "exposure" = "tmax_C",
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-boston_exposure_mat <- make_exposure_matrix(
-subset(ma_exposure, TOWN20 == 'BOSTON'),
-exposure_columns)
-
-# create outcome table
-outcome_columns <- list(
- "date" = "date",
- "outcome" = "daily_deaths",
- "factor" = 'age_grp',
- "factor" = 'sex',
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
-
-# run the model
-m1 <- timeseries_1stage(exposure_matrix = boston_exposure_mat,
-                    outcomes_tbl = boston_deaths_tbl)
-timeseries_1stage
-IF the outcomes_tbl has a FACTOR, enter a recursive loop
-RUN QUASI-POISSON GLM
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 }

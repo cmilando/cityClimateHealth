@@ -10,6 +10,13 @@
 #' @param grp_level whether to summarize to the group level or not (default)
 #' @param keep_unit_outcomes if grp_level is true, whether to keep original unit-level outcomes
 #' @param dt_by is it daily data, or weekly or ...
+#' @param population_data optional data.frame of population estimates to join on
+#'   as a population column; see `add_population_offset()`
+#' @param population_columns named list mapping columns in `population_data`;
+#'   required with `population_data`. See
+#'   `add_population_offset()`
+#' @param population_col_name name of the population column added to the output
+#'   (default `"population"`)
 #'
 #' @importFrom data.table setDT setorderv `:=`
 #' @importFrom lubridate days_in_month
@@ -27,10 +34,11 @@
 #'   "geo_unit_grp" = "COUNTY20"
 #' )
 #' ma_outcomes_tbl <- make_outcome_table(
-#'  subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            outcome_columns,
-#'            time_subset = list(year = 2012:2015))
-#' make_outcome_table
+#'   subset(ma_deaths, TOWN20 == "BOSTON"),
+#'   outcome_columns,
+#'   time_subset = list(year = 2012)
+#' )
+#' head(ma_outcomes_tbl)
 make_outcome_table <- function(data,
                                column_mapping,
                                time_subset,
@@ -85,7 +93,7 @@ make_outcome_table <- function(data,
 
   #check for duplicate column mapping (there should not be column repeats in the inputs)
   if(length(column_mapping_flat) != length(unique(column_mapping_flat))) {
-    stop("Duplicate columns found in `column_mapping` — each column must be mapped to a unique value")
+    stop("Duplicate columns found in `column_mapping` - each column must be mapped to a unique value")
   }
 
   # check that geo_unit and geo_unit_grp are not the same column

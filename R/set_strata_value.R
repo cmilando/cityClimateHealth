@@ -3,8 +3,6 @@
 #' @param xgrid the xgrid data.table
 #' @param column_mapping column mapping vector
 #' @param dt_by what is the date to aggregate by
-#' @param grp_level logical, group level aggregatation
-#' @param keep_unit logical, with or without unit level outcomes or exposures
 #' @importFrom data.table setDT as.data.table wday year month
 #' @returns a strata vector
 #'

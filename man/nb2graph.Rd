@@ -16,8 +16,6 @@ a list with N (nodes), N_edges, node1, and node2 integer vectors
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 }
 \examples{
-library(spdep)
-coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-nb <- knn2nb(knearneigh(coords, k = 2))
-nb2graph(nb)
+nb <- spdep::cell2nb(3, 3)
+cityClimateHealth:::nb2graph(nb)
 }

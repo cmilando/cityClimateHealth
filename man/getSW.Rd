@@ -20,8 +20,7 @@ a binary matrix of spatial weights
 Helper function to get neighbors
 }
 \examples{
-\dontrun{
-# after loading an sf shapefile:
-SW <- getSW(shp = my_shapefile, ni = 1, include_self = FALSE)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+shp <- subset(ma_towns, TOWN20 \%in\% towns)
+cityClimateHealth:::getSW(shp = shp, ni = 1, include_self = FALSE)
 }

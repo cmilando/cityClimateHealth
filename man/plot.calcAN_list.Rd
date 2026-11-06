@@ -10,7 +10,8 @@
   above_MMT,
   spatial_sub = NULL,
   ordered_levels = NULL,
-  override_limit = FALSE
+  override_limit = FALSE,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@
 \item{ordered_levels}{factor levels}
 
 \item{override_limit}{override the built-in plot limit}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a plot with the attributable number or rate with bars for each factor level
@@ -33,9 +36,25 @@ a plot with the attributable number or rate with bars for each factor level
 Plot method for calcAN_list
 }
 \examples{
-\dontrun{
-# after running calcAN on a condPois model with a factor:
-an_result <- calcAN(my_model_list)
-plot(an_result, table_type = "num", above_MMT = TRUE)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "factor" = "age_grp",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+library(data.table)
+pop <- melt(as.data.table(ma_pop_data), id.vars = "TOWN20",
+            variable.name = "sex_age", value.name = "population")
+pop[, age_grp := sub(".*_", "", sex_age)]
+pop <- pop[TOWN20 \%in\% towns, .(population = sum(population)),
+           by = .(TOWN20, age_grp)]
+an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+              spatial_join_col = "TOWN20", nsim = 20)
+plot(an, table_type = "num", above_MMT = TRUE)
 }

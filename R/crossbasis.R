@@ -1,14 +1,16 @@
 #' Make crossbasis object
 #'
-#' @param exposure_matrix
-#' @param outcomes_tbl
-#' @param unique_geos
-#' @param maxlag
-#' @param argvar
-#' @param arglag
-#' @param strata_min
-#' @param min_n
-#' @param verbose
+#' @param exposure_matrix an exposure matrix of class `exposure`, from
+#'   `make_exposure_matrix()`
+#' @param outcomes_tbl an outcome table of class `outcome`, from
+#'   `make_outcome_table()`
+#' @param unique_geos character vector of the geo_units being modelled
+#' @param maxlag integer, the maximum lag
+#' @param argvar a list of `argvar` arguments for `dlnm::crossbasis()`
+#' @param arglag a list of `arglag` arguments for `dlnm::crossbasis()`
+#' @param strata_min minimum number of cases for a stratum to be kept
+#' @param min_n minimum number of cases for a geo_unit
+#' @param verbose logical or integer; if truthy, print the crossbasis settings
 #'
 #' @returns
 #' @export

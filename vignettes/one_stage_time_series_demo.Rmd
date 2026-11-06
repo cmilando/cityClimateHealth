@@ -319,13 +319,13 @@ m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat,
 
 And plot the relative risk
 ```{r single_plot, fig.height=3, fig.width=5}
-plot.timeseries_1stage(m1)
+plot(m1)
 ```
 
 You can also get the RR table for your own usage
 
 ```{r getRR1}
-getRR.timeseries_1stage(m1)
+getRR(m1)
 ```
 
 
@@ -447,7 +447,7 @@ Versus ours:
 
 ```{r cityclimatehealth_model graph output}
 
-plot.timeseries_1stage(cityclimatehealth_model)
+plot(cityclimatehealth_model)
 
 ```
 And if we want to look at RRs for specific values from Gasparrini: 
@@ -462,7 +462,7 @@ Versus ours:
 
 ```{r cityclimatehealth RR value prediction}
 
-getRR.timeseries_1stage(cityclimatehealth_model)
+getRR(cityclimatehealth_model)
 
 ```
 
@@ -564,12 +564,12 @@ m2 <- timeseries_1stage_glm(
 
 And plot - notice the tighter confidence interval
 ```{r single_plot2b, fig.height=3, fig.width=5}
-cityClimateHealth:::plot.timeseries_1stage(m2)
+plot(m2)
 ```
 
 
 And get RR:
 ```{r getRR2}
-getRR.timeseries_1stage(m2)
+getRR(m2)
 ```
 

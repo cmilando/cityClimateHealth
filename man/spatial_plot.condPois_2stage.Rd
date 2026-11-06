@@ -4,7 +4,7 @@
 \alias{spatial_plot.condPois_2stage}
 \title{spatial_plot method for condPois_2stage}
 \usage{
-\method{spatial_plot}{condPois_2stage}(x, shp, exposure_val, RRlimits = NULL)
+\method{spatial_plot}{condPois_2stage}(x, shp, exposure_val, RRlimits = NULL, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_2stage}
@@ -12,6 +12,11 @@
 \item{shp}{an sf shapefile with an appropriate column at which to join}
 
 \item{exposure_val}{exposure value at which to plot}
+
+\item{RRlimits}{optional length-2 numeric vector of colour-scale limits for
+RR; defaults to the range of the plotted values}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a ggplot object
@@ -20,9 +25,16 @@ a ggplot object
 spatial_plot method for condPois_2stage
 }
 \examples{
-\dontrun{
-  # set up exposure matrix and outcome table first (see condPois_2stage example)
-  model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-  spatial_plot(model, shp = ma_shp, exposure_val = 30.0)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+spatial_plot(m, shp = subset(ma_towns, TOWN20 \%in\% towns), exposure_val = 30)
 }

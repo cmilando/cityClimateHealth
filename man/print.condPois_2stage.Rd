@@ -4,10 +4,12 @@
 \alias{print.condPois_2stage}
 \title{Print method for condPois_2stage}
 \usage{
-print.condPois_2stage(x)
+\method{print}{condPois_2stage}(x, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_2stage}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 invisibly returns x
@@ -16,9 +18,16 @@ invisibly returns x
 Print method for condPois_2stage
 }
 \examples{
-\dontrun{
-  # set up exposure matrix and outcome table first (see condPois_2stage example)
-  model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-  print(model)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+print(m)
 }

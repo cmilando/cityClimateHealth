@@ -17,7 +17,3 @@ called for its side-effect (warning); returns NULL invisibly
 \description{
 spatial_plot method for condPois_1stage_list
 }
-\examples{
-x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
-spatial_plot(x)
-}

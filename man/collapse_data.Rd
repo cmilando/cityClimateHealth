@@ -6,6 +6,23 @@
 \usage{
 collapse_data(data, column_mapping, fcn, data_type, grp_level, keep_unit)
 }
+\arguments{
+\item{data}{a data.table of exposures or outcomes}
+
+\item{column_mapping}{a named list mapping column roles to column names in
+\code{data}}
+
+\item{fcn}{function used to aggregate the exposure or outcome column, e.g.
+\code{sum} or \code{mean}}
+
+\item{data_type}{either \code{'exposure'} or \code{'outcome'}; selects which column is
+aggregated}
+
+\item{grp_level}{logical; if \code{TRUE}, aggregate to \code{geo_unit_grp}}
+
+\item{keep_unit}{logical; if \code{TRUE}, keep unit-level rows when \code{grp_level} is
+\code{TRUE}}
+}
 \description{
 collapse the data based on factors and group level strata
 }

@@ -4,10 +4,12 @@
 \alias{getRR.condPois_2stage_list}
 \title{getRR method for condPois_2stage_list}
 \usage{
-\method{getRR}{condPois_2stage_list}(x)
+\method{getRR}{condPois_2stage_list}(x, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_2stage_list}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a data.table of relative risk estimates across factor levels
@@ -16,9 +18,18 @@ a data.table of relative risk estimates across factor levels
 getRR method for condPois_2stage_list
 }
 \examples{
-\dontrun{
-  # set up exposure matrix and outcome table first (see condPois_2stage example)
-  model_list <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-  getRR(model_list)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "factor" = "age_grp",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+# with a factor, a condPois_2stage_list is returned
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+getRR(m)
 }

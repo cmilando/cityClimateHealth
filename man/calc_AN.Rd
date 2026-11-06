@@ -42,64 +42,20 @@ calc_AN object that contains attributable numbers, rate tables, and other compon
 Calculate attributable number and attributable rates
 }
 \examples{
-library(data.table)
-data("ma_pop_data")
-setDT(ma_pop_data)
-ma_pop_data
-
-ma_pop_data_long <- melt(
-  ma_pop_data,
-  id.vars = "TOWN20",
-  variable.name = "sex_age",
-  value.name = "population"
-)
-
-
-ma_pop_data_long$sex_age <- as.character(ma_pop_data_long$sex_age)
-varnames <- strsplit(ma_pop_data_long$sex_age, "_", fixed = T)
-varnames <- data.frame(do.call(rbind, varnames))
-names(varnames) <- c('sex', 'age_grp')
-rr <- which(varnames$sex == 'Female')
-varnames$sex[rr] <- 'F'
-rr <- which(varnames$sex == 'Male')
-varnames$sex[rr] <- 'M'
-ma_pop_data_long$sex = varnames$sex
-ma_pop_data_long$age_grp = varnames$age_grp
-ma_pop_data_long$sex_age <- NULL
-ma_pop_data_long
-
-library(data.table)
-exposure_columns <- list(
-  "date" = "date",
-  "exposure" = "tmax_C",
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-
-ma_exposure_matrix <- make_exposure_matrix(
-  subset(ma_exposure, COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-           year(date) \%in\% 2012:2015),
-  exposure_columns)
-
-outcome_columns <- list(
-  "date" = "date",
-  "outcome" = "daily_deaths",
-  "factor" = 'age_grp',
-  "factor" = 'sex',
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-
-ma_outcomes_tbl <- make_outcome_table(
-  subset(ma_deaths,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-           year(date) \%in\% 2012:2015), outcome_columns)
-
-ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
-
-ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
-                 spatial_agg_type = 'TOWN20',
-                 spatial_join_col = 'TOWN20',
-                 nsim = 100,
-                 verbose = 2)
-calc_AN
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+                              population = rowSums(ma_pop_data[, -1]))
+pop <- subset(pop, TOWN20 \%in\% towns)
+an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+              spatial_join_col = "TOWN20", nsim = 20)
 }

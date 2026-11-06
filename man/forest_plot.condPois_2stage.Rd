@@ -4,12 +4,17 @@
 \alias{forest_plot.condPois_2stage}
 \title{forest_plot method for condPois_2stage}
 \usage{
-\method{forest_plot}{condPois_2stage}(x, exposure_val, show_as_boxplot = F)
+\method{forest_plot}{condPois_2stage}(x, exposure_val, show_as_boxplot = F, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_2stage}
 
 \item{exposure_val}{exposure value at which to plot}
+
+\item{show_as_boxplot}{logical; if \code{TRUE}, show geo_unit relative risks as
+boxplots instead of point ranges}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a ggplot object
@@ -18,9 +23,16 @@ a ggplot object
 forest_plot method for condPois_2stage
 }
 \examples{
-\dontrun{
-  # set up exposure matrix and outcome table first (see condPois_2stage example)
-  model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-  forest_plot(model, exposure_val = 30.0)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+forest_plot(m, exposure_val = 30)
 }

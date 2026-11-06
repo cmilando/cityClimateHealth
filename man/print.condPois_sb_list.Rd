@@ -4,10 +4,12 @@
 \alias{print.condPois_sb_list}
 \title{Print method for condPois_sb_list}
 \usage{
-print.condPois_sb_list(x)
+\method{print}{condPois_sb_list}(x, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_sb_list}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 invisibly returns x
@@ -16,9 +18,21 @@ invisibly returns x
 Print method for condPois_sb_list
 }
 \examples{
-\dontrun{
-  # set up exposure matrix and outcome table first (see condPois_2stage example)
-  model_list <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl, global_cen = 20)
-  print(model_list)
-}
+\dontshow{if (requireNamespace("cmdstanr", quietly = TRUE) && !is.null(tryCatch(cmdstanr::cmdstan_path(), error = function(e) NULL))) withAutoprint(\{ # examplesIf}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "factor" = "age_grp",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+shp <- subset(ma_towns, TOWN20 \%in\% towns)
+# with a factor, a condPois_sb_list is returned
+m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
+print(m)
+\dontshow{\}) # examplesIf}
 }

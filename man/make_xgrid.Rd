@@ -30,12 +30,8 @@ a datatable of all date and geo unit combinations
 An internal function to make the xgrid
 }
 \examples{
-\dontrun{
-exposure_columns <- list("date" = "date",
-"exposure" = "tmax_C", "geo_unit" = "TOWN20",
-"geo_unit_grp" = "COUNTY20")
-
-make_xgrid(subset(ma_exposure, TOWN20 == 'BOSTON'),
-exposure_columns, time_subset = list(month = 5:9))
-}
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+boston <- subset(ma_exposure, TOWN20 == "BOSTON" & date < as.Date("2010-02-01"))
+cityClimateHealth:::make_xgrid(boston, exposure_columns)
 }

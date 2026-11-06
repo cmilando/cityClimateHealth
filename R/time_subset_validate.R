@@ -1,6 +1,7 @@
 #' validation of the time_subset argumetn
 #'
 #' @param time_subset a time_subset input
+#' @param data_years integer vector of the years present in the data
 #' @importFrom data.table setDT as.data.table wday year month
 #' @returns a cleaned time_subset
 #'

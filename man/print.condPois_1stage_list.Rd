@@ -4,10 +4,12 @@
 \alias{print.condPois_1stage_list}
 \title{Print method for condPois_1stage_list}
 \usage{
-print.condPois_1stage_list(x)
+\method{print}{condPois_1stage_list}(x, ...)
 }
 \arguments{
 \item{x}{an object of class condPois_1stage_list}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 invisibly returns x

@@ -17,7 +17,25 @@ make_crossbasis(
 )
 }
 \arguments{
-\item{verbose}{}
+\item{exposure_matrix}{an exposure matrix of class \code{exposure}, from
+\code{make_exposure_matrix()}}
+
+\item{outcomes_tbl}{an outcome table of class \code{outcome}, from
+\code{make_outcome_table()}}
+
+\item{unique_geos}{character vector of the geo_units being modelled}
+
+\item{maxlag}{integer, the maximum lag}
+
+\item{argvar}{a list of \code{argvar} arguments for \code{dlnm::crossbasis()}}
+
+\item{arglag}{a list of \code{arglag} arguments for \code{dlnm::crossbasis()}}
+
+\item{strata_min}{minimum number of cases for a stratum to be kept}
+
+\item{min_n}{minimum number of cases for a geo_unit}
+
+\item{verbose}{logical or integer; if truthy, print the crossbasis settings}
 }
 \description{
 Make crossbasis object

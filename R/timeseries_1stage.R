@@ -31,55 +31,40 @@
 #' @param global_cen global centering point
 #' @param multi_zone must be true
 #' @param verbose used to print crossbasis args the first time
+#' @param truncate proportion of the exposure distribution to trim from each
+#'   tail when choosing the centering point (passed to `get_centered_cp`)
+#' @param population_col optional name of a population column in `outcomes_tbl`,
+#'   used as an offset; see `add_population_offset()`
 #'
+#' @importFrom splines ns
 #' @importFrom data.table setDT
 #' @importFrom dlnm crossbasis
 #' @importFrom dlnm crosspred
 #' @importFrom dlnm crossreduce
 #' @importFrom dlnm logknots
-#' @importFrom glm
 #'
 #' @returns a timeseries_1stage model object
 #' @export
 #'
 #' @examples
-#' library(dlnm)
-#' library(glm)
-#' library(ggplot2)
-#' library(data.table)
-#' # create exposure matrix
-#' exposure_columns <- list(
-#'   "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#' boston_exposure_mat <- make_exposure_matrix(
-#' subset(ma_exposure, TOWN20 == 'BOSTON'),
-#' exposure_columns)
-#'
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns)
-#'
-#'# run the model
-#' m1 <- timeseries_1stage(exposure_matrix = boston_exposure_mat,
-#'                     outcomes_tbl = boston_deaths_tbl)
-#' timeseries_1stage
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                      argvar = NULL, arglag = NULL, maxlag = NULL,
                                      min_n = 50, time_trend = c("annual", "season"),
                                      dfseas = 7, df_time = NULL,
                                      population_col = NULL,
                                      add_dow = TRUE, global_cen = NULL,
-                                     multi_zone = FALSE, verbose = TRUE) {
+                                     multi_zone = FALSE, verbose = TRUE,
+                                     truncate = 0.025) {
 
   ## Check 1: that both inputs are the right class of variables
   stopifnot("exposure" %in% class(exposure_matrix))
@@ -89,7 +74,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   time_trend <- match.arg(time_trend)
 
   ###############################################
-  #' IF the outcomes_tbl has a FACTOR, enter a recursive loop
+  # IF the outcomes_tbl has a FACTOR, enter a recursive loop
   ###############################################
   if("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) {
 
@@ -124,7 +109,8 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                               add_dow = add_dow,
                                               population_col = population_col,
                                               multi_zone = multi_zone,
-                                              verbose = verbose)
+                                              verbose = verbose,
+                                              truncate = truncate)
 
       fct_outlist[[fct_i]]$factor_col <- factor_col
       fct_outlist[[fct_i]]$factor_val <- unique_fcts[fct_i]
@@ -359,7 +345,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   if(any(is.na(cb))) stop("crossbasis has NULL, something went wrong")
 
   ###############################################
-  #' RUN QUASI-POISSON GLM
+  # RUN QUASI-POISSON GLM
   ###############################################
 
   geo_suffix <- if(use_geo_int) ":factor(geo_unit)" else ""
@@ -490,7 +476,8 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                     cen = cen,
                                     this_exp = this_exp,
                                     x_b = x_b,
-                                    exposure_is_factor = exposure_is_factor)
+                                    exposure_is_factor = exposure_is_factor,
+                                    truncate = truncate)
 
   overall_centered_basis <- centered_basis$basis_cen
 
@@ -544,7 +531,8 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                       cen = cen,
                       this_exp = this_exp,
                       x_b = x_b,
-                      exposure_is_factor = exposure_is_factor
+                      exposure_is_factor = exposure_is_factor,
+                      truncate = truncate
       )
     }, error = function(e) {
       warning(sprintf('a check of making the centered basis for a geo-unit %s did not pass. this likely means that the knots for the overall basis are outside the range of exposures in this geographic unit. Consider adjusting either the geo-units you are passing in, or the exposure variable (e.g., switching from absolute to relative measures)', this_geo))
@@ -633,6 +621,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
 #' Print method for timeseries_1stage
 #'
 #' @param x an object of class timeseries_1stage
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
@@ -640,7 +629,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
 #' @examples
 #' x <- structure(list(), class = "timeseries_1stage")
 #' print(x)
-print.timeseries_1stage <- function(x) {
+print.timeseries_1stage <- function(x, ...) {
   cat("< an object of class `timeseries_1stage` >\n")
   invisible(x)
 }
@@ -649,6 +638,7 @@ print.timeseries_1stage <- function(x) {
 #' Print method for timeseries_1stage_list
 #'
 #' @param x an object of class timeseries_1stage_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
@@ -656,7 +646,7 @@ print.timeseries_1stage <- function(x) {
 #' @examples
 #' x <- structure(list(a = 1, b = 2), class = "timeseries_1stage_list")
 #' print(x)
-print.timeseries_1stage_list <- function(x) {
+print.timeseries_1stage_list <- function(x, ...) {
   cat("< an object of class `timeseries_1stage_list`:",
       paste(names(x), collapse = ",")," >\n")
 }
@@ -665,40 +655,24 @@ print.timeseries_1stage_list <- function(x) {
 #' getRR method for timeseries_1stage
 #'
 #' @param x an object of class timeseries_1stage
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom data.table setDT
 #' @returns a data.table of relative risk estimates
 #' @export
 #'
 #' @examples
-#' # create exposure matrix
-#'exposure_columns <- list(
-#'  "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#"  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-
-#'# run the model
-#' m2 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-#' global_cen = 15)
-#' getRR(m2)
-
-getRR.timeseries_1stage <- function(x) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' getRR(m)
+getRR.timeseries_1stage <- function(x, ...) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
 
@@ -729,39 +703,23 @@ getRR.timeseries_1stage <- function(x) {
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
-#' @import ggplot2
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'# create exposure matrix
-#'exposure_columns <- list(
-#'  "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#"  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-
-#'# run the model
-#' m2 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-#' global_cen = 15)
-#' plot(m2)
-plot.timeseries_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' plot(m)
+plot.timeseries_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
 
@@ -785,23 +743,26 @@ plot.timeseries_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
 #' getRR method for timeseries_1stage_list
 #'
 #' @param x an object of class timeseries_1stage_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom data.table setDT
 #' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
 #' @examples
-#'middlesex_deaths_tbl <- make_outcome_table(
-#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-#'
-#'# run the model
-#'m3 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-#'                      outcomes_tbl = middlesex_deaths_tbl,
-#'                      global_cen = 15,
-#'                      multi_zone = TRUE,
-#'                      verbose = 1)
-#'getRR(m3)
-
-getRR.timeseries_1stage_list <- function(x) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' # with a factor, a timeseries_1stage_list is returned
+#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' getRR(m)
+getRR.timeseries_1stage_list <- function(x, ...) {
 
   fct_names <- names(x)
 
@@ -840,22 +801,25 @@ getRR.timeseries_1stage_list <- function(x) {
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
-#' @import ggplot2
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'middlesex_deaths_tbl <- make_outcome_table(
-#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-#'
-#'# run the model
-#'m3 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-#'                      outcomes_tbl = middlesex_deaths_tbl,
-#'                      global_cen = 15,
-#'                      multi_zone = TRUE,
-#'                      verbose = 1)
-#'plot(m3)
-plot.timeseries_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' # with a factor, a timeseries_1stage_list is returned
+#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' plot(m)
+plot.timeseries_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   fct_names <- names(x)
 
@@ -907,10 +871,6 @@ plot.timeseries_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NUL
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(), class = "timeseries_1stage")
-#' forest_plot(x)
 forest_plot.timeseries_1stage <- function(x, ...) {
   warning("`forest_plot` method not implemented for objects of class `timeseries_1stage`,
       since there is only one 1_stage relative risk curve so all plot
@@ -927,10 +887,6 @@ forest_plot.timeseries_1stage <- function(x, ...) {
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(a = 1, b = 2), class = "timeseries_1stage_list")
-#' forest_plot(x)
 forest_plot.timeseries_1stage_list <- function(x, ...) {
   warning("`forest_plot` method not implemented for objects of class `timeseries_1stage_list`,
       since there is only one 1_stage relative risk curve so all plot
@@ -947,10 +903,6 @@ forest_plot.timeseries_1stage_list <- function(x, ...) {
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(), class = "timeseries_1stage")
-#' spatial_plot(x)
 spatial_plot.timeseries_1stage <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `timeseries_1stage`,
       since there is only one 1_stage relative risk curve so all plot
@@ -966,10 +918,6 @@ spatial_plot.timeseries_1stage <- function(x, ...) {
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(a = 1, b = 2), class = "timeseries_1stage_list")
-#' spatial_plot(x)
 spatial_plot.timeseries_1stage_list <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `timeseries_1stage_list`,
       since there is only one 1_stage relative risk curve so all plot

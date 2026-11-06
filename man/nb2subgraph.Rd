@@ -22,10 +22,8 @@ a list with node1 and node2 integer vectors defining graph edges
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 }
 \examples{
-library(spdep)
-coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-nb <- knn2nb(knearneigh(coords, k = 2))
-comp_ids <- n.comp.nb(nb)[[2]]
-offsets <- indexByComponent(comp_ids)
-nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
+nb <- spdep::cell2nb(3, 3)
+comp_ids <- spdep::n.comp.nb(nb)$comp.id
+offsets <- cityClimateHealth:::indexByComponent(comp_ids)
+cityClimateHealth:::nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
 }

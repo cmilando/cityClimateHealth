@@ -17,5 +17,5 @@ https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_
 }
 \examples{
 comp_ids <- c(1, 1, 2, 2, 2, 1)
-indexByComponent(comp_ids)
+cityClimateHealth:::indexByComponent(comp_ids)
 }

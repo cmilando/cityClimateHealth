@@ -10,6 +10,8 @@
 #' @param global_cen global centering point
 #' @param multi_zone are multiple strata being used.
 #' @param verbose used to print crossbasis args the first time
+#' @param truncate proportion of the exposure distribution to trim from each
+#'   tail when choosing the centering point (default 0.025)
 #'
 #' @importFrom data.table setDT
 #' @importFrom dlnm crossbasis
@@ -22,41 +24,16 @@
 #' @export
 #'
 #' @examples
-# library(dlnm)
-# library(gnm)
-# library(ggplot2)
-# library(data.table)
-# # create exposure matrix
-# exposure_columns <- list(
-#   "date" = "date",
-#  "exposure" = "tmax_C",
-#  "geo_unit" = "TOWN20",
-#  "geo_unit_grp" = "COUNTY20"
-# )
-# boston_exposure_mat <- make_exposure_matrix(
-# subset(ma_exposure, TOWN20 == 'BOSTON'),
-# exposure_columns, time_subset = list(year = 2012:2015))
-#
-# # add holiday
-# exposure_matrix <- add_us_holiday(boston_exposure_mat)
-#
-# # create outcome table
-# outcome_columns <- list(
-#  "date" = "date",
-#  "outcome" = "daily_deaths",
-#  "factor" = 'age_grp',
-#  "factor" = 'sex',
-#  "geo_unit" = "TOWN20",
-#  "geo_unit_grp" = "COUNTY20"
-# )
-# boston_deaths <- subset(ma_deaths, TOWN20 == 'BOSTON')
-# outcomes_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
-#                                         time_subset = list(year = 2012:2015))
-#
-# # run the model
-# m1 <- condPois_1stage(exposure_matrix,
-#                     outcomes_tbl)
-#' condPois_1stage
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
 condPois_1stage <- function(exposure_matrix, outcomes_tbl,
                         argvar = NULL, arglag = NULL, maxlag = NULL,
                        min_n = 50, strata_min = 0, global_cen = NULL,
@@ -67,11 +44,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   stopifnot("exposure" %in% class(exposure_matrix))
   stopifnot("outcome" %in% class(outcomes_tbl))
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' IF the outcomes_tbl has a FACTOR, enter a recursive loop
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # IF the outcomes_tbl has a FACTOR, enter a recursive loop
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
   if("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) {
 
     factor_col <- attributes(outcomes_tbl)$column_mapping$factor
@@ -122,11 +99,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   }
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' VALIDATIONS
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # VALIDATIONS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # Generic validation tests
   validated <- input_validation(exposure_matrix, outcomes_tbl)
@@ -202,11 +179,11 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   }
 
 
-  #' //////////////////////////////////////////////////////////////////////////
-  #' ==========================================================================
-  #' CREATE CROSSBASIS for this single zone
-  #' ==========================================================================
-  #' //////////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE CROSSBASIS for this single zone
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   cb_out <- make_crossbasis(exposure_matrix = exposure_matrix,
                         outcomes_tbl = outcomes_tbl,
@@ -598,6 +575,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 #' Print method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
@@ -605,7 +583,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 #' @examples
 #' x <- structure(list(), class = "condPois_1stage")
 #' print(x)
-print.condPois_1stage <- function(x) {
+print.condPois_1stage <- function(x, ...) {
   cat("< an object of class `condPois_1stage` >\n")
   invisible(x)
 }
@@ -614,6 +592,7 @@ print.condPois_1stage <- function(x) {
 #' Print method for condPois_1stage_list
 #'
 #' @param x an object of class condPois_1stage_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
@@ -621,7 +600,7 @@ print.condPois_1stage <- function(x) {
 #' @examples
 #' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
 #' print(x)
-print.condPois_1stage_list <- function(x) {
+print.condPois_1stage_list <- function(x, ...) {
   cat("< an object of class `condPois_1stage_list`:",
       paste(names(x), collapse = ",")," >\n")
 }
@@ -630,40 +609,24 @@ print.condPois_1stage_list <- function(x) {
 #' getRR method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom data.table setDT
 #' @returns a data.table of relative risk estimates
 #' @export
 #'
 #' @examples
-#' # create exposure matrix
-#'exposure_columns <- list(
-#'  "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#"  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-
-#'# run the model
-#' m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
-#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-#' global_cen = 15)
-#' getRR(m2)
-
-getRR.condPois_1stage <- function(x) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' getRR(m)
+getRR.condPois_1stage <- function(x, ...) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
 
@@ -694,39 +657,23 @@ getRR.condPois_1stage <- function(x) {
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
-#' @import ggplot2
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'# create exposure matrix
-#'exposure_columns <- list(
-#'  "date" = "date",
-#'  "exposure" = "tmax_C",
-#'  "geo_unit" = "TOWN20",
-#"  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-#'middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-
-#'# create outcome table
-#'outcome_columns <- list(
-#'  "date" = "date",
-#'  "outcome" = "daily_deaths",
-#'  "factor" = 'age_grp',
-#'  "factor" = 'sex',
-#'  "geo_unit" = "TOWN20",
-#'  "geo_unit_grp" = "COUNTY20"
-#')
-#'middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-#'middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-
-#'# run the model
-#' m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
-#' outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-#' global_cen = 15)
-#' plot(m2)
-plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' plot(m)
+plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
 
@@ -750,20 +697,27 @@ plot.condPois_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
 #' Plot lag method for condPois_1stage
 #'
 #' @param x an object of class condPois_1stage
-#' @param xlab xlab override
-#' @param ylab ylab override
-#' @param title title override
-#' @import ggplot2
+#' @param exposure_val exposure value at which to plot the lag-response curve
 #' @returns a ggplot object
 #' @export
 #'
 #' @examples
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' plot_lag(m, exposure_val = 30)
 plot_lag <- function(x, exposure_val) {
 
   n_geo_names <- paste0(names(x$`_`$out), collapse = ":")
   exposure_col <- x$`_`$out[[1]]$exposure_col
 
-  if(is.null(ylab)) ylab = "RR"
   title = paste0(n_geo_names, ": ", paste0(exposure_col, " = ", exposure_val))
 
   xcp <- x$`_`$out[[1]]$stage1_cp
@@ -789,7 +743,7 @@ plot_lag <- function(x, exposure_val) {
     ggtitle(title) +
     scale_y_continuous(transform = 'log') +
     geom_ribbon(fill = 'lightblue', alpha = 0.2) +
-    geom_line() + xlab(xlab) + ylab(ylab)
+    geom_line() + xlab("Lag") + ylab("Relative Risk")
 
 
 }
@@ -797,23 +751,26 @@ plot_lag <- function(x, exposure_val) {
 #' getRR method for condPois_1stage_list
 #'
 #' @param x an object of class condPois_1stage_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom data.table setDT
 #' @returns a data.table of relative risk estimates across factor levels
 #' @export
 #'
 #' @examples
-#'middlesex_deaths_tbl <- make_outcome_table(
-#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-#'
-#'# run the model
-#'m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
-#'                      outcomes_tbl = middlesex_deaths_tbl,
-#'                      global_cen = 15,
-#'                      multi_zone = TRUE,
-#'                      verbose = 1)
-#'getRR(m3)
-
-getRR.condPois_1stage_list <- function(x) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' # with a factor, a condPois_1stage_list is returned
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' getRR(m)
+getRR.condPois_1stage_list <- function(x, ...) {
 
   n_geo_names <- paste0(names(x[[names(x)[1]]]$`_`$out), collapse = ":")
 
@@ -858,22 +815,25 @@ getRR.condPois_1stage_list <- function(x) {
 #' @param xlab xlab override
 #' @param ylab ylab override
 #' @param title title override
-#' @import ggplot2
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @returns a ggplot object
 #' @export
 #'
 #' @examples
-#'middlesex_deaths_tbl <- make_outcome_table(
-#'middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-#'
-#'# run the model
-#'m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
-#'                      outcomes_tbl = middlesex_deaths_tbl,
-#'                      global_cen = 15,
-#'                      multi_zone = TRUE,
-#'                      verbose = 1)
-#'plot(m3)
-plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' # with a factor, a condPois_1stage_list is returned
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' plot(m)
+plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 
   fct_names <- names(x)
 
@@ -923,12 +883,23 @@ plot.condPois_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL)
 #'
 #' @param x an object of class condPois_1stage
 #' @param ... other elements passed to spatial_plot
+#' @param exposure_val exposure value at which to show the relative risk
+#'   (matched after rounding to 1 decimal)
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples
-#' x <- structure(list(), class = "condPois_1stage")
-#' forest_plot(x)
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' forest_plot(m, exposure_val = 30)
 forest_plot.condPois_1stage <- function(x, exposure_val, ...) {
 
   # these will all be the same, so just pick 1
@@ -940,7 +911,7 @@ forest_plot.condPois_1stage <- function(x, exposure_val, ...) {
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = n_geo_names
 
-  warning("rounded to 1 decimal")
+  message("rounded to 1 decimal")
   plt_slice <- subset(plt_slice, round(plt_slice[[exposure_col]],1) ==
                         round(exposure_val, 1))
 
@@ -960,13 +931,27 @@ forest_plot.condPois_1stage <- function(x, exposure_val, ...) {
 #'
 #' @param x an object of class condPois_1stage_list
 #' @param ... other elements passed to spatial_plot
+#' @param exposure_val exposure value at which to show the relative risk
+#'   (matched after rounding to 1 decimal)
+#' @param show_as_boxplot logical; currently unused for 1-stage models
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
 #'
 #' @examples
-#' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
-#' forest_plot(x)
-forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = F) {
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+#'                                    outcome_columns, time_subset = time_subset)
+#' # with a factor, a condPois_1stage_list is returned
+#' m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#' forest_plot(m, exposure_val = 30)
+forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = F, ...) {
 
   # these will all be the same, so just pick 1
   plt_slice = getRR(x)
@@ -979,7 +964,7 @@ forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = 
   if(is.null(ylab)) ylab = "RR"
   if(is.null(title)) title = n_geo_names
 
-  warning("rounded to 1 decimal")
+  message("rounded to 1 decimal")
   plt_slice <- subset(plt_slice, round(plt_slice[[exposure_col]],1) ==
                         round(exposure_val, 1))
 
@@ -1004,10 +989,6 @@ forest_plot.condPois_1stage_list <- function(x, exposure_val, show_as_boxplot = 
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(), class = "condPois_1stage")
-#' spatial_plot(x)
 spatial_plot.condPois_1stage <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `condPois_1stage`,
       since there is only one 1_stage relative risk curve so all plot
@@ -1023,10 +1004,6 @@ spatial_plot.condPois_1stage <- function(x, ...) {
 #' @param ... other elements passed to spatial_plot
 #' @returns called for its side-effect (warning); returns NULL invisibly
 #' @export
-#'
-#' @examples
-#' x <- structure(list(a = 1, b = 2), class = "condPois_1stage_list")
-#' spatial_plot(x)
 spatial_plot.condPois_1stage_list <- function(x, ...) {
   warning("`spatial_plot` method not implemented for objects of class `condPois_1stage_list`,
       since there is only one 1_stage relative risk curve so all plot

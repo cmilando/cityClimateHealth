@@ -4,10 +4,12 @@
 \alias{getRR.timeseries_1stage}
 \title{getRR method for timeseries_1stage}
 \usage{
-\method{getRR}{timeseries_1stage}(x)
+\method{getRR}{timeseries_1stage}(x, ...)
 }
 \arguments{
 \item{x}{an object of class timeseries_1stage}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a data.table of relative risk estimates
@@ -16,28 +18,15 @@ a data.table of relative risk estimates
 getRR method for timeseries_1stage
 }
 \examples{
-# create exposure matrix
-exposure_columns <- list(
- "date" = "date",
- "exposure" = "tmax_C",
- "geo_unit" = "TOWN20",
-)
-middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-# create outcome table
-outcome_columns <- list(
- "date" = "date",
- "outcome" = "daily_deaths",
- "factor" = 'age_grp',
- "factor" = 'sex',
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-# run the model
-m2 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-global_cen = 15)
-getRR(m2)
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+getRR(m)
 }

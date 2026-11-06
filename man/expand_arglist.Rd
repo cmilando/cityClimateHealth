@@ -20,5 +20,5 @@ arglist <- list(
   list(fun = "ns", df = c(3, 4)),
   list(fun = "bs", degree = c(2, 3))
 )
-expand_arglist(arglist)
+cityClimateHealth:::expand_arglist(arglist)
 }

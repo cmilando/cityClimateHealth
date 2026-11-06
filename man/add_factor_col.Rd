@@ -7,7 +7,11 @@
 add_factor_col(data, column_mapping)
 }
 \arguments{
-\item{column_mapping}{}
+\item{data}{a data.table containing the columns named in \code{column_mapping}}
+
+\item{column_mapping}{a named list mapping column roles to column names in
+\code{data}; all \code{factor} entries are combined into a single
+factor column}
 }
 \description{
 make factor column

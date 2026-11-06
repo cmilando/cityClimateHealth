@@ -1,7 +1,7 @@
 
 #' check covariate names
 #'
-#' @param str_vec
+#' @param str_vec character vector of covariate column names to check
 #'
 #' @returns
 #' @export
@@ -22,8 +22,10 @@ check_covariate_names <- function(str_vec) {
 
 #' join exposure covariate
 #'
-#' @param exposure_mat
-#' @param covariate_mat
+#' @param exposure_mat an exposure matrix of class `exposure`, from
+#'   `make_exposure_matrix()`
+#' @param covariate_mat a covariate matrix (with a `column_mapping` attribute)
+#'   to join onto `exposure_mat`
 #'
 #' @returns
 #' @export

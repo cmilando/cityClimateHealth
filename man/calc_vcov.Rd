@@ -30,14 +30,17 @@ https://doi.org/10.1111/j.2517-6161.1996.tb02079.x
 https://doi.org/10.1093/biomet/68.2.563
 }
 \examples{
-\dontrun{
-# after running condPois_1stage on a single geo_unit:
-result <- condPois_1stage(exposure_matrix, outcomes_tbl)
-vcov_mat <- calc_vcov(
-  y = result$`_`$out[[1]]$outcomes,
-  X = as.matrix(result$`_`$out[[1]]$orig_basis),
-  beta = result$`_`$out[[1]]$orig_coef,
-  stratum_vector = result$`_`$out[[1]]$strata_vec
-)
-}
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_1stage(exposure_mat, outcomes_tbl)
+fit <- m$`_`$out[[1]]
+calc_vcov(y = fit$outcomes, X = as.matrix(fit$orig_basis),
+          beta = fit$orig_coef, stratum_vector = fit$strata_vec)
 }
