@@ -18,8 +18,8 @@ population data estimate.
 
 This varies a lot by place and dataset, so we don’t include
 functionality for it (but an example of how this could be done can be
-seen in
-[`vignette("get_pop_estimates")`](http://climatehealth.city/articles/get_pop_estimates.md)).
+seen in the [population estimates
+article](https://climatehealth.city/articles/get_pop_estimates.md)).
 
 Reminder - the data used in this example are **simulated**.
 
@@ -116,9 +116,9 @@ analysis, but you could also make a version of this dataset with a
 ‘year’ column.
 
 Now, quickly get a
-[`condPois_1stage()`](http://climatehealth.city/reference/condPois_1stage.md)
+[`condPois_1stage()`](https://climatehealth.city/reference/condPois_1stage.md)
 and
-[`condPois_2stage()`](http://climatehealth.city/reference/condPois_2stage.md)
+[`condPois_2stage()`](https://climatehealth.city/reference/condPois_2stage.md)
 objects to use in testing: exposures
 
 ``` r
@@ -244,57 +244,57 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>          <char>    <char>      <num>    <lgcl>                     <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                 2509.5332
-#>   2:      ACTON MIDDLESEX      23864     FALSE                 -141.4264
-#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2607.2300
-#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -153.3024
-#>   5: ASHBURNHAM WORCESTER       6337      TRUE                 1708.2216
+#>   1:      ACTON MIDDLESEX      23864      TRUE                 2501.1524
+#>   2:      ACTON MIDDLESEX      23864     FALSE                 -140.3788
+#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2609.4084
+#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -153.8470
+#>   5: ASHBURNHAM WORCESTER       6337      TRUE                 1714.1392
 #>  ---                                                                    
-#> 224: WINCHESTER MIDDLESEX      22809     FALSE                 -203.3189
-#> 225:     WOBURN MIDDLESEX      40992      TRUE                 2516.0397
-#> 226:     WOBURN MIDDLESEX      40992     FALSE                 -103.6788
-#> 227:  WORCESTER WORCESTER     204191      TRUE                 2279.6059
-#> 228:  WORCESTER WORCESTER     204191     FALSE                 -176.9789
+#> 224: WINCHESTER MIDDLESEX      22809     FALSE                 -201.1267
+#> 225:     WOBURN MIDDLESEX      40992      TRUE                 2509.0262
+#> 226:     WOBURN MIDDLESEX      40992     FALSE                 -103.3738
+#> 227:  WORCESTER WORCESTER     204191      TRUE                 2280.5241
+#> 228:  WORCESTER WORCESTER     204191     FALSE                 -177.6523
 #>      mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                         <num>                    <num>
-#>   1:                1886.6546               3097.99803
-#>   2:                -219.2109                -73.77745
-#>   3:                2161.9995               3049.42437
-#>   4:                -217.0604                -97.86302
-#>   5:                1232.5430               2128.66893
+#>   1:                1877.7761               3089.61721
+#>   2:                -217.6657                -73.77745
+#>   3:                2172.0881               3043.66532
+#>   4:                -215.9712               -100.32730
+#>   5:                1242.5043               2132.61401
 #>  ---                                                  
-#> 224:                -266.9177               -139.14464
-#> 225:                1939.5400               3026.88634
-#> 226:                -152.2096                -51.24476
-#> 227:                1946.8292               2687.72252
-#> 228:                -258.4957               -117.72679
+#> 224:                -263.6295               -138.10338
+#> 225:                1934.3408               3020.20821
+#> 226:                -151.8894                -52.43401
+#> 227:                1949.3513               2689.89573
+#> 228:                -257.8193               -119.07969
 ma_AN$`_`$number_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
 #>          <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                  598.875
-#>   2:      ACTON MIDDLESEX      23864     FALSE                  -33.750
-#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1196.875
-#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -70.375
-#>   5: ASHBURNHAM WORCESTER       6337      TRUE                  108.250
+#>   1:      ACTON MIDDLESEX      23864      TRUE                  596.875
+#>   2:      ACTON MIDDLESEX      23864     FALSE                  -33.500
+#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 1197.875
+#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -70.625
+#>   5: ASHBURNHAM WORCESTER       6337      TRUE                  108.625
 #>  ---                                                                   
-#> 224: WINCHESTER MIDDLESEX      22809     FALSE                  -46.375
-#> 225:     WOBURN MIDDLESEX      40992      TRUE                 1031.375
-#> 226:     WOBURN MIDDLESEX      40992     FALSE                  -42.500
-#> 227:  WORCESTER WORCESTER     204191      TRUE                 4654.750
-#> 228:  WORCESTER WORCESTER     204191     FALSE                 -361.375
+#> 224: WINCHESTER MIDDLESEX      22809     FALSE                  -45.875
+#> 225:     WOBURN MIDDLESEX      40992      TRUE                 1028.500
+#> 226:     WOBURN MIDDLESEX      40992     FALSE                  -42.375
+#> 227:  WORCESTER WORCESTER     204191      TRUE                 4656.625
+#> 228:  WORCESTER WORCESTER     204191     FALSE                 -362.750
 #>      mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                        <num>                   <num>
-#>   1:               450.23125               739.30625
-#>   2:               -52.31250               -17.60625
-#>   3:               992.48750              1399.86875
-#>   4:               -99.64375               -44.92500
-#>   5:                78.10625               134.89375
+#>   1:               448.11250               737.30625
+#>   2:               -51.94375               -17.60625
+#>   3:               997.11875              1397.22500
+#>   4:               -99.14375               -46.05625
+#>   5:                78.73750               135.14375
 #>  ---                                                
-#> 224:               -60.88125               -31.73750
-#> 225:               795.05625              1240.78125
-#> 226:               -62.39375               -21.00625
-#> 227:              3975.25000              5488.08750
-#> 228:              -527.82500              -240.38750
+#> 224:               -60.13125               -31.50000
+#> 225:               792.92500              1238.04375
+#> 226:               -62.26250               -21.49375
+#> 227:              3980.40000              5492.52500
+#> 228:              -526.44375              -243.15000
 ```
 
 you can change `spatial_agg_type` to be a different spatial resolution –
@@ -316,29 +316,29 @@ ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE                 2540.9569
-#> 2: MIDDLESEX    1623109     FALSE                 -132.0614
-#> 3: WORCESTER     858898      TRUE                 2228.0585
-#> 4: WORCESTER     858898     FALSE                 -145.4917
+#> 1: MIDDLESEX    1623109      TRUE                 2553.7949
+#> 2: MIDDLESEX    1623109     FALSE                 -132.5003
+#> 3: WORCESTER     858898      TRUE                 2234.0546
+#> 4: WORCESTER     858898     FALSE                 -146.3067
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:                2472.0367                2614.0181
-#> 2:                -141.4096                -124.1968
-#> 3:                2108.4656                2323.8782
-#> 4:                -164.6419                -129.6938
+#> 1:                2472.4133                2618.5218
+#> 2:                -141.4592                -123.2269
+#> 3:                2114.9797                2329.2572
+#> 4:                -164.3538                -130.4208
 ma_AN$`_`$number_table
 #>     COUNTY20 population above_MMT mean_annual_attr_num_est
 #>       <char>      <num>    <lgcl>                    <num>
-#> 1: MIDDLESEX    1623109      TRUE                41242.500
-#> 2: MIDDLESEX    1623109     FALSE                -2143.500
-#> 3: WORCESTER     858898      TRUE                19136.750
-#> 4: WORCESTER     858898     FALSE                -1249.625
+#> 1: MIDDLESEX    1623109      TRUE                41450.875
+#> 2: MIDDLESEX    1623109     FALSE                -2150.625
+#> 3: WORCESTER     858898      TRUE                19188.250
+#> 4: WORCESTER     858898     FALSE                -1256.625
 #>    mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                      <num>                   <num>
-#> 1:               40123.850               42428.363
-#> 2:               -2295.231               -2015.850
-#> 3:               18109.569               19959.744
-#> 4:               -1414.106               -1113.938
+#> 1:               40129.963               42501.463
+#> 2:               -2296.038               -2000.106
+#> 3:               18165.519               20005.944
+#> 4:               -1411.631               -1120.181
 ```
 
 See that the numbers are roughly the same for Suffolk county ? They
@@ -413,16 +413,16 @@ ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
 ma_AN_s1$`_`$rate_table
 #>     COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>       <char>      <num>    <lgcl>                     <num>
-#> 1: MIDDLESEX    1623109      TRUE               3843.164569
-#> 2: MIDDLESEX    1623109     FALSE                 -3.866037
-#> 3: WORCESTER     858898      TRUE               3635.850823
-#> 4: WORCESTER     858898     FALSE                 -5.064629
+#> 1: MIDDLESEX    1623109      TRUE               3844.273552
+#> 2: MIDDLESEX    1623109     FALSE                 -3.634999
+#> 3: WORCESTER     858898      TRUE               3636.942338
+#> 4: WORCESTER     858898     FALSE                 -4.628023
 #>    mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                       <num>                    <num>
-#> 1:              3822.831677              3863.236003
-#> 2:                -3.973855                -3.765536
-#> 3:              3590.125079              3673.892302
-#> 4:                -5.341874                -4.744452
+#> 1:              3824.148209              3864.370785
+#> 2:                -3.774392                -3.542584
+#> 3:              3591.088523              3674.891402
+#> 4:                -4.889987                -4.307846
 plot(ma_AN_s1, "num", above_MMT = T)
 ```
 

@@ -2,6 +2,7 @@
 
 A SIMULATED dataset containing *fictional* daily deaths linked to
 Massachusetts towns. Each row represents a single day–town observation.
+Covers 2010 to 2015.
 
 ## Format
 

@@ -12,10 +12,10 @@ health impacts, there are not any physical limitations on applying this
 code to other signals and responses.
 
 This package is drawn heavily from the work of [Dr. Antonio
-Gasparrini](http://www.ag-myresearch.com/).
+Gasparrini](https://www.ag-myresearch.com/).
 
 For any questions that you don’t see here answered, we have an
-additional [`FAQ`](http://climatehealth.city/articles/faq.md)
+additional [`FAQ`](https://climatehealth.city/articles/faq.md)
 
 ## Exposures
 
@@ -24,11 +24,11 @@ capture both the non-linear and lagged effects of exposure on an
 outcome. [Gasparrini
 2011](https://www.jstatsoft.org/article/view/v043i08) describes these
 methods, and the R package
-[`dlnm`](https://cran.r-project.org/web/packages/dlnm/index.html).
+[`dlnm`](https://CRAN.R-project.org/package=dlnm).
 
 Helpful references include this [dlnm
-PDF](https://cran.r-project.org/web/packages/dlnm/vignettes/dlnmTS.pdf)
-and the methods explained in a [google
+PDF](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf) and
+the methods explained in a [google
 sheet](https://docs.google.com/spreadsheets/d/1SP6PTXO6TtaVxoACTi5at0KpCNa9jmGhb6vR4PSiYmg/edit?gid=1087568396#gid=1087568396).
 
 This approach represents exposure as a crossbasis matrix with separate
@@ -75,23 +75,23 @@ If other exposures / timings are desired, the user will need to adjust
 these arguments accordingly.
 
 Note that only the exposure lag is defined in
-[`make_exposure_matrix()`](http://climatehealth.city/reference/make_exposure_matrix.md),
+[`make_exposure_matrix()`](https://climatehealth.city/reference/make_exposure_matrix.md),
 `argvar`, `arglag` and a new (potentially shorter) `maxlag` are defined
 in the model functions (e.g.,
-[`condPois_1stage()`](http://climatehealth.city/reference/condPois_1stage.md),
-[`condPois_2stage()`](http://climatehealth.city/reference/condPois_2stage.md),
+[`condPois_1stage()`](https://climatehealth.city/reference/condPois_1stage.md),
+[`condPois_2stage()`](https://climatehealth.city/reference/condPois_2stage.md),
 …)
 
 Note also that the `dlnm` outputs may be **highly sensitive** to the
 choices of `arglag`, `argvar`, and `maxlag` – we have some additional
 code and thoughts for this in
-[`dlnm_sensitivity`](http://climatehealth.city/articles/dlnm_sensitivity.md)
+[`dlnm_sensitivity`](https://climatehealth.city/articles/dlnm_sensitivity.md)
 
 ## Outcome
 
 Any time-series of outcomes will work. Gaps and NA values in the outcome
 time-series are handled by
-[`make_outcome_table()`](http://climatehealth.city/reference/make_outcome_table.md).
+[`make_outcome_table()`](https://climatehealth.city/reference/make_outcome_table.md).
 
 We are also testing this for non-fatal outcomes, which as the literature
 shows for temperature does not always have a U-shaped exposure-response
@@ -113,9 +113,8 @@ geographic variables) in the conditional poisson setting (which is
 different than the time-series setting)
 
 This paper has a nice exposition on what we were talking about
-<https://academic.oup.com/ije/article/53/2/dyae020/7611599> under the
-(aptly-named) section “Adjustment of subpopulation time-invariant
-covariates”.
+<https://doi.org/10.1093/ije/dyae020> under the (aptly-named) section
+“Adjustment of subpopulation time-invariant covariates”.
 
 Essentially, since strata are being compared to themselves, anything
 that does not change with time is “conditioned out.”
@@ -154,7 +153,7 @@ daily, monthly, and yearly outcomes.
 These methods are still under development but the key is to ensure that
 the strata variables are correctly designed, if applicable. See the
 vignette
-[`non_daily_data`](http://climatehealth.city/articles/non_daily_data.md)
+[`non_daily_data`](https://climatehealth.city/articles/non_daily_data.md)
 for examples.
 
 ## Model types
@@ -185,13 +184,12 @@ We can perform exposure-outcome analyses several ways:
   Additional control is added by a categorical variable for day of week.
   See below for examples:
 
-  - [Chen et al.,
-    2021](https://www.sciencedirect.com/science/article/pii/S2542519621001686):
+  - [Chen et al., 2021](https://doi.org/10.1016/S2542-5196(21)00168-6):
     Time-series analysis of exposure to fine particulate matter and risk
     of hospitalization.\
   - [Gasparrini et al.,
-    2022](https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(22)00138-3/fulltext):
-    Time-series analysis of temperature-related mortality.\
+    2022](https://doi.org/10.1016/S2542-5196(22)00138-3): Time-series
+    analysis of temperature-related mortality.\
   - [Sugeno et al.,
     2023](https://link.springer.com/article/10.1186/s12889-023-17277-0):
     Time-series analysis of temperature and precipitation exposure and
@@ -253,7 +251,7 @@ designs compare ![Table of model designs.](img/tbl1.png)
 A relevant question is – how do these methods compare in the case where
 We explored the impact of doing a 1stage analysis in counties with large
 differences in population versus a 2-stage analysis - [see
-here](http://climatehealth.city/articles/pop_size_test.md)
+here](https://climatehealth.city/articles/pop_size_test.md)
 
 ### 1-stage
 
@@ -263,7 +261,7 @@ that the same exposure-response relationship is applicable to spatial
 regions.
 
 See the vignette
-[`one_stage_demo`](http://climatehealth.city/articles/one_stage_demo.md).
+[`one_stage_demo`](https://climatehealth.city/articles/one_stage_demo.md).
 
 ### 2-stage
 
@@ -281,7 +279,7 @@ See these example pipelines:
   design](https://github.com/gasparrini/extended2stage)
 
 See the vignette
-[`two_stage_demo`](http://climatehealth.city/articles/two_stage_demo.md).
+[`two_stage_demo`](https://climatehealth.city/articles/two_stage_demo.md).
 
 ### Spatial Bayesian methods
 
@@ -289,13 +287,11 @@ See the vignette
 
 Combines the methods of [Gasparrini Armstrong
 2014](https://link.springer.com/article/10.1186/1471-2288-14-122) with
-those of
-[Quijal-Zamorano,2024](https://academic.oup.com/ije/article/53/3/dyae061/7654027?guestAccessKey=),
-which was updated in
-[2025](https://academic.oup.com/ije/article-abstract/54/4/dyaf120/8210576)
+those of [Quijal-Zamorano,2024](https://doi.org/10.1093/ije/dyae061),
+which was updated in [2025](https://doi.org/10.1093/ije/dyaf120)
 
 See the vignette
-[`bayesian_demo`](http://climatehealth.city/articles/bayesian_demo.md).
+[`bayesian_demo`](https://climatehealth.city/articles/bayesian_demo.md).
 
 ## Attributable numbers
 
@@ -322,10 +318,10 @@ Code examples include: [Gasparrini
 2014](https://github.com/gasparrini/2014_gasparrini_BMCmrm_Rcodedata)
 
 See the vignette
-[`attributable_number`](http://climatehealth.city/articles/attributable_number.md).
+[`attributable_number`](https://climatehealth.city/articles/attributable_number.md).
 
 ## Validation
 
 We have confirmed that this code gives identical results to test scripts
 using external data, see
-[`comparison`](http://climatehealth.city/articles/comparison.md)
+[`comparison`](https://climatehealth.city/articles/comparison.md)

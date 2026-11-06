@@ -25,6 +25,37 @@ arglist <- list(
   list(fun = "ns", df = c(3, 4)),
   list(fun = "bs", degree = c(2, 3))
 )
-expand_arglist(arglist)
-#> Error in expand_arglist(arglist): could not find function "expand_arglist"
+cityClimateHealth:::expand_arglist(arglist)
+#> [[1]]
+#> [[1]]$fun
+#> [1] "ns"
+#> 
+#> [[1]]$df
+#> [1] 3
+#> 
+#> 
+#> [[2]]
+#> [[2]]$fun
+#> [1] "ns"
+#> 
+#> [[2]]$df
+#> [1] 4
+#> 
+#> 
+#> [[3]]
+#> [[3]]$fun
+#> [1] "bs"
+#> 
+#> [[3]]$degree
+#> [1] 2
+#> 
+#> 
+#> [[4]]
+#> [[4]]$fun
+#> [1] "bs"
+#> 
+#> [[4]]$degree
+#> [1] 3
+#> 
+#> 
 ```

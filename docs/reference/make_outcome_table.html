@@ -63,7 +63,10 @@
 <span>  factor_is_spatial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  factor_is_temporal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  grp_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  keep_unit_outcomes <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  keep_unit_outcomes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  population_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  population_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  population_col_name <span class="op">=</span> <span class="st">"population"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,6 +107,22 @@ must be specified by user - no default</p></dd>
 <dt id="arg-keep-unit-outcomes">keep_unit_outcomes<a class="anchor" aria-label="anchor" href="#arg-keep-unit-outcomes"></a></dt>
 <dd><p>if grp_level is true, whether to keep original unit-level outcomes</p></dd>
 
+
+<dt id="arg-population-data">population_data<a class="anchor" aria-label="anchor" href="#arg-population-data"></a></dt>
+<dd><p>optional data.frame of population estimates to join on
+as a population column; see <code><a href="add_population_offset.html">add_population_offset()</a></code></p></dd>
+
+
+<dt id="arg-population-columns">population_columns<a class="anchor" aria-label="anchor" href="#arg-population-columns"></a></dt>
+<dd><p>named list mapping columns in <code>population_data</code>;
+required with <code>population_data</code>. See
+<code><a href="add_population_offset.html">add_population_offset()</a></code></p></dd>
+
+
+<dt id="arg-population-col-name">population_col_name<a class="anchor" aria-label="anchor" href="#arg-population-col-name"></a></dt>
+<dd><p>name of the population column added to the output
+(default <code>"population"</code>)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -112,7 +131,41 @@ must be specified by user - no default</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'age_grp'</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"factor"</span> <span class="op">=</span> <span class="st">'sex'</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ma_outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu">make_outcome_table</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">TOWN20</span> <span class="op">==</span> <span class="st">"BOSTON"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="va">outcome_columns</span>,</span></span>
+<span class="r-in"><span>  time_subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2012</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; Combined factor is  age_grp|sex </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Missing outcome values introduced by xgrid were set to 0;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ma_outcomes_tbl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;      &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2012-01-01 BOSTON  SUFFOLK      0-17|M            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2012-01-01 BOSTON  SUFFOLK     18-64|M            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2012-01-01 BOSTON  SUFFOLK       65+|M            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2012-01-01 BOSTON  SUFFOLK      0-17|F            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2012-01-01 BOSTON  SUFFOLK     18-64|F            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2012-01-01 BOSTON  SUFFOLK       65+|F            0 BOSTON:yr2012:mn01:dow01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    strata_total      match_strata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;int&gt;            &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:            0 BOSTON:2012-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:            0 BOSTON:2012-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:            0 BOSTON:2012-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:            0 BOSTON:2012-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:            0 BOSTON:2012-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:            0 BOSTON:2012-01-01</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

@@ -51,22 +51,22 @@ exposure_mat <-
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
 head(exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata  explag1  explag2  explag3  explag4  explag5
-#>               <char>    <num>    <num>    <num>    <num>    <num>
-#> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090
-#> 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320
-#> 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230
-#> 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770
-#> 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815
-#> 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    explag1 explag2 explag3 explag4 explag5
+#>      <num>   <num>   <num>   <num>   <num>
+#> 1:    15.7     8.3    10.9    16.4    18.7
+#> 2:    23.1    15.7     8.3    10.9    16.4
+#> 3:    26.1    23.1    15.7     8.3    10.9
+#> 4:    31.6    26.1    23.1    15.7     8.3
+#> 5:    27.8    31.6    26.1    23.1    15.7
+#> 6:    26.3    27.8    31.6    26.1    23.1
 ```
 
 #### method 1a
@@ -120,7 +120,7 @@ head(covariate_mat)
 table(covariate_mat$randCov)
 #> 
 #>    0    1 
-#> 3330   36
+#> 1817   19
 ```
 
 ``` r
@@ -131,30 +131,22 @@ exposure_mat <- join_exposure_covariate(exposure_mat, covariate_mat)
 #> Warning in join_exposure_covariate(exposure_mat, covariate_mat): This could use
 #> more error checking
 head(exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata  explag1  explag2  explag3  explag4  explag5 randCov
-#>               <char>    <num>    <num>    <num>    <num>    <num>   <num>
-#> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090       0
-#> 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320       0
-#> 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230       0
-#> 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770       0
-#> 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815       0
-#> 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860       0
-#>    randCovlag1 randCovlag2
-#>          <num>       <num>
-#> 1:           0           0
-#> 2:           0           0
-#> 3:           0           0
-#> 4:           0           0
-#> 5:           0           0
-#> 6:           0           0
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    explag1 explag2 explag3 explag4 explag5 randCov randCovlag1 randCovlag2
+#>      <num>   <num>   <num>   <num>   <num>   <num>       <num>       <num>
+#> 1:    15.7     8.3    10.9    16.4    18.7       0           0           0
+#> 2:    23.1    15.7     8.3    10.9    16.4       0           0           0
+#> 3:    26.1    23.1    15.7     8.3    10.9       0           0           0
+#> 4:    31.6    26.1    23.1    15.7     8.3       0           0           0
+#> 5:    27.8    31.6    26.1    23.1    15.7       0           0           0
+#> 6:    26.3    27.8    31.6    26.1    23.1       0           0           0
 attributes(exposure_mat)$column_mapping
 #> $date
 #> [1] "date"
@@ -180,30 +172,30 @@ Special case of adding US holidays
 # and add holiday
 exposure_mat <- add_US_holiday(exposure_mat)
 head(exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata  explag1  explag2  explag3  explag4  explag5 randCov
-#>               <char>    <num>    <num>    <num>    <num>    <num>   <num>
-#> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090       0
-#> 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320       0
-#> 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230       0
-#> 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770       0
-#> 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815       0
-#> 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860       0
-#>    randCovlag1 randCovlag2 is_holiday
-#>          <num>       <num>     <lgcl>
-#> 1:           0           0      FALSE
-#> 2:           0           0      FALSE
-#> 3:           0           0      FALSE
-#> 4:           0           0      FALSE
-#> 5:           0           0      FALSE
-#> 6:           0           0      FALSE
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    explag1 explag2 explag3 explag4 explag5 randCov randCovlag1 randCovlag2
+#>      <num>   <num>   <num>   <num>   <num>   <num>       <num>       <num>
+#> 1:    15.7     8.3    10.9    16.4    18.7       0           0           0
+#> 2:    23.1    15.7     8.3    10.9    16.4       0           0           0
+#> 3:    26.1    23.1    15.7     8.3    10.9       0           0           0
+#> 4:    31.6    26.1    23.1    15.7     8.3       0           0           0
+#> 5:    27.8    31.6    26.1    23.1    15.7       0           0           0
+#> 6:    26.3    27.8    31.6    26.1    23.1       0           0           0
+#>    is_holiday
+#>        <lgcl>
+#> 1:      FALSE
+#> 2:      FALSE
+#> 3:      FALSE
+#> 4:      FALSE
+#> 5:      FALSE
+#> 6:      FALSE
 attributes(exposure_mat)$column_mapping
 #> $date
 #> [1] "date"
@@ -243,9 +235,6 @@ outcomes_tbl <- make_outcome_table(
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 head(outcomes_tbl)
 #>          date TOWN20 COUNTY20 daily_deaths                   strata
 #>        <IDat> <char>   <char>        <int>                   <char>

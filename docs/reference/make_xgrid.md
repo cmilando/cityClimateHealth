@@ -43,12 +43,21 @@ a datatable of all date and geo unit combinations
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-exposure_columns <- list("date" = "date",
-"exposure" = "tmax_C", "geo_unit" = "TOWN20",
-"geo_unit_grp" = "COUNTY20")
-
-make_xgrid(subset(ma_exposure, TOWN20 == 'BOSTON'),
-exposure_columns, time_subset = list(month = 5:9))
-} # }
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+boston <- subset(ma_exposure, TOWN20 == "BOSTON" & date < as.Date("2010-02-01"))
+cityClimateHealth:::make_xgrid(boston, exposure_columns)
+#>            date tmax_C TOWN20 COUNTY20
+#>          <IDat>  <num> <char>   <char>
+#>   1: 2010-01-01   -0.4 BOSTON  SUFFOLK
+#>   2: 2010-01-02    1.4 BOSTON  SUFFOLK
+#>   3: 2010-01-03   -1.4 BOSTON  SUFFOLK
+#>   4: 2010-01-04   -0.4 BOSTON  SUFFOLK
+#>   5: 2010-01-05    0.7 BOSTON  SUFFOLK
+#>  ---                                  
+#> 361: 2010-12-27     NA BOSTON  SUFFOLK
+#> 362: 2010-12-28     NA BOSTON  SUFFOLK
+#> 363: 2010-12-29     NA BOSTON  SUFFOLK
+#> 364: 2010-12-30     NA BOSTON  SUFFOLK
+#> 365: 2010-12-31     NA BOSTON  SUFFOLK
 ```

@@ -5,9 +5,9 @@
 library(cityClimateHealth)
 ```
 
-We can easily extend the functionality from
-[`vignette("one_stage_demo")`](http://climatehealth.city/articles/one_stage_demo.md)
-to estimate individual-zone impacts across many zones.
+We can easily extend the functionality from the [one-stage
+demo](https://climatehealth.city/articles/one_stage_demo.md) to estimate
+individual-zone impacts across many zones.
 
 ### Model
 
@@ -75,7 +75,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -128,7 +128,7 @@ You can also make a forest plot at a specific exposure value
 ``` r
 
 forest_plot(ma_model, 25.1)
-#> Warning in forest_plot.condPois_2stage(ma_model, 25.1): rounded to 1 decimal
+#> rounded to 1 decimal
 #> Warning in forest_plot.condPois_2stage(ma_model, 25.1): plotting by group since
 #> n_geos > 20
 ```
@@ -143,13 +143,13 @@ across space – for this you need to bring in an `sf` shapefile:
 data("ma_towns")
 ma_towns
 #> Simple feature collection with 351 features and 36 fields
-#> Geometry type: MULTIPOLYGON
+#> Geometry type: GEOMETRY
 #> Dimension:     XY
-#> Bounding box:  xmin: 33863.75 ymin: 777634.4 xmax: 330838.8 ymax: 959743
+#> Bounding box:  xmin: 33863.75 ymin: 777638.8 xmax: 330837.4 ymax: 959743
 #> Projected CRS: NAD83 / Massachusetts Mainland
 #> # A tibble: 351 × 37
 #>    STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20 GEOID20    NAMELSAD20       LSAD20
-#>    <chr>     <chr>      <chr>      <chr>      <chr>      <chr>            <chr> 
+#>  * <chr>     <chr>      <chr>      <chr>      <chr>      <chr>            <chr> 
 #>  1 25        003        34970      00618269   2500334970 Lenox town       43    
 #>  2 25        003        44385      00598751   2500344385 New Ashford town 43    
 #>  3 25        003        51580      00619422   2500351580 Otis town        43    
@@ -169,7 +169,7 @@ ma_towns
 #> #   POP1970 <dbl>, POP1980 <dbl>, POP1990 <dbl>, POP2000 <dbl>, …
 head(ma_towns)
 #> Simple feature collection with 6 features and 36 fields
-#> Geometry type: MULTIPOLYGON
+#> Geometry type: POLYGON
 #> Dimension:     XY
 #> Bounding box:  xmin: 48979.71 ymin: 869246.6 xmax: 166957.3 ymax: 942838.1
 #> Projected CRS: NAD83 / Massachusetts Mainland
@@ -191,8 +191,7 @@ head(ma_towns)
 #> #   POPCH10_20 <dbl>, HOUSING20 <dbl>, SHAPE_AREA <dbl>, SHAPE_LEN <dbl>, …
 
 spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
-#> Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val
-#> = 25.1): rounded to 1 decimal
+#> rounded to 1 decimal
 ```
 
 ![](two_stage_demo_files/figure-html/multi_plot_multiple2-1.png)
@@ -202,19 +201,19 @@ and You can get an RR table
 ``` r
 
 getRR(ma_model)
-#>           TOWN20  COUNTY20 tmax_C       RR      RRlb     RRub  stage
-#>           <char>    <char>  <num>    <num>     <num>    <num> <char>
-#>     1:     ACTON MIDDLESEX    7.0 1.005964 0.9999591 1.012006 stage2
-#>     2:     ACTON MIDDLESEX    7.1 1.005964 0.9999591 1.012006 stage2
-#>     3:     ACTON MIDDLESEX    7.2 1.005964 0.9999591 1.012006 stage2
-#>     4:     ACTON MIDDLESEX    7.3 1.005964 0.9999591 1.012006 stage2
-#>     5:     ACTON MIDDLESEX    7.4 1.005964 0.9999591 1.012006 stage2
-#>    ---                                                              
-#> 64868: WORCESTER WORCESTER   33.0 1.245445 1.1839683 1.310114 stage1
-#> 64869: WORCESTER WORCESTER   33.1 1.246649 1.1839629 1.312654 stage1
-#> 64870: WORCESTER WORCESTER   33.2 1.247852 1.1839416 1.315213 stage1
-#> 64871: WORCESTER WORCESTER   33.3 1.249056 1.1839062 1.317792 stage1
-#> 64872: WORCESTER WORCESTER   33.4 1.250261 1.1838585 1.320388 stage1
+#>           TOWN20  COUNTY20 tmax_C       RR     RRlb     RRub  stage
+#>           <char>    <char>  <num>    <num>    <num>    <num> <char>
+#>     1:     ACTON MIDDLESEX    7.0 1.006098 1.000201 1.012030 stage2
+#>     2:     ACTON MIDDLESEX    7.1 1.006098 1.000201 1.012030 stage2
+#>     3:     ACTON MIDDLESEX    7.2 1.006098 1.000201 1.012030 stage2
+#>     4:     ACTON MIDDLESEX    7.3 1.006098 1.000201 1.012030 stage2
+#>     5:     ACTON MIDDLESEX    7.4 1.006098 1.000201 1.012030 stage2
+#>    ---                                                             
+#> 64880: WORCESTER WORCESTER   33.1 1.246803 1.184282 1.312623 stage1
+#> 64881: WORCESTER WORCESTER   33.2 1.248012 1.184275 1.315178 stage1
+#> 64882: WORCESTER WORCESTER   33.3 1.249221 1.184254 1.317753 stage1
+#> 64883: WORCESTER WORCESTER   33.4 1.250431 1.184220 1.320345 stage1
+#> 64884: WORCESTER WORCESTER   33.5 1.251642 1.184174 1.322953 stage1
 #>            model_class
 #>                 <char>
 #>     1: condPois_2stage
@@ -223,11 +222,11 @@ getRR(ma_model)
 #>     4: condPois_2stage
 #>     5: condPois_2stage
 #>    ---                
-#> 64868: condPois_2stage
-#> 64869: condPois_2stage
-#> 64870: condPois_2stage
-#> 64871: condPois_2stage
-#> 64872: condPois_2stage
+#> 64880: condPois_2stage
+#> 64881: condPois_2stage
+#> 64882: condPois_2stage
+#> 64883: condPois_2stage
+#> 64884: condPois_2stage
 ```
 
 ### Model by factor
@@ -292,7 +291,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -328,7 +327,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -364,7 +363,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -409,8 +408,7 @@ plot(ma_model_fct$`18-64`, "CAMBRIDGE", title = 'CAMBRIDGE: 18-64')
 ``` r
 
 forest_plot(ma_model_fct, 25.1)
-#> Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): rounded to 1
-#> decimal
+#> rounded to 1 decimal
 #> Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): plotting by
 #> group since n_geos > 20
 ```
@@ -420,13 +418,9 @@ forest_plot(ma_model_fct, 25.1)
 ``` r
 
 spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
-#> Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
 ```
 
@@ -438,17 +432,17 @@ an RR table
 getRR(ma_model_fct)
 #>            TOWN20  COUNTY20 tmax_C       RR     RRlb     RRub  stage age_grp
 #>            <char>    <char>  <num>    <num>    <num>    <num> <char>  <char>
-#>      1:     ACTON MIDDLESEX    7.0 1.008063 1.000032 1.016157 stage2    0-17
-#>      2:     ACTON MIDDLESEX    7.1 1.008063 1.000032 1.016157 stage2    0-17
-#>      3:     ACTON MIDDLESEX    7.2 1.008063 1.000032 1.016157 stage2    0-17
-#>      4:     ACTON MIDDLESEX    7.3 1.008063 1.000032 1.016157 stage2    0-17
-#>      5:     ACTON MIDDLESEX    7.4 1.008063 1.000032 1.016157 stage2    0-17
+#>      1:     ACTON MIDDLESEX    7.0 1.008203 1.000347 1.016121 stage2    0-17
+#>      2:     ACTON MIDDLESEX    7.1 1.008203 1.000347 1.016121 stage2    0-17
+#>      3:     ACTON MIDDLESEX    7.2 1.008203 1.000347 1.016121 stage2    0-17
+#>      4:     ACTON MIDDLESEX    7.3 1.008203 1.000347 1.016121 stage2    0-17
+#>      5:     ACTON MIDDLESEX    7.4 1.008203 1.000347 1.016121 stage2    0-17
 #>     ---                                                                     
-#> 194612: WORCESTER WORCESTER   33.0 1.243257 1.181728 1.307988 stage1     65+
-#> 194613: WORCESTER WORCESTER   33.1 1.244374 1.181640 1.310439 stage1     65+
-#> 194614: WORCESTER WORCESTER   33.2 1.245492 1.181536 1.312909 stage1     65+
-#> 194615: WORCESTER WORCESTER   33.3 1.246609 1.181417 1.315398 stage1     65+
-#> 194616: WORCESTER WORCESTER   33.4 1.247727 1.181286 1.317904 stage1     65+
+#> 194648: WORCESTER WORCESTER   33.1 1.244543 1.181974 1.310424 stage1     65+
+#> 194649: WORCESTER WORCESTER   33.2 1.245667 1.181885 1.312890 stage1     65+
+#> 194650: WORCESTER WORCESTER   33.3 1.246790 1.181781 1.315375 stage1     65+
+#> 194651: WORCESTER WORCESTER   33.4 1.247913 1.181664 1.317877 stage1     65+
+#> 194652: WORCESTER WORCESTER   33.5 1.249038 1.181536 1.320396 stage1     65+
 #>                  model_class
 #>                       <char>
 #>      1: condPois_2stage_list
@@ -457,11 +451,11 @@ getRR(ma_model_fct)
 #>      4: condPois_2stage_list
 #>      5: condPois_2stage_list
 #>     ---                     
-#> 194612: condPois_2stage_list
-#> 194613: condPois_2stage_list
-#> 194614: condPois_2stage_list
-#> 194615: condPois_2stage_list
-#> 194616: condPois_2stage_list
+#> 194648: condPois_2stage_list
+#> 194649: condPois_2stage_list
+#> 194650: condPois_2stage_list
+#> 194651: condPois_2stage_list
+#> 194652: condPois_2stage_list
 ```
 
 ## Change the strata level
@@ -546,16 +540,16 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> formula: coef_matrix ~ exp_mean + exp_IQR
 #> random: ~ 1 | COUNTY20 
 #> IGLS iterations:
-#> iter 0: value 7.865708e-12
+#> iter 0: value 1.961098e-12
 #> converged
 #> Newton iterations:
 #> initial  value 0.000000 
-#> iter   2 value 0.000000
-#> iter   3 value 0.000000
+#> iter   2 value -0.000000
+#> iter   3 value -0.000000
+#> iter   4 value -0.000000
+#> iter   4 value -0.000000
 #> iter   4 value 0.000000
-#> iter   4 value 0.000000
-#> iter   4 value 0.000000
-#> final  value 0.000000 
+#> final  value -0.000000 
 #> converged
 #> -- stage 2
 #> truncate final RR and basis cen:  0.01 

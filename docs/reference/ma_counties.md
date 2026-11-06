@@ -45,6 +45,11 @@ products.
 
 ## Details
 
+Polygon boundaries are simplified (with `rmapshaper::ms_simplify()`,
+keeping 5% of vertices) to keep the package small; shared borders are
+simplified together, so neighbour relationships between areas are
+unchanged.
+
 This dataset is typically used for environmental exposure assessment and
 can be joined to town-level geographic or demographic datasets using
 `COUNTY20`.

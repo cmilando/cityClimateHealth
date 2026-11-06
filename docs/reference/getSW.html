@@ -81,10 +81,15 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># after loading an sf shapefile:</span></span></span>
-<span class="r-in"><span><span class="va">SW</span> <span class="op">&lt;-</span> <span class="fu">getSW</span><span class="op">(</span>shp <span class="op">=</span> <span class="va">my_shapefile</span>, ni <span class="op">=</span> <span class="fl">1</span>, include_self <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">towns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHELSEA"</span>, <span class="st">"EVERETT"</span>, <span class="st">"REVERE"</span>, <span class="st">"MALDEN"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">shp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_towns</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cityClimateHealth</span><span class="fu">:::</span><span class="fu">getSW</span><span class="op">(</span>shp <span class="op">=</span> <span class="va">shp</span>, ni <span class="op">=</span> <span class="fl">1</span>, include_self <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> has to be one polygon per row in `shp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0    1    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1    0    1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1    1    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    0    1    1    0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

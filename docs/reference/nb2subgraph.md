@@ -33,13 +33,14 @@ a list with node1 and node2 integer vectors defining graph edges
 ## Examples
 
 ``` r
-library(spdep)
-coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-nb <- knn2nb(knearneigh(coords, k = 2))
-#> Warning: k greater than one-third of the number of data points
-comp_ids <- n.comp.nb(nb)[[2]]
-offsets <- indexByComponent(comp_ids)
-#> Error in indexByComponent(comp_ids): could not find function "indexByComponent"
-nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
-#> Error in nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets): could not find function "nb2subgraph"
+nb <- spdep::cell2nb(3, 3)
+comp_ids <- spdep::n.comp.nb(nb)$comp.id
+offsets <- cityClimateHealth:::indexByComponent(comp_ids)
+cityClimateHealth:::nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
+#> $node1
+#>  [1] 1 1 2 2 3 4 4 5 5 6 7 8
+#> 
+#> $node2
+#>  [1] 2 4 3 5 6 5 7 6 8 9 8 9
+#> 
 ```

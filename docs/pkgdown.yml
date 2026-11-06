@@ -2,30 +2,31 @@ pandoc: 3.9.0.2
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  attributable_number: attributable_number.html
-  bayesian_demo: bayesian_demo.html
-  bayesian_wnv_test: bayesian_wnv_test.html
+  articles/attributable_number: attributable_number.html
+  articles/bayesian_demo: bayesian_demo.html
+  articles/bayesian_wnv_test: bayesian_wnv_test.html
   cityClimateHealth: cityClimateHealth.html
-  collapse: collapse.html
-  comparison: comparison.html
-  covariate: covariate.html
-  dlnm_sensitivity: dlnm_sensitivity.html
-  factor: factor.html
-  faq: faq.html
-  get_pop_estimates: get_pop_estimates.html
-  group_check: group_check.html
-  install: install.html
-  methods: methods.html
-  non_daily_data: non_daily_data.html
-  one_stage_demo: one_stage_demo.html
-  pop_size_test: pop_size_test.html
-  QA_testing: QA_testing.html
-  strata: strata.html
-  time_subset: time_subset.html
-  TODO: TODO.html
-  two_stage_demo: two_stage_demo.html
-  validation: validation.html
-last_built: 2026-09-03T16:11Z
+  articles/collapse: collapse.html
+  articles/comparison: comparison.html
+  articles/covariate: covariate.html
+  articles/dlnm_sensitivity: dlnm_sensitivity.html
+  articles/factor: factor.html
+  articles/faq: faq.html
+  articles/get_pop_estimates: get_pop_estimates.html
+  articles/group_check: group_check.html
+  articles/install: install.html
+  articles/methods: methods.html
+  articles/non_daily_data: non_daily_data.html
+  articles/one_stage_demo: one_stage_demo.html
+  articles/one_stage_time_series_demo: one_stage_time_series_demo.html
+  articles/pop_size_test: pop_size_test.html
+  articles/QA_testing: QA_testing.html
+  articles/strata: strata.html
+  articles/time_subset: time_subset.html
+  articles/TODO: TODO.html
+  articles/two_stage_demo: two_stage_demo.html
+  articles/validation: validation.html
+last_built: 2026-11-06T17:30Z
 urls:
-  reference: http://climatehealth.city/reference
-  article: http://climatehealth.city/articles
+  reference: https://climatehealth.city/reference
+  article: https://climatehealth.city/articles

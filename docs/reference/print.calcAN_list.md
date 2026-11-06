@@ -5,7 +5,8 @@ Print method for calcAN_list
 ## Usage
 
 ``` r
-print.calcAN_list(x)
+# S3 method for class 'calcAN_list'
+print(x, ...)
 ```
 
 ## Arguments
@@ -13,6 +14,10 @@ print.calcAN_list(x)
 - x:
 
   an object of class calcAN_list
+
+- ...:
+
+  further arguments passed to or from other methods (currently unused)
 
 ## Value
 
@@ -23,12 +28,5 @@ The original object, invisibly.
 ``` r
 x <- structure(list(a = 1, b = 2), class = "calcAN_list")
 print(x)
-#> $a
-#> [1] 1
-#> 
-#> $b
-#> [1] 2
-#> 
-#> attr(,"class")
-#> [1] "calcAN_list"
+#> < an object of class `calcAN_list`: a,b  >
 ```

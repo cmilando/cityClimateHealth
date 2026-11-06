@@ -22,6 +22,6 @@ a vector of per-component consecutive node ids
 
 ``` r
 comp_ids <- c(1, 1, 2, 2, 2, 1)
-indexByComponent(comp_ids)
-#> Error in indexByComponent(comp_ids): could not find function "indexByComponent"
+cityClimateHealth:::indexByComponent(comp_ids)
+#> [1] 1 2 1 2 3 3
 ```

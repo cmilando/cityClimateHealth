@@ -3,7 +3,7 @@
 A SIMULATED dataset containing *fictional* daily maximum temperature
 measurements linked to Massachusetts towns. Each row represents a single
 day–town observation with the corresponding maximum temperature in
-degrees Celsius.
+degrees Celsius, rounded to 0.1 degrees. Covers 2010 to 2015.
 
 ## Format
 

@@ -29,8 +29,13 @@ a binary matrix of spatial weights
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# after loading an sf shapefile:
-SW <- getSW(shp = my_shapefile, ni = 1, include_self = FALSE)
-} # }
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+shp <- subset(ma_towns, TOWN20 %in% towns)
+cityClimateHealth:::getSW(shp = shp, ni = 1, include_self = FALSE)
+#> has to be one polygon per row in `shp`
+#>      [,1] [,2] [,3] [,4]
+#> [1,]    0    1    1    0
+#> [2,]    1    0    1    1
+#> [3,]    1    1    0    1
+#> [4,]    0    1    1    0
 ```

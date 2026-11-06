@@ -22,11 +22,11 @@ This package can be used in three main ways:
 
 | 1-stage design | 2-stage design | Spatial Bayes |
 |----|----|----|
-| A 1-stage model when estimating a *single set of beta coefficients* for heat-health impacts across single or multiple zones: [`vignette("one_stage_demo")`](http://climatehealth.city/articles/one_stage_demo.md) | A 2-stage design is used when estimating heat-health impacts across many zones, but where *individual zone models* are desired: [`vignette("two_stage_demo")`](http://climatehealth.city/articles/two_stage_demo.md) | If numbers are very small in the 2-stage design, spatial bayesian methods can be used to tighten confidence intervals: [`vignette("bayesian_demo")`](http://climatehealth.city/articles/bayesian_demo.md) |
+| A 1-stage model when estimating a *single set of beta coefficients* for heat-health impacts across single or multiple zones: the [one-stage demo](https://climatehealth.city/articles/one_stage_demo.html) | A 2-stage design is used when estimating heat-health impacts across many zones, but where *individual zone models* are desired: the [two-stage demo](https://climatehealth.city/articles/two_stage_demo.html) | If numbers are very small in the 2-stage design, spatial bayesian methods can be used to tighten confidence intervals: the [Bayesian demo](https://climatehealth.city/articles/bayesian_demo.html) |
 
 In implementations, an attributable number calculation is applied to
-model outputs, see
-[`vignette("attributable_number")`](http://climatehealth.city/articles/attributable_number.md).
+model outputs, see the [attributable number
+article](https://climatehealth.city/articles/attributable_number.html).
 
 ## Starting a new analysis
 
@@ -65,281 +65,326 @@ Climate and Health](https://sites.bu.edu/climateandhealth/).
 
 ## All functions
 
-- [`add_US_holiday()`](http://climatehealth.city/reference/add_US_holiday.md)
+- [`add_US_holiday()`](https://climatehealth.city/reference/add_US_holiday.md)
   : Function to add US holidays
 
-- [`add_factor_col()`](http://climatehealth.city/reference/add_factor_col.md)
+- [`add_factor_col()`](https://climatehealth.city/reference/add_factor_col.md)
   : make factor column
 
-- [`calc_AN()`](http://climatehealth.city/reference/calc_AN.md) :
+- [`add_population_offset()`](https://climatehealth.city/reference/add_population_offset.md)
+  :
+
+  Add a population column to an outcome table, for use as a population
+  offset in
+  [`timeseries_1stage_glm()`](https://climatehealth.city/reference/timeseries_1stage_glm.md)
+
+- [`calc_AN()`](https://climatehealth.city/reference/calc_AN.md) :
   Calculate attributable number and attributable rates
 
-- [`calc_dispersion()`](http://climatehealth.city/reference/calc_dispersion.md)
+- [`calc_dispersion()`](https://climatehealth.city/reference/calc_dispersion.md)
   : Calculate the dispersion parameter for a quasi-poisson model
 
-- [`calc_vcov()`](http://climatehealth.city/reference/calc_vcov.md) :
+- [`calc_vcov()`](https://climatehealth.city/reference/calc_vcov.md) :
   Calculate the variance-covariance matrix of a Conditional poisson
   model
 
-- [`check_argvar()`](http://climatehealth.city/reference/check_argvar.md)
+- [`check_argvar()`](https://climatehealth.city/reference/check_argvar.md)
   : Internal function to check argvar
 
-- [`check_covariate_names()`](http://climatehealth.city/reference/check_covariate_names.md)
+- [`check_covariate_names()`](https://climatehealth.city/reference/check_covariate_names.md)
   : check covariate names
 
-- [`cityClimateHealth-package`](http://climatehealth.city/reference/cityClimateHealth-package.md)
-  [`cityClimateHealth`](http://climatehealth.city/reference/cityClimateHealth-package.md)
+- [`cityClimateHealth-package`](https://climatehealth.city/reference/cityClimateHealth-package.md)
+  [`cityClimateHealth`](https://climatehealth.city/reference/cityClimateHealth-package.md)
   : The 'cityClimateHealth' package.
 
-- [`collapse_data()`](http://climatehealth.city/reference/collapse_data.md)
+- [`collapse_data()`](https://climatehealth.city/reference/collapse_data.md)
   : collapse the data based on factors and group level strata
 
-- [`condPois_1stage()`](http://climatehealth.city/reference/condPois_1stage.md)
+- [`condPois_1stage()`](https://climatehealth.city/reference/condPois_1stage.md)
   : Run a conditional poisson model for a single geographic unit
 
-- [`condPois_2stage()`](http://climatehealth.city/reference/condPois_2stage.md)
+- [`condPois_2stage()`](https://climatehealth.city/reference/condPois_2stage.md)
   : Run a conditional poisson model for across many geographic units
 
-- [`condPois_sb()`](http://climatehealth.city/reference/condPois_sb.md)
+- [`condPois_sb()`](https://climatehealth.city/reference/condPois_sb.md)
   : Run a conditional poisson model with Spatial Bayesian inference
 
-- [`expand_arglist()`](http://climatehealth.city/reference/expand_arglist.md)
+- [`expand_arglist()`](https://climatehealth.city/reference/expand_arglist.md)
   : IN-PROGRESS functions that creates a list of cross-basis objects to
   try
 
-- [`forest_plot()`](http://climatehealth.city/reference/forest_plot.md)
+- [`forest_plot()`](https://climatehealth.city/reference/forest_plot.md)
   : forest_plot base class
 
-- [`forest_plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_1stage.md)
+- [`forest_plot(`*`<condPois_1stage>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_1stage.md)
   : forest_plot method for condPois_1stage
 
-- [`forest_plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_1stage_list.md)
+- [`forest_plot(`*`<condPois_1stage_list>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_1stage_list.md)
   : forest_plot method for condPois_1stage_list
 
-- [`forest_plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_2stage.md)
+- [`forest_plot(`*`<condPois_2stage>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_2stage.md)
   : forest_plot method for condPois_2stage
 
-- [`forest_plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_2stage_list.md)
+- [`forest_plot(`*`<condPois_2stage_list>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_2stage_list.md)
   : forest_plot method for condPois_2stage_list
 
-- [`forest_plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_sb.md)
+- [`forest_plot(`*`<condPois_sb>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_sb.md)
   : forest_plot method for condPois_sb
 
-- [`forest_plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/forest_plot.condPois_sb_list.md)
+- [`forest_plot(`*`<condPois_sb_list>`*`)`](https://climatehealth.city/reference/forest_plot.condPois_sb_list.md)
   : forest_plot method for condPois_sb_list
 
-- [`getRR()`](http://climatehealth.city/reference/getRR.md) : getRR base
-  class
+- [`forest_plot(`*`<timeseries_1stage>`*`)`](https://climatehealth.city/reference/forest_plot.timeseries_1stage.md)
+  : forest_plot method for timeseries_1stage
 
-- [`getRR(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/getRR.condPois_1stage.md)
+- [`forest_plot(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/forest_plot.timeseries_1stage_list.md)
+  : forest_plot method for timeseries_1stage_list
+
+- [`getRR()`](https://climatehealth.city/reference/getRR.md) : getRR
+  base class
+
+- [`getRR(`*`<condPois_1stage>`*`)`](https://climatehealth.city/reference/getRR.condPois_1stage.md)
   : getRR method for condPois_1stage
 
-- [`getRR(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_1stage_list.md)
+- [`getRR(`*`<condPois_1stage_list>`*`)`](https://climatehealth.city/reference/getRR.condPois_1stage_list.md)
   : getRR method for condPois_1stage_list
 
-- [`getRR(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/getRR.condPois_2stage.md)
+- [`getRR(`*`<condPois_2stage>`*`)`](https://climatehealth.city/reference/getRR.condPois_2stage.md)
   : getRR method for condPois_2stage
 
-- [`getRR(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_2stage_list.md)
+- [`getRR(`*`<condPois_2stage_list>`*`)`](https://climatehealth.city/reference/getRR.condPois_2stage_list.md)
   : getRR method for condPois_2stage_list
 
-- [`getRR(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/getRR.condPois_sb.md)
+- [`getRR(`*`<condPois_sb>`*`)`](https://climatehealth.city/reference/getRR.condPois_sb.md)
   : getRR method for condPois_sb
 
-- [`getRR(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/getRR.condPois_sb_list.md)
+- [`getRR(`*`<condPois_sb_list>`*`)`](https://climatehealth.city/reference/getRR.condPois_sb_list.md)
   : getRR method for condPois_sb_list
 
-- [`getSW()`](http://climatehealth.city/reference/getSW.md) :
+- [`getRR(`*`<timeseries_1stage>`*`)`](https://climatehealth.city/reference/getRR.timeseries_1stage.md)
+  : getRR method for timeseries_1stage
+
+- [`getRR(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/getRR.timeseries_1stage_list.md)
+  : getRR method for timeseries_1stage_list
+
+- [`getSW()`](https://climatehealth.city/reference/getSW.md) :
 
   Creates the list of spatial neighbors used in the `condPois_sb` Leroux
   model
 
-- [`getSmat()`](http://climatehealth.city/reference/getSmat.md) :
+- [`getSmat()`](https://climatehealth.city/reference/getSmat.md) :
 
   Gets the matrix of strata, used in `condPois_sb`
 
-- [`get_centered_cp()`](http://climatehealth.city/reference/get_centered_cp.md)
+- [`get_centered_cp()`](https://climatehealth.city/reference/get_centered_cp.md)
   : Internal function to get centered cp objects
 
-- [`indexByComponent()`](http://climatehealth.city/reference/indexByComponent.md)
+- [`indexByComponent()`](https://climatehealth.city/reference/indexByComponent.md)
   : Index nodes by connected component
 
-- [`input_validation()`](http://climatehealth.city/reference/input_validation.md)
+- [`input_validation()`](https://climatehealth.city/reference/input_validation.md)
   : Input validation
 
-- [`join_exposure_covariate()`](http://climatehealth.city/reference/join_exposure_covariate.md)
+- [`join_exposure_covariate()`](https://climatehealth.city/reference/join_exposure_covariate.md)
   : join exposure covariate
 
-- [`ma_counties`](http://climatehealth.city/reference/ma_counties.md) :
+- [`ma_counties`](https://climatehealth.city/reference/ma_counties.md) :
   Massachusetts Towns and Cities (2020 Census)
 
-- [`ma_deaths`](http://climatehealth.city/reference/ma_deaths.md) :
+- [`ma_deaths`](https://climatehealth.city/reference/ma_deaths.md) :
   Daily Deaths by Town
 
-- [`ma_exposure`](http://climatehealth.city/reference/ma_exposure.md) :
+- [`ma_exposure`](https://climatehealth.city/reference/ma_exposure.md) :
   Daily Maximum Temperature Exposure by Town
 
-- [`ma_pop_data`](http://climatehealth.city/reference/ma_pop_data.md) :
+- [`ma_pop_data`](https://climatehealth.city/reference/ma_pop_data.md) :
   Massachusetts town-level population by sex and age group
 
-- [`ma_towns`](http://climatehealth.city/reference/ma_towns.md) :
+- [`ma_towns`](https://climatehealth.city/reference/ma_towns.md) :
   Massachusetts Towns and Cities (2020 Census)
 
-- [`make_cb_list()`](http://climatehealth.city/reference/make_cb_list.md)
+- [`make_cb_list()`](https://climatehealth.city/reference/make_cb_list.md)
   : IN-PROGRESS functions that creates a list of cross-basis objects to
   try
 
-- [`make_crossbasis()`](http://climatehealth.city/reference/make_crossbasis.md)
+- [`make_crossbasis()`](https://climatehealth.city/reference/make_crossbasis.md)
   : Make crossbasis object
 
-- [`make_exposure_matrix()`](http://climatehealth.city/reference/make_exposure_matrix.md)
+- [`make_exposure_matrix()`](https://climatehealth.city/reference/make_exposure_matrix.md)
   : Function to clean and prepare the exposure data matrix
 
-- [`make_outcome_table()`](http://climatehealth.city/reference/make_outcome_table.md)
+- [`make_outcome_table()`](https://climatehealth.city/reference/make_outcome_table.md)
   : Function to create the outcome table
 
-- [`make_xgrid()`](http://climatehealth.city/reference/make_xgrid.md) :
+- [`make_xgrid()`](https://climatehealth.city/reference/make_xgrid.md) :
   An internal function to make the xgrid
 
-- [`nb2graph()`](http://climatehealth.city/reference/nb2graph.md) :
+- [`nb2graph()`](https://climatehealth.city/reference/nb2graph.md) :
   Convert a neighbor list to a graph edge list
 
-- [`nb2subgraph()`](http://climatehealth.city/reference/nb2subgraph.md)
+- [`nb2subgraph()`](https://climatehealth.city/reference/nb2subgraph.md)
   : Convert a neighbor list subgraph to node pairs
 
-- [`nx()`](http://climatehealth.city/reference/nx.md) : Title
+- [`nx()`](https://climatehealth.city/reference/nx.md) : Title
 
-- [`plot(`*`<calcAN>`*`)`](http://climatehealth.city/reference/plot.calcAN.md)
+- [`plot(`*`<calcAN>`*`)`](https://climatehealth.city/reference/plot.calcAN.md)
   : Plot method for calcAN
 
-- [`plot(`*`<calcAN_list>`*`)`](http://climatehealth.city/reference/plot.calcAN_list.md)
+- [`plot(`*`<calcAN_list>`*`)`](https://climatehealth.city/reference/plot.calcAN_list.md)
   : Plot method for calcAN_list
 
-- [`plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/plot.condPois_1stage.md)
+- [`plot(`*`<condPois_1stage>`*`)`](https://climatehealth.city/reference/plot.condPois_1stage.md)
   : Plot method for condPois_1stage
 
-- [`plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/plot.condPois_1stage_list.md)
+- [`plot(`*`<condPois_1stage_list>`*`)`](https://climatehealth.city/reference/plot.condPois_1stage_list.md)
   : Plot method for condPois_1stage_list
 
-- [`plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/plot.condPois_2stage.md)
+- [`plot(`*`<condPois_2stage>`*`)`](https://climatehealth.city/reference/plot.condPois_2stage.md)
   : Plot method for condPois_2stage
 
-- [`plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/plot.condPois_2stage_list.md)
+- [`plot(`*`<condPois_2stage_list>`*`)`](https://climatehealth.city/reference/plot.condPois_2stage_list.md)
   : Plot method for condPois_2stage_list
 
-- [`plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/plot.condPois_sb.md)
+- [`plot(`*`<condPois_sb>`*`)`](https://climatehealth.city/reference/plot.condPois_sb.md)
   : Plot method for condPois_sb
 
-- [`plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/plot.condPois_sb_list.md)
+- [`plot(`*`<condPois_sb_list>`*`)`](https://climatehealth.city/reference/plot.condPois_sb_list.md)
   : Plot method for condPois_sb_list
 
-- [`plot_lag()`](http://climatehealth.city/reference/plot_lag.md) : Plot
-  lag method for condPois_1stage
+- [`plot(`*`<timeseries_1stage>`*`)`](https://climatehealth.city/reference/plot.timeseries_1stage.md)
+  : Plot method for timeseries_1stage
 
-- [`print.calcAN()`](http://climatehealth.city/reference/print.calcAN.md)
+- [`plot(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/plot.timeseries_1stage_list.md)
+  : Plot method for timeseries_1stage_list
+
+- [`plot_lag()`](https://climatehealth.city/reference/plot_lag.md) :
+  Plot lag method for condPois_1stage
+
+- [`print(`*`<calcAN>`*`)`](https://climatehealth.city/reference/print.calcAN.md)
   : Print method for calcAN
 
-- [`print.calcAN_list()`](http://climatehealth.city/reference/print.calcAN_list.md)
+- [`print(`*`<calcAN_list>`*`)`](https://climatehealth.city/reference/print.calcAN_list.md)
   : Print method for calcAN_list
 
-- [`print.condPois_1stage()`](http://climatehealth.city/reference/print.condPois_1stage.md)
+- [`print(`*`<condPois_1stage>`*`)`](https://climatehealth.city/reference/print.condPois_1stage.md)
   : Print method for condPois_1stage
 
-- [`print.condPois_1stage_list()`](http://climatehealth.city/reference/print.condPois_1stage_list.md)
+- [`print(`*`<condPois_1stage_list>`*`)`](https://climatehealth.city/reference/print.condPois_1stage_list.md)
   : Print method for condPois_1stage_list
 
-- [`print.condPois_2stage()`](http://climatehealth.city/reference/print.condPois_2stage.md)
+- [`print(`*`<condPois_2stage>`*`)`](https://climatehealth.city/reference/print.condPois_2stage.md)
   : Print method for condPois_2stage
 
-- [`print.condPois_2stage_list()`](http://climatehealth.city/reference/print.condPois_2stage_list.md)
+- [`print(`*`<condPois_2stage_list>`*`)`](https://climatehealth.city/reference/print.condPois_2stage_list.md)
   : Print method for condPois_2stage_list
 
-- [`print.condPois_sb()`](http://climatehealth.city/reference/print.condPois_sb.md)
+- [`print(`*`<condPois_sb>`*`)`](https://climatehealth.city/reference/print.condPois_sb.md)
   : Print method for condPois_sb
 
-- [`print.condPois_sb_list()`](http://climatehealth.city/reference/print.condPois_sb_list.md)
+- [`print(`*`<condPois_sb_list>`*`)`](https://climatehealth.city/reference/print.condPois_sb_list.md)
   : Print method for condPois_sb_list
 
-- [`scale_nb_components()`](http://climatehealth.city/reference/scale_nb_components.md)
+- [`print(`*`<timeseries_1stage>`*`)`](https://climatehealth.city/reference/print.timeseries_1stage.md)
+  : Print method for timeseries_1stage
+
+- [`print(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/print.timeseries_1stage_list.md)
+  : Print method for timeseries_1stage_list
+
+- [`scale_nb_components()`](https://climatehealth.city/reference/scale_nb_components.md)
   : Compute scaling factors for neighbor list components
 
-- [`set_strata_value()`](http://climatehealth.city/reference/set_strata_value.md)
+- [`set_strata_value()`](https://climatehealth.city/reference/set_strata_value.md)
   : Set the strata column of xgrid
 
-- [`spatial_plot()`](http://climatehealth.city/reference/spatial_plot.md)
+- [`spatial_plot()`](https://climatehealth.city/reference/spatial_plot.md)
   : spatial_plot base class
 
-- [`spatial_plot(`*`<calcAN>`*`)`](http://climatehealth.city/reference/spatial_plot.calcAN.md)
+- [`spatial_plot(`*`<calcAN>`*`)`](https://climatehealth.city/reference/spatial_plot.calcAN.md)
   : spatial_plot method for calcAN
 
-- [`spatial_plot(`*`<calcAN_list>`*`)`](http://climatehealth.city/reference/spatial_plot.calcAN_list.md)
+- [`spatial_plot(`*`<calcAN_list>`*`)`](https://climatehealth.city/reference/spatial_plot.calcAN_list.md)
   : spatial_plot method for calcAN_list
 
-- [`spatial_plot(`*`<condPois_1stage>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_1stage.md)
+- [`spatial_plot(`*`<condPois_1stage>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_1stage.md)
   : spatial_plot method for condPois_1stage
 
-- [`spatial_plot(`*`<condPois_1stage_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_1stage_list.md)
+- [`spatial_plot(`*`<condPois_1stage_list>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_1stage_list.md)
   : spatial_plot method for condPois_1stage_list
 
-- [`spatial_plot(`*`<condPois_2stage>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_2stage.md)
+- [`spatial_plot(`*`<condPois_2stage>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_2stage.md)
   : spatial_plot method for condPois_2stage
 
-- [`spatial_plot(`*`<condPois_2stage_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_2stage_list.md)
+- [`spatial_plot(`*`<condPois_2stage_list>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_2stage_list.md)
   : spatial_plot method for condPois_2stage_list
 
-- [`spatial_plot(`*`<condPois_sb>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_sb.md)
+- [`spatial_plot(`*`<condPois_sb>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_sb.md)
   : spatial_plot method for condPois_sb
 
-- [`spatial_plot(`*`<condPois_sb_list>`*`)`](http://climatehealth.city/reference/spatial_plot.condPois_sb_list.md)
+- [`spatial_plot(`*`<condPois_sb_list>`*`)`](https://climatehealth.city/reference/spatial_plot.condPois_sb_list.md)
   : spatial_plot method for condPois_sb_list
 
-- [`time_subset_validate()`](http://climatehealth.city/reference/time_subset_validate.md)
+- [`spatial_plot(`*`<timeseries_1stage>`*`)`](https://climatehealth.city/reference/spatial_plot.timeseries_1stage.md)
+  : spatial_plot method for timeseries_1stage
+
+- [`spatial_plot(`*`<timeseries_1stage_list>`*`)`](https://climatehealth.city/reference/spatial_plot.timeseries_1stage_list.md)
+  : spatial_plot method for timeseries_1stage_list
+
+- [`time_subset_validate()`](https://climatehealth.city/reference/time_subset_validate.md)
   : validation of the time_subset argumetn
+
+- [`timeseries_1stage_glm()`](https://climatehealth.city/reference/timeseries_1stage_glm.md)
+  :
+
+  Run a time series model for a single geographic unit One-stage POOLED
+  time-series version of
+  [`condPois_1stage()`](https://climatehealth.city/reference/condPois_1stage.md).
 
 # Articles
 
 ### Main vignettes
 
 - [Installing
-  cityClimateHealth](http://climatehealth.city/articles/install.md):
+  cityClimateHealth](https://climatehealth.city/articles/install.md):
 - [Methods and
-  Description](http://climatehealth.city/articles/methods.md):
+  Description](https://climatehealth.city/articles/methods.md):
 - [One set of Heat-Health Associations for a single or multiple zones
   using
-  \`cityClimateHealth\`](http://climatehealth.city/articles/one_stage_demo.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/one_stage_demo.md):
 - [Heat-Health Associations across multiple towns using
-  \`cityClimateHealth\`](http://climatehealth.city/articles/two_stage_demo.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/two_stage_demo.md):
 - [Using Spatial Bayesian methods in
-  \`cityClimateHealth\`](http://climatehealth.city/articles/bayesian_demo.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/bayesian_demo.md):
 - [Calculating attributable numbers and rates in
-  \`cityClimateHealth\`](http://climatehealth.city/articles/attributable_number.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/attributable_number.md):
 
 ### Additional vignettes
 
 Vignettes aimed at advanced users
 
 - [Test of population
-  sizes](http://climatehealth.city/articles/pop_size_test.md):
-- [time_subset](http://climatehealth.city/articles/time_subset.md):
-- [faq](http://climatehealth.city/articles/faq.md):
+  sizes](https://climatehealth.city/articles/pop_size_test.md):
+- [time_subset](https://climatehealth.city/articles/time_subset.md):
+- [one_stage_time_series_demo](https://climatehealth.city/articles/one_stage_time_series_demo.md):
+- [faq](https://climatehealth.city/articles/faq.md):
 - [Demo of Collapse
-  funcationality](http://climatehealth.city/articles/collapse.md):
-- [covariate](http://climatehealth.city/articles/covariate.md):
-- [Demo of factor uses](http://climatehealth.city/articles/factor.md):
-- [SB_WNV_test](http://climatehealth.city/articles/bayesian_wnv_test.md):
+  funcationality](https://climatehealth.city/articles/collapse.md):
+- [covariate](https://climatehealth.city/articles/covariate.md):
+- [Demo of factor uses](https://climatehealth.city/articles/factor.md):
+- [SB_WNV_test](https://climatehealth.city/articles/bayesian_wnv_test.md):
 - [Using Stratified
-  Exposures](http://climatehealth.city/articles/strata.md):
+  Exposures](https://climatehealth.city/articles/strata.md):
 - [Obtaining population estimates from
-  \`tidycensus\`](http://climatehealth.city/articles/get_pop_estimates.md):
+  \`tidycensus\`](https://climatehealth.city/articles/get_pop_estimates.md):
 - [Group level aggregations
-  check](http://climatehealth.city/articles/group_check.md):
+  check](https://climatehealth.city/articles/group_check.md):
 - [Validation of spatial methods in
-  \`cityClimateHealth\`](http://climatehealth.city/articles/validation.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/validation.md):
 - [Exploring DLNM sensitivity in
-  \`cityClimateHealth\`](http://climatehealth.city/articles/dlnm_sensitivity.md):
+  \`cityClimateHealth\`](https://climatehealth.city/articles/dlnm_sensitivity.md):
 - [Comparison of \`cityClimateHealth\` to other AN
-  tutorials](http://climatehealth.city/articles/comparison.md):
-- [Todo](http://climatehealth.city/articles/TODO.md):
-- [QA_testing](http://climatehealth.city/articles/QA_testing.md):
+  tutorials](https://climatehealth.city/articles/comparison.md):
+- [Todo](https://climatehealth.city/articles/TODO.md):
+- [QA_testing](https://climatehealth.city/articles/QA_testing.md):
 - [Methods for working with non-daily
-  data](http://climatehealth.city/articles/non_daily_data.md):
+  data](https://climatehealth.city/articles/non_daily_data.md):

@@ -5,7 +5,8 @@ Print method for condPois_1stage
 ## Usage
 
 ``` r
-print.condPois_1stage(x)
+# S3 method for class 'condPois_1stage'
+print(x, ...)
 ```
 
 ## Arguments
@@ -13,6 +14,10 @@ print.condPois_1stage(x)
 - x:
 
   an object of class condPois_1stage
+
+- ...:
+
+  further arguments passed to or from other methods (currently unused)
 
 ## Value
 
@@ -23,7 +28,5 @@ invisibly returns x
 ``` r
 x <- structure(list(), class = "condPois_1stage")
 print(x)
-#> list()
-#> attr(,"class")
-#> [1] "condPois_1stage"
+#> < an object of class `condPois_1stage` >
 ```
