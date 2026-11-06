@@ -18,6 +18,7 @@
 #' @importFrom dlnm crosspred
 #' @returns a list object, with the centered basis and centered crosspred output
 #'
+#' @noRd
 #' @examples
 #' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
 #'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")

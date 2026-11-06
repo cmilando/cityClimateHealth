@@ -8,6 +8,7 @@
 #'
 #' @returns a nested list of cross-basis objects
 #'
+#' @noRd
 #' @examples
 #' boston <- subset(ma_exposure, TOWN20 == "BOSTON" & date < as.Date("2010-04-01"))
 #' cbs <- cityClimateHealth:::make_cb_list(
@@ -96,6 +97,7 @@ make_cb_list <- function(x, var_list, argvar_list, lag_list, arglag_list) {
 #'
 #' @returns a list of all combinations of the input arguments
 #'
+#' @noRd
 #' @examples
 #' arglist <- list(
 #'   list(fun = "ns", df = c(3, 4)),

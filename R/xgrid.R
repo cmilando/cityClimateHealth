@@ -10,6 +10,7 @@
 #' @importFrom tidyr expand_grid
 #' @returns a datatable of all date and geo unit combinations
 #'
+#' @noRd
 #' @examples
 #' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
 #'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")

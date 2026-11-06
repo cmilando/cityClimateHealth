@@ -1,5 +1,5 @@
 Package: cityClimateHealth
-Title: Estimating Heat-Health Impacts at Small Spatial Scales
+Title: Estimating Climate-Health Impacts at Small Spatial Scales
 Version: 0.1.0
 Authors@R: c(
     person("Chad", "Milando", , "cmilando@bu.edu", role = c("aut", "cre")),

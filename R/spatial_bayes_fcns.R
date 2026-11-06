@@ -9,6 +9,7 @@
 #'
 #' @returns a list with node1 and node2 integer vectors defining graph edges
 #'
+#' @noRd
 #' @examples
 #' nb <- spdep::cell2nb(3, 3)
 #' comp_ids <- spdep::n.comp.nb(nb)$comp.id
@@ -64,6 +65,7 @@ nb2subgraph = function(x, c_id, comp_ids, offsets) {
 #'
 #' @returns a list with N (nodes), N_edges, node1, and node2 integer vectors
 #'
+#' @noRd
 #' @examples
 #' nb <- spdep::cell2nb(3, 3)
 #' cityClimateHealth:::nb2graph(nb)
@@ -109,6 +111,7 @@ nb2graph = function(x) {
 #'
 #' @returns a vector of per-component consecutive node ids
 #'
+#' @noRd
 #' @examples
 #' comp_ids <- c(1, 1, 2, 2, 2, 1)
 #' cityClimateHealth:::indexByComponent(comp_ids)
@@ -143,6 +146,7 @@ indexByComponent = function(x) {
 #' @param x an nb object (neighbor list)
 #'
 #' @returns a numeric vector of scaling factors, one per connected component
+#' @noRd
 #' @examples
 #' nb <- spdep::cell2nb(3, 3)
 #' cityClimateHealth:::scale_nb_components(nb)
@@ -202,6 +206,7 @@ scale_nb_components = function(x) {
 #'
 #' @returns a binary matrix of spatial weights
 #'
+#' @noRd
 #' @examples
 #' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
 #' shp <- subset(ma_towns, TOWN20 %in% towns)
@@ -254,6 +259,7 @@ getSW <- function(shp, ni, include_self = T) {
 #'
 #' @returns a list of neighbor index vectors
 #'
+#' @noRd
 #' @examples
 #' xx <- list(c(2, 3), c(1, 3), c(1, 2))
 #' cityClimateHealth:::nx(xx, ni = 1, include_self = TRUE)
@@ -300,6 +306,7 @@ nx <- function(xx, ni, include_self = T) {
 #'
 #' @returns a binary integer matrix indicating stratum membership
 #'
+#' @noRd
 #' @examples
 #' strata <- factor(c("a", "a", "b", "b", "c"))
 #' cityClimateHealth:::getSmat(strata)
