@@ -80,10 +80,9 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
-<p>We can easily extend the functionality from
-<code><a href="../articles/one_stage_demo.html">vignette("one_stage_demo")</a></code> to estimate individual-zone
-impacts across many zones.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
+<p>We can easily extend the functionality from the <a href="one_stage_demo.html">one-stage demo</a> to estimate
+individual-zone impacts across many zones.</p>
 <div class="section level3">
 <h3 id="model">Model<a class="anchor" aria-label="anchor" href="#model"></a>
 </h3>
@@ -145,7 +144,7 @@ model.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -184,7 +183,7 @@ this cleaner to get to)</p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, 25.1): rounded to 1 decimal</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, 25.1): plotting by group since</span></span>
 <span><span class="co">#&gt; n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot_multiple1-1.png" class="r-plt" width="480"></p>
@@ -195,13 +194,13 @@ shapefile:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_towns"</span><span class="op">)</span></span>
 <span><span class="va">ma_towns</span></span>
 <span><span class="co">#&gt; Simple feature collection with 351 features and 36 fields</span></span>
-<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">#&gt; Geometry type: GEOMETRY</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: 33863.75 ymin: 777634.4 xmax: 330838.8 ymax: 959743</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: 33863.75 ymin: 777638.8 xmax: 330837.4 ymax: 959743</span></span>
 <span><span class="co">#&gt; Projected CRS: NAD83 / Massachusetts Mainland</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 351 × 37</span></span></span>
 <span><span class="co">#&gt;    STATEFP20 COUNTYFP20 COUSUBFP20 COUSUBNS20 GEOID20    NAMELSAD20       LSAD20</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt;  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 25        003        34970      00618269   2500334970 Lenox town       43    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 25        003        44385      00598751   2500344385 New Ashford town 43    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 25        003        51580      00619422   2500351580 Otis town        43    </span></span>
@@ -221,7 +220,7 @@ shapefile:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   POP1970 &lt;dbl&gt;, POP1980 &lt;dbl&gt;, POP1990 &lt;dbl&gt;, POP2000 &lt;dbl&gt;, …</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ma_towns</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Simple feature collection with 6 features and 36 fields</span></span>
-<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: 48979.71 ymin: 869246.6 xmax: 166957.3 ymax: 942838.1</span></span>
 <span><span class="co">#&gt; Projected CRS: NAD83 / Massachusetts Mainland</span></span>
@@ -243,25 +242,24 @@ shapefile:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   POPCH10_20 &lt;dbl&gt;, HOUSING20 &lt;dbl&gt;, SHAPE_AREA &lt;dbl&gt;, SHAPE_LEN &lt;dbl&gt;, …</span></span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val</span></span>
-<span><span class="co">#&gt; = 25.1): rounded to 1 decimal</span></span></code></pre></div>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot_multiple2-1.png" class="r-plt" width="768"></p>
 <p>and You can get an RR table</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           TOWN20  COUNTY20 tmax_C       RR      RRlb     RRub  stage</span></span>
-<span><span class="co">#&gt;           &lt;char&gt;    &lt;char&gt;  &lt;num&gt;    &lt;num&gt;     &lt;num&gt;    &lt;num&gt; &lt;char&gt;</span></span>
-<span><span class="co">#&gt;     1:     ACTON MIDDLESEX    7.0 1.005964 0.9999591 1.012006 stage2</span></span>
-<span><span class="co">#&gt;     2:     ACTON MIDDLESEX    7.1 1.005964 0.9999591 1.012006 stage2</span></span>
-<span><span class="co">#&gt;     3:     ACTON MIDDLESEX    7.2 1.005964 0.9999591 1.012006 stage2</span></span>
-<span><span class="co">#&gt;     4:     ACTON MIDDLESEX    7.3 1.005964 0.9999591 1.012006 stage2</span></span>
-<span><span class="co">#&gt;     5:     ACTON MIDDLESEX    7.4 1.005964 0.9999591 1.012006 stage2</span></span>
-<span><span class="co">#&gt;    ---                                                              </span></span>
-<span><span class="co">#&gt; 64868: WORCESTER WORCESTER   33.0 1.245445 1.1839683 1.310114 stage1</span></span>
-<span><span class="co">#&gt; 64869: WORCESTER WORCESTER   33.1 1.246649 1.1839629 1.312654 stage1</span></span>
-<span><span class="co">#&gt; 64870: WORCESTER WORCESTER   33.2 1.247852 1.1839416 1.315213 stage1</span></span>
-<span><span class="co">#&gt; 64871: WORCESTER WORCESTER   33.3 1.249056 1.1839062 1.317792 stage1</span></span>
-<span><span class="co">#&gt; 64872: WORCESTER WORCESTER   33.4 1.250261 1.1838585 1.320388 stage1</span></span>
+<span><span class="co">#&gt;           TOWN20  COUNTY20 tmax_C       RR     RRlb     RRub  stage</span></span>
+<span><span class="co">#&gt;           &lt;char&gt;    &lt;char&gt;  &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt; &lt;char&gt;</span></span>
+<span><span class="co">#&gt;     1:     ACTON MIDDLESEX    7.0 1.006098 1.000201 1.012030 stage2</span></span>
+<span><span class="co">#&gt;     2:     ACTON MIDDLESEX    7.1 1.006098 1.000201 1.012030 stage2</span></span>
+<span><span class="co">#&gt;     3:     ACTON MIDDLESEX    7.2 1.006098 1.000201 1.012030 stage2</span></span>
+<span><span class="co">#&gt;     4:     ACTON MIDDLESEX    7.3 1.006098 1.000201 1.012030 stage2</span></span>
+<span><span class="co">#&gt;     5:     ACTON MIDDLESEX    7.4 1.006098 1.000201 1.012030 stage2</span></span>
+<span><span class="co">#&gt;    ---                                                             </span></span>
+<span><span class="co">#&gt; 64880: WORCESTER WORCESTER   33.1 1.246803 1.184282 1.312623 stage1</span></span>
+<span><span class="co">#&gt; 64881: WORCESTER WORCESTER   33.2 1.248012 1.184275 1.315178 stage1</span></span>
+<span><span class="co">#&gt; 64882: WORCESTER WORCESTER   33.3 1.249221 1.184254 1.317753 stage1</span></span>
+<span><span class="co">#&gt; 64883: WORCESTER WORCESTER   33.4 1.250431 1.184220 1.320345 stage1</span></span>
+<span><span class="co">#&gt; 64884: WORCESTER WORCESTER   33.5 1.251642 1.184174 1.322953 stage1</span></span>
 <span><span class="co">#&gt;            model_class</span></span>
 <span><span class="co">#&gt;                 &lt;char&gt;</span></span>
 <span><span class="co">#&gt;     1: condPois_2stage</span></span>
@@ -270,11 +268,11 @@ shapefile:</p>
 <span><span class="co">#&gt;     4: condPois_2stage</span></span>
 <span><span class="co">#&gt;     5: condPois_2stage</span></span>
 <span><span class="co">#&gt;    ---                </span></span>
-<span><span class="co">#&gt; 64868: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64869: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64870: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64871: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64872: condPois_2stage</span></span></code></pre></div>
+<span><span class="co">#&gt; 64880: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64881: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64882: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64883: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64884: condPois_2stage</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="model-by-factor">Model by factor<a class="anchor" aria-label="anchor" href="#model-by-factor"></a>
@@ -333,7 +331,7 @@ age_grp:</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -369,7 +367,7 @@ age_grp:</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -405,7 +403,7 @@ age_grp:</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -438,20 +436,15 @@ age_grp:</p>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2b-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): rounded to 1</span></span>
-<span><span class="co">#&gt; decimal</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, 25.1): plotting by</span></span>
 <span><span class="co">#&gt; group since n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2c-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="two_stage_demo_files/figure-html/multi_plot2d-1.png" class="r-plt" width="576">
 and You can get an RR table</p>
@@ -459,17 +452,17 @@ and You can get an RR table</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            TOWN20  COUNTY20 tmax_C       RR     RRlb     RRub  stage age_grp</span></span>
 <span><span class="co">#&gt;            &lt;char&gt;    &lt;char&gt;  &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt; &lt;char&gt;  &lt;char&gt;</span></span>
-<span><span class="co">#&gt;      1:     ACTON MIDDLESEX    7.0 1.008063 1.000032 1.016157 stage2    0-17</span></span>
-<span><span class="co">#&gt;      2:     ACTON MIDDLESEX    7.1 1.008063 1.000032 1.016157 stage2    0-17</span></span>
-<span><span class="co">#&gt;      3:     ACTON MIDDLESEX    7.2 1.008063 1.000032 1.016157 stage2    0-17</span></span>
-<span><span class="co">#&gt;      4:     ACTON MIDDLESEX    7.3 1.008063 1.000032 1.016157 stage2    0-17</span></span>
-<span><span class="co">#&gt;      5:     ACTON MIDDLESEX    7.4 1.008063 1.000032 1.016157 stage2    0-17</span></span>
+<span><span class="co">#&gt;      1:     ACTON MIDDLESEX    7.0 1.008203 1.000347 1.016121 stage2    0-17</span></span>
+<span><span class="co">#&gt;      2:     ACTON MIDDLESEX    7.1 1.008203 1.000347 1.016121 stage2    0-17</span></span>
+<span><span class="co">#&gt;      3:     ACTON MIDDLESEX    7.2 1.008203 1.000347 1.016121 stage2    0-17</span></span>
+<span><span class="co">#&gt;      4:     ACTON MIDDLESEX    7.3 1.008203 1.000347 1.016121 stage2    0-17</span></span>
+<span><span class="co">#&gt;      5:     ACTON MIDDLESEX    7.4 1.008203 1.000347 1.016121 stage2    0-17</span></span>
 <span><span class="co">#&gt;     ---                                                                     </span></span>
-<span><span class="co">#&gt; 194612: WORCESTER WORCESTER   33.0 1.243257 1.181728 1.307988 stage1     65+</span></span>
-<span><span class="co">#&gt; 194613: WORCESTER WORCESTER   33.1 1.244374 1.181640 1.310439 stage1     65+</span></span>
-<span><span class="co">#&gt; 194614: WORCESTER WORCESTER   33.2 1.245492 1.181536 1.312909 stage1     65+</span></span>
-<span><span class="co">#&gt; 194615: WORCESTER WORCESTER   33.3 1.246609 1.181417 1.315398 stage1     65+</span></span>
-<span><span class="co">#&gt; 194616: WORCESTER WORCESTER   33.4 1.247727 1.181286 1.317904 stage1     65+</span></span>
+<span><span class="co">#&gt; 194648: WORCESTER WORCESTER   33.1 1.244543 1.181974 1.310424 stage1     65+</span></span>
+<span><span class="co">#&gt; 194649: WORCESTER WORCESTER   33.2 1.245667 1.181885 1.312890 stage1     65+</span></span>
+<span><span class="co">#&gt; 194650: WORCESTER WORCESTER   33.3 1.246790 1.181781 1.315375 stage1     65+</span></span>
+<span><span class="co">#&gt; 194651: WORCESTER WORCESTER   33.4 1.247913 1.181664 1.317877 stage1     65+</span></span>
+<span><span class="co">#&gt; 194652: WORCESTER WORCESTER   33.5 1.249038 1.181536 1.320396 stage1     65+</span></span>
 <span><span class="co">#&gt;                  model_class</span></span>
 <span><span class="co">#&gt;                       &lt;char&gt;</span></span>
 <span><span class="co">#&gt;      1: condPois_2stage_list</span></span>
@@ -478,11 +471,11 @@ and You can get an RR table</p>
 <span><span class="co">#&gt;      4: condPois_2stage_list</span></span>
 <span><span class="co">#&gt;      5: condPois_2stage_list</span></span>
 <span><span class="co">#&gt;     ---                     </span></span>
-<span><span class="co">#&gt; 194612: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194613: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194614: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194615: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194616: condPois_2stage_list</span></span></code></pre></div>
+<span><span class="co">#&gt; 194648: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194649: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194650: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194651: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194652: condPois_2stage_list</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="change-the-strata-level">Change the strata level<a class="anchor" aria-label="anchor" href="#change-the-strata-level"></a>
@@ -565,16 +558,16 @@ to be a sub-strata level.</p>
 <span><span class="co">#&gt; formula: coef_matrix ~ exp_mean + exp_IQR</span></span>
 <span><span class="co">#&gt; random: ~ 1 | COUNTY20 </span></span>
 <span><span class="co">#&gt; IGLS iterations:</span></span>
-<span><span class="co">#&gt; iter 0: value 7.865708e-12</span></span>
+<span><span class="co">#&gt; iter 0: value 1.961098e-12</span></span>
 <span><span class="co">#&gt; converged</span></span>
 <span><span class="co">#&gt; Newton iterations:</span></span>
 <span><span class="co">#&gt; initial  value 0.000000 </span></span>
-<span><span class="co">#&gt; iter   2 value 0.000000</span></span>
-<span><span class="co">#&gt; iter   3 value 0.000000</span></span>
+<span><span class="co">#&gt; iter   2 value -0.000000</span></span>
+<span><span class="co">#&gt; iter   3 value -0.000000</span></span>
+<span><span class="co">#&gt; iter   4 value -0.000000</span></span>
+<span><span class="co">#&gt; iter   4 value -0.000000</span></span>
 <span><span class="co">#&gt; iter   4 value 0.000000</span></span>
-<span><span class="co">#&gt; iter   4 value 0.000000</span></span>
-<span><span class="co">#&gt; iter   4 value 0.000000</span></span>
-<span><span class="co">#&gt; final  value 0.000000 </span></span>
+<span><span class="co">#&gt; final  value -0.000000 </span></span>
 <span><span class="co">#&gt; converged</span></span>
 <span><span class="co">#&gt; -- stage 2</span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.01 </span></span>

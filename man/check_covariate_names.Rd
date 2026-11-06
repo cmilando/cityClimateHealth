@@ -7,7 +7,7 @@
 check_covariate_names(str_vec)
 }
 \arguments{
-\item{str_vec}{}
+\item{str_vec}{character vector of covariate column names to check}
 }
 \description{
 check covariate names

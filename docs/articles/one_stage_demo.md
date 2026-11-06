@@ -24,13 +24,13 @@ each town.
 
 boston_exposure <- subset(ma_exposure, TOWN20 == 'BOSTON')
 head(boston_exposure)
-#>              date  tmax_C TOWN20 COUNTY20
-#> 137783 2010-01-01 -0.3825 BOSTON  SUFFOLK
-#> 137784 2010-01-02  1.4337 BOSTON  SUFFOLK
-#> 137785 2010-01-03 -1.4163 BOSTON  SUFFOLK
-#> 137786 2010-01-04 -0.4483 BOSTON  SUFFOLK
-#> 137787 2010-01-05  0.6565 BOSTON  SUFFOLK
-#> 137788 2010-01-06  1.2098 BOSTON  SUFFOLK
+#>             date tmax_C TOWN20 COUNTY20
+#> 75121 2010-01-01   -0.4 BOSTON  SUFFOLK
+#> 75122 2010-01-02    1.4 BOSTON  SUFFOLK
+#> 75123 2010-01-03   -1.4 BOSTON  SUFFOLK
+#> 75124 2010-01-04   -0.4 BOSTON  SUFFOLK
+#> 75125 2010-01-05    0.7 BOSTON  SUFFOLK
+#> 75126 2010-01-06    1.2 BOSTON  SUFFOLK
 ```
 
 Notice how this dataset contains temperature for the whole year. This is
@@ -43,23 +43,23 @@ data, there are both NA values and days where there are no measurements:
 
 # Sept 17 2010 has NA data
 boston_exposure[255:260,]
-#>              date  tmax_C TOWN20 COUNTY20
-#> 138037 2010-09-16 19.3761 BOSTON  SUFFOLK
-#> 138038 2010-09-17      NA BOSTON  SUFFOLK
-#> 138039 2010-09-18 19.0647 BOSTON  SUFFOLK
-#> 138040 2010-09-19 19.6014 BOSTON  SUFFOLK
-#> 138041 2010-09-20 23.6339 BOSTON  SUFFOLK
-#> 138042 2010-09-21 20.8122 BOSTON  SUFFOLK
+#>             date tmax_C TOWN20 COUNTY20
+#> 75375 2010-09-16   19.4 BOSTON  SUFFOLK
+#> 75376 2010-09-17     NA BOSTON  SUFFOLK
+#> 75377 2010-09-18   19.1 BOSTON  SUFFOLK
+#> 75378 2010-09-19   19.6 BOSTON  SUFFOLK
+#> 75379 2010-09-20   23.6 BOSTON  SUFFOLK
+#> 75380 2010-09-21   20.8 BOSTON  SUFFOLK
 
 # July 13 2010 is missing
 boston_exposure[190:195,]
-#>              date  tmax_C TOWN20 COUNTY20
-#> 137972 2010-07-12 31.7248 BOSTON  SUFFOLK
-#> 137973 2010-07-14 31.9374 BOSTON  SUFFOLK
-#> 137974 2010-07-15 23.7004 BOSTON  SUFFOLK
-#> 137975 2010-07-16 28.7843 BOSTON  SUFFOLK
-#> 137976 2010-07-17 33.3453 BOSTON  SUFFOLK
-#> 137977 2010-07-18 33.1227 BOSTON  SUFFOLK
+#>             date tmax_C TOWN20 COUNTY20
+#> 75310 2010-07-12   31.7 BOSTON  SUFFOLK
+#> 75311 2010-07-14   31.9 BOSTON  SUFFOLK
+#> 75312 2010-07-15   23.7 BOSTON  SUFFOLK
+#> 75313 2010-07-16   28.8 BOSTON  SUFFOLK
+#> 75314 2010-07-17   33.3 BOSTON  SUFFOLK
+#> 75315 2010-07-18   33.1 BOSTON  SUFFOLK
 ```
 
 In the next step we’ll introduce a function which (a) cleans the data
@@ -94,22 +94,22 @@ boston_exposure_mat <- make_exposure_matrix(boston_exposure,
 #> -- NA values automatically removed
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(boston_exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata  explag1  explag2  explag3  explag4  explag5
-#>               <char>    <num>    <num>    <num>    <num>    <num>
-#> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090
-#> 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320
-#> 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230
-#> 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770
-#> 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815
-#> 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    explag1 explag2 explag3 explag4 explag5
+#>      <num>   <num>   <num>   <num>   <num>
+#> 1:    15.7     8.3    10.9    16.4    18.7
+#> 2:    23.1    15.7     8.3    10.9    16.4
+#> 3:    26.1    23.1    15.7     8.3    10.9
+#> 4:    31.6    26.1    23.1    15.7     8.3
+#> 5:    27.8    31.6    26.1    23.1    15.7
+#> 6:    26.3    27.8    31.6    26.1    23.1
 ```
 
 You can check that the two problems we saw before – missing data and NA
@@ -119,39 +119,39 @@ data – are gone now
 
 # Sept 17 2010 now has NA data
 boston_exposure_mat[138:142,]
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-09-15 BOSTON  SUFFOLK 22.5722 BOSTON:yr2010:mn09:dow04
-#> 2: 2010-09-16 BOSTON  SUFFOLK 19.3761 BOSTON:yr2010:mn09:dow05
-#> 3: 2010-09-17 BOSTON  SUFFOLK 19.2204 BOSTON:yr2010:mn09:dow06
-#> 4: 2010-09-18 BOSTON  SUFFOLK 19.0647 BOSTON:yr2010:mn09:dow07
-#> 5: 2010-09-19 BOSTON  SUFFOLK 19.6014 BOSTON:yr2010:mn09:dow01
-#>         match_strata explag1 explag2 explag3 explag4 explag5
-#>               <char>   <num>   <num>   <num>   <num>   <num>
-#> 1: BOSTON:2010-09-15 19.8015 18.5063 22.8082 20.9759 22.0336
-#> 2: BOSTON:2010-09-16 22.5722 19.8015 18.5063 22.8082 20.9759
-#> 3: BOSTON:2010-09-17 19.3761 22.5722 19.8015 18.5063 22.8082
-#> 4: BOSTON:2010-09-18 19.2204 19.3761 22.5722 19.8015 18.5063
-#> 5: BOSTON:2010-09-19 19.0647 19.2204 19.3761 22.5722 19.8015
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-09-15 BOSTON  SUFFOLK  22.60 BOSTON:yr2010:mn09:dow04 BOSTON:2010-09-15
+#> 2: 2010-09-16 BOSTON  SUFFOLK  19.40 BOSTON:yr2010:mn09:dow05 BOSTON:2010-09-16
+#> 3: 2010-09-17 BOSTON  SUFFOLK  19.25 BOSTON:yr2010:mn09:dow06 BOSTON:2010-09-17
+#> 4: 2010-09-18 BOSTON  SUFFOLK  19.10 BOSTON:yr2010:mn09:dow07 BOSTON:2010-09-18
+#> 5: 2010-09-19 BOSTON  SUFFOLK  19.60 BOSTON:yr2010:mn09:dow01 BOSTON:2010-09-19
+#>    explag1 explag2 explag3 explag4 explag5
+#>      <num>   <num>   <num>   <num>   <num>
+#> 1:   19.80   18.50    22.8    21.0    22.0
+#> 2:   22.60   19.80    18.5    22.8    21.0
+#> 3:   19.40   22.60    19.8    18.5    22.8
+#> 4:   19.25   19.40    22.6    19.8    18.5
+#> 5:   19.10   19.25    19.4    22.6    19.8
 
 # July 13 2010 is now not missing
 boston_exposure_mat[72:77,]
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-07-11 BOSTON  SUFFOLK 29.1988 BOSTON:yr2010:mn07:dow01
-#> 2: 2010-07-12 BOSTON  SUFFOLK 31.7248 BOSTON:yr2010:mn07:dow02
-#> 3: 2010-07-13 BOSTON  SUFFOLK 31.8311 BOSTON:yr2010:mn07:dow03
-#> 4: 2010-07-14 BOSTON  SUFFOLK 31.9374 BOSTON:yr2010:mn07:dow04
-#> 5: 2010-07-15 BOSTON  SUFFOLK 23.7004 BOSTON:yr2010:mn07:dow05
-#> 6: 2010-07-16 BOSTON  SUFFOLK 28.7843 BOSTON:yr2010:mn07:dow06
-#>         match_strata explag1 explag2 explag3 explag4 explag5
-#>               <char>   <num>   <num>   <num>   <num>   <num>
-#> 1: BOSTON:2010-07-11 33.0867 32.8450 34.5714 37.1773 36.2254
-#> 2: BOSTON:2010-07-12 29.1988 33.0867 32.8450 34.5714 37.1773
-#> 3: BOSTON:2010-07-13 31.7248 29.1988 33.0867 32.8450 34.5714
-#> 4: BOSTON:2010-07-14 31.8311 31.7248 29.1988 33.0867 32.8450
-#> 5: BOSTON:2010-07-15 31.9374 31.8311 31.7248 29.1988 33.0867
-#> 6: BOSTON:2010-07-16 23.7004 31.9374 31.8311 31.7248 29.1988
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-07-11 BOSTON  SUFFOLK   29.2 BOSTON:yr2010:mn07:dow01 BOSTON:2010-07-11
+#> 2: 2010-07-12 BOSTON  SUFFOLK   31.7 BOSTON:yr2010:mn07:dow02 BOSTON:2010-07-12
+#> 3: 2010-07-13 BOSTON  SUFFOLK   31.8 BOSTON:yr2010:mn07:dow03 BOSTON:2010-07-13
+#> 4: 2010-07-14 BOSTON  SUFFOLK   31.9 BOSTON:yr2010:mn07:dow04 BOSTON:2010-07-14
+#> 5: 2010-07-15 BOSTON  SUFFOLK   23.7 BOSTON:yr2010:mn07:dow05 BOSTON:2010-07-15
+#> 6: 2010-07-16 BOSTON  SUFFOLK   28.8 BOSTON:yr2010:mn07:dow06 BOSTON:2010-07-16
+#>    explag1 explag2 explag3 explag4 explag5
+#>      <num>   <num>   <num>   <num>   <num>
+#> 1:    33.1    32.8    34.6    37.2    36.2
+#> 2:    29.2    33.1    32.8    34.6    37.2
+#> 3:    31.7    29.2    33.1    32.8    34.6
+#> 4:    31.8    31.7    29.2    33.1    32.8
+#> 5:    31.9    31.8    31.7    29.2    33.1
+#> 6:    23.7    31.9    31.8    31.7    29.2
 ```
 
 Its probably a good idea to see if there is any systematic bias in the
@@ -169,7 +169,7 @@ this script as is will not catch those).
 
 summary(boston_exposure_mat$tmax_C)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   6.762  22.059  26.184  25.385  29.225  38.657
+#>    8.00   22.20   26.20   25.48   29.00   38.70
 ```
 
 For a time-series of daily maximum temperatures in warm-season months in
@@ -224,9 +224,6 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 head(boston_deaths_tbl)
 #>          date TOWN20 COUNTY20 daily_deaths                   strata
 #>        <IDat> <char>   <char>        <int>                   <char>
@@ -323,29 +320,29 @@ summary(m_sub)
 #>         0)
 #> 
 #> Deviance Residuals: 
-#>       Min         1Q     Median         3Q        Max  
-#> -4.256444  -1.184418  -0.001925   1.220153   4.449963  
+#>      Min        1Q    Median        3Q       Max  
+#> -4.01375  -1.24434   0.02461   1.28224   4.31338  
 #> 
 #> Coefficients of interest:
-#>          Estimate Std. Error t value Pr(>|t|)    
-#> cbv1.l1  0.021822   0.010661   2.047  0.04088 *  
-#> cbv1.l2 -0.001086   0.009771  -0.111  0.91149    
-#> cbv1.l3  0.116198   0.006092  19.073  < 2e-16 ***
-#> cbv1.l4 -0.056545   0.006158  -9.183  < 2e-16 ***
-#> cbv2.l1  0.081805   0.037565   2.178  0.02961 *  
-#> cbv2.l2  0.002893   0.035155   0.082  0.93442    
-#> cbv2.l3  0.178086   0.023194   7.678 3.18e-14 ***
-#> cbv2.l4 -0.103412   0.022561  -4.584 5.01e-06 ***
-#> cbv3.l1  0.077537   0.023385   3.316  0.00094 ***
-#> cbv3.l2 -0.013910   0.021415  -0.650  0.51609    
-#> cbv3.l3  0.159186   0.014131  11.265  < 2e-16 ***
-#> cbv3.l4 -0.082510   0.013555  -6.087 1.51e-09 ***
+#>           Estimate Std. Error t value Pr(>|t|)    
+#> cbv1.l1  0.0109784  0.0164413   0.668  0.50453    
+#> cbv1.l2  0.0006729  0.0149994   0.045  0.96423    
+#> cbv1.l3  0.1163359  0.0090989  12.786  < 2e-16 ***
+#> cbv1.l4 -0.0534439  0.0090748  -5.889 6.04e-09 ***
+#> cbv2.l1  0.0672159  0.0527738   1.274  0.20321    
+#> cbv2.l2  0.0180828  0.0491205   0.368  0.71289    
+#> cbv2.l3  0.2108521  0.0327248   6.443 2.18e-10 ***
+#> cbv2.l4 -0.0986866  0.0330841  -2.983  0.00296 ** 
+#> cbv3.l1  0.0862389  0.0356515   2.419  0.01582 *  
+#> cbv3.l2 -0.0170908  0.0314134  -0.544  0.58657    
+#> cbv3.l3  0.1735069  0.0211209   8.215  < 2e-16 ***
+#> cbv3.l4 -0.0855985  0.0202383  -4.230 2.65e-05 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> (Dispersion parameter for quasipoisson family taken to be 3.366306)
+#> (Dispersion parameter for quasipoisson family taken to be 3.753814)
 #> 
-#> Residual deviance: 4330.3 on 1286 degrees of freedom
+#> Residual deviance: 2614.7 on 696 degrees of freedom
 #> AIC: NA
 #> 
 #> Number of iterations: 2
@@ -400,7 +397,7 @@ dispersion <- calc_dispersion(y = boston_deaths_tbl$daily_deaths,
                 stratum_vector = boston_deaths_tbl$strata, 
                 beta = coef(m_sub))
 dispersion
-#> [1] 3.366306
+#> [1] 3.753814
 ```
 
 Next to check vcov
@@ -463,9 +460,6 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 # run the model
 m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat, 
@@ -496,7 +490,7 @@ m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
 #> formula:
 #>    daily_deaths ~ cb
 #> family: quasipoisson
-#> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 5.40, x_b = (6.00, 39.00).
+#> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 6.80, x_b = (8.00, 39.00).
 #>         This means your zones are across too large of an area, or if exposure is factor there could
 #>         be too few events in this area, or
 #>         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.
@@ -529,17 +523,17 @@ You can also get the RR table for your own usage
 getRR(m1)
 #>      tmax_C       RR     RRlb     RRub n_geo_names     model_class
 #>       <num>    <num>    <num>    <num>      <char>          <char>
-#>   1:    5.4 1.033913 1.016336 1.051793      BOSTON condPois_1stage
-#>   2:    5.5 1.033913 1.016336 1.051793      BOSTON condPois_1stage
-#>   3:    5.6 1.033913 1.016336 1.051793      BOSTON condPois_1stage
-#>   4:    5.7 1.033913 1.016336 1.051793      BOSTON condPois_1stage
-#>   5:    5.8 1.033913 1.016336 1.051793      BOSTON condPois_1stage
+#>   1:    6.8 1.050388 1.025204 1.076192      BOSTON condPois_1stage
+#>   2:    6.9 1.050388 1.025204 1.076192      BOSTON condPois_1stage
+#>   3:    7.0 1.050388 1.025204 1.076192      BOSTON condPois_1stage
+#>   4:    7.1 1.050388 1.025204 1.076192      BOSTON condPois_1stage
+#>   5:    7.2 1.050388 1.025204 1.076192      BOSTON condPois_1stage
 #>  ---                                                              
-#> 329:   38.2 1.316280 1.279493 1.354125      BOSTON condPois_1stage
-#> 330:   38.3 1.316280 1.279493 1.354125      BOSTON condPois_1stage
-#> 331:   38.4 1.316280 1.279493 1.354125      BOSTON condPois_1stage
-#> 332:   38.5 1.316280 1.279493 1.354125      BOSTON condPois_1stage
-#> 333:   38.6 1.316280 1.279493 1.354125      BOSTON condPois_1stage
+#> 316:   38.3 1.336936 1.285904 1.389993      BOSTON condPois_1stage
+#> 317:   38.4 1.336936 1.285904 1.389993      BOSTON condPois_1stage
+#> 318:   38.5 1.336936 1.285904 1.389993      BOSTON condPois_1stage
+#> 319:   38.6 1.336936 1.285904 1.389993      BOSTON condPois_1stage
+#> 320:   38.7 1.336936 1.285904 1.389993      BOSTON condPois_1stage
 ```
 
 ### Multi-zone DLNM
@@ -578,9 +572,6 @@ middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns,
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 
@@ -594,7 +585,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -630,17 +621,17 @@ And get RR
 getRR(m2)
 #>      tmax_C        RR      RRlb      RRub                   n_geo_names
 #>       <num>     <num>     <num>     <num>                        <char>
-#>   1:    3.4 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
-#>   2:    3.5 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
-#>   3:    3.6 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
-#>   4:    3.7 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
-#>   5:    3.8 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)
+#>   1:    5.4 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)
+#>   2:    5.5 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)
+#>   3:    5.6 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)
+#>   4:    5.7 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)
+#>   5:    5.8 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)
 #>  ---                                                                   
-#> 350:   38.3 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
-#> 351:   38.4 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
-#> 352:   38.5 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
-#> 353:   38.6 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
-#> 354:   38.7 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)
+#> 331:   38.4 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)
+#> 332:   38.5 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)
+#> 333:   38.6 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)
+#> 334:   38.7 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)
+#> 335:   38.8 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)
 #>          model_class
 #>               <char>
 #>   1: condPois_1stage
@@ -649,11 +640,11 @@ getRR(m2)
 #>   4: condPois_1stage
 #>   5: condPois_1stage
 #>  ---                
-#> 350: condPois_1stage
-#> 351: condPois_1stage
-#> 352: condPois_1stage
-#> 353: condPois_1stage
-#> 354: condPois_1stage
+#> 331: condPois_1stage
+#> 332: condPois_1stage
+#> 333: condPois_1stage
+#> 334: condPois_1stage
+#> 335: condPois_1stage
 ```
 
 ### Multi-factor single beta coeff
@@ -675,9 +666,6 @@ middlesex_deaths_tbl <- make_outcome_table(
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 # run the model
 m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 
@@ -694,7 +682,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -721,7 +709,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -748,7 +736,7 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -780,30 +768,30 @@ And get RR
 getRR(m3)
 #>       tmax_C age_grp                   n_geo_names        RR      RRlb
 #>        <num>  <char>                        <char>     <num>     <num>
-#>    1:    3.4    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
-#>    2:    3.5    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
-#>    3:    3.6    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
-#>    4:    3.7    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
-#>    5:    3.8    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958
+#>    1:    5.4    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368
+#>    2:    5.5    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368
+#>    3:    5.6    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368
+#>    4:    5.7    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368
+#>    5:    5.8    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368
 #>   ---                                                                 
-#> 1058:   38.3     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
-#> 1059:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
-#> 1060:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
-#> 1061:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
-#> 1062:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795
+#> 1001:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256
+#> 1002:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256
+#> 1003:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256
+#> 1004:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256
+#> 1005:   38.8     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256
 #>            RRub          model_class
 #>           <num>               <char>
-#>    1: 0.9802304 condPois_1stage_list
-#>    2: 0.9802304 condPois_1stage_list
-#>    3: 0.9802304 condPois_1stage_list
-#>    4: 0.9802304 condPois_1stage_list
-#>    5: 0.9802304 condPois_1stage_list
+#>    1: 0.9894114 condPois_1stage_list
+#>    2: 0.9894114 condPois_1stage_list
+#>    3: 0.9894114 condPois_1stage_list
+#>    4: 0.9894114 condPois_1stage_list
+#>    5: 0.9894114 condPois_1stage_list
 #>   ---                               
-#> 1058: 1.2689089 condPois_1stage_list
-#> 1059: 1.2689089 condPois_1stage_list
-#> 1060: 1.2689089 condPois_1stage_list
-#> 1061: 1.2689089 condPois_1stage_list
-#> 1062: 1.2689089 condPois_1stage_list
+#> 1001: 1.2714479 condPois_1stage_list
+#> 1002: 1.2714479 condPois_1stage_list
+#> 1003: 1.2714479 condPois_1stage_list
+#> 1004: 1.2714479 condPois_1stage_list
+#> 1005: 1.2714479 condPois_1stage_list
 ```
 
 ### Changing the global_cen
@@ -823,7 +811,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -850,7 +838,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -877,7 +865,7 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 26 31.3
+#>  $ knots: Named num [1:2] 25.8 31
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:

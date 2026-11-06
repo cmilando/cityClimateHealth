@@ -16,8 +16,6 @@ a numeric vector of scaling factors, one per connected component
 https://github.com/stan-dev/example-models/blob/master/knitr/car-iar-poisson/nb_data_funs.R
 }
 \examples{
-library(spdep)
-coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-nb <- knn2nb(knearneigh(coords, k = 2))
-scale_nb_components(nb)
+nb <- spdep::cell2nb(3, 3)
+cityClimateHealth:::scale_nb_components(nb)
 }

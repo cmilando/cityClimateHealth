@@ -39,7 +39,8 @@ condPois_2stage(
 
 \item{verbose}{whether to print geo_units as they are run}
 
-\item{truncate}{}
+\item{truncate}{proportion of the exposure distribution to trim from each
+tail when choosing the centering point (default 0.01)}
 }
 \value{
 an object of class condPois_2stage
@@ -62,65 +63,15 @@ https://github.com/gasparrini/2019_sera_StatMed_Rcode/blob/master/03.MultilevelM
 update as of 2025.12.21, its this https://github.com/gasparrini/Extended2stage/blob/cf82fd2f0d616210e8aa6911d2fb49a732f65795/02.multilevel.R#L68
 }
 \examples{
-library(data.table)
-exposure_columns <- list(
- "date" = "date",
- "exposure" = "tmax_C",
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-
-ma_exposure_matrix <- make_exposure_matrix(
- subset(ma_exposure,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-          year(date) \%in\% 2012:2015), exposure_columns)
-
-outcome_columns <- list(
- "date" = "date",
- "outcome" = "daily_deaths",
- "factor" = 'age_grp',
- "factor" = 'sex',
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-ma_outcomes_tbl <- make_outcome_table(
- subset(ma_deaths,COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER') &
-          year(date) \%in\% 2012:2015), outcome_columns)
-ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl,
-           verbose = 1, global_cen = 10)
-condPois_2stage
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-IF the outcomes_tbl has a FACTOR, enter a recursive loop
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-VALIDATION
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-STAGE 1
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-MIXMETA
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-detour to calculate blups and RRs for other levels
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-STAGE 2 - BLUP
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-==========================================================================
-OUTPUT
-==========================================================================
-//////////////////////////////////////////////////////////////////////////
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
 }

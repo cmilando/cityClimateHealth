@@ -1,12 +1,15 @@
 #' collapse the data based on factors and group level strata
 #'
-#' @param data
-#' @param column_mapping
-#' @param collapse_fcn
-#' @param data_type
-#' @param grp_level
-#' @param keep_unit
-
+#' @param data a data.table of exposures or outcomes
+#' @param column_mapping a named list mapping column roles to column names in
+#'   `data`
+#' @param fcn function used to aggregate the exposure or outcome column, e.g.
+#'   `sum` or `mean`
+#' @param data_type either `'exposure'` or `'outcome'`; selects which column is
+#'   aggregated
+#' @param grp_level logical; if `TRUE`, aggregate to `geo_unit_grp`
+#' @param keep_unit logical; if `TRUE`, keep unit-level rows when `grp_level` is
+#'   `TRUE`
 #' @returns
 #' @export
 #'

@@ -17,5 +17,5 @@ Gets the matrix of strata, used in \code{condPois_sb}
 }
 \examples{
 strata <- factor(c("a", "a", "b", "b", "c"))
-getSmat(strata)
+cityClimateHealth:::getSmat(strata)
 }

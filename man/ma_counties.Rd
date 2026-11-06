@@ -26,6 +26,10 @@ land and water area, population counts, housing units, and related attributes
 for all counties in Massachusetts. See \href{https://www.mass.gov/info-details/massgis-data-counties#downloads}{link}
 }
 \details{
+Polygon boundaries are simplified (with \code{rmapshaper::ms_simplify()}, keeping
+5\% of vertices) to keep the package small; shared borders are simplified
+together, so neighbour relationships between areas are unchanged.
+
 This dataset is typically used for environmental exposure assessment and
 can be joined to town-level geographic or demographic datasets using
 \code{COUNTY20}.

@@ -108,7 +108,8 @@ and once for BLUP</p>
 
 
 <dt id="arg-truncate">truncate<a class="anchor" aria-label="anchor" href="#arg-truncate"></a></dt>
-<dd></dd>
+<dd><p>proportion of <code>this_exp</code> to trim from each tail when bounding
+the centering point; 0 for no trimming</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -118,20 +119,54 @@ and once for BLUP</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># after running condPois_1stage on a single geo_unit:</span></span></span>
-<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">exposure_matrix</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">centered</span> <span class="op">&lt;-</span> <span class="fu">get_centered_cp</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  argvar <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">argvar</span>,</span></span>
-<span class="r-in"><span>  xcoef <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">coef</span>,</span></span>
-<span class="r-in"><span>  xvcov <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">vcov</span>,</span></span>
-<span class="r-in"><span>  this_exp <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">this_exp</span>,</span></span>
-<span class="r-in"><span>  x_b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  global_cen <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  cen <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">cen</span>,</span></span>
-<span class="r-in"><span>  exposure_is_factor <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"tmax_C"</span>,</span></span>
+<span class="r-in"><span>                         <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span></span>
+<span class="r-in"><span>                        <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">time_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>, year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2013</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op">==</span> <span class="st">"BOSTON"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                     <span class="va">exposure_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- NA values automatically removed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">TOWN20</span> <span class="op">==</span> <span class="st">"BOSTON"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                   <span class="va">outcome_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Missing outcome values introduced by xgrid were set to 0;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 31.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOSTON:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0.025 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">m</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">centered</span> <span class="op">&lt;-</span> <span class="fu">cityClimateHealth</span><span class="fu">:::</span><span class="fu">get_centered_cp</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  argvar <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">argvar</span>, xcoef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">cr</span><span class="op">)</span>, xvcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">cr</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  this_exp <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">this_exp</span>, x_b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">this_exp</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">this_exp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  global_cen <span class="op">=</span> <span class="cn">NULL</span>, cen <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">cen</span>, exposure_is_factor <span class="op">=</span> <span class="cn">FALSE</span>, truncate <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">centered</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cp"        "basis_cen"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

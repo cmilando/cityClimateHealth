@@ -17,7 +17,3 @@ called for its side-effect (warning); returns NULL invisibly
 \description{
 forest_plot method for timeseries_1stage_list
 }
-\examples{
-x <- structure(list(a = 1, b = 2), class = "timeseries_1stage_list")
-forest_plot(x)
-}

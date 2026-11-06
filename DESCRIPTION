@@ -23,9 +23,8 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Biarch: true
 Depends: 
-    R (>= 4.1)
+    R (>= 4.4.0)
 Imports: 
-    methods,
     dlnm,
     data.table,
     ggplot2,
@@ -40,19 +39,24 @@ Imports:
     spdep,
     Matrix,
     MASS,
-    RColorBrewer
+    RColorBrewer,
+    splines,
+    almanac,
+    stats,
+    utils
 Suggests:
     tidycensus,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
-Additional_repositories:
-  https://mc-stan.org/r-packages/
-  https://inla.r-inla-download.org/R/stable/
+    testthat (>= 3.0.0),
+    cmdstanr,
+    posterior
+Additional_repositories: https://stan-dev.r-universe.dev
 SystemRequirements: CmdStan (https://mc-stan.org/users/interfaces/cmdstan)
 LazyData: true
+LazyDataCompression: xz
 VignetteBuilder: knitr
-URL: http://climatehealth.city
+URL: https://climatehealth.city
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
 RoxygenNote: 7.3.3

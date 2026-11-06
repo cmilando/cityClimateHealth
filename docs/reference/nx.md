@@ -30,6 +30,14 @@ a list of neighbor index vectors
 
 ``` r
 xx <- list(c(2, 3), c(1, 3), c(1, 2))
-nx(xx, ni = 1, include_self = TRUE)
-#> Error in nx(xx, ni = 1, include_self = TRUE): could not find function "nx"
+cityClimateHealth:::nx(xx, ni = 1, include_self = TRUE)
+#> [[1]]
+#> [1] 1 2 3
+#> 
+#> [[2]]
+#> [1] 1 2 3
+#> 
+#> [[3]]
+#> [1] 1 2 3
+#> 
 ```

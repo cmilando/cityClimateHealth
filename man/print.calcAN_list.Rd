@@ -4,10 +4,12 @@
 \alias{print.calcAN_list}
 \title{Print method for calcAN_list}
 \usage{
-print.calcAN_list(x)
+\method{print}{calcAN_list}(x, ...)
 }
 \arguments{
 \item{x}{an object of class calcAN_list}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 The original object, invisibly.

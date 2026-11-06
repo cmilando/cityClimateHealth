@@ -92,7 +92,10 @@ following variables:</p><dl><dt>FIPSID</dt>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This dataset is typically used for environmental exposure assessment and
+    <p>Polygon boundaries are simplified (with <code>rmapshaper::ms_simplify()</code>, keeping
+5% of vertices) to keep the package small; shared borders are simplified
+together, so neighbour relationships between areas are unchanged.</p>
+<p>This dataset is typically used for environmental exposure assessment and
 can be joined to town-level geographic or demographic datasets using
 <code>COUNTY20</code>.</p>
     </div>

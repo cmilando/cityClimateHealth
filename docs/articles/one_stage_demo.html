@@ -86,7 +86,7 @@ its implemented in <code>cityClimateHealth</code> for both the single
 and multi-zone cases.</p>
 <p>For testing purposes, start with your largest geographic unit!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="exposure-data">Exposure data<a class="anchor" aria-label="anchor" href="#exposure-data"></a>
 </h3>
@@ -97,13 +97,13 @@ maximum</strong> temperatures each day in each town.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boston_exposure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op">==</span> <span class="st">'BOSTON'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boston_exposure</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              date  tmax_C TOWN20 COUNTY20</span></span>
-<span><span class="co">#&gt; 137783 2010-01-01 -0.3825 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137784 2010-01-02  1.4337 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137785 2010-01-03 -1.4163 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137786 2010-01-04 -0.4483 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137787 2010-01-05  0.6565 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137788 2010-01-06  1.2098 BOSTON  SUFFOLK</span></span></code></pre></div>
+<span><span class="co">#&gt;             date tmax_C TOWN20 COUNTY20</span></span>
+<span><span class="co">#&gt; 75121 2010-01-01   -0.4 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75122 2010-01-02    1.4 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75123 2010-01-03   -1.4 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75124 2010-01-04   -0.4 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75125 2010-01-05    0.7 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75126 2010-01-06    1.2 BOSTON  SUFFOLK</span></span></code></pre></div>
 <p>Notice how this dataset contains temperature for the whole year. This
 is a good starting place.</p>
 <p>Also notice that these data are messy, as is common in environmental
@@ -112,23 +112,23 @@ measurements:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sept 17 2010 has NA data</span></span>
 <span><span class="va">boston_exposure</span><span class="op">[</span><span class="fl">255</span><span class="op">:</span><span class="fl">260</span>,<span class="op">]</span></span>
-<span><span class="co">#&gt;              date  tmax_C TOWN20 COUNTY20</span></span>
-<span><span class="co">#&gt; 138037 2010-09-16 19.3761 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 138038 2010-09-17      NA BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 138039 2010-09-18 19.0647 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 138040 2010-09-19 19.6014 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 138041 2010-09-20 23.6339 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 138042 2010-09-21 20.8122 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt;             date tmax_C TOWN20 COUNTY20</span></span>
+<span><span class="co">#&gt; 75375 2010-09-16   19.4 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75376 2010-09-17     NA BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75377 2010-09-18   19.1 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75378 2010-09-19   19.6 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75379 2010-09-20   23.6 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75380 2010-09-21   20.8 BOSTON  SUFFOLK</span></span>
 <span></span>
 <span><span class="co"># July 13 2010 is missing</span></span>
 <span><span class="va">boston_exposure</span><span class="op">[</span><span class="fl">190</span><span class="op">:</span><span class="fl">195</span>,<span class="op">]</span></span>
-<span><span class="co">#&gt;              date  tmax_C TOWN20 COUNTY20</span></span>
-<span><span class="co">#&gt; 137972 2010-07-12 31.7248 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137973 2010-07-14 31.9374 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137974 2010-07-15 23.7004 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137975 2010-07-16 28.7843 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137976 2010-07-17 33.3453 BOSTON  SUFFOLK</span></span>
-<span><span class="co">#&gt; 137977 2010-07-18 33.1227 BOSTON  SUFFOLK</span></span></code></pre></div>
+<span><span class="co">#&gt;             date tmax_C TOWN20 COUNTY20</span></span>
+<span><span class="co">#&gt; 75310 2010-07-12   31.7 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75311 2010-07-14   31.9 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75312 2010-07-15   23.7 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75313 2010-07-16   28.8 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75314 2010-07-17   33.3 BOSTON  SUFFOLK</span></span>
+<span><span class="co">#&gt; 75315 2010-07-18   33.1 BOSTON  SUFFOLK</span></span></code></pre></div>
 <p>In the next step we’ll introduce a function which (a) cleans the data
 and (b) subsets to just warm season months (which in Boston is May
 through September). Its good to keep the full temperature range before
@@ -155,60 +155,60 @@ to rename columns throughout the process.</p>
 <span><span class="co">#&gt; -- NA values automatically removed</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boston_exposure_mat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01</span></span>
-<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02</span></span>
-<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03</span></span>
-<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04</span></span>
-<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05</span></span>
-<span><span class="co">#&gt;         match_strata  explag1  explag2  explag3  explag4  explag5</span></span>
-<span><span class="co">#&gt;               &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090</span></span>
-<span><span class="co">#&gt; 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320</span></span>
-<span><span class="co">#&gt; 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230</span></span>
-<span><span class="co">#&gt; 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770</span></span>
-<span><span class="co">#&gt; 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815</span></span>
-<span><span class="co">#&gt; 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860</span></span></code></pre></div>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 tmax_C                   strata      match_strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;  &lt;num&gt;                   &lt;char&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01</span></span>
+<span><span class="co">#&gt; 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02</span></span>
+<span><span class="co">#&gt; 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03</span></span>
+<span><span class="co">#&gt; 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04</span></span>
+<span><span class="co">#&gt; 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05</span></span>
+<span><span class="co">#&gt; 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06</span></span>
+<span><span class="co">#&gt;    explag1 explag2 explag3 explag4 explag5</span></span>
+<span><span class="co">#&gt;      &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:    15.7     8.3    10.9    16.4    18.7</span></span>
+<span><span class="co">#&gt; 2:    23.1    15.7     8.3    10.9    16.4</span></span>
+<span><span class="co">#&gt; 3:    26.1    23.1    15.7     8.3    10.9</span></span>
+<span><span class="co">#&gt; 4:    31.6    26.1    23.1    15.7     8.3</span></span>
+<span><span class="co">#&gt; 5:    27.8    31.6    26.1    23.1    15.7</span></span>
+<span><span class="co">#&gt; 6:    26.3    27.8    31.6    26.1    23.1</span></span></code></pre></div>
 <p>You can check that the two problems we saw before – missing data and
 NA data – are gone now</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sept 17 2010 now has NA data</span></span>
 <span><span class="va">boston_exposure_mat</span><span class="op">[</span><span class="fl">138</span><span class="op">:</span><span class="fl">142</span>,<span class="op">]</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-09-15 BOSTON  SUFFOLK 22.5722 BOSTON:yr2010:mn09:dow04</span></span>
-<span><span class="co">#&gt; 2: 2010-09-16 BOSTON  SUFFOLK 19.3761 BOSTON:yr2010:mn09:dow05</span></span>
-<span><span class="co">#&gt; 3: 2010-09-17 BOSTON  SUFFOLK 19.2204 BOSTON:yr2010:mn09:dow06</span></span>
-<span><span class="co">#&gt; 4: 2010-09-18 BOSTON  SUFFOLK 19.0647 BOSTON:yr2010:mn09:dow07</span></span>
-<span><span class="co">#&gt; 5: 2010-09-19 BOSTON  SUFFOLK 19.6014 BOSTON:yr2010:mn09:dow01</span></span>
-<span><span class="co">#&gt;         match_strata explag1 explag2 explag3 explag4 explag5</span></span>
-<span><span class="co">#&gt;               &lt;char&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: BOSTON:2010-09-15 19.8015 18.5063 22.8082 20.9759 22.0336</span></span>
-<span><span class="co">#&gt; 2: BOSTON:2010-09-16 22.5722 19.8015 18.5063 22.8082 20.9759</span></span>
-<span><span class="co">#&gt; 3: BOSTON:2010-09-17 19.3761 22.5722 19.8015 18.5063 22.8082</span></span>
-<span><span class="co">#&gt; 4: BOSTON:2010-09-18 19.2204 19.3761 22.5722 19.8015 18.5063</span></span>
-<span><span class="co">#&gt; 5: BOSTON:2010-09-19 19.0647 19.2204 19.3761 22.5722 19.8015</span></span>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 tmax_C                   strata      match_strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;  &lt;num&gt;                   &lt;char&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-09-15 BOSTON  SUFFOLK  22.60 BOSTON:yr2010:mn09:dow04 BOSTON:2010-09-15</span></span>
+<span><span class="co">#&gt; 2: 2010-09-16 BOSTON  SUFFOLK  19.40 BOSTON:yr2010:mn09:dow05 BOSTON:2010-09-16</span></span>
+<span><span class="co">#&gt; 3: 2010-09-17 BOSTON  SUFFOLK  19.25 BOSTON:yr2010:mn09:dow06 BOSTON:2010-09-17</span></span>
+<span><span class="co">#&gt; 4: 2010-09-18 BOSTON  SUFFOLK  19.10 BOSTON:yr2010:mn09:dow07 BOSTON:2010-09-18</span></span>
+<span><span class="co">#&gt; 5: 2010-09-19 BOSTON  SUFFOLK  19.60 BOSTON:yr2010:mn09:dow01 BOSTON:2010-09-19</span></span>
+<span><span class="co">#&gt;    explag1 explag2 explag3 explag4 explag5</span></span>
+<span><span class="co">#&gt;      &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:   19.80   18.50    22.8    21.0    22.0</span></span>
+<span><span class="co">#&gt; 2:   22.60   19.80    18.5    22.8    21.0</span></span>
+<span><span class="co">#&gt; 3:   19.40   22.60    19.8    18.5    22.8</span></span>
+<span><span class="co">#&gt; 4:   19.25   19.40    22.6    19.8    18.5</span></span>
+<span><span class="co">#&gt; 5:   19.10   19.25    19.4    22.6    19.8</span></span>
 <span></span>
 <span><span class="co"># July 13 2010 is now not missing</span></span>
 <span><span class="va">boston_exposure_mat</span><span class="op">[</span><span class="fl">72</span><span class="op">:</span><span class="fl">77</span>,<span class="op">]</span></span>
-<span><span class="co">#&gt;          date TOWN20 COUNTY20  tmax_C                   strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;   &lt;num&gt;                   &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2010-07-11 BOSTON  SUFFOLK 29.1988 BOSTON:yr2010:mn07:dow01</span></span>
-<span><span class="co">#&gt; 2: 2010-07-12 BOSTON  SUFFOLK 31.7248 BOSTON:yr2010:mn07:dow02</span></span>
-<span><span class="co">#&gt; 3: 2010-07-13 BOSTON  SUFFOLK 31.8311 BOSTON:yr2010:mn07:dow03</span></span>
-<span><span class="co">#&gt; 4: 2010-07-14 BOSTON  SUFFOLK 31.9374 BOSTON:yr2010:mn07:dow04</span></span>
-<span><span class="co">#&gt; 5: 2010-07-15 BOSTON  SUFFOLK 23.7004 BOSTON:yr2010:mn07:dow05</span></span>
-<span><span class="co">#&gt; 6: 2010-07-16 BOSTON  SUFFOLK 28.7843 BOSTON:yr2010:mn07:dow06</span></span>
-<span><span class="co">#&gt;         match_strata explag1 explag2 explag3 explag4 explag5</span></span>
-<span><span class="co">#&gt;               &lt;char&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: BOSTON:2010-07-11 33.0867 32.8450 34.5714 37.1773 36.2254</span></span>
-<span><span class="co">#&gt; 2: BOSTON:2010-07-12 29.1988 33.0867 32.8450 34.5714 37.1773</span></span>
-<span><span class="co">#&gt; 3: BOSTON:2010-07-13 31.7248 29.1988 33.0867 32.8450 34.5714</span></span>
-<span><span class="co">#&gt; 4: BOSTON:2010-07-14 31.8311 31.7248 29.1988 33.0867 32.8450</span></span>
-<span><span class="co">#&gt; 5: BOSTON:2010-07-15 31.9374 31.8311 31.7248 29.1988 33.0867</span></span>
-<span><span class="co">#&gt; 6: BOSTON:2010-07-16 23.7004 31.9374 31.8311 31.7248 29.1988</span></span></code></pre></div>
+<span><span class="co">#&gt;          date TOWN20 COUNTY20 tmax_C                   strata      match_strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;  &lt;num&gt;                   &lt;char&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2010-07-11 BOSTON  SUFFOLK   29.2 BOSTON:yr2010:mn07:dow01 BOSTON:2010-07-11</span></span>
+<span><span class="co">#&gt; 2: 2010-07-12 BOSTON  SUFFOLK   31.7 BOSTON:yr2010:mn07:dow02 BOSTON:2010-07-12</span></span>
+<span><span class="co">#&gt; 3: 2010-07-13 BOSTON  SUFFOLK   31.8 BOSTON:yr2010:mn07:dow03 BOSTON:2010-07-13</span></span>
+<span><span class="co">#&gt; 4: 2010-07-14 BOSTON  SUFFOLK   31.9 BOSTON:yr2010:mn07:dow04 BOSTON:2010-07-14</span></span>
+<span><span class="co">#&gt; 5: 2010-07-15 BOSTON  SUFFOLK   23.7 BOSTON:yr2010:mn07:dow05 BOSTON:2010-07-15</span></span>
+<span><span class="co">#&gt; 6: 2010-07-16 BOSTON  SUFFOLK   28.8 BOSTON:yr2010:mn07:dow06 BOSTON:2010-07-16</span></span>
+<span><span class="co">#&gt;    explag1 explag2 explag3 explag4 explag5</span></span>
+<span><span class="co">#&gt;      &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:    33.1    32.8    34.6    37.2    36.2</span></span>
+<span><span class="co">#&gt; 2:    29.2    33.1    32.8    34.6    37.2</span></span>
+<span><span class="co">#&gt; 3:    31.7    29.2    33.1    32.8    34.6</span></span>
+<span><span class="co">#&gt; 4:    31.8    31.7    29.2    33.1    32.8</span></span>
+<span><span class="co">#&gt; 5:    31.9    31.8    31.7    29.2    33.1</span></span>
+<span><span class="co">#&gt; 6:    23.7    31.9    31.8    31.7    29.2</span></span></code></pre></div>
 <p>Its probably a good idea to see if there is any systematic bias in
 the missingness (i.e., are the data “missing at random”) but for the
 purposes of this tutorial we’ll assume that they are (which is true
@@ -221,7 +221,7 @@ temperatures, this script as is will not catch those).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">boston_exposure_mat</span><span class="op">$</span><span class="va">tmax_C</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt;   6.762  22.059  26.184  25.385  29.225  38.657</span></span></code></pre></div>
+<span><span class="co">#&gt;    8.00   22.20   26.20   25.48   29.00   38.70</span></span></code></pre></div>
 <p>For a time-series of daily maximum temperatures in warm-season months
 in Boston MA, looks good!</p>
 </div>
@@ -264,9 +264,6 @@ using and to the correct spatial unit for this analysis. The
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the</span></span>
-<span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
-<span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boston_deaths_tbl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          date TOWN20 COUNTY20 daily_deaths                   strata</span></span>
 <span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;   &lt;char&gt;        &lt;int&gt;                   &lt;char&gt;</span></span>
@@ -345,29 +342,29 @@ distribution is linear.</p>
 <span><span class="co">#&gt;         0)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Deviance Residuals: </span></span>
-<span><span class="co">#&gt;       Min         1Q     Median         3Q        Max  </span></span>
-<span><span class="co">#&gt; -4.256444  -1.184418  -0.001925   1.220153   4.449963  </span></span>
+<span><span class="co">#&gt;      Min        1Q    Median        3Q       Max  </span></span>
+<span><span class="co">#&gt; -4.01375  -1.24434   0.02461   1.28224   4.31338  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients of interest:</span></span>
-<span><span class="co">#&gt;          Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; cbv1.l1  0.021822   0.010661   2.047  0.04088 *  </span></span>
-<span><span class="co">#&gt; cbv1.l2 -0.001086   0.009771  -0.111  0.91149    </span></span>
-<span><span class="co">#&gt; cbv1.l3  0.116198   0.006092  19.073  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; cbv1.l4 -0.056545   0.006158  -9.183  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; cbv2.l1  0.081805   0.037565   2.178  0.02961 *  </span></span>
-<span><span class="co">#&gt; cbv2.l2  0.002893   0.035155   0.082  0.93442    </span></span>
-<span><span class="co">#&gt; cbv2.l3  0.178086   0.023194   7.678 3.18e-14 ***</span></span>
-<span><span class="co">#&gt; cbv2.l4 -0.103412   0.022561  -4.584 5.01e-06 ***</span></span>
-<span><span class="co">#&gt; cbv3.l1  0.077537   0.023385   3.316  0.00094 ***</span></span>
-<span><span class="co">#&gt; cbv3.l2 -0.013910   0.021415  -0.650  0.51609    </span></span>
-<span><span class="co">#&gt; cbv3.l3  0.159186   0.014131  11.265  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; cbv3.l4 -0.082510   0.013555  -6.087 1.51e-09 ***</span></span>
+<span><span class="co">#&gt;           Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; cbv1.l1  0.0109784  0.0164413   0.668  0.50453    </span></span>
+<span><span class="co">#&gt; cbv1.l2  0.0006729  0.0149994   0.045  0.96423    </span></span>
+<span><span class="co">#&gt; cbv1.l3  0.1163359  0.0090989  12.786  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; cbv1.l4 -0.0534439  0.0090748  -5.889 6.04e-09 ***</span></span>
+<span><span class="co">#&gt; cbv2.l1  0.0672159  0.0527738   1.274  0.20321    </span></span>
+<span><span class="co">#&gt; cbv2.l2  0.0180828  0.0491205   0.368  0.71289    </span></span>
+<span><span class="co">#&gt; cbv2.l3  0.2108521  0.0327248   6.443 2.18e-10 ***</span></span>
+<span><span class="co">#&gt; cbv2.l4 -0.0986866  0.0330841  -2.983  0.00296 ** </span></span>
+<span><span class="co">#&gt; cbv3.l1  0.0862389  0.0356515   2.419  0.01582 *  </span></span>
+<span><span class="co">#&gt; cbv3.l2 -0.0170908  0.0314134  -0.544  0.58657    </span></span>
+<span><span class="co">#&gt; cbv3.l3  0.1735069  0.0211209   8.215  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; cbv3.l4 -0.0855985  0.0202383  -4.230 2.65e-05 ***</span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; (Dispersion parameter for quasipoisson family taken to be 3.366306)</span></span>
+<span><span class="co">#&gt; (Dispersion parameter for quasipoisson family taken to be 3.753814)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residual deviance: 4330.3 on 1286 degrees of freedom</span></span>
+<span><span class="co">#&gt; Residual deviance: 2614.7 on 696 degrees of freedom</span></span>
 <span><span class="co">#&gt; AIC: NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of iterations: 2</span></span></code></pre></div>
@@ -408,7 +405,7 @@ we are no longer using R functions to estimate the model.</p>
 <span>                stratum_vector <span class="op">=</span> <span class="va">boston_deaths_tbl</span><span class="op">$</span><span class="va">strata</span>, </span>
 <span>                beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">m_sub</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dispersion</span></span>
-<span><span class="co">#&gt; [1] 3.366306</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 3.753814</span></span></code></pre></div>
 <p>Next to check vcov</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vcov_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_vcov.html">calc_vcov</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">boston_deaths_tbl</span><span class="op">$</span><span class="va">daily_deaths</span>, </span>
@@ -466,9 +463,6 @@ this is using <code>gnm</code> under the hood.</p>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the</span></span>
-<span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
-<span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">boston_exposure_mat</span>, </span>
@@ -499,7 +493,7 @@ this is using <code>gnm</code> under the hood.</p>
 <span><span class="co">#&gt; formula:</span></span>
 <span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
-<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 5.40, x_b = (6.00, 39.00).</span></span>
+<span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 6.80, x_b = (8.00, 39.00).</span></span>
 <span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
 <span><span class="co">#&gt;         be too few events in this area, or</span></span>
 <span><span class="co">#&gt;         there are differences in exposures so much that the bases are quite different. Try limiting the geo-units passed in to those that are more similar, manually setting a centering point that you know each geo-unit has, or changing your exposure variable.</span></span></code></pre></div>
@@ -519,17 +513,17 @@ percentile cutoffs.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      tmax_C       RR     RRlb     RRub n_geo_names     model_class</span></span>
 <span><span class="co">#&gt;       &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;      &lt;char&gt;          &lt;char&gt;</span></span>
-<span><span class="co">#&gt;   1:    5.4 1.033913 1.016336 1.051793      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt;   2:    5.5 1.033913 1.016336 1.051793      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt;   3:    5.6 1.033913 1.016336 1.051793      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt;   4:    5.7 1.033913 1.016336 1.051793      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt;   5:    5.8 1.033913 1.016336 1.051793      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt;   1:    6.8 1.050388 1.025204 1.076192      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt;   2:    6.9 1.050388 1.025204 1.076192      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt;   3:    7.0 1.050388 1.025204 1.076192      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt;   4:    7.1 1.050388 1.025204 1.076192      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt;   5:    7.2 1.050388 1.025204 1.076192      BOSTON condPois_1stage</span></span>
 <span><span class="co">#&gt;  ---                                                              </span></span>
-<span><span class="co">#&gt; 329:   38.2 1.316280 1.279493 1.354125      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt; 330:   38.3 1.316280 1.279493 1.354125      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt; 331:   38.4 1.316280 1.279493 1.354125      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt; 332:   38.5 1.316280 1.279493 1.354125      BOSTON condPois_1stage</span></span>
-<span><span class="co">#&gt; 333:   38.6 1.316280 1.279493 1.354125      BOSTON condPois_1stage</span></span></code></pre></div>
+<span><span class="co">#&gt; 316:   38.3 1.336936 1.285904 1.389993      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt; 317:   38.4 1.336936 1.285904 1.389993      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt; 318:   38.5 1.336936 1.285904 1.389993      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt; 319:   38.6 1.336936 1.285904 1.389993      BOSTON condPois_1stage</span></span>
+<span><span class="co">#&gt; 320:   38.7 1.336936 1.285904 1.389993      BOSTON condPois_1stage</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="multi-zone-dlnm">Multi-zone DLNM<a class="anchor" aria-label="anchor" href="#multi-zone-dlnm"></a>
@@ -566,9 +560,6 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the</span></span>
-<span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
-<span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, </span>
@@ -582,7 +573,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -609,17 +600,17 @@ population offset if you were doing a time-series design).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      tmax_C        RR      RRlb      RRub                   n_geo_names</span></span>
 <span><span class="co">#&gt;       &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;                        &lt;char&gt;</span></span>
-<span><span class="co">#&gt;   1:    3.4 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt;   2:    3.5 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt;   3:    3.6 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt;   4:    3.7 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt;   5:    3.8 0.9854801 0.9844525 0.9865087 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt;   1:    5.4 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt;   2:    5.5 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt;   3:    5.6 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt;   4:    5.7 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt;   5:    5.8 0.9918277 0.9911066 0.9925493 ACTON:ARLINGTON...(truncated)</span></span>
 <span><span class="co">#&gt;  ---                                                                   </span></span>
-<span><span class="co">#&gt; 350:   38.3 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt; 351:   38.4 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt; 352:   38.5 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt; 353:   38.6 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)</span></span>
-<span><span class="co">#&gt; 354:   38.7 1.2650834 1.2605361 1.2696471 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt; 331:   38.4 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt; 332:   38.5 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt; 333:   38.6 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt; 334:   38.7 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)</span></span>
+<span><span class="co">#&gt; 335:   38.8 1.2660451 1.2600603 1.2720583 ACTON:ARLINGTON...(truncated)</span></span>
 <span><span class="co">#&gt;          model_class</span></span>
 <span><span class="co">#&gt;               &lt;char&gt;</span></span>
 <span><span class="co">#&gt;   1: condPois_1stage</span></span>
@@ -628,11 +619,11 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;   4: condPois_1stage</span></span>
 <span><span class="co">#&gt;   5: condPois_1stage</span></span>
 <span><span class="co">#&gt;  ---                </span></span>
-<span><span class="co">#&gt; 350: condPois_1stage</span></span>
-<span><span class="co">#&gt; 351: condPois_1stage</span></span>
-<span><span class="co">#&gt; 352: condPois_1stage</span></span>
-<span><span class="co">#&gt; 353: condPois_1stage</span></span>
-<span><span class="co">#&gt; 354: condPois_1stage</span></span></code></pre></div>
+<span><span class="co">#&gt; 331: condPois_1stage</span></span>
+<span><span class="co">#&gt; 332: condPois_1stage</span></span>
+<span><span class="co">#&gt; 333: condPois_1stage</span></span>
+<span><span class="co">#&gt; 334: condPois_1stage</span></span>
+<span><span class="co">#&gt; 335: condPois_1stage</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="multi-factor-single-beta-coeff">Multi-factor single beta coeff<a class="anchor" aria-label="anchor" href="#multi-factor-single-beta-coeff"></a>
@@ -652,9 +643,6 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; Missing outcome values introduced by xgrid were set to 0;</span></span>
 <span><span class="co">#&gt;             assumes that every time in the dataset should have an outcome value</span></span>
 <span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
-<span><span class="co">#&gt; Warning in make_outcome_table(middlesex_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the</span></span>
-<span><span class="co">#&gt;             COVID-19 Pandemic. Be sure to include a covariate adjustment</span></span>
-<span><span class="co">#&gt;             or exclude this year from analysis.</span></span>
 <span></span>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, </span>
@@ -671,7 +659,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -698,7 +686,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -725,7 +713,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -752,30 +740,30 @@ population offset if you were doing a time-series design).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">m3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       tmax_C age_grp                   n_geo_names        RR      RRlb</span></span>
 <span><span class="co">#&gt;        &lt;num&gt;  &lt;char&gt;                        &lt;char&gt;     &lt;num&gt;     &lt;num&gt;</span></span>
-<span><span class="co">#&gt;    1:    3.4    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
-<span><span class="co">#&gt;    2:    3.5    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
-<span><span class="co">#&gt;    3:    3.6    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
-<span><span class="co">#&gt;    4:    3.7    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
-<span><span class="co">#&gt;    5:    3.8    0-17 ACTON:ARLINGTON...(truncated) 0.9791124 0.9779958</span></span>
+<span><span class="co">#&gt;    1:    5.4    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368</span></span>
+<span><span class="co">#&gt;    2:    5.5    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368</span></span>
+<span><span class="co">#&gt;    3:    5.6    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368</span></span>
+<span><span class="co">#&gt;    4:    5.7    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368</span></span>
+<span><span class="co">#&gt;    5:    5.8    0-17 ACTON:ARLINGTON...(truncated) 0.9886238 0.9878368</span></span>
 <span><span class="co">#&gt;   ---                                                                 </span></span>
-<span><span class="co">#&gt; 1058:   38.3     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
-<span><span class="co">#&gt; 1059:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
-<span><span class="co">#&gt; 1060:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
-<span><span class="co">#&gt; 1061:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
-<span><span class="co">#&gt; 1062:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2638340 1.2587795</span></span>
+<span><span class="co">#&gt; 1001:   38.4     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256</span></span>
+<span><span class="co">#&gt; 1002:   38.5     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256</span></span>
+<span><span class="co">#&gt; 1003:   38.6     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256</span></span>
+<span><span class="co">#&gt; 1004:   38.7     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256</span></span>
+<span><span class="co">#&gt; 1005:   38.8     65+ ACTON:ARLINGTON...(truncated) 1.2647692 1.2581256</span></span>
 <span><span class="co">#&gt;            RRub          model_class</span></span>
 <span><span class="co">#&gt;           &lt;num&gt;               &lt;char&gt;</span></span>
-<span><span class="co">#&gt;    1: 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    2: 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    3: 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    4: 0.9802304 condPois_1stage_list</span></span>
-<span><span class="co">#&gt;    5: 0.9802304 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    1: 0.9894114 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    2: 0.9894114 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    3: 0.9894114 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    4: 0.9894114 condPois_1stage_list</span></span>
+<span><span class="co">#&gt;    5: 0.9894114 condPois_1stage_list</span></span>
 <span><span class="co">#&gt;   ---                               </span></span>
-<span><span class="co">#&gt; 1058: 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1059: 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1060: 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1061: 1.2689089 condPois_1stage_list</span></span>
-<span><span class="co">#&gt; 1062: 1.2689089 condPois_1stage_list</span></span></code></pre></div>
+<span><span class="co">#&gt; 1001: 1.2714479 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1002: 1.2714479 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1003: 1.2714479 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1004: 1.2714479 condPois_1stage_list</span></span>
+<span><span class="co">#&gt; 1005: 1.2714479 condPois_1stage_list</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="changing-the-global_cen">Changing the global_cen<a class="anchor" aria-label="anchor" href="#changing-the-global_cen"></a>
@@ -793,7 +781,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -820,7 +808,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -847,7 +835,7 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 26 31.3</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.8 31</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>

@@ -9,6 +9,8 @@
 #' @param verbose 0 = no printing, 1 = headers, 2 = detailed
 #' @param by_year Export annual counts
 #' @param scale scalar that you multiply outcomes by, mostly used for factor_is_temporal adjustment
+#' @importFrom data.table is.data.table
+#' @importFrom data.table data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorder
 #' @importFrom data.table setorder `:=`
@@ -18,67 +20,22 @@
 #' @export
 #'
 #' @examples
-#' library(data.table)
-#' data("ma_pop_data")
-#' setDT(ma_pop_data)
-#' ma_pop_data
-#'
-#' ma_pop_data_long <- melt(
-#'   ma_pop_data,
-#'   id.vars = "TOWN20",
-#'   variable.name = "sex_age",
-#'   value.name = "population"
-#' )
-#'
-#'
-#' ma_pop_data_long$sex_age <- as.character(ma_pop_data_long$sex_age)
-#' varnames <- strsplit(ma_pop_data_long$sex_age, "_", fixed = T)
-#' varnames <- data.frame(do.call(rbind, varnames))
-#' names(varnames) <- c('sex', 'age_grp')
-#' rr <- which(varnames$sex == 'Female')
-#' varnames$sex[rr] <- 'F'
-#' rr <- which(varnames$sex == 'Male')
-#' varnames$sex[rr] <- 'M'
-#' ma_pop_data_long$sex = varnames$sex
-#' ma_pop_data_long$age_grp = varnames$age_grp
-#' ma_pop_data_long$sex_age <- NULL
-#' ma_pop_data_long
-#'
-#' library(data.table)
-#' exposure_columns <- list(
-#'   "date" = "date",
-#'   "exposure" = "tmax_C",
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#'
-#' ma_exposure_matrix <- make_exposure_matrix(
-#'   subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            year(date) %in% 2012:2015),
-#'   exposure_columns)
-#'
-#' outcome_columns <- list(
-#'   "date" = "date",
-#'   "outcome" = "daily_deaths",
-#'   "factor" = 'age_grp',
-#'   "factor" = 'sex',
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#'
-#' ma_outcomes_tbl <- make_outcome_table(
-#'   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            year(date) %in% 2012:2015), outcome_columns)
-#'
-#' ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
-#'
-#' ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
-#'                  spatial_agg_type = 'TOWN20',
-#'                  spatial_join_col = 'TOWN20',
-#'                  nsim = 100,
-#'                  verbose = 2)
-#' calc_AN
-
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+#'                               population = rowSums(ma_pop_data[, -1]))
+#' pop <- subset(pop, TOWN20 %in% towns)
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
 calc_AN <- function(model,
                     outcomes_tbl,
                     pop_data,
@@ -580,74 +537,30 @@ calc_AN <- function(model,
 #' Print method for calcAN
 #'
 #' @param x an object of class calcAN
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns invisibly returns x
 #' @export
 #'
 #' @examples
-#' library(data.table)
-#' data("ma_pop_data")
-#' setDT(ma_pop_data)
-#' ma_pop_data
-#'
-#' ma_pop_data_long <- melt(
-#'   ma_pop_data,
-#'   id.vars = "TOWN20",
-#'   variable.name = "sex_age",
-#'   value.name = "population"
-#' )
-#'
-#'
-#' ma_pop_data_long$sex_age <- as.character(ma_pop_data_long$sex_age)
-#' varnames <- strsplit(ma_pop_data_long$sex_age, "_", fixed = T)
-#' varnames <- data.frame(do.call(rbind, varnames))
-#' names(varnames) <- c('sex', 'age_grp')
-#' rr <- which(varnames$sex == 'Female')
-#' varnames$sex[rr] <- 'F'
-#' rr <- which(varnames$sex == 'Male')
-#' varnames$sex[rr] <- 'M'
-#' ma_pop_data_long$sex = varnames$sex
-#' ma_pop_data_long$age_grp = varnames$age_grp
-#' ma_pop_data_long$sex_age <- NULL
-#' ma_pop_data_long
-#'
-#' library(data.table)
-#' exposure_columns <- list(
-#'   "date" = "date",
-#'   "exposure" = "tmax_C",
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#'
-#' ma_exposure_matrix <- make_exposure_matrix(
-#'   subset(ma_exposure, COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            year(date) %in% 2012:2015),
-#'   exposure_columns)
-#'
-#' outcome_columns <- list(
-#'   "date" = "date",
-#'   "outcome" = "daily_deaths",
-#'   "factor" = 'age_grp',
-#'   "factor" = 'sex',
-#'   "geo_unit" = "TOWN20",
-#'   "geo_unit_grp" = "COUNTY20"
-#' )
-#'
-#' ma_outcomes_tbl <- make_outcome_table(
-#'   subset(ma_deaths,COUNTY20 %in% c('MIDDLESEX', 'WORCESTER') &
-#'            year(date) %in% 2012:2015), outcome_columns)
-#'
-#' ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
-#'
-#' ma_AN <- calc_AN(ma_model, ma_outcomes_tbl, ma_pop_data_long,
-#'                  spatial_agg_type = 'TOWN20',
-#'                  spatial_join_col = 'TOWN20',
-#'                  nsim = 100,
-#'                  verbose = 2)
-#' calc_AN
-
-
-print.calcAN <- function(x) {
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+#'                               population = rowSums(ma_pop_data[, -1]))
+#' pop <- subset(pop, TOWN20 %in% towns)
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
+#' print(an)
+print.calcAN <- function(x, ...) {
   cat("< an object of class `calcAN` >\n")
   invisible(x)
 }
@@ -656,6 +569,7 @@ print.calcAN <- function(x) {
 #' Print method for calcAN_list
 #'
 #' @param x an object of class calcAN_list
+#' @param ... further arguments passed to or from other methods (currently unused)
 #'
 #' @returns The original object, invisibly.
 #' @export
@@ -664,7 +578,7 @@ print.calcAN <- function(x) {
 #' x <- structure(list(a = 1, b = 2), class = "calcAN_list")
 #' print(x)
 
-print.calcAN_list <- function(x) {
+print.calcAN_list <- function(x, ...) {
   cat("< an object of class `calcAN_list`:",
       paste(names(x), collapse = ",")," >\n")
   invisible(x)
@@ -677,6 +591,7 @@ print.calcAN_list <- function(x) {
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @param spatial_sub an option argument to subset the geo_units investigated
 #' @param override_limit override the built-in plot limit
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @importFrom scales number
 #' @importFrom data.table setorder
@@ -684,14 +599,25 @@ print.calcAN_list <- function(x) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running calcAN on a condPois model:
-#' an_result <- calcAN(my_model)
-#' plot(an_result, table_type = "num", above_MMT = TRUE)
-#' }
-
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+#'                               population = rowSums(ma_pop_data[, -1]))
+#' pop <- subset(pop, TOWN20 %in% towns)
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
+#' plot(an, table_type = "num", above_MMT = TRUE)
 plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
-                        override_limit = FALSE) {
+                        override_limit = FALSE, ...) {
 
   stopifnot(table_type %in% c('rate', 'num'))
   stopifnot(above_MMT %in% c(T, F))
@@ -796,19 +722,36 @@ plot.calcAN <- function(x, table_type, above_MMT, spatial_sub = NULL,
 #' @param spatial_sub an option argument to subset the geo_units investigated
 #' @param ordered_levels factor levels
 #' @param override_limit override the built-in plot limit
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @importFrom data.table setorder `:=`
 #' @returns a plot with the attributable number or rate with bars for each factor level
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running calcAN on a condPois model with a factor:
-#' an_result <- calcAN(my_model_list)
-#' plot(an_result, table_type = "num", above_MMT = TRUE)
-#' }
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' library(data.table)
+#' pop <- melt(as.data.table(ma_pop_data), id.vars = "TOWN20",
+#'             variable.name = "sex_age", value.name = "population")
+#' pop[, age_grp := sub(".*_", "", sex_age)]
+#' pop <- pop[TOWN20 %in% towns, .(population = sum(population)),
+#'            by = .(TOWN20, age_grp)]
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
+#' plot(an, table_type = "num", above_MMT = TRUE)
 plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
-                             ordered_levels = NULL, override_limit = FALSE) {
+                             ordered_levels = NULL, override_limit = FALSE, ...) {
 
   stopifnot(table_type %in% c('rate', 'num'))
   ylab_flag <- if(above_MMT) 'Above MMT' else 'Below MMT'
@@ -956,18 +899,31 @@ plot.calcAN_list <- function(x, table_type, above_MMT, spatial_sub = NULL,
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
 #' @param pal color palette
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom ggplot2 ggplot
 #' @returns a spatial plot showing attributable numbers or rates
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running calcAN on a condPois model with a factor:
-#' an_result <- calcAN(my_model)
-#' spatial_plot(an_result, shp = my_shapefile, table_type = "num", above_MMT = TRUE)
-#' }
-
-spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') {
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+#'                               population = rowSums(ma_pop_data[, -1]))
+#' pop <- subset(pop, TOWN20 %in% towns)
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
+#' spatial_plot(an, shp = subset(ma_towns, TOWN20 %in% towns),
+#'              table_type = "num", above_MMT = TRUE)
+spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples', ...) {
 
   stopifnot(table_type %in% c('rate', 'num'))
   stopifnot(above_MMT %in% c(T, F))
@@ -1033,19 +989,36 @@ spatial_plot.calcAN <- function(x, shp, table_type, above_MMT, pal = 'Purples') 
 #' @param shp an sf shapefile with an appropriate column at which to join
 #' @param table_type showing the rate table "rate" or number table "num"
 #' @param above_MMT plot attributable numbers above or below the MMT
+#' @param ... further arguments passed to or from other methods (currently unused)
 #' @importFrom patchwork wrap_plots
-#' @import ggplot2
 #' @importFrom RColorBrewer brewer.pal.info
 #' @returns a spatial plot showing attributable numbers or rates, with one graph for each factor level
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # after running calcAN on a condPois model with a factor:
-#' an_result <- calcAN(my_model_list)
-#' spatial_plot(an_result, shp = my_shapefile, table_type = "num", above_MMT = TRUE)
-#' }
-spatial_plot.calcAN_list <- function(x, shp, table_type, above_MMT) {
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+#'                          "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+#'                         "factor" = "age_grp",
+#'                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+#' time_subset <- list(month = 5:9, year = 2012:2013)
+#' exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 %in% towns),
+#'                                      exposure_columns, time_subset = time_subset)
+#' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
+#'                                    outcome_columns, time_subset = time_subset)
+#' m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#' library(data.table)
+#' pop <- melt(as.data.table(ma_pop_data), id.vars = "TOWN20",
+#'             variable.name = "sex_age", value.name = "population")
+#' pop[, age_grp := sub(".*_", "", sex_age)]
+#' pop <- pop[TOWN20 %in% towns, .(population = sum(population)),
+#'            by = .(TOWN20, age_grp)]
+#' an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+#'               spatial_join_col = "TOWN20", nsim = 20)
+#' spatial_plot(an, shp = subset(ma_towns, TOWN20 %in% towns),
+#'              table_type = "num", above_MMT = TRUE)
+spatial_plot.calcAN_list <- function(x, shp, table_type, above_MMT, ...) {
 
   stopifnot(table_type %in% c('rate', 'num'))
   ylab_flag <- if(above_MMT) 'Above MMT' else 'Below MMT'

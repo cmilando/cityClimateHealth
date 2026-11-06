@@ -7,7 +7,11 @@
 join_exposure_covariate(exposure_mat, covariate_mat)
 }
 \arguments{
-\item{covariate_mat}{}
+\item{exposure_mat}{an exposure matrix of class \code{exposure}, from
+\code{make_exposure_matrix()}}
+
+\item{covariate_mat}{a covariate matrix (with a \code{column_mapping} attribute)
+to join onto \code{exposure_mat}}
 }
 \description{
 join exposure covariate

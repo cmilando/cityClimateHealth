@@ -53,22 +53,22 @@ And lets preview this
 ``` r
 
 head(ma_exposure_matrix)
-#>          date TOWN20  COUNTY20  tmax_C                  strata     match_strata
-#>        <IDat> <char>    <char>   <num>                  <char>           <char>
-#> 1: 2012-05-01  ACTON MIDDLESEX 16.4633 ACTON:yr2012:mn05:dow03 ACTON:2012-05-01
-#> 2: 2012-05-02  ACTON MIDDLESEX  8.6743 ACTON:yr2012:mn05:dow04 ACTON:2012-05-02
-#> 3: 2012-05-03  ACTON MIDDLESEX 11.1778 ACTON:yr2012:mn05:dow05 ACTON:2012-05-03
-#> 4: 2012-05-04  ACTON MIDDLESEX 12.4253 ACTON:yr2012:mn05:dow06 ACTON:2012-05-04
-#> 5: 2012-05-05  ACTON MIDDLESEX 12.8489 ACTON:yr2012:mn05:dow07 ACTON:2012-05-05
-#> 6: 2012-05-06  ACTON MIDDLESEX 17.7602 ACTON:yr2012:mn05:dow01 ACTON:2012-05-06
+#>          date TOWN20  COUNTY20 tmax_C                  strata     match_strata
+#>        <IDat> <char>    <char>  <num>                  <char>           <char>
+#> 1: 2012-05-01  ACTON MIDDLESEX   16.5 ACTON:yr2012:mn05:dow03 ACTON:2012-05-01
+#> 2: 2012-05-02  ACTON MIDDLESEX    8.7 ACTON:yr2012:mn05:dow04 ACTON:2012-05-02
+#> 3: 2012-05-03  ACTON MIDDLESEX   11.2 ACTON:yr2012:mn05:dow05 ACTON:2012-05-03
+#> 4: 2012-05-04  ACTON MIDDLESEX   12.4 ACTON:yr2012:mn05:dow06 ACTON:2012-05-04
+#> 5: 2012-05-05  ACTON MIDDLESEX   12.8 ACTON:yr2012:mn05:dow07 ACTON:2012-05-05
+#> 6: 2012-05-06  ACTON MIDDLESEX   17.8 ACTON:yr2012:mn05:dow01 ACTON:2012-05-06
 #>    explag1 explag2 explag3 explag4 explag5
 #>      <num>   <num>   <num>   <num>   <num>
-#> 1: 14.0179 14.1931 12.7975 17.5538 16.2753
-#> 2: 16.4633 14.0179 14.1931 12.7975 17.5538
-#> 3:  8.6743 16.4633 14.0179 14.1931 12.7975
-#> 4: 11.1778  8.6743 16.4633 14.0179 14.1931
-#> 5: 12.4253 11.1778  8.6743 16.4633 14.0179
-#> 6: 12.8489 12.4253 11.1778  8.6743 16.4633
+#> 1:    14.0    14.2    12.8    17.6    16.3
+#> 2:    16.5    14.0    14.2    12.8    17.6
+#> 3:     8.7    16.5    14.0    14.2    12.8
+#> 4:    11.2     8.7    16.5    14.0    14.2
+#> 5:    12.4    11.2     8.7    16.5    14.0
+#> 6:    12.8    12.4    11.2     8.7    16.5
 ```
 
 ### Outcome
@@ -176,7 +176,7 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -213,11 +213,11 @@ ma_model <- condPois_1stage(ma_exposure_matrix, ma_outcomes_tbl,
                             global_cen = 15)
 ```
 
-See
-[`vignette("one_stage_demo")`](http://climatehealth.city/articles/one_stage_demo.md)
-for more details. Note that `forest_plot` and `spatial_plot` are not
-implemented for `condPois_1stage` since you can get all of that
-information from the RR plot.
+See the [one-stage
+demo](https://climatehealth.city/articles/one_stage_demo.html) for more
+details. Note that `forest_plot` and `spatial_plot` are not implemented
+for `condPois_1stage` since you can get all of that information from the
+RR plot.
 
 And for `condPois_sb`, the only additional information you’d need is a
 shapefile showing how the `geo_unit`s are arranged, in this case
@@ -231,9 +231,9 @@ ma_model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl,
                         global_cen = 15, ma_towns)
 ```
 
-See
-[`vignette("bayesian_demo")`](http://climatehealth.city/articles/bayesian_demo.md)
-for more details.
+See the [Bayesian
+demo](https://climatehealth.city/articles/bayesian_demo.html) for more
+details.
 
 ### Plot outputs
 
@@ -253,8 +253,7 @@ You can also make a forest plot at a specific exposure value
 ``` r
 
 forest_plot(ma_model, exposure_val = 25.1)
-#> Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): rounded
-#> to 1 decimal
+#> rounded to 1 decimal
 #> Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting
 #> by group since n_geos > 20
 ```
@@ -266,8 +265,7 @@ You can also make a spatial plot at a specific exposure value:
 ``` r
 
 spatial_plot(ma_model, shp = ma_towns, exposure_val = 25.1)
-#> Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val
-#> = 25.1): rounded to 1 decimal
+#> rounded to 1 decimal
 ```
 
 ![](cityClimateHealth_files/figure-html/spatial_plot-1.png)
@@ -281,17 +279,17 @@ For your own purposes, each of these objects has a `getRR` function
 getRR(ma_model)
 #>           TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage
 #>           <char>    <char>  <num>     <num>     <num>     <num> <char>
-#>     1:     ACTON MIDDLESEX    7.0 0.9772782 0.9587192 0.9961965 stage2
-#>     2:     ACTON MIDDLESEX    7.1 0.9772782 0.9587192 0.9961965 stage2
-#>     3:     ACTON MIDDLESEX    7.2 0.9772782 0.9587192 0.9961965 stage2
-#>     4:     ACTON MIDDLESEX    7.3 0.9772782 0.9587192 0.9961965 stage2
-#>     5:     ACTON MIDDLESEX    7.4 0.9772782 0.9587192 0.9961965 stage2
+#>     1:     ACTON MIDDLESEX    7.0 0.9768753 0.9586591 0.9954375 stage2
+#>     2:     ACTON MIDDLESEX    7.1 0.9768753 0.9586591 0.9954375 stage2
+#>     3:     ACTON MIDDLESEX    7.2 0.9768753 0.9586591 0.9954375 stage2
+#>     4:     ACTON MIDDLESEX    7.3 0.9768753 0.9586591 0.9954375 stage2
+#>     5:     ACTON MIDDLESEX    7.4 0.9768753 0.9586591 0.9954375 stage2
 #>    ---                                                                
-#> 64868: WORCESTER WORCESTER   33.0 1.2067807 1.1632921 1.2518951 stage1
-#> 64869: WORCESTER WORCESTER   33.1 1.2079470 1.1632097 1.2544049 stage1
-#> 64870: WORCESTER WORCESTER   33.2 1.2091133 1.1631117 1.2569342 stage1
-#> 64871: WORCESTER WORCESTER   33.3 1.2102799 1.1630002 1.2594816 stage1
-#> 64872: WORCESTER WORCESTER   33.4 1.2114471 1.1628771 1.2620457 stage1
+#> 64880: WORCESTER WORCESTER   33.1 1.2081166 1.1635941 1.2543425 stage1
+#> 64881: WORCESTER WORCESTER   33.2 1.2092882 1.1635107 1.2568668 stage1
+#> 64882: WORCESTER WORCESTER   33.3 1.2104601 1.1634133 1.2594094 stage1
+#> 64883: WORCESTER WORCESTER   33.4 1.2116325 1.1633037 1.2619690 stage1
+#> 64884: WORCESTER WORCESTER   33.5 1.2128057 1.1631839 1.2645444 stage1
 #>            model_class
 #>                 <char>
 #>     1: condPois_2stage
@@ -300,17 +298,17 @@ getRR(ma_model)
 #>     4: condPois_2stage
 #>     5: condPois_2stage
 #>    ---                
-#> 64868: condPois_2stage
-#> 64869: condPois_2stage
-#> 64870: condPois_2stage
-#> 64871: condPois_2stage
-#> 64872: condPois_2stage
+#> 64880: condPois_2stage
+#> 64881: condPois_2stage
+#> 64882: condPois_2stage
+#> 64883: condPois_2stage
+#> 64884: condPois_2stage
 ```
 
 ## Calculate attributable numbers
 
-See more details in
-[`vignette("attributable_number")`](http://climatehealth.city/articles/attributable_number.md),
+See more details in the [attributable number
+article](https://climatehealth.city/articles/attributable_number.html),
 but here is a brief demo
 
 ### Population data
@@ -320,8 +318,8 @@ population data estimate.
 
 This varies a lot by place and dataset, so we don’t include
 functionality for it (but an example of how this could be done can be
-seen in
-[`vignette("get_pop_estimates")`](http://climatehealth.city/articles/get_pop_estimates.md)).
+seen in the [population estimates
+article](https://climatehealth.city/articles/get_pop_estimates.html)).
 
 Assume you are starting with a dataset for the entire timeframe that
 looks like this:
@@ -447,30 +445,30 @@ From this you get a `rate_table` :
 ma_AN$`_`$rate_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est
 #>          <char>    <char>      <num>    <lgcl>                     <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                5187.73047
-#>   2:      ACTON MIDDLESEX      23864     FALSE                 -26.19008
-#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                5741.07960
-#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -35.94301
-#>   5: ASHBURNHAM WORCESTER       6337      TRUE                4025.95866
+#>   1:      ACTON MIDDLESEX      23864      TRUE                5201.87311
+#>   2:      ACTON MIDDLESEX      23864     FALSE                 -27.23768
+#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                5798.26167
+#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -38.39367
+#>   5: ASHBURNHAM WORCESTER       6337      TRUE                4014.12340
 #>  ---                                                                    
 #> 224: WINCHESTER MIDDLESEX      22809     FALSE                 -42.74628
-#> 225:     WOBURN MIDDLESEX      40992      TRUE                5059.82875
-#> 226:     WOBURN MIDDLESEX      40992     FALSE                 -18.29625
-#> 227:  WORCESTER WORCESTER     204191      TRUE                5008.72957
-#> 228:  WORCESTER WORCESTER     204191     FALSE                 -28.71086
+#> 225:     WOBURN MIDDLESEX      40992      TRUE                5071.41637
+#> 226:     WOBURN MIDDLESEX      40992     FALSE                 -19.51600
+#> 227:  WORCESTER WORCESTER     204191      TRUE                5027.70690
+#> 228:  WORCESTER WORCESTER     204191     FALSE                 -28.64965
 #>      mean_annual_attr_rate_lb mean_annual_attr_rate_ub
 #>                         <num>                    <num>
-#>   1:               4083.45206              6434.168622
-#>   2:                -52.38015                -2.042826
-#>   3:               4683.17050              6829.703634
-#>   4:                -56.63748               -16.051823
-#>   5:               3161.88654              4979.091053
+#>   1:               4118.52057              6424.583054
+#>   2:                -53.97775                -3.588041
+#>   3:               4724.53220              6892.808130
+#>   4:                -57.18207               -18.720320
+#>   5:               3161.88654              4955.617800
 #>  ---                                                  
-#> 224:                -64.66746               -23.017230
-#> 225:               4010.41667              6208.955406
-#> 226:                -33.25344                -4.238632
-#> 227:               4029.92786              5993.083681
-#> 228:                -46.09961               -12.895402
+#> 224:                -64.66746               -22.441799
+#> 225:               3971.53713              6221.915252
+#> 226:                -33.54313                -4.848507
+#> 227:               4059.85695              6007.696226
+#> 228:                -45.79046               -13.320861
 ```
 
 and a `number_table`:
@@ -480,30 +478,30 @@ and a `number_table`:
 ma_AN$`_`$number_table
 #>          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est
 #>          <char>    <char>      <num>    <lgcl>                    <num>
-#>   1:      ACTON MIDDLESEX      23864      TRUE                 1238.000
-#>   2:      ACTON MIDDLESEX      23864     FALSE                   -6.250
-#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2635.500
-#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -16.500
-#>   5: ASHBURNHAM WORCESTER       6337      TRUE                  255.125
+#>   1:      ACTON MIDDLESEX      23864      TRUE                 1241.375
+#>   2:      ACTON MIDDLESEX      23864     FALSE                   -6.500
+#>   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2661.750
+#>   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -17.625
+#>   5: ASHBURNHAM WORCESTER       6337      TRUE                  254.375
 #>  ---                                                                   
 #> 224: WINCHESTER MIDDLESEX      22809     FALSE                   -9.750
-#> 225:     WOBURN MIDDLESEX      40992      TRUE                 2074.125
-#> 226:     WOBURN MIDDLESEX      40992     FALSE                   -7.500
-#> 227:  WORCESTER WORCESTER     204191      TRUE                10227.375
-#> 228:  WORCESTER WORCESTER     204191     FALSE                  -58.625
+#> 225:     WOBURN MIDDLESEX      40992      TRUE                 2078.875
+#> 226:     WOBURN MIDDLESEX      40992     FALSE                   -8.000
+#> 227:  WORCESTER WORCESTER     204191      TRUE                10266.125
+#> 228:  WORCESTER WORCESTER     204191     FALSE                  -58.500
 #>      mean_annual_attr_num_lb mean_annual_attr_num_ub
 #>                        <num>                   <num>
-#>   1:               974.47500              1535.45000
-#>   2:               -12.50000                -0.48750
-#>   3:              2149.85625              3135.24375
-#>   4:               -26.00000                -7.36875
-#>   5:               200.36875               315.52500
+#>   1:               982.84375              1533.16250
+#>   2:               -12.88125                -0.85625
+#>   3:              2168.84375              3164.21250
+#>   4:               -26.25000                -8.59375
+#>   5:               200.36875               314.03750
 #>  ---                                                
-#> 224:               -14.75000                -5.25000
-#> 225:              1643.95000              2545.17500
-#> 226:               -13.63125                -1.73750
-#> 227:              8228.75000             12237.33750
-#> 228:               -94.13125               -26.33125
+#> 224:               -14.75000                -5.11875
+#> 225:              1628.01250              2550.48750
+#> 226:               -13.75000                -1.98750
+#> 227:              8289.86250             12267.17500
+#> 228:               -93.50000               -27.20000
 ```
 
 And you can plot either one
@@ -602,7 +600,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -638,7 +636,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -674,7 +672,7 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> argvar:
 #> List of 2
 #>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.7 31.4
+#>  $ knots: Named num [1:2] 25.6 31.4
 #>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
 #> 
 #> arglag:
@@ -712,7 +710,6 @@ plot(ma_model_fct, "CAMBRIDGE")
 ``` r
 
 forest_plot(ma_model_fct, exposure_val = 25.1)
-#> Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):
 #> rounded to 1 decimal
 #> Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):
 #> plotting by group since n_geos > 20
@@ -725,13 +722,9 @@ You can also make a spatial plot at a specific exposure value:
 ``` r
 
 spatial_plot(ma_model_fct, shp = ma_towns, exposure_val = 25.1)
-#> Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
-#> Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :
 #> rounded to 1 decimal
 ```
 
@@ -744,17 +737,17 @@ You can also getRR:
 getRR(ma_model_fct)
 #>            TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage age_grp
 #>            <char>    <char>  <num>     <num>     <num>     <num> <char>  <char>
-#>      1:     ACTON MIDDLESEX    7.0 0.9692331 0.9445686 0.9945417 stage2    0-17
-#>      2:     ACTON MIDDLESEX    7.1 0.9692331 0.9445686 0.9945417 stage2    0-17
-#>      3:     ACTON MIDDLESEX    7.2 0.9692331 0.9445686 0.9945417 stage2    0-17
-#>      4:     ACTON MIDDLESEX    7.3 0.9692331 0.9445686 0.9945417 stage2    0-17
-#>      5:     ACTON MIDDLESEX    7.4 0.9692331 0.9445686 0.9945417 stage2    0-17
+#>      1:     ACTON MIDDLESEX    7.0 0.9688147 0.9447079 0.9935367 stage2    0-17
+#>      2:     ACTON MIDDLESEX    7.1 0.9688147 0.9447079 0.9935367 stage2    0-17
+#>      3:     ACTON MIDDLESEX    7.2 0.9688147 0.9447079 0.9935367 stage2    0-17
+#>      4:     ACTON MIDDLESEX    7.3 0.9688147 0.9447079 0.9935367 stage2    0-17
+#>      5:     ACTON MIDDLESEX    7.4 0.9688147 0.9447079 0.9935367 stage2    0-17
 #>     ---                                                                        
-#> 194612: WORCESTER WORCESTER   33.0 1.2047947 1.1612618 1.2499595 stage1     65+
-#> 194613: WORCESTER WORCESTER   33.1 1.2058778 1.1610980 1.2523846 stage1     65+
-#> 194614: WORCESTER WORCESTER   33.2 1.2069606 1.1609184 1.2548287 stage1     65+
-#> 194615: WORCESTER WORCESTER   33.3 1.2080433 1.1607252 1.2572904 stage1     65+
-#> 194616: WORCESTER WORCESTER   33.4 1.2091265 1.1605202 1.2597685 stage1     65+
+#> 194648: WORCESTER WORCESTER   33.1 1.2060675 1.1615024 1.2523424 stage1     65+
+#> 194649: WORCESTER WORCESTER   33.2 1.2071562 1.1613379 1.2547821 stage1     65+
+#> 194650: WORCESTER WORCESTER   33.3 1.2082448 1.1611592 1.2572396 stage1     65+
+#> 194651: WORCESTER WORCESTER   33.4 1.2093336 1.1609683 1.2597137 stage1     65+
+#> 194652: WORCESTER WORCESTER   33.5 1.2104230 1.1607671 1.2622032 stage1     65+
 #>                  model_class
 #>                       <char>
 #>      1: condPois_2stage_list
@@ -763,11 +756,11 @@ getRR(ma_model_fct)
 #>      4: condPois_2stage_list
 #>      5: condPois_2stage_list
 #>     ---                     
-#> 194612: condPois_2stage_list
-#> 194613: condPois_2stage_list
-#> 194614: condPois_2stage_list
-#> 194615: condPois_2stage_list
-#> 194616: condPois_2stage_list
+#> 194648: condPois_2stage_list
+#> 194649: condPois_2stage_list
+#> 194650: condPois_2stage_list
+#> 194651: condPois_2stage_list
+#> 194652: condPois_2stage_list
 ```
 
 And finally, you can `calcAN`, note that both `ma_outcomes_tbl_fct` and

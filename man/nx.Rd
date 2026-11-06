@@ -21,5 +21,5 @@ Facilitates recursive calls get neighbors
 }
 \examples{
 xx <- list(c(2, 3), c(1, 3), c(1, 2))
-nx(xx, ni = 1, include_self = TRUE)
+cityClimateHealth:::nx(xx, ni = 1, include_self = TRUE)
 }

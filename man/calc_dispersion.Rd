@@ -23,9 +23,17 @@ Converted from STATA from armstrong 2014 supplement with LLM guidance.
 Minimal error checking of these inputs at present.
 }
 \examples{
-dispersion <- calc_dispersion(y = boston_deaths_tbl$daily_deaths,
-              X = cb,
-              stratum_vector = boston_deaths_tbl$strata,
-              beta = coef(m_sub))
-dispersion
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_1stage(exposure_mat, outcomes_tbl)
+fit <- m$`_`$out[[1]]
+calc_dispersion(y = fit$outcomes, X = as.matrix(fit$orig_basis),
+                beta = fit$orig_coef, stratum_vector = fit$strata_vec)
 }

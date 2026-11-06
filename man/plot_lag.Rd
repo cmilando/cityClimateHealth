@@ -9,15 +9,24 @@ plot_lag(x, exposure_val)
 \arguments{
 \item{x}{an object of class condPois_1stage}
 
-\item{xlab}{xlab override}
-
-\item{ylab}{ylab override}
-
-\item{title}{title override}
+\item{exposure_val}{exposure value at which to plot the lag-response curve}
 }
 \value{
 a ggplot object
 }
 \description{
 Plot lag method for condPois_1stage
+}
+\examples{
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_1stage(exposure_mat, outcomes_tbl)
+plot_lag(m, exposure_val = 30)
 }

@@ -14,6 +14,10 @@ time_subset_validate(time_subset, data_years)
 
   a time_subset input
 
+- data_years:
+
+  integer vector of the years present in the data
+
 ## Value
 
 a cleaned time_subset

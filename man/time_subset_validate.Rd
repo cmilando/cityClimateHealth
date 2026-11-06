@@ -8,6 +8,8 @@ time_subset_validate(time_subset, data_years)
 }
 \arguments{
 \item{time_subset}{a time_subset input}
+
+\item{data_years}{integer vector of the years present in the data}
 }
 \value{
 a cleaned time_subset

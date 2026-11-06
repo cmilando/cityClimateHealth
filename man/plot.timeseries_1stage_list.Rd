@@ -4,7 +4,7 @@
 \alias{plot.timeseries_1stage_list}
 \title{Plot method for timeseries_1stage_list}
 \usage{
-\method{plot}{timeseries_1stage_list}(x, xlab = NULL, ylab = NULL, title = NULL)
+\method{plot}{timeseries_1stage_list}(x, xlab = NULL, ylab = NULL, title = NULL, ...)
 }
 \arguments{
 \item{x}{an object of class timeseries_1stage_list}
@@ -14,6 +14,8 @@
 \item{ylab}{ylab override}
 
 \item{title}{title override}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a ggplot object
@@ -22,14 +24,17 @@ a ggplot object
 Plot method for timeseries_1stage_list
 }
 \examples{
-middlesex_deaths_tbl <- make_outcome_table(
-middlesex_deaths,  outcome_columns, collapse_to = 'age_grp')
-
-# run the model
-m3 <- timeseries_1stage(exposure_matrix = middlesex_exposure_mat,
-                     outcomes_tbl = middlesex_deaths_tbl,
-                     global_cen = 15,
-                     multi_zone = TRUE,
-                     verbose = 1)
-plot(m3)
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "factor" = "age_grp",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+# with a factor, a timeseries_1stage_list is returned
+m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+plot(m)
 }

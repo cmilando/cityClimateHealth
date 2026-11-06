@@ -10,13 +10,10 @@
 #' @returns a list with node1 and node2 integer vectors defining graph edges
 #'
 #' @examples
-#' library(spdep)
-#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-#' nb <- knn2nb(knearneigh(coords, k = 2))
-#' comp_ids <- n.comp.nb(nb)[[2]]
-#' offsets <- indexByComponent(comp_ids)
-#' nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
-
+#' nb <- spdep::cell2nb(3, 3)
+#' comp_ids <- spdep::n.comp.nb(nb)$comp.id
+#' offsets <- cityClimateHealth:::indexByComponent(comp_ids)
+#' cityClimateHealth:::nb2subgraph(nb, c_id = 1, comp_ids = comp_ids, offsets = offsets)
 nb2subgraph = function(x, c_id, comp_ids, offsets) {
   # nb2subgraph
   # for a given subcomponent, return graph as lists of node1, node2 pairs
@@ -68,11 +65,8 @@ nb2subgraph = function(x, c_id, comp_ids, offsets) {
 #' @returns a list with N (nodes), N_edges, node1, and node2 integer vectors
 #'
 #' @examples
-#' library(spdep)
-#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-#' nb <- knn2nb(knearneigh(coords, k = 2))
-#' nb2graph(nb)
-
+#' nb <- spdep::cell2nb(3, 3)
+#' cityClimateHealth:::nb2graph(nb)
 nb2graph = function(x) {
   # nb2graph
   #
@@ -117,8 +111,7 @@ nb2graph = function(x) {
 #'
 #' @examples
 #' comp_ids <- c(1, 1, 2, 2, 2, 1)
-#' indexByComponent(comp_ids)
-
+#' cityClimateHealth:::indexByComponent(comp_ids)
 indexByComponent = function(x) {
   # indexByComponent
   #
@@ -150,13 +143,9 @@ indexByComponent = function(x) {
 #' @param x an nb object (neighbor list)
 #'
 #' @returns a numeric vector of scaling factors, one per connected component
-#' @import Matrix
 #' @examples
-#' library(spdep)
-#' coords <- matrix(c(0,0, 1,0, 0,1, 1,1), ncol = 2, byrow = TRUE)
-#' nb <- knn2nb(knearneigh(coords, k = 2))
-#' scale_nb_components(nb)
-
+#' nb <- spdep::cell2nb(3, 3)
+#' cityClimateHealth:::scale_nb_components(nb)
 scale_nb_components = function(x) {
   N = length(x);
   comp_ids = n.comp.nb(x)[[2]];
@@ -214,16 +203,14 @@ scale_nb_components = function(x) {
 #' @returns a binary matrix of spatial weights
 #'
 #' @examples
-#' \dontrun{
-#' # after loading an sf shapefile:
-#' SW <- getSW(shp = my_shapefile, ni = 1, include_self = FALSE)
-#' }
-
+#' towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+#' shp <- subset(ma_towns, TOWN20 %in% towns)
+#' cityClimateHealth:::getSW(shp = shp, ni = 1, include_self = FALSE)
 getSW <- function(shp, ni, include_self = T) {
 
 
   #
-  warning("has to be one polygon per row in `shp`")
+  message("has to be one polygon per row in `shp`")
   J <- nrow(shp)
 
   if(ni == 0) {
@@ -269,7 +256,7 @@ getSW <- function(shp, ni, include_self = T) {
 #'
 #' @examples
 #' xx <- list(c(2, 3), c(1, 3), c(1, 2))
-#' nx(xx, ni = 1, include_self = TRUE)
+#' cityClimateHealth:::nx(xx, ni = 1, include_self = TRUE)
 nx <- function(xx, ni, include_self = T) {
 
   ##
@@ -315,8 +302,7 @@ nx <- function(xx, ni, include_self = T) {
 #'
 #' @examples
 #' strata <- factor(c("a", "a", "b", "b", "c"))
-#' getSmat(strata)
-
+#' cityClimateHealth:::getSmat(strata)
 getSmat <- function(strata_vector) {
   # create S matrix
   # strata_vector <- data$stratum

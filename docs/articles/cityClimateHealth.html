@@ -86,7 +86,7 @@
 We can run the model and then calculate attributable numbers easily, and
 provide a number of outputs.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://climatehealth.city">cityClimateHealth</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="run-the-model">Run the model<a class="anchor" aria-label="anchor" href="#run-the-model"></a>
@@ -126,22 +126,22 @@ provide a number of outputs.</p>
 <p>And lets preview this</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          date TOWN20  COUNTY20  tmax_C                  strata     match_strata</span></span>
-<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;    &lt;char&gt;   &lt;num&gt;                  &lt;char&gt;           &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 2012-05-01  ACTON MIDDLESEX 16.4633 ACTON:yr2012:mn05:dow03 ACTON:2012-05-01</span></span>
-<span><span class="co">#&gt; 2: 2012-05-02  ACTON MIDDLESEX  8.6743 ACTON:yr2012:mn05:dow04 ACTON:2012-05-02</span></span>
-<span><span class="co">#&gt; 3: 2012-05-03  ACTON MIDDLESEX 11.1778 ACTON:yr2012:mn05:dow05 ACTON:2012-05-03</span></span>
-<span><span class="co">#&gt; 4: 2012-05-04  ACTON MIDDLESEX 12.4253 ACTON:yr2012:mn05:dow06 ACTON:2012-05-04</span></span>
-<span><span class="co">#&gt; 5: 2012-05-05  ACTON MIDDLESEX 12.8489 ACTON:yr2012:mn05:dow07 ACTON:2012-05-05</span></span>
-<span><span class="co">#&gt; 6: 2012-05-06  ACTON MIDDLESEX 17.7602 ACTON:yr2012:mn05:dow01 ACTON:2012-05-06</span></span>
+<span><span class="co">#&gt;          date TOWN20  COUNTY20 tmax_C                  strata     match_strata</span></span>
+<span><span class="co">#&gt;        &lt;IDat&gt; &lt;char&gt;    &lt;char&gt;  &lt;num&gt;                  &lt;char&gt;           &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1: 2012-05-01  ACTON MIDDLESEX   16.5 ACTON:yr2012:mn05:dow03 ACTON:2012-05-01</span></span>
+<span><span class="co">#&gt; 2: 2012-05-02  ACTON MIDDLESEX    8.7 ACTON:yr2012:mn05:dow04 ACTON:2012-05-02</span></span>
+<span><span class="co">#&gt; 3: 2012-05-03  ACTON MIDDLESEX   11.2 ACTON:yr2012:mn05:dow05 ACTON:2012-05-03</span></span>
+<span><span class="co">#&gt; 4: 2012-05-04  ACTON MIDDLESEX   12.4 ACTON:yr2012:mn05:dow06 ACTON:2012-05-04</span></span>
+<span><span class="co">#&gt; 5: 2012-05-05  ACTON MIDDLESEX   12.8 ACTON:yr2012:mn05:dow07 ACTON:2012-05-05</span></span>
+<span><span class="co">#&gt; 6: 2012-05-06  ACTON MIDDLESEX   17.8 ACTON:yr2012:mn05:dow01 ACTON:2012-05-06</span></span>
 <span><span class="co">#&gt;    explag1 explag2 explag3 explag4 explag5</span></span>
 <span><span class="co">#&gt;      &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;</span></span>
-<span><span class="co">#&gt; 1: 14.0179 14.1931 12.7975 17.5538 16.2753</span></span>
-<span><span class="co">#&gt; 2: 16.4633 14.0179 14.1931 12.7975 17.5538</span></span>
-<span><span class="co">#&gt; 3:  8.6743 16.4633 14.0179 14.1931 12.7975</span></span>
-<span><span class="co">#&gt; 4: 11.1778  8.6743 16.4633 14.0179 14.1931</span></span>
-<span><span class="co">#&gt; 5: 12.4253 11.1778  8.6743 16.4633 14.0179</span></span>
-<span><span class="co">#&gt; 6: 12.8489 12.4253 11.1778  8.6743 16.4633</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:    14.0    14.2    12.8    17.6    16.3</span></span>
+<span><span class="co">#&gt; 2:    16.5    14.0    14.2    12.8    17.6</span></span>
+<span><span class="co">#&gt; 3:     8.7    16.5    14.0    14.2    12.8</span></span>
+<span><span class="co">#&gt; 4:    11.2     8.7    16.5    14.0    14.2</span></span>
+<span><span class="co">#&gt; 5:    12.4    11.2     8.7    16.5    14.0</span></span>
+<span><span class="co">#&gt; 6:    12.8    12.4    11.2     8.7    16.5</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="outcome">Outcome<a class="anchor" aria-label="anchor" href="#outcome"></a>
@@ -307,7 +307,7 @@ this vignette.</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -339,10 +339,11 @@ are multiple <code>geo_units</code> in
 <code class="sourceCode R"><span><span class="va">ma_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, </span>
 <span>                            multi_zone <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                            global_cen <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre></div>
-<p>See <code><a href="../articles/one_stage_demo.html">vignette("one_stage_demo")</a></code> for more details. Note
-that <code>forest_plot</code> and <code>spatial_plot</code> are not
-implemented for <code>condPois_1stage</code> since you can get all of
-that information from the RR plot.</p>
+<p>See the <a href="https://climatehealth.city/articles/one_stage_demo.html">one-stage
+demo</a> for more details. Note that <code>forest_plot</code> and
+<code>spatial_plot</code> are not implemented for
+<code>condPois_1stage</code> since you can get all of that information
+from the RR plot.</p>
 <p>And for <code>condPois_sb</code>, the only additional information
 you’d need is a shapefile showing how the <code>geo_unit</code>s are
 arranged, in this case <code>ma_towns</code> (in a test run this code
@@ -352,7 +353,8 @@ additional bugs to work out]):</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_towns"</span><span class="op">)</span></span>
 <span><span class="va">ma_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, </span>
 <span>                        global_cen <span class="op">=</span> <span class="fl">15</span>, <span class="va">ma_towns</span><span class="op">)</span></span></code></pre></div>
-<p>See <code><a href="../articles/bayesian_demo.html">vignette("bayesian_demo")</a></code> for more details.</p>
+<p>See the <a href="https://climatehealth.city/articles/bayesian_demo.html">Bayesian
+demo</a> for more details.</p>
 </div>
 </div>
 <div class="section level3">
@@ -366,16 +368,14 @@ additional bugs to work out]):</p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): rounded</span></span>
-<span><span class="co">#&gt; to 1 decimal</span></span>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting</span></span>
 <span><span class="co">#&gt; by group since n_geos &gt; 20</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(ma_model, shp = ma_towns, exposure_val</span></span>
-<span><span class="co">#&gt; = 25.1): rounded to 1 decimal</span></span></code></pre></div>
+<span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" width="480"></p>
 </div>
 <div class="section level3">
@@ -387,17 +387,17 @@ function</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage</span></span>
 <span><span class="co">#&gt;           &lt;char&gt;    &lt;char&gt;  &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt; &lt;char&gt;</span></span>
-<span><span class="co">#&gt;     1:     ACTON MIDDLESEX    7.0 0.9772782 0.9587192 0.9961965 stage2</span></span>
-<span><span class="co">#&gt;     2:     ACTON MIDDLESEX    7.1 0.9772782 0.9587192 0.9961965 stage2</span></span>
-<span><span class="co">#&gt;     3:     ACTON MIDDLESEX    7.2 0.9772782 0.9587192 0.9961965 stage2</span></span>
-<span><span class="co">#&gt;     4:     ACTON MIDDLESEX    7.3 0.9772782 0.9587192 0.9961965 stage2</span></span>
-<span><span class="co">#&gt;     5:     ACTON MIDDLESEX    7.4 0.9772782 0.9587192 0.9961965 stage2</span></span>
+<span><span class="co">#&gt;     1:     ACTON MIDDLESEX    7.0 0.9768753 0.9586591 0.9954375 stage2</span></span>
+<span><span class="co">#&gt;     2:     ACTON MIDDLESEX    7.1 0.9768753 0.9586591 0.9954375 stage2</span></span>
+<span><span class="co">#&gt;     3:     ACTON MIDDLESEX    7.2 0.9768753 0.9586591 0.9954375 stage2</span></span>
+<span><span class="co">#&gt;     4:     ACTON MIDDLESEX    7.3 0.9768753 0.9586591 0.9954375 stage2</span></span>
+<span><span class="co">#&gt;     5:     ACTON MIDDLESEX    7.4 0.9768753 0.9586591 0.9954375 stage2</span></span>
 <span><span class="co">#&gt;    ---                                                                </span></span>
-<span><span class="co">#&gt; 64868: WORCESTER WORCESTER   33.0 1.2067807 1.1632921 1.2518951 stage1</span></span>
-<span><span class="co">#&gt; 64869: WORCESTER WORCESTER   33.1 1.2079470 1.1632097 1.2544049 stage1</span></span>
-<span><span class="co">#&gt; 64870: WORCESTER WORCESTER   33.2 1.2091133 1.1631117 1.2569342 stage1</span></span>
-<span><span class="co">#&gt; 64871: WORCESTER WORCESTER   33.3 1.2102799 1.1630002 1.2594816 stage1</span></span>
-<span><span class="co">#&gt; 64872: WORCESTER WORCESTER   33.4 1.2114471 1.1628771 1.2620457 stage1</span></span>
+<span><span class="co">#&gt; 64880: WORCESTER WORCESTER   33.1 1.2081166 1.1635941 1.2543425 stage1</span></span>
+<span><span class="co">#&gt; 64881: WORCESTER WORCESTER   33.2 1.2092882 1.1635107 1.2568668 stage1</span></span>
+<span><span class="co">#&gt; 64882: WORCESTER WORCESTER   33.3 1.2104601 1.1634133 1.2594094 stage1</span></span>
+<span><span class="co">#&gt; 64883: WORCESTER WORCESTER   33.4 1.2116325 1.1633037 1.2619690 stage1</span></span>
+<span><span class="co">#&gt; 64884: WORCESTER WORCESTER   33.5 1.2128057 1.1631839 1.2645444 stage1</span></span>
 <span><span class="co">#&gt;            model_class</span></span>
 <span><span class="co">#&gt;                 &lt;char&gt;</span></span>
 <span><span class="co">#&gt;     1: condPois_2stage</span></span>
@@ -406,18 +406,18 @@ function</p>
 <span><span class="co">#&gt;     4: condPois_2stage</span></span>
 <span><span class="co">#&gt;     5: condPois_2stage</span></span>
 <span><span class="co">#&gt;    ---                </span></span>
-<span><span class="co">#&gt; 64868: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64869: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64870: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64871: condPois_2stage</span></span>
-<span><span class="co">#&gt; 64872: condPois_2stage</span></span></code></pre></div>
+<span><span class="co">#&gt; 64880: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64881: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64882: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64883: condPois_2stage</span></span>
+<span><span class="co">#&gt; 64884: condPois_2stage</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="calculate-attributable-numbers">Calculate attributable numbers<a class="anchor" aria-label="anchor" href="#calculate-attributable-numbers"></a>
 </h2>
-<p>See more details in <code><a href="../articles/attributable_number.html">vignette("attributable_number")</a></code>, but
-here is a brief demo</p>
+<p>See more details in the <a href="https://climatehealth.city/articles/attributable_number.html">attributable
+number article</a>, but here is a brief demo</p>
 <div class="section level3">
 <h3 id="population-data">Population data<a class="anchor" aria-label="anchor" href="#population-data"></a>
 </h3>
@@ -425,7 +425,8 @@ here is a brief demo</p>
 population data estimate.</p>
 <p>This varies a lot by place and dataset, so we don’t include
 functionality for it (but an example of how this could be done can be
-seen in <code><a href="../articles/get_pop_estimates.html">vignette("get_pop_estimates")</a></code>).</p>
+seen in the <a href="https://climatehealth.city/articles/get_pop_estimates.html">population
+estimates article</a>).</p>
 <p>Assume you are starting with a dataset for the entire timeframe that
 looks like this:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -531,59 +532,59 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <code class="sourceCode R"><span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">rate_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_rate_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                5187.73047</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -26.19008</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                5741.07960</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -35.94301</span></span>
-<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                4025.95866</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                5201.87311</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -27.23768</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                5798.26167</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -38.39367</span></span>
+<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                4014.12340</span></span>
 <span><span class="co">#&gt;  ---                                                                    </span></span>
 <span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -42.74628</span></span>
-<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                5059.82875</span></span>
-<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                 -18.29625</span></span>
-<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                5008.72957</span></span>
-<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -28.71086</span></span>
+<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                5071.41637</span></span>
+<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                 -19.51600</span></span>
+<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                5027.70690</span></span>
+<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                 -28.64965</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_rate_lb mean_annual_attr_rate_ub</span></span>
 <span><span class="co">#&gt;                         &lt;num&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               4083.45206              6434.168622</span></span>
-<span><span class="co">#&gt;   2:                -52.38015                -2.042826</span></span>
-<span><span class="co">#&gt;   3:               4683.17050              6829.703634</span></span>
-<span><span class="co">#&gt;   4:                -56.63748               -16.051823</span></span>
-<span><span class="co">#&gt;   5:               3161.88654              4979.091053</span></span>
+<span><span class="co">#&gt;   1:               4118.52057              6424.583054</span></span>
+<span><span class="co">#&gt;   2:                -53.97775                -3.588041</span></span>
+<span><span class="co">#&gt;   3:               4724.53220              6892.808130</span></span>
+<span><span class="co">#&gt;   4:                -57.18207               -18.720320</span></span>
+<span><span class="co">#&gt;   5:               3161.88654              4955.617800</span></span>
 <span><span class="co">#&gt;  ---                                                  </span></span>
-<span><span class="co">#&gt; 224:                -64.66746               -23.017230</span></span>
-<span><span class="co">#&gt; 225:               4010.41667              6208.955406</span></span>
-<span><span class="co">#&gt; 226:                -33.25344                -4.238632</span></span>
-<span><span class="co">#&gt; 227:               4029.92786              5993.083681</span></span>
-<span><span class="co">#&gt; 228:                -46.09961               -12.895402</span></span></code></pre></div>
+<span><span class="co">#&gt; 224:                -64.66746               -22.441799</span></span>
+<span><span class="co">#&gt; 225:               3971.53713              6221.915252</span></span>
+<span><span class="co">#&gt; 226:                -33.54313                -4.848507</span></span>
+<span><span class="co">#&gt; 227:               4059.85695              6007.696226</span></span>
+<span><span class="co">#&gt; 228:                -45.79046               -13.320861</span></span></code></pre></div>
 <p>and a <code>number_table</code>:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma_AN</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">number_table</span></span>
 <span><span class="co">#&gt;          TOWN20  COUNTY20 population above_MMT mean_annual_attr_num_est</span></span>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 1238.000</span></span>
-<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                   -6.250</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2635.500</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -16.500</span></span>
-<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  255.125</span></span>
+<span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 1241.375</span></span>
+<span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                   -6.500</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2661.750</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -17.625</span></span>
+<span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  254.375</span></span>
 <span><span class="co">#&gt;  ---                                                                   </span></span>
 <span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                   -9.750</span></span>
-<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 2074.125</span></span>
-<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                   -7.500</span></span>
-<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                10227.375</span></span>
-<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                  -58.625</span></span>
+<span><span class="co">#&gt; 225:     WOBURN MIDDLESEX      40992      TRUE                 2078.875</span></span>
+<span><span class="co">#&gt; 226:     WOBURN MIDDLESEX      40992     FALSE                   -8.000</span></span>
+<span><span class="co">#&gt; 227:  WORCESTER WORCESTER     204191      TRUE                10266.125</span></span>
+<span><span class="co">#&gt; 228:  WORCESTER WORCESTER     204191     FALSE                  -58.500</span></span>
 <span><span class="co">#&gt;      mean_annual_attr_num_lb mean_annual_attr_num_ub</span></span>
 <span><span class="co">#&gt;                        &lt;num&gt;                   &lt;num&gt;</span></span>
-<span><span class="co">#&gt;   1:               974.47500              1535.45000</span></span>
-<span><span class="co">#&gt;   2:               -12.50000                -0.48750</span></span>
-<span><span class="co">#&gt;   3:              2149.85625              3135.24375</span></span>
-<span><span class="co">#&gt;   4:               -26.00000                -7.36875</span></span>
-<span><span class="co">#&gt;   5:               200.36875               315.52500</span></span>
+<span><span class="co">#&gt;   1:               982.84375              1533.16250</span></span>
+<span><span class="co">#&gt;   2:               -12.88125                -0.85625</span></span>
+<span><span class="co">#&gt;   3:              2168.84375              3164.21250</span></span>
+<span><span class="co">#&gt;   4:               -26.25000                -8.59375</span></span>
+<span><span class="co">#&gt;   5:               200.36875               314.03750</span></span>
 <span><span class="co">#&gt;  ---                                                </span></span>
-<span><span class="co">#&gt; 224:               -14.75000                -5.25000</span></span>
-<span><span class="co">#&gt; 225:              1643.95000              2545.17500</span></span>
-<span><span class="co">#&gt; 226:               -13.63125                -1.73750</span></span>
-<span><span class="co">#&gt; 227:              8228.75000             12237.33750</span></span>
-<span><span class="co">#&gt; 228:               -94.13125               -26.33125</span></span></code></pre></div>
+<span><span class="co">#&gt; 224:               -14.75000                -5.11875</span></span>
+<span><span class="co">#&gt; 225:              1628.01250              2550.48750</span></span>
+<span><span class="co">#&gt; 226:               -13.75000                -1.98750</span></span>
+<span><span class="co">#&gt; 227:              8289.86250             12267.17500</span></span>
+<span><span class="co">#&gt; 228:               -93.50000               -27.20000</span></span></code></pre></div>
 <p>And you can plot either one</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
@@ -663,7 +664,7 @@ can follow along)</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -699,7 +700,7 @@ can follow along)</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -735,7 +736,7 @@ can follow along)</p>
 <span><span class="co">#&gt; argvar:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
-<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.7 31.4</span></span>
+<span><span class="co">#&gt;  $ knots: Named num [1:2] 25.6 31.4</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; arglag:</span></span>
@@ -765,7 +766,6 @@ can follow along)</p>
 <p><img src="cityClimateHealth_files/figure-html/plot1b-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
 <span><span class="co">#&gt; plotting by group since n_geos &gt; 20</span></span></code></pre></div>
@@ -773,13 +773,9 @@ can follow along)</p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage_list(ma_model_fct, shp = ma_towns, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
-<span><span class="co">#&gt; Warning in spatial_plot.condPois_2stage(x[[names(x)[i]]], shp, exposure_val, :</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
 <p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" width="480"></p>
 <p>You can also getRR:</p>
@@ -787,17 +783,17 @@ can follow along)</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            TOWN20  COUNTY20 tmax_C        RR      RRlb      RRub  stage age_grp</span></span>
 <span><span class="co">#&gt;            &lt;char&gt;    &lt;char&gt;  &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt; &lt;char&gt;  &lt;char&gt;</span></span>
-<span><span class="co">#&gt;      1:     ACTON MIDDLESEX    7.0 0.9692331 0.9445686 0.9945417 stage2    0-17</span></span>
-<span><span class="co">#&gt;      2:     ACTON MIDDLESEX    7.1 0.9692331 0.9445686 0.9945417 stage2    0-17</span></span>
-<span><span class="co">#&gt;      3:     ACTON MIDDLESEX    7.2 0.9692331 0.9445686 0.9945417 stage2    0-17</span></span>
-<span><span class="co">#&gt;      4:     ACTON MIDDLESEX    7.3 0.9692331 0.9445686 0.9945417 stage2    0-17</span></span>
-<span><span class="co">#&gt;      5:     ACTON MIDDLESEX    7.4 0.9692331 0.9445686 0.9945417 stage2    0-17</span></span>
+<span><span class="co">#&gt;      1:     ACTON MIDDLESEX    7.0 0.9688147 0.9447079 0.9935367 stage2    0-17</span></span>
+<span><span class="co">#&gt;      2:     ACTON MIDDLESEX    7.1 0.9688147 0.9447079 0.9935367 stage2    0-17</span></span>
+<span><span class="co">#&gt;      3:     ACTON MIDDLESEX    7.2 0.9688147 0.9447079 0.9935367 stage2    0-17</span></span>
+<span><span class="co">#&gt;      4:     ACTON MIDDLESEX    7.3 0.9688147 0.9447079 0.9935367 stage2    0-17</span></span>
+<span><span class="co">#&gt;      5:     ACTON MIDDLESEX    7.4 0.9688147 0.9447079 0.9935367 stage2    0-17</span></span>
 <span><span class="co">#&gt;     ---                                                                        </span></span>
-<span><span class="co">#&gt; 194612: WORCESTER WORCESTER   33.0 1.2047947 1.1612618 1.2499595 stage1     65+</span></span>
-<span><span class="co">#&gt; 194613: WORCESTER WORCESTER   33.1 1.2058778 1.1610980 1.2523846 stage1     65+</span></span>
-<span><span class="co">#&gt; 194614: WORCESTER WORCESTER   33.2 1.2069606 1.1609184 1.2548287 stage1     65+</span></span>
-<span><span class="co">#&gt; 194615: WORCESTER WORCESTER   33.3 1.2080433 1.1607252 1.2572904 stage1     65+</span></span>
-<span><span class="co">#&gt; 194616: WORCESTER WORCESTER   33.4 1.2091265 1.1605202 1.2597685 stage1     65+</span></span>
+<span><span class="co">#&gt; 194648: WORCESTER WORCESTER   33.1 1.2060675 1.1615024 1.2523424 stage1     65+</span></span>
+<span><span class="co">#&gt; 194649: WORCESTER WORCESTER   33.2 1.2071562 1.1613379 1.2547821 stage1     65+</span></span>
+<span><span class="co">#&gt; 194650: WORCESTER WORCESTER   33.3 1.2082448 1.1611592 1.2572396 stage1     65+</span></span>
+<span><span class="co">#&gt; 194651: WORCESTER WORCESTER   33.4 1.2093336 1.1609683 1.2597137 stage1     65+</span></span>
+<span><span class="co">#&gt; 194652: WORCESTER WORCESTER   33.5 1.2104230 1.1607671 1.2622032 stage1     65+</span></span>
 <span><span class="co">#&gt;                  model_class</span></span>
 <span><span class="co">#&gt;                       &lt;char&gt;</span></span>
 <span><span class="co">#&gt;      1: condPois_2stage_list</span></span>
@@ -806,11 +802,11 @@ can follow along)</p>
 <span><span class="co">#&gt;      4: condPois_2stage_list</span></span>
 <span><span class="co">#&gt;      5: condPois_2stage_list</span></span>
 <span><span class="co">#&gt;     ---                     </span></span>
-<span><span class="co">#&gt; 194612: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194613: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194614: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194615: condPois_2stage_list</span></span>
-<span><span class="co">#&gt; 194616: condPois_2stage_list</span></span></code></pre></div>
+<span><span class="co">#&gt; 194648: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194649: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194650: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194651: condPois_2stage_list</span></span>
+<span><span class="co">#&gt; 194652: condPois_2stage_list</span></span></code></pre></div>
 <p>And finally, you can <code>calcAN</code>, note that both
 <code>ma_outcomes_tbl_fct</code> and <code>ma_model_fct</code> need to
 have factors, again adding the verbose so you can see the progress</p>

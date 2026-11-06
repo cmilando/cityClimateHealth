@@ -4,7 +4,7 @@
 \alias{spatial_plot.calcAN}
 \title{spatial_plot method for calcAN}
 \usage{
-\method{spatial_plot}{calcAN}(x, shp, table_type, above_MMT, pal = "Purples")
+\method{spatial_plot}{calcAN}(x, shp, table_type, above_MMT, pal = "Purples", ...)
 }
 \arguments{
 \item{x}{an object of class calcAN}
@@ -16,6 +16,8 @@
 \item{above_MMT}{plot attributable numbers above or below the MMT}
 
 \item{pal}{color palette}
+
+\item{...}{further arguments passed to or from other methods (currently unused)}
 }
 \value{
 a spatial plot showing attributable numbers or rates
@@ -24,9 +26,22 @@ a spatial plot showing attributable numbers or rates
 spatial_plot method for calcAN
 }
 \examples{
-\dontrun{
-# after running calcAN on a condPois model with a factor:
-an_result <- calcAN(my_model)
-spatial_plot(an_result, shp = my_shapefile, table_type = "num", above_MMT = TRUE)
-}
+towns <- c("CHELSEA", "EVERETT", "REVERE", "MALDEN")
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 \%in\% towns),
+                                     exposure_columns, time_subset = time_subset)
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 \%in\% towns),
+                                   outcome_columns, time_subset = time_subset)
+m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+pop <- data.table::data.table(TOWN20 = ma_pop_data$TOWN20,
+                              population = rowSums(ma_pop_data[, -1]))
+pop <- subset(pop, TOWN20 \%in\% towns)
+an <- calc_AN(m, outcomes_tbl, pop, spatial_agg_type = "TOWN20",
+              spatial_join_col = "TOWN20", nsim = 20)
+spatial_plot(an, shp = subset(ma_towns, TOWN20 \%in\% towns),
+             table_type = "num", above_MMT = TRUE)
 }

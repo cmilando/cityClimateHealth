@@ -7,7 +7,8 @@
 add_US_holiday(exposure_matrix)
 }
 \arguments{
-\item{exposure_matrix}{}
+\item{exposure_matrix}{an exposure matrix of class \code{exposure}, from
+\code{make_exposure_matrix()}}
 }
 \value{
 an outcome table object with an additional covariate
@@ -16,20 +17,13 @@ an outcome table object with an additional covariate
 Function to add US holidays
 }
 \examples{
-exposure_columns <- list(
-  "date" = "date",
-  "exposure" = "tmax_C",
-  "geo_unit" = "TOWN20",
-  "geo_unit_grp" = "COUNTY20"
-)
-
-exp_data = subset(ma_exposure, COUNTY20 \%in\% c('MIDDLESEX', 'WORCESTER'))
-
-exposure_matrix <- make_exposure_matrix(
-  data = exp_data,
-  column_mapping = exposure_columns,
-  time_subset = list(year = 2012:2015)
-)
-
-exposure_matrix <- add_us_holiday(exposure_matrix)
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+exposure_mat <- add_US_holiday(exposure_mat)
+head(exposure_mat)
 }

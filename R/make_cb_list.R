@@ -9,37 +9,21 @@
 #' @returns a nested list of cross-basis objects
 #'
 #' @examples
-#' # var_list <- c('tmean', 'tmin')
-#'
-#' cb_all <- list()
-#'
-#' for(var in var_list) {
-#'
-#'   # make var knots that vary by var
-#'   vk2 = equalknots(lndn[, var], fun="bs", degree = 2, df = 4)
-#'   vk3 = equalknots(lndn[, var], fun="ns", df = 4)
-#'   k50 = quantile(lndn[, var], probs = .5, na.rm = T)
-#'   k10 = quantile(lndn[, var], probs = c(1:9)/10, na.rm = T)
-#'
-#'   cb_var = make_cb_list(x = lndn,
-#'                          var_list = var,
-#'                          argvar_list = list(set1 = list(fun="bs", degree = c(2, 3),
-#'                                                         knots = list(vk2, k50, k10)),
-#'                                             set2 = list(fun="ns",
-#'                                                         knots = list(vk3, k50, k10))) ,
-#'                          lag_list = maxlag,
-#'                          arglag_list = list(set1 = list(knots = list(lk))))
-#'
-#'   cb_all <- append(cb_all, cb_var)
-#' }
+#' boston <- subset(ma_exposure, TOWN20 == "BOSTON" & date < as.Date("2010-04-01"))
+#' cbs <- cityClimateHealth:::make_cb_list(
+#'   x = boston, var_list = "tmax_C",
+#'   argvar_list = list(list(fun = "ns", df = c(3, 4))),
+#'   lag_list = 5,
+#'   arglag_list = list(list(fun = "ns", df = 3))
+#' )
+#' length(cbs)
 make_cb_list <- function(x, var_list, argvar_list, lag_list, arglag_list) {
-  #' x:
-  #' var_list:    character vector of columns of X that you use, e.g., c('tmean')
-  #' argvar_list: list(set1 = list(fun="bs", degree = 2, knots = list(vk)))
-  #' lag_list:    c(5, 30)
-  #' arglag_list: list(set1 = list(knots = list(lk))), same fcn as argvar_list
+  # x:
+  # var_list:    character vector of columns of X that you use, e.g., c('tmean')
+  # argvar_list: list(set1 = list(fun="bs", degree = 2, knots = list(vk)))
+  # lag_list:    c(5, 30)
+  # arglag_list: list(set1 = list(knots = list(lk))), same fcn as argvar_list
 
-  library(dlnm); library(splines); library(tidyverse)
 
   # --- function to summary arguments ---
   get_summary_string <- function(x) {
@@ -117,8 +101,7 @@ make_cb_list <- function(x, var_list, argvar_list, lag_list, arglag_list) {
 #'   list(fun = "ns", df = c(3, 4)),
 #'   list(fun = "bs", degree = c(2, 3))
 #' )
-#' expand_arglist(arglist)
-
+#' cityClimateHealth:::expand_arglist(arglist)
 expand_arglist <- function(arglist) {
 
   # Empty list to hold the output.

@@ -3,7 +3,7 @@ title: "Getting started with `cityClimateHealth`"
 output:
   rmarkdown::html_vignette:
     fig.retina: 2
-    dev: svg
+    dev: png
 vignette: >
   %\VignetteIndexEntry{Getting started with `cityClimateHealth`}
   %\VignetteEngine{knitr::rmarkdown}
@@ -181,7 +181,7 @@ ma_model <- condPois_1stage(ma_exposure_matrix, ma_outcomes_tbl,
                             global_cen = 15)
 ```
 
-See `vignette("one_stage_demo")` for more details. Note that `forest_plot` and `spatial_plot` are not implemented for `condPois_1stage` since you can get all of that information from the RR plot.
+See the [one-stage demo](https://climatehealth.city/articles/one_stage_demo.html) for more details. Note that `forest_plot` and `spatial_plot` are not implemented for `condPois_1stage` since you can get all of that information from the RR plot.
 
 And for `condPois_sb`, the only additional information you'd need is a shapefile showing how the `geo_unit`s are arranged, in this case `ma_towns` (in a test run this code took 20 minutes to complete for the full MA dataset [with maybe some additional bugs to work out]):
 
@@ -191,7 +191,7 @@ ma_model <- condPois_sb(ma_exposure_matrix, ma_outcomes_tbl,
                         global_cen = 15, ma_towns)
 ```
 
-See `vignette("bayesian_demo")` for more details.
+See the [Bayesian demo](https://climatehealth.city/articles/bayesian_demo.html) for more details.
 
 ## Plot outputs
 
@@ -224,13 +224,13 @@ getRR(ma_model)
 
 # Calculate attributable numbers
 
-See more details in `vignette("attributable_number")`, but here is a brief demo
+See more details in the [attributable number article](https://climatehealth.city/articles/attributable_number.html), but here is a brief demo
 
 ## Population data
 
 The first step of calculating attributable numbers is having a population data estimate. 
 
-This varies a lot by place and dataset, so we don't include functionality for it (but an example of how this could be done can be seen in `vignette("get_pop_estimates")`).
+This varies a lot by place and dataset, so we don't include functionality for it (but an example of how this could be done can be seen in the [population estimates article](https://climatehealth.city/articles/get_pop_estimates.html)).
 
 Assume you are starting with a dataset for the entire timeframe that looks like this:
 ```{r}

@@ -1,7 +1,9 @@
 #' make factor column
 #'
-#' @param data
-#' @param column_mapping
+#' @param data a data.table containing the columns named in `column_mapping`
+#' @param column_mapping a named list mapping column roles to column names in
+#'   `data`; all `factor` entries are combined into a single
+#'   factor column
 #'
 #' @returns
 #' @export
@@ -26,7 +28,9 @@ add_factor_col <- function(data, column_mapping) {
   data[[factor_col_name]] = apply(data[, ..factor_col], 1, make_factor)
   factor_col = factor_col_name
 
-  # update column mapping
+  # update column mapping: drop every original 'factor' entry,
+  # then add back the single combined one
+  column_mapping <- column_mapping[names(column_mapping) != 'factor']
   column_mapping[['factor']] = factor_col
 
   return(list(data = data, column_mapping = column_mapping))

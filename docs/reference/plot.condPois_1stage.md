@@ -6,7 +6,7 @@ Plot method for condPois_1stage
 
 ``` r
 # S3 method for class 'condPois_1stage'
-plot(x, xlab = NULL, ylab = NULL, title = NULL)
+plot(x, xlab = NULL, ylab = NULL, title = NULL, ...)
 ```
 
 ## Arguments
@@ -27,6 +27,10 @@ plot(x, xlab = NULL, ylab = NULL, title = NULL)
 
   title override
 
+- ...:
+
+  further arguments passed to or from other methods (currently unused)
+
 ## Value
 
 a ggplot object
@@ -34,34 +38,46 @@ a ggplot object
 ## Examples
 
 ``` r
-# create exposure matrix
-exposure_columns <- list(
- "date" = "date",
- "exposure" = "tmax_C",
- "geo_unit" = "TOWN20",
-)
-#> Error in list(date = "date", exposure = "tmax_C", geo_unit = "TOWN20",     ): argument 4 is empty
-middlesex_exposure <- subset(ma_exposure, COUNTY20 == 'MIDDLESEX')
-middlesex_exposure_mat <- make_exposure_matrix(middlesex_exposure, exposure_columns)
-#> Error: object 'exposure_columns' not found
-# create outcome table
-outcome_columns <- list(
- "date" = "date",
- "outcome" = "daily_deaths",
- "factor" = 'age_grp',
- "factor" = 'sex',
- "geo_unit" = "TOWN20",
- "geo_unit_grp" = "COUNTY20"
-)
-middlesex_deaths   <- subset(ma_deaths, COUNTY20 == 'MIDDLESEX')
-middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns)
-#> Error in time_subset_validate(time_subset, data_years): A `time_subset` must be explicitly provided, e.g. list(month = 5:9).
-#>     To indicate using all available time, put time_subset = 'use_all'
-# run the model
-m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
-outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
-global_cen = 15)
-#> Error: object 'middlesex_exposure_mat' not found
-plot(m2)
-#> Error: object 'm2' not found
+exposure_columns <- list("date" = "date", "exposure" = "tmax_C",
+                         "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+outcome_columns <- list("date" = "date", "outcome" = "daily_deaths",
+                        "geo_unit" = "TOWN20", "geo_unit_grp" = "COUNTY20")
+time_subset <- list(month = 5:9, year = 2012:2013)
+exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
+                                     exposure_columns, time_subset = time_subset)
+#> -- NA values automatically removed
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
+                                   outcome_columns, time_subset = time_subset)
+#> Missing outcome values introduced by xgrid were set to 0;
+#>             assumes that every time in the dataset should have an outcome value
+#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
+m <- condPois_1stage(exposure_mat, outcomes_tbl)
+#> 
+#> crossbasis args for geo_unit  BOSTON :
+#> 
+#> maxlag: 5 
+#> 
+#> argvar:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: Named num [1:2] 25.6 31.9
+#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
+#> 
+#> arglag:
+#> List of 2
+#>  $ fun  : chr "ns"
+#>  $ knots: num [1:2] 0.878 2.095
+#> 
+#> strata:
+#> BOSTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> min_n: 50 
+#> 
+#> truncate final RR and basis cen:  0.025 
+#> formula:
+#>    daily_deaths ~ cb
+#> family: quasipoisson
+plot(m)
 ```

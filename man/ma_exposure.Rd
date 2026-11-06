@@ -16,7 +16,8 @@ A data frame with one row per date and town and the following variables:
 \description{
 A SIMULATED dataset containing \emph{fictional} daily maximum temperature measurements linked to
 Massachusetts towns. Each row represents a single day–town observation
-with the corresponding maximum temperature in degrees Celsius.
+with the corresponding maximum temperature in degrees Celsius, rounded to
+0.1 degrees. Covers 2010 to 2015.
 }
 \details{
 This dataset is typically used for environmental exposure assessment and

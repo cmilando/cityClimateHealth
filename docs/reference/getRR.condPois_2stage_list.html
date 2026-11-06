@@ -56,7 +56,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'condPois_2stage_list'</span></span>
-<span><span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +66,10 @@
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>an object of class condPois_2stage_list</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>further arguments passed to or from other methods (currently unused)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -74,11 +78,130 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="co"># set up exposure matrix and outcome table first (see condPois_2stage example)</span></span></span>
-<span class="r-in"><span>  <span class="va">model_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">model_list</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">towns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHELSEA"</span>, <span class="st">"EVERETT"</span>, <span class="st">"REVERE"</span>, <span class="st">"MALDEN"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"tmax_C"</span>,</span></span>
+<span class="r-in"><span>                         <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span></span>
+<span class="r-in"><span>                        <span class="st">"factor"</span> <span class="op">=</span> <span class="st">"age_grp"</span>,</span></span>
+<span class="r-in"><span>                        <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">time_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>, year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2013</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                     <span class="va">exposure_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- NA values automatically removed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                   <span class="va">outcome_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; Combined factor is  age_grp </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Missing outcome values introduced by xgrid were set to 0;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="co"># with a factor, a condPois_2stage_list is returned</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 32.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 32.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 32.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-in"><span><span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        TOWN20 COUNTY20 tmax_C        RR     RRlb      RRub  stage age_grp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;   &lt;char&gt;  &lt;num&gt;     &lt;num&gt;    &lt;num&gt;     &lt;num&gt; &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1: CHELSEA  SUFFOLK    8.0 0.8962769 0.805826 0.9968806 stage2    0-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2: CHELSEA  SUFFOLK    8.1 0.8962769 0.805826 0.9968806 stage2    0-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3: CHELSEA  SUFFOLK    8.2 0.8962769 0.805826 0.9968806 stage2    0-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    4: CHELSEA  SUFFOLK    8.3 0.8962769 0.805826 0.9968806 stage2    0-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    5: CHELSEA  SUFFOLK    8.4 0.8962769 0.805826 0.9968806 stage2    0-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                                                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6398:  REVERE  SUFFOLK   34.2 1.2283424 1.165341 1.2947499 stage1     65+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6399:  REVERE  SUFFOLK   34.3 1.2291841 1.164665 1.2972775 stage1     65+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6400:  REVERE  SUFFOLK   34.4 1.2300230 1.163951 1.2998453 stage1     65+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6401:  REVERE  SUFFOLK   34.5 1.2308602 1.163204 1.3024516 stage1     65+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6402:  REVERE  SUFFOLK   34.6 1.2316968 1.162427 1.3050947 stage1     65+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                model_class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    4: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    5: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6398: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6399: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6400: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6401: condPois_2stage_list</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6402: condPois_2stage_list</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

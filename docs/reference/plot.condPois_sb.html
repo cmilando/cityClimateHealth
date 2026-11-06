@@ -56,7 +56,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'condPois_sb'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">geo_unit</span>, xlab <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">geo_unit</span>, xlab <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, title <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -82,6 +82,10 @@
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>title override</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>further arguments passed to or from other methods (currently unused)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -90,11 +94,81 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="co"># set up exposure matrix and outcome table first (see condPois_2stage example)</span></span></span>
-<span class="r-in"><span>  <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">ma_exposure_matrix</span>, <span class="va">ma_outcomes_tbl</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span>, geo_unit <span class="op">=</span> <span class="st">"BOSTON"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">towns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHELSEA"</span>, <span class="st">"EVERETT"</span>, <span class="st">"REVERE"</span>, <span class="st">"MALDEN"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"tmax_C"</span>,</span></span>
+<span class="r-in"><span>                         <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>, <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"daily_deaths"</span>,</span></span>
+<span class="r-in"><span>                        <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"TOWN20"</span>, <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"COUNTY20"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">time_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">9</span>, year <span class="op">=</span> <span class="fl">2012</span><span class="op">:</span><span class="fl">2013</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_exposure</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                     <span class="va">exposure_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- NA values automatically removed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="va">outcomes_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_deaths</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                   <span class="va">outcome_columns</span>, time_subset <span class="op">=</span> <span class="va">time_subset</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Missing outcome values introduced by xgrid were set to 0;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
+<span class="r-in"><span><span class="va">shp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ma_towns</span>, <span class="va">TOWN20</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">towns</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_sb.html">condPois_sb</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span>, <span class="va">shp</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  STAN TYPE = laplace </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  SPATIAL MODEL = bym2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 32.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> has to be one polygon per row in `shp`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ...laplace optimize... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Initial log joint probability = -3358.51 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       99      -3356.81     0.0025141       7.47411           1           1      127    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      199       -3356.7    0.00032084      0.336854      0.2162           1      251    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Iter      log prob        ||dx||      ||grad||       alpha      alpha0  # evals  Notes  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      211       -3356.7   0.000175631      0.220171      0.9493     0.09493      267    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Optimization terminated normally:  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Convergence detected: relative gradient magnitude is below tolerance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Finished in  0.1 seconds.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ...laplace sample... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculating Hessian </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculating inverse of Cholesky factor </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Generating draws </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 100 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 200 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 300 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 400 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 500 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 600 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 700 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 800 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iteration: 900 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Finished in  0.4 seconds.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ...laplace draws... </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m</span>, geo_unit <span class="op">=</span> <span class="st">"CHELSEA"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.condPois_sb-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

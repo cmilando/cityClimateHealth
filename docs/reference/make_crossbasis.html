@@ -72,8 +72,42 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd></dd>
+<dl><dt id="arg-exposure-matrix">exposure_matrix<a class="anchor" aria-label="anchor" href="#arg-exposure-matrix"></a></dt>
+<dd><p>an exposure matrix of class <code>exposure</code>, from
+<code><a href="make_exposure_matrix.html">make_exposure_matrix()</a></code></p></dd>
+
+
+<dt id="arg-outcomes-tbl">outcomes_tbl<a class="anchor" aria-label="anchor" href="#arg-outcomes-tbl"></a></dt>
+<dd><p>an outcome table of class <code>outcome</code>, from
+<code><a href="make_outcome_table.html">make_outcome_table()</a></code></p></dd>
+
+
+<dt id="arg-unique-geos">unique_geos<a class="anchor" aria-label="anchor" href="#arg-unique-geos"></a></dt>
+<dd><p>character vector of the geo_units being modelled</p></dd>
+
+
+<dt id="arg-maxlag">maxlag<a class="anchor" aria-label="anchor" href="#arg-maxlag"></a></dt>
+<dd><p>integer, the maximum lag</p></dd>
+
+
+<dt id="arg-argvar">argvar<a class="anchor" aria-label="anchor" href="#arg-argvar"></a></dt>
+<dd><p>a list of <code>argvar</code> arguments for <code><a href="https://rdrr.io/pkg/dlnm/man/crossbasis.html" class="external-link">dlnm::crossbasis()</a></code></p></dd>
+
+
+<dt id="arg-arglag">arglag<a class="anchor" aria-label="anchor" href="#arg-arglag"></a></dt>
+<dd><p>a list of <code>arglag</code> arguments for <code><a href="https://rdrr.io/pkg/dlnm/man/crossbasis.html" class="external-link">dlnm::crossbasis()</a></code></p></dd>
+
+
+<dt id="arg-strata-min">strata_min<a class="anchor" aria-label="anchor" href="#arg-strata-min"></a></dt>
+<dd><p>minimum number of cases for a stratum to be kept</p></dd>
+
+
+<dt id="arg-min-n">min_n<a class="anchor" aria-label="anchor" href="#arg-min-n"></a></dt>
+<dd><p>minimum number of cases for a geo_unit</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>logical or integer; if truthy, print the crossbasis settings</p></dd>
 
 </dl></div>
 

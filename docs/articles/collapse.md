@@ -31,22 +31,22 @@ exposure_mat <-
 #> -- NA values automatically removed
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata  explag1  explag2  explag3  explag4  explag5
-#>               <char>    <num>    <num>    <num>    <num>    <num>
-#> 1: BOSTON:2010-05-01 15.73815  8.33770 10.85230 16.44320 18.74090
-#> 2: BOSTON:2010-05-02 23.13860 15.73815  8.33770 10.85230 16.44320
-#> 3: BOSTON:2010-05-03 26.10140 23.13860 15.73815  8.33770 10.85230
-#> 4: BOSTON:2010-05-04 31.56480 26.10140 23.13860 15.73815  8.33770
-#> 5: BOSTON:2010-05-05 27.78140 31.56480 26.10140 23.13860 15.73815
-#> 6: BOSTON:2010-05-06 26.28200 27.78140 31.56480 26.10140 23.13860
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    explag1 explag2 explag3 explag4 explag5
+#>      <num>   <num>   <num>   <num>   <num>
+#> 1:    15.7     8.3    10.9    16.4    18.7
+#> 2:    23.1    15.7     8.3    10.9    16.4
+#> 3:    26.1    23.1    15.7     8.3    10.9
+#> 4:    31.6    26.1    23.1    15.7     8.3
+#> 5:    27.8    31.6    26.1    23.1    15.7
+#> 6:    26.3    27.8    31.6    26.1    23.1
 
 ## group 
 exposure_mat <- 
@@ -62,22 +62,22 @@ exposure_mat <-
 #>         aggregating to geo_unit_grp and using geo_unit_grp as strata
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
-#>          date COUNTY20   tmax_C spatial_grp                    strata
-#>        <IDat>   <char>    <num>      <char>                    <char>
-#> 1: 2010-05-01  SUFFOLK 23.12585         ALL SUFFOLK:yr2010:mn05:dow07
-#> 2: 2010-05-02  SUFFOLK 26.17395         ALL SUFFOLK:yr2010:mn05:dow01
-#> 3: 2010-05-03  SUFFOLK 31.47430         ALL SUFFOLK:yr2010:mn05:dow02
-#> 4: 2010-05-04  SUFFOLK 27.80825         ALL SUFFOLK:yr2010:mn05:dow03
-#> 5: 2010-05-05  SUFFOLK 26.34880         ALL SUFFOLK:yr2010:mn05:dow04
-#> 6: 2010-05-06  SUFFOLK 25.82610         ALL SUFFOLK:yr2010:mn05:dow05
-#>          match_strata  explag1  explag2  explag3  explag4  explag5
-#>                <char>    <num>    <num>    <num>    <num>    <num>
-#> 1: SUFFOLK:2010-05-01 14.88210  8.35975 10.84310 16.44295 18.77265
-#> 2: SUFFOLK:2010-05-02 23.12585 14.88210  8.35975 10.84310 16.44295
-#> 3: SUFFOLK:2010-05-03 26.17395 23.12585 14.88210  8.35975 10.84310
-#> 4: SUFFOLK:2010-05-04 31.47430 26.17395 23.12585 14.88210  8.35975
-#> 5: SUFFOLK:2010-05-05 27.80825 31.47430 26.17395 23.12585 14.88210
-#> 6: SUFFOLK:2010-05-06 26.34880 27.80825 31.47430 26.17395 23.12585
+#>          date COUNTY20 tmax_C spatial_grp                    strata
+#>        <IDat>   <char>  <num>      <char>                    <char>
+#> 1: 2010-05-01  SUFFOLK  23.10         ALL SUFFOLK:yr2010:mn05:dow07
+#> 2: 2010-05-02  SUFFOLK  26.15         ALL SUFFOLK:yr2010:mn05:dow01
+#> 3: 2010-05-03  SUFFOLK  31.50         ALL SUFFOLK:yr2010:mn05:dow02
+#> 4: 2010-05-04  SUFFOLK  27.80         ALL SUFFOLK:yr2010:mn05:dow03
+#> 5: 2010-05-05  SUFFOLK  26.35         ALL SUFFOLK:yr2010:mn05:dow04
+#> 6: 2010-05-06  SUFFOLK  25.85         ALL SUFFOLK:yr2010:mn05:dow05
+#>          match_strata explag1 explag2 explag3 explag4 explag5
+#>                <char>   <num>   <num>   <num>   <num>   <num>
+#> 1: SUFFOLK:2010-05-01   14.90    8.35   10.85   16.40   18.75
+#> 2: SUFFOLK:2010-05-02   23.10   14.90    8.35   10.85   16.40
+#> 3: SUFFOLK:2010-05-03   26.15   23.10   14.90    8.35   10.85
+#> 4: SUFFOLK:2010-05-04   31.50   26.15   23.10   14.90    8.35
+#> 5: SUFFOLK:2010-05-05   27.80   31.50   26.15   23.10   14.90
+#> 6: SUFFOLK:2010-05-06   26.35   27.80   31.50   26.15   23.10
 
 ## group but keep unit exposures
 exposure_mat <- 
@@ -91,22 +91,22 @@ exposure_mat <-
 #> -- NA values automatically removed
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 head(exposure_mat)
-#>          date TOWN20 COUNTY20  tmax_C                   strata
-#>        <IDat> <char>   <char>   <num>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK 23.1386 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK 26.1014 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK 31.5648 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK 27.7814 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK 26.2820 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK 25.8546 BOSTON:yr2010:mn05:dow05
-#>         match_strata spatial_grp explag1  explag2 explag3  explag4 explag5
-#>               <char>      <char>   <num>    <num>   <num>    <num>   <num>
-#> 1: BOSTON:2010-05-01         ALL 14.8821 11.63195  8.3818  8.33770 10.8339
-#> 2: BOSTON:2010-05-02         ALL 23.1131 23.13860 14.8821 11.63195  8.3818
-#> 3: BOSTON:2010-05-03         ALL 26.2465 26.10140 23.1131 23.13860 14.8821
-#> 4: BOSTON:2010-05-04         ALL 31.3838 31.56480 26.2465 26.10140 23.1131
-#> 5: BOSTON:2010-05-05         ALL 27.8351 27.78140 31.3838 31.56480 26.2465
-#> 6: BOSTON:2010-05-06         ALL 26.4156 26.28200 27.8351 27.78140 31.3838
+#>          date TOWN20 COUNTY20 tmax_C                   strata      match_strata
+#>        <IDat> <char>   <char>  <num>                   <char>            <char>
+#> 1: 2010-05-01 BOSTON  SUFFOLK   23.1 BOSTON:yr2010:mn05:dow07 BOSTON:2010-05-01
+#> 2: 2010-05-02 BOSTON  SUFFOLK   26.1 BOSTON:yr2010:mn05:dow01 BOSTON:2010-05-02
+#> 3: 2010-05-03 BOSTON  SUFFOLK   31.6 BOSTON:yr2010:mn05:dow02 BOSTON:2010-05-03
+#> 4: 2010-05-04 BOSTON  SUFFOLK   27.8 BOSTON:yr2010:mn05:dow03 BOSTON:2010-05-04
+#> 5: 2010-05-05 BOSTON  SUFFOLK   26.3 BOSTON:yr2010:mn05:dow04 BOSTON:2010-05-05
+#> 6: 2010-05-06 BOSTON  SUFFOLK   25.9 BOSTON:yr2010:mn05:dow05 BOSTON:2010-05-06
+#>    spatial_grp explag1 explag2 explag3 explag4 explag5
+#>         <char>   <num>   <num>   <num>   <num>   <num>
+#> 1:         ALL    14.9   11.65     8.4    8.30    10.8
+#> 2:         ALL    23.1   23.10    14.9   11.65     8.4
+#> 3:         ALL    26.2   26.10    23.1   23.10    14.9
+#> 4:         ALL    31.4   31.60    26.2   26.10    23.1
+#> 5:         ALL    27.8   27.80    31.4   31.60    26.2
+#> 6:         ALL    26.4   26.30    27.8   27.80    31.4
 ```
 
 Now try with outcomes
@@ -144,9 +144,6 @@ outcomes_tbl <- make_outcome_table(
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9)): 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 head(outcomes_tbl)
 #>          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata
@@ -180,9 +177,6 @@ outcomes_tbl <- make_outcome_table(
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9), : 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 head(outcomes_tbl)
 #>          date COUNTY20 age_grp|sex daily_deaths spatial_grp
@@ -214,9 +208,6 @@ outcomes_tbl <- make_outcome_table(
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-#> Warning in make_outcome_table(boston_deaths, outcome_columns, time_subset = list(month = 5:9), : 2020 in data years, Outcome counts likely impacted by the
-#>             COVID-19 Pandemic. Be sure to include a covariate adjustment
-#>             or exclude this year from analysis.
 
 head(outcomes_tbl)
 #>          date TOWN20 COUNTY20 age_grp|sex daily_deaths                   strata

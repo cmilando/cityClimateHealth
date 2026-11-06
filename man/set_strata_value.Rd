@@ -12,10 +12,6 @@ set_strata_value(xgrid, column_mapping, dt_by)
 \item{column_mapping}{column mapping vector}
 
 \item{dt_by}{what is the date to aggregate by}
-
-\item{grp_level}{logical, group level aggregatation}
-
-\item{keep_unit}{logical, with or without unit level outcomes or exposures}
 }
 \value{
 a strata vector
