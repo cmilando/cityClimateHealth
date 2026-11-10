@@ -7,11 +7,17 @@ The package `cityClimateHealth` makes it simple to estimate climate-health impac
 
 ## Installing the package
 
+To get the latest version available on CRAN:
 ```
 install.packages('cityClimateHealth')
 ```
 
-you may have to first [install STAN](https://mc-stan.org/install/) and `cmdstanr`:
+To get the latest development version:
+```
+remotes::install_github('cmilando/cityClimateHealth')
+```
+
+You may have also have to [install STAN](https://mc-stan.org/install/) and `cmdstanr`:
 ```
 install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', getOption('repos')))
 ```
