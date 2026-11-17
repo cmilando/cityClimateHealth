@@ -133,7 +133,9 @@ ma_pop_data_long <- aggregate(
   FUN  = function(x) sum(x, na.rm = TRUE)
 )
 
-boston_deaths <- merge(boston_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
+boston_deaths <- merge(boston_deaths, 
+                       ma_pop_data_long, 
+                       by = "TOWN20", all.x = TRUE)
 ```
 
 Now, the rest of the outcome columns: 
@@ -213,14 +215,12 @@ argvar <- list(fun = arg_fun, knots = x_knots)
 arglag <- list(fun = lag_fun, knots = logknots(maxlag, nk = nk))
 ```
 
-Time-series models depend on adjustment for short- and long-term time-trends, such as seasonality. Here, we are using only summer months rather than a whole year of data, so we will use a default of 4 degrees of freedom and natural splines.
+Time-series models depend on adjustment for short- and long-term time-trends, such as seasonality. Here, we are using only summer months rather than a whole year of data, so we will use a default of 4 degrees of freedom per year and natural splines.
 
 ```{r seasonality}
 library(splines)
 
 boston_deaths_tbl$time_index <- as.numeric(boston_deaths_tbl$date - min(boston_deaths_tbl$date))
-
-time_trend <- ns(boston_deaths_tbl$time_index, df = 4)
 ```
 
 
@@ -234,7 +234,9 @@ cb <- crossbasis(x_mat, lag = maxlag, argvar = argvar, arglag = arglag)
 
 Now run the model:
 ```{r run_model}
-m_sub <- glm(daily_deaths ~ cb + dow + time_trend,
+m_sub <- glm(daily_deaths ~ cb + 
+               dow + 
+               ns(boston_deaths_tbl$time_index, df = 4) * factor(year(date)),
              data = boston_deaths_tbl,
              family = quasipoisson)
 summary(m_sub)
@@ -246,9 +248,9 @@ Next get the crosspred outputs correctly centered at the minimum RR
 ```{r crosspred}
 cp <- crosspred(cb, m_sub, cen = 20, by = 0.1)
 
-cen = cp$predvar[which.min(cp$allRRfit)]
-
-cp <- crosspred(cb, m_sub, cen = cen, by = 0.1)
+# cen = cp$predvar[which.min(cp$allRRfit)]
+# 
+# cp <- crosspred(cb, m_sub, cen = cen, by = 0.1)
 ```
 
 And plot:
@@ -312,8 +314,11 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 
 
 # run the model
-m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat, 
-                  outcomes_tbl = boston_deaths_tbl, time_trend = "season", global_cen = 20)
+m1 <- timeseries_1stage_glm(
+  exposure_matrix = boston_exposure_mat, 
+  outcomes_tbl = boston_deaths_tbl, 
+  time_trend = "season", 
+  global_cen = 20)
 
 ```
 
@@ -331,7 +336,7 @@ getRR(m1)
 
 ### Compare: Gasparinni et al. 
 
-We can compare the functionality of cityclimateHealth to the gold standard of DLNM: [Gasparrini et al.'s work](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf).
+We can compare the functionality of cityclimateHealth to [Gasparrini et al.'s work](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf).
 
 First, let us look at Gasparrini et al.'s simulated dataset, looking at cardiovascular, respiratory, and mortality outcomes in a Chicago population: 
 
@@ -348,8 +353,14 @@ Gasparrini et al. specify a model to examine the association between mortality a
 
 head(chicagoNMMAPS)
 
-cb1.temp <- crossbasis(chicagoNMMAPS$temp, lag=15, argvar=list(fun="bs", degree=3, Boundary.knots = c(-26.66667, 33.33333)),
-arglag=list(fun="poly",degree=4))
+kn = quantile(subset(chicagoNMMAPS, year %in% 1988:2000)$temp, 
+                     probs =  c(0.1, 0.5, 0.9))
+kn
+
+cb1.temp <- crossbasis(chicagoNMMAPS$temp, 
+                       lag=15, 
+                       argvar=list(fun="bs", knots = kn, degree=3),
+                       arglag=list(fun="poly",degree=4))
 
 summary(cb1.temp)
 
@@ -360,13 +371,14 @@ summary(cb1.temp)
 library(splines)
 
 
-##we're going to subset to 1988 and beyond, so there's no NAs for 1987 
-sel <- chicagoNMMAPS$year >= 1988
+##we're going to subset to 1988:2000
+sel <- chicagoNMMAPS$year %in% 1988:2000
 
-
-gasparrini_model <- glm(death ~ cb1.temp + ns(time, 7*13) + dow, ##similar to our package, 7 df is used per year, and we're using 13 years here  
-              
-family=quasipoisson(), chicagoNMMAPS, subset = sel)
+##similar to our package, 7 df is used per year, and we're using 13 years here
+gasparrini_model <- glm(death ~ cb1.temp + ns(time, 7*13) + dow,
+                        family=quasipoisson(), 
+                        data=chicagoNMMAPS, 
+                        subset = sel)
 
 ```
 
@@ -388,6 +400,7 @@ exposure_columns <- list(
   "geo_unit" = "town",
   "geo_unit_grp" = "county"
 )
+
 chicago_exposure_mat <- 
   make_exposure_matrix(
     chiacgo_exposure, 
@@ -395,6 +408,10 @@ chicago_exposure_mat <-
     maxlag = 15, 
     maxgap = 10, 
     time_subset = list(year = 1988:2000))
+
+quantile(chicago_exposure_mat$temp, probs = c(0.1, 0.5, 0.9))
+quantile(subset(chiacgo_exposure, year %in% 1988:2000)$temp, 
+         probs = c(0.1, 0.5, 0.9))
 
 ```
 Now, we prep the outcome data: 
@@ -410,8 +427,11 @@ outcome_columns <- list(
   "geo_unit_grp" = "county"
 )
 
-chicago_deaths_tbl <- make_outcome_table(chiacgo_exposure,  outcome_columns,
-                                        time_subset = list(year = 1988:2000))
+chicago_deaths_tbl <- make_outcome_table(
+  chiacgo_exposure,  
+  outcome_columns,
+  time_subset = list(year = 1988:2000)
+)
 
 ```
 
@@ -421,11 +441,12 @@ And run the model:
 ```{r cityclimatehealth model chicago dataset}
 
 # run the model
+##we have to override the internal cityclimateHealth argvar and                                             arglag functions, to match Gasparrini et al.
 cityclimatehealth_model <- timeseries_1stage_glm(
   exposure_matrix = chicago_exposure_mat,
   outcomes_tbl = chicago_deaths_tbl,
   maxlag = 15,
-  argvar = list(fun = "bs", degree = 3),   ##we have to override the internal cityclimateHealth argvar and                                             arglag functions, to match Gasparrini et al.
+  argvar = list(fun = "bs", pct = c(0.1, 0.5, 0.9), degree = 3),   
   arglag = list(fun = "poly", degree = 4),
   time_trend = "annual",
   global_cen = 5
@@ -439,7 +460,7 @@ Now we have both models to compare! Here's the output from the Gasparrini et al.
 
 library(ggplot2)
 
-gasp_cp <- crosspred(cb1.temp, gasparrini_model)
+gasp_cp <- crosspred(cb1.temp, gasparrini_model, cen = 5)
 plot(gasp_cp, 'overall')
 
 ```
@@ -454,7 +475,12 @@ And if we want to look at RRs for specific values from Gasparrini:
 
 ```{r gasparrini RR value prediction}
 
-gasp_cp$allRRfit["-26"]
+data.frame(
+  temp = 30,
+  RR = gasp_cp$allRRfit["30"],
+  RRlb= gasp_cp$allRRlow["30"],
+  RRub = gasp_cp$allRRhigh["30"]
+)
 
 ```
 
@@ -462,7 +488,7 @@ Versus ours:
 
 ```{r cityclimatehealth RR value prediction}
 
-getRR(cityclimatehealth_model)
+subset(getRR(cityclimatehealth_model), temp == 30)
 
 ```
 

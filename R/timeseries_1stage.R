@@ -385,6 +385,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     cat("\n")
   }
 
+  # RUN THE MODEL
   m_sub <- glm(formula = ff, ##link to gasparrini repo: how did he define formula, which terms were brought out individually
                data = model_data,
                family = quasipoisson(link = "log"))

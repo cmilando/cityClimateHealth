@@ -27,12 +27,14 @@ check_argvar <- function(argvar, this_exp) {
     # this one is a little tricky because its based on the local data
     if(argvar$fun == 'ns') {
 
+      stopifnot("pct" %in% names(argvar))
       stopifnot(all(argvar$pct < 1) & all(argvar$pct > 0))
       x_knots = quantile(this_exp, probs = argvar$pct)
       this_argvar <- list(fun = argvar$fun, knots = x_knots)
 
     } else if(argvar$fun == 'bs') {
 
+      stopifnot("pct" %in% names(argvar))
       stopifnot(all(argvar$pct < 1) & all(argvar$pct > 0))
       stopifnot(argvar$degree %in% c(2:4))
       x_knots = quantile(this_exp, probs = argvar$pct)
