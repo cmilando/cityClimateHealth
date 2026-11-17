@@ -58,13 +58,19 @@
 #'                                    outcome_columns, time_subset = time_subset)
 #' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
 timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
-                                     argvar = NULL, arglag = NULL, maxlag = NULL,
-                                     min_n = 50, time_trend = c("annual", "season"),
-                                     dfseas = 7, df_time = NULL,
-                                     population_col = NULL,
-                                     add_dow = TRUE, global_cen = NULL,
-                                     multi_zone = FALSE, verbose = TRUE,
-                                     truncate = 0.025) {
+                                  argvar = NULL,
+                                  arglag = NULL,
+                                  maxlag = NULL,
+                                  min_n = 50,
+                                  time_trend = c("annual", "season"),
+                                  dfseas = 7,
+                                  df_time = NULL,
+                                  population_col = NULL,
+                                  add_dow = TRUE,
+                                  global_cen = NULL,
+                                  multi_zone = FALSE,
+                                  verbose = TRUE,
+                                  truncate = 0.025) {
 
   ## Check 1: that both inputs are the right class of variables
   stopifnot("exposure" %in% class(exposure_matrix))
@@ -300,16 +306,24 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   }
 
   ## time spline df
-  n_years <- as.numeric(diff(range(outcomes_tbl[, get(date_col)]))) / 365
+  ## round up
+  n_years <- ceiling(as.numeric(diff(range(outcomes_tbl[, get(date_col)]))) / 365)
 
   if(time_trend == "annual") {
+
     ## 7 df/year is the standard full-year time-series-DLNM default
     if(is.null(df_time)) df_time <- max(4, round(dfseas * n_years))
-  } else {
+
+    } else {
+
     ## "season": within-season smooth, doesn't scale with n_years --
     ## inter-annual variation is instead absorbed by factor(yr)
-    if(is.null(df_time)) df_time <- 4
+    if(is.null(df_time)) {
+      df_time <- 4
+    }
+
     n_seasons <- length(unique(outcomes_tbl$yr))
+
     if(n_seasons < 2 && verbose) {
       warning("time_trend = 'season' but only 1 year of data is present:
               factor(yr) will have no effect and this is equivalent to just
@@ -320,7 +334,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
 
   if(verbose) {
     cat("time_trend:", time_trend, "\n")
-    cat("n_years (approx):", round(n_years, 2), "\n")
+    cat("n_years:", n_years, "\n")
     if(time_trend == "annual") {
       cat("df_time for ns(date):", df_time, "\n")
     } else {
@@ -351,13 +365,20 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   geo_suffix <- if(use_geo_int) ":factor(geo_unit)" else ""
 
   if(time_trend == "annual") {
+
     trend_terms <- sprintf("ns(time_num, df = %d)%s", df_time, geo_suffix)
+
   } else {
+
     if(use_geo_int) {
-      trend_terms <- c(paste0("yr", geo_suffix),
-                       sprintf("ns(day_of_season, df = %d)%s * yr", df_time, geo_suffix))
+
+      trend_terms <-
+        c(paste0("yr", geo_suffix),
+          sprintf("ns(day_of_season, df = %d)%s * yr", df_time, geo_suffix))
     } else {
-      trend_terms <- sprintf("ns(day_of_season, df = %d) * yr", df_time)
+
+        trend_terms <- sprintf("ns(day_of_season, df = %d) * yr", df_time)
+
     }
   }
 
@@ -368,7 +389,9 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     rhs_terms <- c(rhs_terms, sprintf("offset(log(%s))", population_col))
   }
 
-  ff <- as.formula(paste(outcome_col, "~", paste(rhs_terms, collapse = " + ")))
+  # FORMULA
+  ff <- as.formula(paste(outcome_col, "~",
+                         paste(rhs_terms, collapse = " + ")))
 
   model_data <- copy(outcomes_tbl)
   model_data[, geo_unit := get(out_geo_unit_col)]
