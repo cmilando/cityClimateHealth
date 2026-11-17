@@ -84,6 +84,256 @@
 <p>need a validation rmd of the data with larger population sizes and
 low variance and maybe just one lag so its easy to see</p>
 <p>or maybe just one populations segment</p>
+<div class="section level3">
+<h3 id="compare-gasparinni-et-al-">Compare: Gasparinni et al. <a class="anchor" aria-label="anchor" href="#compare-gasparinni-et-al-"></a>
+</h3>
+<p>We can compare the functionality of cityclimateHealth to <a href="https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf" class="external-link">Gasparrini
+et al.’s work</a>.</p>
+<p>First, let us look at Gasparrini et al.’s simulated dataset, looking
+at cardiovascular, respiratory, and mortality outcomes in a Chicago
+population:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gasparrini/dlnm" class="external-link">dlnm</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; This is dlnm 2.4.10. For details: help(dlnm) and vignette('dlnmOverview').</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         date time year month doy      dow death cvd resp       temp   dptp</span></span>
+<span><span class="co">#&gt; 1 1987-01-01    1 1987     1   1 Thursday   130  65   13 -0.2777778 31.500</span></span>
+<span><span class="co">#&gt; 2 1987-01-02    2 1987     1   2   Friday   150  73   14  0.5555556 29.875</span></span>
+<span><span class="co">#&gt; 3 1987-01-03    3 1987     1   3 Saturday   101  43   11  0.5555556 27.375</span></span>
+<span><span class="co">#&gt; 4 1987-01-04    4 1987     1   4   Sunday   135  72    7 -1.6666667 28.625</span></span>
+<span><span class="co">#&gt; 5 1987-01-05    5 1987     1   5   Monday   126  64   12  0.0000000 28.875</span></span>
+<span><span class="co">#&gt; 6 1987-01-06    6 1987     1   6  Tuesday   130  63   12  4.4444444 35.125</span></span>
+<span><span class="co">#&gt;     rhum     pm10       o3</span></span>
+<span><span class="co">#&gt; 1 95.500 26.95607 4.376079</span></span>
+<span><span class="co">#&gt; 2 88.250       NA 4.929803</span></span>
+<span><span class="co">#&gt; 3 89.500 32.83869 3.751079</span></span>
+<span><span class="co">#&gt; 4 84.500 39.95607 4.292746</span></span>
+<span><span class="co">#&gt; 5 74.500       NA 4.751079</span></span>
+<span><span class="co">#&gt; 6 77.375 40.95607 6.334412</span></span></code></pre></div>
+<p>Gasparrini et al. specify a model to examine the association between
+mortality and particulate matter 10 microns across or smaller (PM10),
+while adjusting for temperature. The research team defined the
+crossbasis objects and models accordingly:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gasparrini/dlnm" class="external-link">dlnm</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     %notin%</span></span>
+<span></span>
+<span><span class="co"># CONSTANTS</span></span>
+<span><span class="va">maxlag</span> <span class="op">=</span> <span class="fl">15</span></span>
+<span><span class="va">pct</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span></span>
+<span><span class="va">argvar_fcn</span> <span class="op">=</span> <span class="st">'bs'</span></span>
+<span><span class="va">argvar_degree</span> <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="va">arglag_fcn</span> <span class="op">=</span> <span class="st">'poly'</span></span>
+<span><span class="va">arglag_degree</span> <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="va">df_per_year</span> <span class="op">=</span> <span class="fl">7</span></span>
+<span></span>
+<span><span class="co"># DATA</span></span>
+<span><span class="va">chicagoNMMAPS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/copy.html" class="external-link">copy</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add group levels</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">town</span> <span class="op">&lt;-</span> <span class="st">"Chicago"</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">county</span> <span class="op">&lt;-</span> <span class="st">"Cook"</span></span>
+<span></span>
+<span><span class="co"># add dow</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">[</span>, <span class="va">dt_fmt</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">as.IDate</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">[</span>, <span class="va">dow_int</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">dt_fmt</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">[</span>, <span class="va">dow</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/weekday.POSIXt.html" class="external-link">weekdays</a></span><span class="op">(</span><span class="va">dt_fmt</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># EXPOSURE</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span></span>
+<span><span class="co"># make XMAT</span></span>
+<span><span class="va">xmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="va">maxlag</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">xmat</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">temp</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">xmat</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">xmat</span><span class="op">[</span>,<span class="va">j</span><span class="op">]</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">temp</span>, <span class="va">j</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">xmat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;            [,1]       [,2]       [,3]       [,4]       [,5]       [,6] [,7]</span></span>
+<span><span class="co">#&gt; [1,] -0.2777778         NA         NA         NA         NA         NA   NA</span></span>
+<span><span class="co">#&gt; [2,]  0.5555556 -0.2777778         NA         NA         NA         NA   NA</span></span>
+<span><span class="co">#&gt; [3,]  0.5555556  0.5555556 -0.2777778         NA         NA         NA   NA</span></span>
+<span><span class="co">#&gt; [4,] -1.6666667  0.5555556  0.5555556 -0.2777778         NA         NA   NA</span></span>
+<span><span class="co">#&gt; [5,]  0.0000000 -1.6666667  0.5555556  0.5555556 -0.2777778         NA   NA</span></span>
+<span><span class="co">#&gt; [6,]  4.4444444  0.0000000 -1.6666667  0.5555556  0.5555556 -0.2777778   NA</span></span>
+<span><span class="co">#&gt;      [,8] [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16]</span></span>
+<span><span class="co">#&gt; [1,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span><span class="co">#&gt; [2,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span><span class="co">#&gt; [3,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span><span class="co">#&gt; [4,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span><span class="co">#&gt; [5,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span><span class="co">#&gt; [6,]   NA   NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span></span>
+<span><span class="co"># get knots</span></span>
+<span><span class="va">kn</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">temp</span>, probs <span class="op">=</span>  <span class="va">pct</span><span class="op">)</span></span>
+<span><span class="va">kn</span></span>
+<span><span class="co">#&gt;       10%       50%       90% </span></span>
+<span><span class="co">#&gt; -3.888889 10.555556 23.888889</span></span>
+<span></span>
+<span><span class="va">cb1.temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dlnm/man/crossbasis.html" class="external-link">crossbasis</a></span><span class="op">(</span></span>
+<span>  <span class="va">xmat</span>, lag <span class="op">=</span> <span class="va">maxlag</span>, </span>
+<span>  argvar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fun<span class="op">=</span><span class="va">argvar_fcn</span>, knots <span class="op">=</span> <span class="va">kn</span>, degree<span class="op">=</span><span class="va">argvar_degree</span><span class="op">)</span>,</span>
+<span>  arglag<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fun<span class="op">=</span><span class="va">arglag_fcn</span>,degree<span class="op">=</span><span class="va">arglag_degree</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">cb1.temp</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 5114   30</span></span>
+<span></span>
+<span><span class="co"># also make it in cityClimateHealth</span></span>
+<span><span class="co"># create exposure matrix</span></span>
+<span><span class="va">exposure_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"exposure"</span> <span class="op">=</span> <span class="st">"temp"</span>, </span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"town"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"county"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">chicago_exposure_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_exposure_matrix.html">make_exposure_matrix</a></span><span class="op">(</span></span>
+<span>    <span class="va">chicagoNMMAPS</span>, </span>
+<span>    <span class="va">exposure_columns</span>, </span>
+<span>    maxlag <span class="op">=</span> <span class="va">maxlag</span>,</span>
+<span>    time_subset <span class="op">=</span> <span class="st">'use_all'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
+<span></span>
+<span><span class="co"># looks good</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">chicago_exposure_mat</span><span class="op">$</span><span class="va">temp</span>, probs <span class="op">=</span> <span class="va">pct</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       10%       50%       90% </span></span>
+<span><span class="co">#&gt; -3.888889 10.555556 23.888889</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">temp</span>, probs <span class="op">=</span> <span class="va">pct</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       10%       50%       90% </span></span>
+<span><span class="co">#&gt; -3.888889 10.555556 23.888889</span></span>
+<span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># OUTCOME</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span></span>
+<span><span class="co"># create outcome table</span></span>
+<span><span class="va">outcome_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  <span class="st">"outcome"</span> <span class="op">=</span> <span class="st">"death"</span>,</span>
+<span>  <span class="st">"geo_unit"</span> <span class="op">=</span> <span class="st">"town"</span>,</span>
+<span>  <span class="st">"geo_unit_grp"</span> <span class="op">=</span> <span class="st">"county"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">chicago_deaths_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_outcome_table.html">make_outcome_table</a></span><span class="op">(</span></span>
+<span>  <span class="va">chicagoNMMAPS</span>,  </span>
+<span>  <span class="va">outcome_columns</span>,</span>
+<span>  time_subset <span class="op">=</span> <span class="st">'use_all'</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># MODEL</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span></span>
+<span><span class="co"># similar to our package, 7 df is used per year</span></span>
+<span><span class="va">n_years</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/IDateTime.html" class="external-link">year</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">$</span><span class="va">dt_fmt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># get a numeric index for time</span></span>
+<span><span class="va">chicagoNMMAPS</span><span class="op">[</span>, <span class="va">time_num</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">dt_fmt</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># removing NA values due to maxlag</span></span>
+<span><span class="co"># -- make sure to reset crossbasis attributes</span></span>
+<span><span class="va">cb1.temp_not_na</span> <span class="op">&lt;-</span> <span class="va">cb1.temp</span><span class="op">[</span><span class="op">(</span><span class="va">maxlag</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cb1.temp</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">tmp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">cb1.temp</span><span class="op">)</span></span>
+<span><span class="va">tmp</span><span class="op">$</span><span class="va">dim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">cb1.temp_not_na</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">cb1.temp_not_na</span><span class="op">)</span> <span class="op">=</span> <span class="va">tmp</span></span>
+<span><span class="co"># and in outcomes</span></span>
+<span><span class="va">chicagoNMMAPS_not_na</span> <span class="op">&lt;-</span> <span class="va">chicagoNMMAPS</span><span class="op">[</span><span class="op">(</span><span class="va">maxlag</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">chicagoNMMAPS</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># run the model</span></span>
+<span><span class="va">gasparrini_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">death</span> <span class="op">~</span> <span class="va">cb1.temp_not_na</span> <span class="op">+</span> </span>
+<span>                          <span class="fu"><a href="https://rdrr.io/r/splines/ns.html" class="external-link">ns</a></span><span class="op">(</span><span class="va">time_num</span>, <span class="va">df_per_year</span> <span class="op">*</span> <span class="va">n_years</span><span class="op">)</span> <span class="op">+</span> <span class="va">dow</span>,</span>
+<span>                        data <span class="op">=</span> <span class="va">chicagoNMMAPS_not_na</span>, </span>
+<span>                        family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">quasipoisson</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># get a centered crosspred</span></span>
+<span><span class="va">gasp_cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dlnm/man/crosspred.html" class="external-link">crosspred</a></span><span class="op">(</span><span class="va">cb1.temp</span>, <span class="va">gasparrini_model</span>, cen <span class="op">=</span> <span class="fl">5</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="va">xcen</span> <span class="op">=</span> <span class="va">gasp_cp</span><span class="op">$</span><span class="va">predvar</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">gasp_cp</span><span class="op">$</span><span class="va">allRRfit</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">gasp_cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dlnm/man/crosspred.html" class="external-link">crosspred</a></span><span class="op">(</span><span class="va">cb1.temp</span>, <span class="va">gasparrini_model</span>, cen <span class="op">=</span> <span class="va">xcen</span><span class="op">)</span></span>
+<span><span class="co"># plot(gasp_cp, "overall")</span></span>
+<span></span>
+<span><span class="co">#xs</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  temp <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  RR <span class="op">=</span> <span class="va">gasp_cp</span><span class="op">$</span><span class="va">allRRfit</span><span class="op">[</span><span class="st">"30"</span><span class="op">]</span>,</span>
+<span>  RRlb<span class="op">=</span> <span class="va">gasp_cp</span><span class="op">$</span><span class="va">allRRlow</span><span class="op">[</span><span class="st">"30"</span><span class="op">]</span>,</span>
+<span>  RRub <span class="op">=</span> <span class="va">gasp_cp</span><span class="op">$</span><span class="va">allRRhigh</span><span class="op">[</span><span class="st">"30"</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;    temp       RR     RRlb     RRub</span></span>
+<span><span class="co">#&gt; 30   30 1.592442 1.475681 1.718442</span></span>
+<span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># MODEL</span></span>
+<span><span class="co"># /////////////////////////////////////////////////////////////////////////////</span></span>
+<span><span class="co"># =============================================================================</span></span>
+<span></span>
+<span><span class="va">cityclimatehealth_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/timeseries_1stage_glm.html">timeseries_1stage_glm</a></span><span class="op">(</span></span>
+<span>  exposure_matrix <span class="op">=</span> <span class="va">chicago_exposure_mat</span>,</span>
+<span>  outcomes_tbl <span class="op">=</span> <span class="va">chicago_deaths_tbl</span>,</span>
+<span>  maxlag <span class="op">=</span> <span class="va">maxlag</span>,</span>
+<span>  argvar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">argvar_fcn</span>, pct <span class="op">=</span> <span class="va">pct</span>, degree <span class="op">=</span> <span class="va">argvar_degree</span><span class="op">)</span>,   </span>
+<span>  arglag <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">arglag_fcn</span>, degree <span class="op">=</span> <span class="va">arglag_degree</span><span class="op">)</span>,</span>
+<span>  df_per_year <span class="op">=</span> <span class="va">df_per_year</span>,</span>
+<span>  time_trend <span class="op">=</span> <span class="st">"annual"</span>,</span>
+<span>  global_cen <span class="op">=</span> <span class="va">xcen</span>,</span>
+<span>  truncate <span class="op">=</span> <span class="fl">0.0</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; crossbasis args for geo_unit  Chicago :</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; maxlag: 15 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; argvar:</span></span>
+<span><span class="co">#&gt; List of 3</span></span>
+<span><span class="co">#&gt;  $ fun   : chr "bs"</span></span>
+<span><span class="co">#&gt;  $ knots : Named num [1:3] -3.89 10.56 23.89</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:3] "10%" "50%" "90%"</span></span>
+<span><span class="co">#&gt;  $ degree: num 3</span></span>
+<span><span class="co">#&gt; Warning in timeseries_1stage_glm(exposure_matrix = chicago_exposure_mat, :</span></span>
+<span><span class="co">#&gt; check that arglag is valid</span></span>
+<span><span class="co">#&gt; arglag:</span></span>
+<span><span class="co">#&gt; List of 2</span></span>
+<span><span class="co">#&gt;  $ fun   : chr "poly"</span></span>
+<span><span class="co">#&gt;  $ degree: num 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; min_n: 50 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time_trend: annual </span></span>
+<span><span class="co">#&gt; n_years: 14 </span></span>
+<span><span class="co">#&gt; df_time for ns(date): 98 </span></span>
+<span><span class="co">#&gt; add_dow: TRUE </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; use_geo_int (multi-zone interactions): FALSE </span></span>
+<span><span class="co">#&gt; population offset: none</span></span>
+<span><span class="co">#&gt; model formula:</span></span>
+<span><span class="co">#&gt; death ~ cb + ns(time_num, df = 98) + dow</span></span>
+<span></span>
+<span><span class="co">#plot(cityclimatehealth_model)</span></span>
+<span></span>
+<span><span class="co"># model, and you see that it matches above</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">cityclimatehealth_model</span><span class="op">)</span>, <span class="va">temp</span> <span class="op">==</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     temp       RR     RRlb     RRub n_geo_names       model_class</span></span>
+<span><span class="co">#&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;      &lt;char&gt;            &lt;char&gt;</span></span>
+<span><span class="co">#&gt; 1:    30 1.592442 1.475681 1.718442     Chicago timeseries_1stage</span></span></code></pre></div>
+</div>
   </main>
 </div>
 
@@ -94,7 +344,7 @@ low variance and maybe just one lag so its easy to see</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

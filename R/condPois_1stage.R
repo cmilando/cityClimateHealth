@@ -263,7 +263,7 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
 
   if(verbose) {
     cat("formula:\n")
-    cat("  ",ff_str)
+    print(ff, showEnv = FALSE)
     cat("\n")
   }
 

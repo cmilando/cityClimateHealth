@@ -16,18 +16,18 @@
 #'   soak up inter-annual variation) plus a smooth spline over day-of-season
 #'   (ns(day_of_season, df = df_time), which restarts each year and captures
 #'   the within-season shape of the trend, shared across years).
-#' @param dfseas degrees of freedom PER YEAR OF DATA for the "annual" time
+#' @param df_per_year degrees of freedom PER YEAR OF DATA for the "annual" time
 #'   trend spline. Default 7 (standard, see: Gasparrini). Ignored
 #'   if df_time is supplied directly, and ignored entirely when
 #'   time_trend = "season" (see df_time).
 #' @param df_time degrees of freedom for the time-trend spline. Meaning
 #'   depends on time_trend: for "annual" this is the total df for
-#'   ns(date, df = df_time) and if null is computed as round(dfseas * n_years).
+#'   ns(date, df = df_time) and if null is computed as round(df_per_year * n_years).
 #'   For "season" this is the df for the within-season smooth,
 #'   ns(day_of_season, df = df_time), and if null defaults to 4.
 #' @param add_dow logical, whether to add factor(dow) to the model as another time trend adjustment.
 #' Default TRUE.
-#' #' @param population_col optional, can be incorporated as population offset if that data is available
+#' @param population_col optional, can be incorporated as population offset if that data is available
 #' @param global_cen global centering point
 #' @param multi_zone must be true
 #' @param verbose used to print crossbasis args the first time
@@ -63,7 +63,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                   maxlag = NULL,
                                   min_n = 50,
                                   time_trend = c("annual", "season"),
-                                  dfseas = 7,
+                                  df_per_year = 7,
                                   df_time = NULL,
                                   population_col = NULL,
                                   add_dow = TRUE,
@@ -110,7 +110,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                               maxlag = maxlag,
                                               min_n = min_n,
                                               time_trend = time_trend,
-                                              dfseas = dfseas,
+                                              df_per_year = df_per_year,
                                               df_time = df_time,
                                               add_dow = add_dow,
                                               population_col = population_col,
@@ -312,7 +312,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   if(time_trend == "annual") {
 
     ## 7 df/year is the standard full-year time-series-DLNM default
-    if(is.null(df_time)) df_time <- max(4, round(dfseas * n_years))
+    if(is.null(df_time)) df_time <- max(4, round(df_per_year * n_years))
 
     } else {
 
@@ -393,9 +393,6 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   ff <- as.formula(paste(outcome_col, "~",
                          paste(rhs_terms, collapse = " + ")))
 
-  model_data <- copy(outcomes_tbl)
-  model_data[, geo_unit := get(out_geo_unit_col)]
-
   if(verbose) {
     cat("use_geo_int (multi-zone interactions):", use_geo_int, "\n")
     if(!is.null(population_col)) {
@@ -404,13 +401,15 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
       cat("population offset: none\n")
     }
     cat("model formula:\n")
-    print(ff)
+    print(ff, showEnv = F)
     cat("\n")
   }
 
   # RUN THE MODEL
-  m_sub <- glm(formula = ff, ##link to gasparrini repo: how did he define formula, which terms were brought out individually
-               data = model_data,
+  ##link to gasparrini repo: how did he define formula, which terms were brought out individually
+  # TODO: include population offset here
+  m_sub <- glm(formula = ff,
+               data = outcomes_tbl,
                family = quasipoisson(link = "log"))
 
   # Extract full model coefficients and covariance matrix
