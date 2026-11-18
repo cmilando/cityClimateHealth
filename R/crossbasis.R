@@ -68,17 +68,6 @@ make_crossbasis <- function(exposure_matrix, outcomes_tbl,
   }
 
   if(verbose) {
-    cat("strata:\n")
-    cat(paste(outcomes_tbl$strata[1]))
-    cat("\n")
-  }
-
-  if(verbose) {
-    cat("strata_min:",strata_min, "\n")
-    cat("\n")
-  }
-
-  if(verbose) {
     cat("min_n:",min_n, "\n")
     cat("\n")
   }

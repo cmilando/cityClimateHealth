@@ -183,35 +183,11 @@ tail when choosing the centering point (passed to <code>get_centered_cp</code>)<
 <span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">timeseries_1stage_glm</span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOSTON:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 31.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time_trend: annual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n_years (approx): 1.42 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> df_time for ns(date): 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> add_dow: TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> use_geo_int (multi-zone interactions): FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> population offset: none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb + ns(time_num, df = 10) + dow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x17f8a7708&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in timeseries_1stage_glm(exposure_mat, outcomes_tbl):</span> `df_per_year` cannot be null. For Annual, GASPARRINI uses 8. For Seasonal, GASPARRINI uses 4</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -223,7 +199,7 @@ tail when choosing the centering point (passed to <code>get_centered_cp</code>)<
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

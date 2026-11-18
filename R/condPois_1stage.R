@@ -146,6 +146,17 @@ condPois_1stage <- function(exposure_matrix, outcomes_tbl,
   stopifnot(min_n > 0)           # the minimum in a single geo-unit
   stopifnot(strata_min < min_n)  # by definition
 
+  if(verbose) {
+    cat("strata:\n")
+    cat(paste(outcomes_tbl$strata[1]))
+    cat("\n")
+  }
+
+  if(verbose) {
+    cat("strata_min:",strata_min, "\n")
+    cat("\n")
+  }
+
   # CHECK 8 check if multizone
   out_geo_unit <- sort(unlist(unique(outcomes_tbl[, get(out_geo_unit_col)])))
   if(!multi_zone) {

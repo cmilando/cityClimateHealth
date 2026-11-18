@@ -97,109 +97,9 @@
 <span class="r-in"><span><span class="co"># with a factor, a timeseries_1stage_list is returned</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="timeseries_1stage_glm.html">timeseries_1stage_glm</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt; age_grp : 0-17 &gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 31.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time_trend: annual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n_years (approx): 1.42 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> df_time for ns(date): 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> add_dow: TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> use_geo_int (multi-zone interactions): FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> population offset: none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb + ns(time_num, df = 10) + dow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x37c20f6a0&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt; age_grp : 18-64 &gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 31.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time_trend: annual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n_years (approx): 1.42 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> df_time for ns(date): 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> add_dow: TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> use_geo_int (multi-zone interactions): FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> population offset: none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb + ns(time_num, df = 10) + dow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x37cbff6a8&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt; age_grp : 65+ &gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> maxlag: 5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> argvar:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: Named num [1:2] 25.6 31.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "names")= chr [1:2] "50%" "90%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> arglag:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> time_trend: annual </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> n_years (approx): 1.42 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> df_time for ns(date): 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> add_dow: TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> use_geo_int (multi-zone interactions): FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> population offset: none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> model formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb + ns(time_num, df = 10) + dow</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x1370ef358&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in timeseries_1stage_glm(exposure_matrix = exposure_matrix, outcomes_tbl = subset_outcomes_tbl,     global_cen = global_cen, argvar = argvar, arglag = arglag,     maxlag = maxlag, min_n = min_n, strata_min = strata_min,     time_trend = time_trend, df_per_year = df_per_year, df_time = df_time,     add_dow = add_dow, population_col = population_col, multi_zone = multi_zone,     verbose = verbose, truncate = truncate):</span> unused argument (df_time = df_time)</span>
 <span class="r-in"><span><span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      tmax_C age_grp       RR     RRlb     RRub            model_class</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;num&gt;  &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;                 &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1:    8.6    0-17 1.000000 1.000000 1.000000 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:    8.7    0-17 1.001834 1.001071 1.002599 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:    8.8    0-17 1.003672 1.002143 1.005204 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:    8.9    0-17 1.005513 1.003216 1.007816 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:    9.0    0-17 1.007358 1.004290 1.010435 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ---                                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 812:   35.3     65+ 1.486694 1.361118 1.623855 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 813:   35.4     65+ 1.492488 1.364984 1.631902 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 814:   35.5     65+ 1.498314 1.368845 1.640027 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 815:   35.6     65+ 1.504168 1.372699 1.648228 timeseries_1stage_list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 816:   35.7     65+ 1.510048 1.376545 1.656498 timeseries_1stage_list</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'm' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -211,7 +111,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

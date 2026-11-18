@@ -97,6 +97,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
 <span class="r-in"><span><span class="co"># with a factor, a condPois_2stage_list is returned</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_2stage.html">condPois_2stage</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span>, global_cen <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -113,16 +117,17 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -139,16 +144,17 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  CHELSEA :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -165,15 +171,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CHELSEA:yr2012:mn05:dow03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
 <span class="r-in"><span><span class="fu"><a href="getRR.html">getRR</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        TOWN20 COUNTY20 tmax_C        RR     RRlb      RRub  stage age_grp</span>
@@ -213,7 +216,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

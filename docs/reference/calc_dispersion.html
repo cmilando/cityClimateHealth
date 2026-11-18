@@ -103,6 +103,10 @@ Minimal error checking of these inputs at present.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>             assumes that every time in the dataset should have an outcome value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow</span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span><span class="va">exposure_mat</span>, <span class="va">outcomes_tbl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOSTON:yr2012:mn05:dow03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> crossbasis args for geo_unit  BOSTON :</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -119,15 +123,12 @@ Minimal error checking of these inputs at present.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fun  : chr "ns"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots: num [1:2] 0.878 2.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BOSTON:yr2012:mn05:dow03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> strata_min: 0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min_n: 50 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> truncate final RR and basis cen:  0.025 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> formula:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> daily_deaths ~ cb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> family: quasipoisson</span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">m</span><span class="op">$</span><span class="va">`_`</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu">calc_dispersion</span><span class="op">(</span>y <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">outcomes</span>, X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">orig_basis</span><span class="op">)</span>,</span></span>
@@ -144,7 +145,7 @@ Minimal error checking of these inputs at present.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

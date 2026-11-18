@@ -102,12 +102,6 @@ Next let's investigate the deaths dataset - you can see that this has town level
 ```{r load_deaths} 
 boston_deaths <- subset(ma_deaths, TOWN20 == 'BOSTON')
 
-boston_deaths <- aggregate(
-  daily_deaths ~ TOWN20 + date + COUNTY20,
-  data = boston_deaths,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
-
 head(boston_deaths)
 ```
 
@@ -127,15 +121,10 @@ ma_pop_data_long <- melt(
   value.name = "population"
 )
 
-ma_pop_data_long <- aggregate(
-  population ~ TOWN20,
-  data = ma_pop_data_long,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
+ma_pop_data_long_agg <- ma_pop_data_long[ ,
+ .(population = sum(population)), by = 'TOWN20']
 
-boston_deaths <- merge(boston_deaths, 
-                       ma_pop_data_long, 
-                       by = "TOWN20", all.x = TRUE)
+boston_pop <- subset(ma_pop_data_long_agg, TOWN20 == 'BOSTON')
 ```
 
 Now, the rest of the outcome columns: 
@@ -175,14 +164,14 @@ Now, we add in a population offset:
 ```{r population offset data}
 population_columns <- list(
   "geo_unit" = "TOWN20",
-  "date" = "date", 
   "population" = "population"
 )
 
 boston_deaths_tbl <- add_population_offset(
   outcomes_tbl       = boston_deaths_tbl,
-  population_data    = boston_deaths,
-  population_columns = population_columns
+  population_data    = boston_pop,
+  population_columns = population_columns,
+  join_on = "TOWN20"
 )
 
 head(boston_deaths_tbl)
@@ -311,12 +300,11 @@ outcome_columns <- list(
 boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
                                         time_subset = list(month = 5:9))
 
-
-
 # run the model
 m1 <- timeseries_1stage_glm(
   exposure_matrix = boston_exposure_mat, 
   outcomes_tbl = boston_deaths_tbl, 
+  df_per_year = 4,
   time_trend = "season", 
   global_cen = 20)
 
@@ -348,11 +336,14 @@ exposure_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
-suffolk_exposure <- subset(ma_exposure, COUNTY20 == 'SUFFOLK')
-suffolk_exposure_mat <- make_exposure_matrix(suffolk_exposure, exposure_columns,
-                                               time_subset = list(month = 5:9))
 
-suffolk_exposure_mat[, date := as.Date(date)] 
+suffolk_exposure <- subset(ma_exposure, COUNTY20 == 'SUFFOLK')
+
+suffolk_exposure_mat <- make_exposure_matrix(
+  suffolk_exposure, 
+  exposure_columns,
+  time_subset = list(month = 5:9)
+  )
 
 # create outcome table
 outcome_columns <- list(
@@ -364,78 +355,38 @@ outcome_columns <- list(
 
 suffolk_deaths   <- subset(ma_deaths, COUNTY20 == 'SUFFOLK')
 
-suffolk_deaths <- merge(suffolk_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
+suffolk_deaths_tbl <- make_outcome_table(
+  suffolk_deaths,  
+  outcome_columns,
+  time_subset = list(month = 5:9))
 
-suffolk_deaths <- aggregate(
-  daily_deaths ~ TOWN20 + date + COUNTY20,
-  data = suffolk_deaths,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
-
-suffolk_deaths_tbl <- make_outcome_table(suffolk_deaths,  outcome_columns,
-                                        time_subset = list(month = 5:9))
-
-
-head(suffolk_deaths_tbl)
-
-```
-
-Now, we add in the population offset: 
-
-```{r single_zone2b population offset}
-
-population_columns <- list(
+population_columns = list(
   "geo_unit" = "TOWN20",
-  "date" = "date", 
   "population" = "population"
 )
 
-##add in population data 
-suffolk_deaths_tbl_df <- as.data.frame(suffolk_deaths_tbl)
-unique_town_date <- unique(suffolk_deaths_tbl_df[, c("TOWN20", "date")])
-
-pop_lookup <- unique(as.data.frame(ma_pop_data_long)[, c("TOWN20", "population")])
-
-population_data <- merge(unique_town_date, pop_lookup, by = "TOWN20", all.x = TRUE)
-
-##here we go! 
+head(ma_pop_data_long_agg)
 
 suffolk_deaths_tbl <- add_population_offset(
-  outcomes_tbl = suffolk_deaths_tbl,
-  population_data = population_data,
-  population_columns = population_columns
+  suffolk_deaths_tbl, 
+  ma_pop_data_long_agg, 
+  population_columns,
+  join_on = 'TOWN20'
 )
-
-suffolk_deaths_tbl[, date := as.Date(date)]
-
-head(suffolk_deaths_tbl)
-
-```
-
-And finally, we run the model: 
-
-```{r multi zone time series 1 stage model}
 
 # run the model
 m2 <- timeseries_1stage_glm(
   exposure_matrix = suffolk_exposure_mat, 
   outcomes_tbl = suffolk_deaths_tbl,
   multi_zone = TRUE,
+  df_per_year = 1,
   global_cen = 20,
   time_trend = "season",
-  population_col = "population"
+  population_col = "population",
+  truncate = 0
 )
 
-```
 
-And plot - notice the tighter confidence interval
-```{r single_plot2b, fig.height=3, fig.width=5}
 plot(m2)
-```
-
-
-And get RR:
-```{r getRR2}
-getRR(m2)
 ```
 

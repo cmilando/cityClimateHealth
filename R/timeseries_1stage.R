@@ -14,17 +14,11 @@
 #'   make_exposure_matrix()) - calendar date jumps discontinuously between
 #'   seasons/years in that case, so "season" instead fits factor(year) (to
 #'   soak up inter-annual variation) plus a smooth spline over day-of-season
-#'   (ns(day_of_season, df = df_time), which restarts each year and captures
+#'   (ns(doy, df = df_time), which restarts each year and captures
 #'   the within-season shape of the trend, shared across years).
 #' @param df_per_year degrees of freedom PER YEAR OF DATA for the "annual" time
-#'   trend spline. Default 7 (standard, see: Gasparrini). Ignored
-#'   if df_time is supplied directly, and ignored entirely when
-#'   time_trend = "season" (see df_time).
-#' @param df_time degrees of freedom for the time-trend spline. Meaning
-#'   depends on time_trend: for "annual" this is the total df for
-#'   ns(date, df = df_time) and if null is computed as round(df_per_year * n_years).
-#'   For "season" this is the df for the within-season smooth,
-#'   ns(day_of_season, df = df_time), and if null defaults to 4.
+#'   trend spline or PER SEASON for the "seasonal" time spline.
+#'   No Default (standard, see: Gasparrini).
 #' @param add_dow logical, whether to add factor(dow) to the model as another time trend adjustment.
 #' Default TRUE.
 #' @param population_col optional, can be incorporated as population offset if that data is available
@@ -62,9 +56,9 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                   arglag = NULL,
                                   maxlag = NULL,
                                   min_n = 50,
+                                  strata_min = 0,
                                   time_trend = c("annual", "season"),
-                                  df_per_year = 7,
-                                  df_time = NULL,
+                                  df_per_year = NULL,
                                   population_col = NULL,
                                   add_dow = TRUE,
                                   global_cen = NULL,
@@ -76,12 +70,15 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   stopifnot("exposure" %in% class(exposure_matrix))
   stopifnot("outcome" %in% class(outcomes_tbl))
 
-  ##Check 2: do time trend arguments match?
+  ## Check 2: do time trend arguments match?
   time_trend <- match.arg(time_trend)
 
-  ###############################################
-  # IF the outcomes_tbl has a FACTOR, enter a recursive loop
-  ###############################################
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # RECURSIVE CALL IF FACTOR
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
   if("factor" %in% names(attributes(outcomes_tbl)$column_mapping)) {
 
     factor_col <- attributes(outcomes_tbl)$column_mapping$factor
@@ -109,6 +106,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                                               arglag = arglag,
                                               maxlag = maxlag,
                                               min_n = min_n,
+                                              strata_min = strata_min,
                                               time_trend = time_trend,
                                               df_per_year = df_per_year,
                                               df_time = df_time,
@@ -136,9 +134,11 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
 
   }
 
-  ###############################################
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
   # VALIDATIONS
-  ###############################################
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   # Generic validation tests
   validated <- input_validation(exposure_matrix, outcomes_tbl)
@@ -165,15 +165,6 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
          seasonality spline.")
   }
 
-  outcomes_tbl[, (date_col) := as.Date(get(date_col))]
-  if(!("dow" %in% names(outcomes_tbl))) {
-    outcomes_tbl[, dow := factor(weekdays(get(date_col)))]
-  }
-  outcomes_tbl[, time_num := as.numeric(get(date_col))]
-
-  outcomes_tbl[, yr := factor(data.table::year(get(date_col)))]
-  outcomes_tbl[, day_of_season := data.table::yday(get(date_col))]
-
   ## CHECK 4 - minN for all geo_units
   geos_to_remove <- c()
   unique_geos <- unique(outcomes_tbl[, get(out_geo_unit_col)])
@@ -184,6 +175,21 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     if(sum(outcomes_tbl[rr, get(outcome_col)]) < min_n) {
       geos_to_remove <- c(geos_to_remove, this_geo)
     }
+  }
+
+  if(verbose) {
+    cat("strata:\n")
+    cat(paste(outcomes_tbl$strata[1]))
+    cat("\n")
+  }
+
+  if(verbose) {
+    cat("strata_min:",strata_min, "\n")
+    cat("\n")
+  }
+
+  if(is.null(df_per_year)) {
+    stop("`df_per_year` cannot be null. For Annual, GASPARRINI uses 8. For Seasonal, GASPARRINI uses 4")
   }
 
   if(length(geos_to_remove) > 0) {
@@ -200,23 +206,27 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   # safety flag the user must set to TRUE if >1 geo-units are passed in.
   # A single geo-unit works fine either way.
   out_geo_unit <- sort(unlist(unique(outcomes_tbl[, get(out_geo_unit_col)])))
-  n_geo <- length(out_geo_unit)
-
-  if(!multi_zone & n_geo != 1) {
-    stop("N geo_units passed in are > 1, if you are running a 1stage model this
-         means you need to set multi_zone = TRUE")
+  if(!multi_zone) {
+    if(length(out_geo_unit) != 1)
+      stop("N geo_units passed in are > 1, if you are running a 1stage model this means
+         you need to set multi_zone = T")
   }
 
-  # whether to include factor(geo_unit) main effect + interactions in the
-  # model formula; only meaningful (and only identifiable) once there's
-  # more than one geo-unit to distinguish
-  use_geo_int <- n_geo > 1
-
-  # CHECK 6
+  # CHECK5
   if(!is.null(global_cen)) {
     stopifnot(is.numeric(global_cen))
 
   }
+
+  # some basic checks of df_per_year
+  if(!is.null(df_per_year)) {
+    stopifnot(is.numeric(df_per_year))
+    stopifnot(df_per_year > 0)
+  }
+
+  # TRUNCATE
+  stopifnot(length(truncate) == 1)
+  stopifnot(truncate >= 0 & truncate <= 0.05)
 
   # Check for global_cen being in range of exposures!
   exp_range <- range(exposure_matrix[,get(exposure_col)], na.rm = TRUE)
@@ -251,85 +261,78 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     }
   }
 
-  ###############################################
-  # CREATE CROSSBASIS
-  ###############################################
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # CREATE CROSSBASIS for this single zone
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
-  exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
+  cb_out <- make_crossbasis(exposure_matrix = exposure_matrix,
+                            outcomes_tbl = outcomes_tbl,
+                            unique_geos = unique_geos,
+                            maxlag = maxlag,
+                            argvar = argvar,
+                            arglag = arglag,
+                            strata_min = strata_min,
+                            min_n = min_n,
+                            verbose = verbose)
 
-  if(verbose) {
-    cat("\n")
-    cat("crossbasis args for geo_unit ",
-        paste0(unique_geos, collapse = ","),
-        ":\n")
-    cat("\n")
-  }
+  cb <- cb_out$cb
+  exposure_is_factor <- cb_out$exposure_is_factor
+  argvar <- cb_out$argvar
 
-  # maxlag
-  if(is.null(maxlag)) {
-    maxlag = 5
-  } else {
-    stopifnot(maxlag %in% 1:50)
-  }
-  if(verbose) {
-    cat("maxlag:",maxlag,"\n")
-    cat("\n")
-  }
-
-  # argvar
-  this_exp = exposure_matrix[, get(exposure_col)]
-  argvar <- check_argvar(argvar, this_exp)
-  exposure_is_factor <- argvar$fun == 'strata'
-  if(verbose) {
-    cat("argvar:\n")
-    str(argvar)
-    cat("\n")
-  }
-
-  # arglag
-  if(is.null(arglag)) {
-    arglag <- list(fun = 'ns', knots = logknots(maxlag, nk = 2))
-  } else {
-    if(verbose) {
-      warning("check that arglag is valid")
+  if(verbose > 0) {
+    if(!exposure_is_factor) {
+      cat("truncate final RR and basis cen: ", truncate, "\n")
+    } else {
+      cat("exposure_is_factor means truncate is not applied \n")
     }
   }
-  if(verbose) {
-    cat("arglag:\n")
-    str(arglag)
-    cat("\n")
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # ADD TIME TERMS
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  # day of week
+  if(!("dow" %in% names(outcomes_tbl))) {
+    outcomes_tbl[, dow := factor(weekdays(get(date_col)))]
   }
 
-  if(verbose) {
-    cat("min_n:",min_n, "\n")
-    cat("\n")
-  }
+  # as a number
+  outcomes_tbl[, time_num := as.numeric(get(date_col))]
+
+  # add a year factor
+  outcomes_tbl[, yr_fct := factor(data.table::year(get(date_col)))]
+
+  # add a doy of week
+  outcomes_tbl[, doy := data.table::yday(get(date_col))]
 
   ## time spline df
-  ## round up
-  n_years <- ceiling(as.numeric(diff(range(outcomes_tbl[, get(date_col)]))) / 365)
+  n_years <- length(unique(outcomes_tbl$yr_fct))
 
-  if(time_trend == "annual") {
-
-    ## 7 df/year is the standard full-year time-series-DLNM default
-    if(is.null(df_time)) df_time <- max(4, round(df_per_year * n_years))
-
-    } else {
-
-    ## "season": within-season smooth, doesn't scale with n_years --
-    ## inter-annual variation is instead absorbed by factor(yr)
-    if(is.null(df_time)) {
-      df_time <- 4
-    }
-
-    n_seasons <- length(unique(outcomes_tbl$yr))
-
-    if(n_seasons < 2 && verbose) {
-      warning("time_trend = 'season' but only 1 year of data is present:
-              factor(yr) will have no effect and this is equivalent to just
+  if(time_trend == 'season') {
+    if(n_years < 2) {
+      stop("only 1 year of data is present: factor(yr) will have no effect and this is equivalent to just
               fitting the within-season spline alone. Consider time_trend =
               'annual' if you only have a single season/year.")
     }
+
+  }
+
+  # setting df_time
+  if(time_trend == "annual") {
+
+    ## 7 df/year is the standard full-year time-series-DLNM default
+    df_time <- df_per_year * n_years
+
+  } else {
+
+    ## "season": within-season smooth, doesn't scale with n_years --
+    ## inter-annual variation is instead absorbed by factor(yr)
+    df_time <- df_per_year
+
   }
 
   if(verbose) {
@@ -338,53 +341,37 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     if(time_trend == "annual") {
       cat("df_time for ns(date):", df_time, "\n")
     } else {
-      cat("df_time for ns(day_of_season):", df_time, "\n")
-      cat("n_seasons (years):", length(unique(outcomes_tbl$yr)), "\n")
+      cat("df_time for ns(doy):", df_time, "\n")
+      cat("n_seasons (years):", length(unique(outcomes_tbl$yr_fct)), "\n")
     }
     cat("add_dow:", add_dow, "\n\n")
   }
 
-  ## get the columns you need
-  ## TODO: HAVE TO CONFIRM THAT THESE COLUMNS EXIST
-  xcols <- c(exposure_col, paste0('explag',1:maxlag))
-  x_mat <- exposure_matrix[, ..xcols]
 
-  ## if you are safe to proceed, make the x_mat
-  ## since you are passing in a matrix, you dont need to do
-  ## group = year or location, because all the data you need
-  ## are in each row, and this also means the order doesn't matter
-  cb <- crossbasis(x_mat, lag = maxlag, argvar = argvar, arglag = arglag)
 
-  # there should be no NAs here
-  if(any(is.na(cb))) stop("crossbasis has NULL, something went wrong")
-
-  ###############################################
-  # RUN QUASI-POISSON GLM
-  ###############################################
-
-  geo_suffix <- if(use_geo_int) ":factor(geo_unit)" else ""
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # RUN MODEL
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   if(time_trend == "annual") {
 
-    trend_terms <- sprintf("ns(time_num, df = %d)%s", df_time, geo_suffix)
+    trend_terms <- sprintf("ns(time_num, df = %d)", df_time)
 
   } else {
 
-    if(use_geo_int) {
+    trend_terms <- sprintf("ns(doy, df = %d) * yr_fct", df_time)
 
-      trend_terms <-
-        c(paste0("yr", geo_suffix),
-          sprintf("ns(day_of_season, df = %d)%s * yr", df_time, geo_suffix))
-    } else {
-
-        trend_terms <- sprintf("ns(day_of_season, df = %d) * yr", df_time)
-
-    }
   }
 
+  # cross basis and time-trend
   rhs_terms <- c("cb", trend_terms)
-  if(use_geo_int) rhs_terms <- c(rhs_terms, "factor(geo_unit)")
-  if(add_dow) rhs_terms <- c(rhs_terms, paste0("dow", geo_suffix))
+
+  # day of week
+  if(add_dow) rhs_terms <- c(rhs_terms, "dow")
+
+  # population
   if(!is.null(population_col)) {
     rhs_terms <- c(rhs_terms, sprintf("offset(log(%s))", population_col))
   }
@@ -393,12 +380,15 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
   ff <- as.formula(paste(outcome_col, "~",
                          paste(rhs_terms, collapse = " + ")))
 
+  # printing
   if(verbose) {
-    cat("use_geo_int (multi-zone interactions):", use_geo_int, "\n")
     if(!is.null(population_col)) {
       cat("population offset: offset(log(", population_col, "))\n", sep = "")
     } else {
       cat("population offset: none\n")
+      if(multi_zone) {
+        stop("If multi-zone == TRUE, population needs to be included")
+      }
     }
     cat("model formula:\n")
     print(ff, showEnv = F)
@@ -412,36 +402,35 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                data = outcomes_tbl,
                family = quasipoisson(link = "log"))
 
-  # Extract full model coefficients and covariance matrix
-  m_coef_all <- coef(m_sub)
-  m_vcov_all <- vcov(m_sub)
+  # get the coefficients
+  m_coef <- coef(m_sub)
+  m_vcov <- vcov(m_sub)
 
-  ## subset to just the pooled crossbasis (cb) terms for crosspred/crossreduce
-  ## everything else (intercepts, trend, dow) is nuisance/adjustment
-  cb_idx <- grep("^cb", names(m_coef_all))
-  if(length(cb_idx) == 0) stop("could not find `cb` terms in the fitted coefficients")
-
-  m_coef <- m_coef_all[cb_idx]
-  m_vcov <- m_vcov_all[cb_idx, cb_idx, drop = FALSE]
+  # there should be no NAs
+  if(any(is.na(m_coef)))
+    stop("coef has NULL, something went wrong.
+  Usually this happens:
+  (1) when strata counts are too low,
+  (2) when maxlag is low (< 3) and you haven't adjusted
+  argvar and arglag (switching to fun='lin' can be a good starting point)
+  (3) if exposure_is_factor then
+  you need to make sure that `breaks` is set correctly or
+  (4) if you have a covariate that has no variation within each strata -- e.g.,
+       if you have US_holiday and you are doing factors by month, August has no
+       federal holidays so there will be no contrast for this variable.")
 
   if(any(is.na(m_vcov))) stop("vcov has NULL, something went wrong")
 
-  if(any(is.na(m_coef_all))) stop("coef has NULL, something went wrong.
-                              Usually this happens (1) when a geo_unit has too
-                              few observations/events relative to df_time,
-                              (2) when maxlag is low (< 3) and you haven't
-                              adjusted argvar/arglag, (3) collinearity between
-                              the geo_unit:trend and geo_unit:dow terms -- try
-                              lowering df_time or dropping add_dow, or
-                              (4) if time_trend = 'season' and a geo_unit has
-                              too few years of data for factor(yr):factor(geo_unit)
-                              to be identifiable alongside the within-season
-                              spline. Try time_trend = 'annual' instead.")
+  # and subset to just the ones for the crossbasis
+  rr <- grepl("^cb", names(m_coef))
+  m_coef <- m_coef[rr]
+  m_vcov <- m_vcov[rr, rr]
 
-
-  ###############################################
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
   # CROSSPRED and CROSSREDUCE
-  ###############################################
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   exposure_col <- attributes(exposure_matrix)$column_mapping$exposure
   geo_unit_col <- attributes(outcomes_tbl)$column_mapping$geo_unit
@@ -477,6 +466,14 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     cen = cp$predvar[which.min(cp$allRRfit)]
   }
 
+  # also save the cp object for first stage analyses
+  stage1_cp <- crosspred(cb,
+                         coef = m_coef,
+                         vcov = m_vcov,
+                         model.link = "log",
+                         cen = cen,
+                         by = 0.1)
+
   # now apply to cr and export
   cr <- crossreduce(cb,
                     coef = m_coef,
@@ -485,9 +482,49 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
                     cen = cen,
                     by = 0.1)
 
-  ###############################################
+
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
+  # TRUNCATE THE CR
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
+
+  #
+  if(truncate > 0 & !exposure_is_factor) {
+    this_exp <- as.vector(exposure_matrix[, get(exposure_col)])
+
+    # truncate CR
+    qX = quantile(this_exp, probs = 1 - truncate)
+    rr = which.min(abs(cr$predvar - qX))
+    br1 = cr$RRfit[rr]
+    br2 = cr$RRlow[rr]
+    br3 = cr$RRhigh[rr]
+    tt = which(cr$predvar > qX)
+    for(i in 1:length(tt)) {
+      cr$RRfit[tt[i]] = br1
+      cr$RRlow[tt[i]] = br2
+      cr$RRhigh[tt[i]] = br3
+    }
+
+    qX = quantile(this_exp, probs = 0 + truncate)
+    rr = which.min(abs(cr$predvar - qX))
+    br1 = cr$RRfit[rr]
+    br2 = cr$RRlow[rr]
+    br3 = cr$RRhigh[rr]
+    tt = which(cr$predvar < qX)
+    for(i in 1:length(tt)) {
+      cr$RRfit[tt[i]] = br1
+      cr$RRlow[tt[i]] = br2
+      cr$RRhigh[tt[i]] = br3
+    }
+  }
+
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
   # Make a single centered basis
-  ###############################################
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   this_exp <- exposure_matrix[, get(exposure_col)]
   x_b <- c(floor(min(this_exp)), ceiling(max(this_exp)))
@@ -504,9 +541,11 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
 
   overall_centered_basis <- centered_basis$basis_cen
 
-  ###############################################
+  # //////////////////////////////////////////////////////////////////////////
+  # ==========================================================================
   # OUTPUT OBJECTS
-  ###############################################
+  # ==========================================================================
+  # //////////////////////////////////////////////////////////////////////////
 
   outcome_columns <- attributes(outcomes_tbl)$column_mapping
 
@@ -601,34 +640,32 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
     outcomes <- single_outcomes_tbl[, get(outcome_col)]
 
     # and get centered crosspred
+    # Ah ha! this fails is cen is outside of x_b
     #
 
 
     # each of these things you need for BLUP and MIXMETA later
-    oo_list[[i]] <- list(geo_unit = this_geo,
-                         geo_unit_grp = this_geo_grp,
-                         basis_cen = this_centered_cb,
-                         dates = single_outcomes_tbl[, get(date_col)],  ## replaces strata_vec
-                         dow = single_outcomes_tbl$dow,                 ## replaces match_strata
+    oo_list[[i]] <- list(geo_unit = this_geo,     ## --> individual
+                         geo_unit_grp = this_geo_grp,       ## --> individual
+                         basis_cen = this_centered_cb,      ## --> individual
+                         strata_vec = single_outcomes_tbl$strata, ## --> individual
+                         match_strata = single_outcomes_tbl$match_strata, ## --> individual
                          exposure_is_factor = exposure_is_factor,
-                         orig_basis = this_cb,
-                         orig_coef = m_coef_all,       ## full model coefs (whole group)
-                         orig_vcov = m_vcov_all,        ## full model vcov (whole group)
-                         cr = cr,
-                         coef = coef(cr),
-                         vcov = vcov(cr),
-                         exposure_col = exposure_col,
-                         this_exp = this_exp,
-                         outcomes = outcomes,
-                         cen = cen,
-                         global_cen = global_cen,
-                         argvar = argvar,
-                         exp_mean = exp_mean,
-                         exp_IQR = exp_IQR,
-                         time_trend = time_trend,
-                         df_time = df_time,
-                         add_dow = add_dow,
-                         population_col = population_col)
+                         orig_basis = this_cb,              ## --> individual
+                         orig_coef = m_coef,                ## whole group
+                         orig_vcov = m_vcov,                ## whole group
+                         cr = cr,                           ## whole group
+                         stage1_cp = stage1_cp,             ## whole group
+                         coef = coef(cr),                   ## whole group
+                         vcov = vcov(cr),                   ## whole group
+                         exposure_col = exposure_col,       ## whole group
+                         this_exp = this_exp,               ## --> individual
+                         outcomes = outcomes,               ## --> individual
+                         cen = cen,                         ## whole group
+                         global_cen = global_cen,           ## whole group
+                         argvar = argvar,                   ## whole group
+                         exp_mean = exp_mean,               ## whole group
+                         exp_IQR = exp_IQR)                 ## whole group
 
   }
 
