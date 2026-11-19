@@ -168,6 +168,10 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
                             global_cen = 15)
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -184,15 +188,12 @@ ma_model <- condPois_2stage(ma_exposure_matrix,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -592,6 +593,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> < age_grp : 0-17 >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -608,15 +613,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -628,6 +630,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> < age_grp : 18-64 >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -644,15 +650,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -664,6 +667,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #> < age_grp : 65+ >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -680,15 +687,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl_fct,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta

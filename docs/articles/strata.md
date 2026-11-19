@@ -199,6 +199,10 @@ m1 <- condPois_1stage(
   outcomes_tbl = boston_deaths_tbl,
   argvar = list(fun = 'strata', breaks = c(1.5, 2.5))
   )
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -214,15 +218,12 @@ m1 <- condPois_1stage(
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> exposure_is_factor means truncate is not applied 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 
 plot(m1)

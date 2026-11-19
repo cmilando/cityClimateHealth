@@ -120,11 +120,6 @@ crossbasis objects and models accordingly:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gasparrini/dlnm" class="external-link">dlnm</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span>
 <span></span>
 <span><span class="co"># CONSTANTS</span></span>
 <span><span class="va">maxlag</span> <span class="op">=</span> <span class="fl">15</span></span>
@@ -296,6 +291,10 @@ crossbasis objects and models accordingly:</p>
 <span>  global_cen <span class="op">=</span> <span class="va">xcen</span>,</span>
 <span>  truncate <span class="op">=</span> <span class="fl">0.0</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; Chicago:yr1987:mn01:dow06</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  Chicago :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -307,8 +306,8 @@ crossbasis objects and models accordingly:</p>
 <span><span class="co">#&gt;  $ knots : Named num [1:3] -3.89 10.56 23.89</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:3] "10%" "50%" "90%"</span></span>
 <span><span class="co">#&gt;  $ degree: num 3</span></span>
-<span><span class="co">#&gt; Warning in timeseries_1stage_glm(exposure_matrix = chicago_exposure_mat, :</span></span>
-<span><span class="co">#&gt; check that arglag is valid</span></span>
+<span><span class="co">#&gt; Warning in make_crossbasis(exposure_matrix = exposure_matrix, outcomes_tbl =</span></span>
+<span><span class="co">#&gt; outcomes_tbl, : check that arglag is valid</span></span>
 <span><span class="co">#&gt; arglag:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ fun   : chr "poly"</span></span>
@@ -316,12 +315,12 @@ crossbasis objects and models accordingly:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; truncate final RR and basis cen:  0 </span></span>
 <span><span class="co">#&gt; time_trend: annual </span></span>
 <span><span class="co">#&gt; n_years: 14 </span></span>
 <span><span class="co">#&gt; df_time for ns(date): 98 </span></span>
 <span><span class="co">#&gt; add_dow: TRUE </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; use_geo_int (multi-zone interactions): FALSE </span></span>
 <span><span class="co">#&gt; population offset: none</span></span>
 <span><span class="co">#&gt; model formula:</span></span>
 <span><span class="co">#&gt; death ~ cb + ns(time_num, df = 98) + dow</span></span>
@@ -344,7 +343,7 @@ crossbasis objects and models accordingly:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

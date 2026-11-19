@@ -115,6 +115,10 @@ for(bb in 1:4) {
   plot_l[[bb]] <- plot(m1)
   
 }
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -131,16 +135,17 @@ for(bb in 1:4) {
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
+#> strata:
+#> EVERETT:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  EVERETT :
 #> 
@@ -157,16 +162,17 @@ for(bb in 1:4) {
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> EVERETT:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
+#> strata:
+#> REVERE:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  REVERE :
 #> 
@@ -183,16 +189,17 @@ for(bb in 1:4) {
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> REVERE:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
+#> strata:
+#> MALDEN:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  MALDEN :
 #> 
@@ -209,15 +216,12 @@ for(bb in 1:4) {
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> MALDEN:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 mx <- do.call(cbind, beta_l) # COEFS NOT THE SAME
 colnames(mx)  = TOWNLIST
@@ -285,7 +289,11 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
-#> CHELSEA  
+#> CHELSEA  strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
@@ -301,15 +309,12 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> EVERETT  MALDEN  REVERE  
 #> has to be one polygon per row in `shp`
@@ -335,20 +340,20 @@ m_sb1 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 #> Chain 1 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
 #> Chain 2 Iteration: 1200 / 2000 [ 60%]  (Sampling) 
-#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
-#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+#> Chain 1 Iteration: 1400 / 2000 [ 70%]  (Sampling) 
 #> Chain 2 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
+#> Chain 1 Iteration: 1600 / 2000 [ 80%]  (Sampling) 
 #> Chain 2 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 1 Iteration: 1800 / 2000 [ 90%]  (Sampling) 
 #> Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 2 finished in 31.4 seconds.
+#> Chain 2 finished in 28.0 seconds.
 #> Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-#> Chain 1 finished in 31.6 seconds.
+#> Chain 1 finished in 28.5 seconds.
 #> 
 #> Both chains finished successfully.
-#> Mean chain execution time: 31.5 seconds.
-#> Total execution time: 31.8 seconds.
+#> Mean chain execution time: 28.3 seconds.
+#> Total execution time: 28.6 seconds.
 #> 
 #>  ...mcmc draws... 
 #> CHELSEA  EVERETT     MALDEN  REVERE  
@@ -409,7 +414,11 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #> -- validation passed
 #> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
-#> CHELSEA  
+#> CHELSEA  strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
@@ -425,15 +434,12 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> EVERETT  MALDEN  REVERE  
 #> has to be one polygon per row in `shp`
@@ -447,7 +453,7 @@ m_sb2 <- condPois_sb(exposure_mat, deaths_tbl, local_shp,
 #>      240      -6737.27    8.4327e-05      0.819004           1           1      283    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.3 seconds.
+#> Finished in  0.2 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -521,7 +527,11 @@ m_sb3 <- condPois_sb(exposure_mat,
 #> -- validation passed
 #> truncate final RR and basis cen:  0.01 
 #> -- prepare inputs
-#> CHELSEA  
+#> CHELSEA  strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
+#> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
 #> maxlag: 5 
@@ -537,15 +547,12 @@ m_sb3 <- condPois_sb(exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> Warning in condPois_1stage(exposure_matrix = single_exposure_matrix, outcomes_tbl = single_outcomes_tbl, : Centering point is outside the range of exposures in geo-unit CHELSEA: Cen = 6.80, x_b = (7.00, 36.00).
 #>         This means your zones are across too large of an area, or if exposure is factor there could

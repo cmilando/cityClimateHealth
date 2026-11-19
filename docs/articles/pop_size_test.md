@@ -185,6 +185,10 @@ sim_tbl
 
 m1 <- condPois_1stage(exposure_matrix = exp_mat, 
                   outcomes_tbl = sim_tbl)
+#> strata:
+#> A_town:yr2020:mn05:dow06
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  A_town :
 #> 
@@ -201,15 +205,12 @@ m1 <- condPois_1stage(exposure_matrix = exp_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> A_town:yr2020:mn05:dow06
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    deaths ~ cb
+#> deaths ~ cb
+#> 
 #> family: quasipoisson
 plot(m1)
 ```

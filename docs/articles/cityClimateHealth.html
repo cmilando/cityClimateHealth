@@ -98,11 +98,6 @@ provide a number of outputs.</p>
 <code>exposure_columns</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'data.table'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     %notin%</span></span>
 <span></span>
 <span><span class="co"># load a built-in dataset and get a subset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ma_exposure"</span><span class="op">)</span> </span>
@@ -370,19 +365,19 @@ demo</a> for more details.</p>
 <p>First, a basic RR plot by <code>geo_unit</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/plot1-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/plot1-1.png" class="r-plt" width="480"></p>
 <p>You can also make a forest plot at a specific exposure value</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage(ma_model, exposure_val = 25.1): plotting</span></span>
 <span><span class="co">#&gt; by group since n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/forest_plot-1.png" class="r-plt" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/spatial_plot-1.png" class="r-plt" width="480"></p>
 </div>
 <div class="section level3">
 <h3 id="getrr">getRR<a class="anchor" aria-label="anchor" href="#getrr"></a>
@@ -540,8 +535,8 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                     &lt;num&gt;</span></span>
 <span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                5201.87311</span></span>
 <span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                 -27.23768</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                5844.55191</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -37.84908</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                5798.26167</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                 -38.39367</span></span>
 <span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                4014.12340</span></span>
 <span><span class="co">#&gt;  ---                                                                    </span></span>
 <span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                 -42.74628</span></span>
@@ -553,11 +548,11 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt;                         &lt;num&gt;                    &lt;num&gt;</span></span>
 <span><span class="co">#&gt;   1:               4118.52057              6424.583054</span></span>
 <span><span class="co">#&gt;   2:                -53.97775                -3.588041</span></span>
-<span><span class="co">#&gt;   3:               4776.21389              6899.057313</span></span>
-<span><span class="co">#&gt;   4:                -57.75389               -19.060689</span></span>
+<span><span class="co">#&gt;   3:               4724.53220              6892.808130</span></span>
+<span><span class="co">#&gt;   4:                -57.18207               -18.720320</span></span>
 <span><span class="co">#&gt;   5:               3161.88654              4955.617800</span></span>
 <span><span class="co">#&gt;  ---                                                  </span></span>
-<span><span class="co">#&gt; 224:                -64.66746               -23.017230</span></span>
+<span><span class="co">#&gt; 224:                -64.66746               -22.441799</span></span>
 <span><span class="co">#&gt; 225:               3971.53713              6221.915252</span></span>
 <span><span class="co">#&gt; 226:                -33.54313                -4.848507</span></span>
 <span><span class="co">#&gt; 227:               4059.85695              6007.696226</span></span>
@@ -569,8 +564,8 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt;          &lt;char&gt;    &lt;char&gt;      &lt;num&gt;    &lt;lgcl&gt;                    &lt;num&gt;</span></span>
 <span><span class="co">#&gt;   1:      ACTON MIDDLESEX      23864      TRUE                 1241.375</span></span>
 <span><span class="co">#&gt;   2:      ACTON MIDDLESEX      23864     FALSE                   -6.500</span></span>
-<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2683.000</span></span>
-<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -17.375</span></span>
+<span><span class="co">#&gt;   3:  ARLINGTON MIDDLESEX      45906      TRUE                 2661.750</span></span>
+<span><span class="co">#&gt;   4:  ARLINGTON MIDDLESEX      45906     FALSE                  -17.625</span></span>
 <span><span class="co">#&gt;   5: ASHBURNHAM WORCESTER       6337      TRUE                  254.375</span></span>
 <span><span class="co">#&gt;  ---                                                                   </span></span>
 <span><span class="co">#&gt; 224: WINCHESTER MIDDLESEX      22809     FALSE                   -9.750</span></span>
@@ -582,11 +577,11 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <span><span class="co">#&gt;                        &lt;num&gt;                   &lt;num&gt;</span></span>
 <span><span class="co">#&gt;   1:               982.84375              1533.16250</span></span>
 <span><span class="co">#&gt;   2:               -12.88125                -0.85625</span></span>
-<span><span class="co">#&gt;   3:              2192.56875              3167.08125</span></span>
-<span><span class="co">#&gt;   4:               -26.51250                -8.75000</span></span>
+<span><span class="co">#&gt;   3:              2168.84375              3164.21250</span></span>
+<span><span class="co">#&gt;   4:               -26.25000                -8.59375</span></span>
 <span><span class="co">#&gt;   5:               200.36875               314.03750</span></span>
 <span><span class="co">#&gt;  ---                                                </span></span>
-<span><span class="co">#&gt; 224:               -14.75000                -5.25000</span></span>
+<span><span class="co">#&gt; 224:               -14.75000                -5.11875</span></span>
 <span><span class="co">#&gt; 225:              1628.01250              2550.48750</span></span>
 <span><span class="co">#&gt; 226:               -13.75000                -1.98750</span></span>
 <span><span class="co">#&gt; 227:              8289.86250             12267.17500</span></span>
@@ -596,11 +591,11 @@ summarizing to: ‘geo_unit’, ‘geo_unit_grp’, or ‘all’</li>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in plot.calcAN(ma_AN, "num", above_MMT = T): plot elements &gt; 20,</span></span>
 <span><span class="co">#&gt; subsetting to top 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot-1.png" class="r-plt" width="768"></p>
 <p>You can also plot spatially</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/multi_plot3d-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="cityClimateHealth_files/figure-html/multi_plot3d-1.png" class="r-plt" width="576"></p>
 </div>
 </div>
 <div class="section level2">
@@ -772,13 +767,13 @@ can follow along)</p>
 <p>And plotting the output</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, <span class="st">"CAMBRIDGE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/plot1b-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/plot1b-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/forest_plot.html">forest_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; Warning in forest_plot.condPois_2stage_list(ma_model_fct, exposure_val = 25.1):</span></span>
 <span><span class="co">#&gt; plotting by group since n_geos &gt; 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/forest_plot2b-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/forest_plot2b-1.png" class="r-plt" width="480"></p>
 <p>You can also make a spatial plot at a specific exposure value:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_model_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, exposure_val <span class="op">=</span> <span class="fl">25.1</span><span class="op">)</span></span>
@@ -786,7 +781,7 @@ can follow along)</p>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span>
 <span><span class="co">#&gt; rounded to 1 decimal</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" alt="" width="480"></p>
+<p><img src="cityClimateHealth_files/figure-html/spatial_plot2-1.png" class="r-plt" width="480"></p>
 <p>You can also getRR:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getRR.html">getRR</a></span><span class="op">(</span><span class="va">ma_model_fct</span><span class="op">)</span></span>
@@ -852,7 +847,7 @@ but fine for diagnostics.</p>
 <span><span class="co">#&gt; 20, subsetting to top 20</span></span>
 <span><span class="co">#&gt; Warning in plot.calcAN_list(ma_AN_fct, "num", above_MMT = T): plot elements &gt;</span></span>
 <span><span class="co">#&gt; 20, subsetting to top 20</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2-1.png" class="r-plt" width="768"></p>
 <p>You can also make use of some additional arguments to get plot
 subsets, including <code>spatial_sub</code> and
 <code>ordered_levels</code>.</p>
@@ -860,11 +855,11 @@ subsets, including <code>spatial_sub</code> and
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, <span class="st">'rate'</span>, above_MMT <span class="op">=</span> <span class="cn">T</span>, </span>
 <span>     spatial_sub <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BOSTON'</span>, <span class="st">'CAMBRIDGE'</span><span class="op">)</span>,</span>
 <span>     ordered_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0-17"</span>, <span class="st">"18-64"</span>, <span class="st">"65+"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2z-1.png" class="r-plt" alt="" width="768"></p>
+<p><img src="cityClimateHealth_files/figure-html/calcAN_plot2z-1.png" class="r-plt" width="768"></p>
 <p>You can also plot spatially</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/spatial_plot.html">spatial_plot</a></span><span class="op">(</span><span class="va">ma_AN_fct</span>, shp <span class="op">=</span> <span class="va">ma_towns</span>, table_type <span class="op">=</span> <span class="st">"num"</span>, above_MMT <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cityClimateHealth_files/figure-html/multi_plot3db-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="cityClimateHealth_files/figure-html/multi_plot3db-1.png" class="r-plt" width="576"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -877,7 +872,7 @@ subsets, including <code>spatial_sub</code> and
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

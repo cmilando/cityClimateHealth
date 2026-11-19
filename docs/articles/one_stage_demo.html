@@ -467,6 +467,10 @@ this is using <code>gnm</code> under the hood.</p>
 <span><span class="co"># run the model</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">boston_exposure_mat</span>, </span>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">boston_deaths_tbl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; BOSTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  BOSTON :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -483,15 +487,12 @@ this is using <code>gnm</code> under the hood.</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; BOSTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="co">#&gt; Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 6.80, x_b = (8.00, 39.00).</span></span>
 <span><span class="co">#&gt;         This means your zones are across too large of an area, or if exposure is factor there could</span></span>
@@ -565,6 +566,10 @@ population offset if you were doing a time-series design).</p>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, </span>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">middlesex_deaths_tbl</span>, multi_zone <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  global_cen <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -581,15 +586,12 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span></code></pre></div>
 <p>And plot - notice the tighter confidence interval</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -651,6 +653,10 @@ population offset if you were doing a time-series design).</p>
 <span>                  multi_zone <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  verbose <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 0-17 &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -667,17 +673,18 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 18-64 &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -694,17 +701,18 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 65+ &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -721,15 +729,12 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span></span>
 <span><span class="co"># plot</span></span>
@@ -773,6 +778,10 @@ population offset if you were doing a time-series design).</p>
 <code class="sourceCode R"><span><span class="co"># run the model</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">middlesex_exposure_mat</span>, global_cen <span class="op">=</span> <span class="fl">20</span>, outcomes_tbl <span class="op">=</span> <span class="va">middlesex_deaths_tbl</span>, multi_zone <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 0-17 &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -789,17 +798,18 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 18-64 &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -816,17 +826,18 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="co">#&gt; &lt; age_grp : 65+ &gt;</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -843,15 +854,12 @@ population offset if you were doing a time-series design).</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; ACTON:yr2010:mn05:dow07</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; daily_deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="one_stage_demo_files/figure-html/globalCenMod-1.png" class="r-plt" width="700"></p>

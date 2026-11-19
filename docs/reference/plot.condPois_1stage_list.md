@@ -57,6 +57,10 @@ outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 # with a factor, a condPois_1stage_list is returned
 m <- condPois_1stage(exposure_mat, outcomes_tbl)
 #> < age_grp : 0-17 >
+#> strata:
+#> BOSTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -73,17 +77,18 @@ m <- condPois_1stage(exposure_mat, outcomes_tbl)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 18-64 >
+#> strata:
+#> BOSTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -100,17 +105,18 @@ m <- condPois_1stage(exposure_mat, outcomes_tbl)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 65+ >
+#> strata:
+#> BOSTON:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -127,15 +133,12 @@ m <- condPois_1stage(exposure_mat, outcomes_tbl)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 plot(m)
 ```

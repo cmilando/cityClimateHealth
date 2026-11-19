@@ -168,6 +168,10 @@ models
 ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, global_cen = 20)
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2013:mn05:dow04
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -184,15 +188,12 @@ ma_model <- condPois_2stage(ma_exposure_matrix, ma_outcomes_tbl, verbose = 1, gl
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2013:mn05:dow04
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -371,6 +372,10 @@ check of single
 m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix, 
                   outcomes_tbl = ma_outcomes_tbl, 
                   multi_zone = TRUE, global_cen = 15)
+#> strata:
+#> ACTON:yr2013:mn05:dow04
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBURNHAM,ASHBY,ASHLAND,ATHOL,AUBURN,AYER,BARRE,BEDFORD,BELMONT,BERLIN,BILLERICA,BLACKSTONE,BOLTON,BOXBOROUGH,BOYLSTON,BROOKFIELD,BURLINGTON,CAMBRIDGE,CARLISLE,CHARLTON,CHELMSFORD,CLINTON,CONCORD,DOUGLAS,DRACUT,DUDLEY,DUNSTABLE,EAST BROOKFIELD,EVERETT,FITCHBURG,FRAMINGHAM,GARDNER,GRAFTON,GROTON,HARDWICK,HARVARD,HOLDEN,HOLLISTON,HOPEDALE,HOPKINTON,HUBBARDSTON,HUDSON,LANCASTER,LEICESTER,LEOMINSTER,LEXINGTON,LINCOLN,LITTLETON,LOWELL,LUNENBURG,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,MENDON,MILFORD,MILLBURY,MILLVILLE,NATICK,NEW BRAINTREE,NEWTON,NORTH BROOKFIELD,NORTH READING,NORTHBOROUGH,NORTHBRIDGE,OAKHAM,OXFORD,PAXTON,PEPPERELL,PETERSHAM,PHILLIPSTON,PRINCETON,READING,ROYALSTON,RUTLAND,SHERBORN,SHIRLEY,SHREWSBURY,SOMERVILLE,SOUTHBOROUGH,SOUTHBRIDGE,SPENCER,STERLING,STONEHAM,STOW,STURBRIDGE,SUDBURY,SUTTON,TEMPLETON,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,UPTON,UXBRIDGE,WAKEFIELD,WALTHAM,WARREN,WATERTOWN,WAYLAND,WEBSTER,WEST BOYLSTON,WEST BROOKFIELD,WESTBOROUGH,WESTFORD,WESTMINSTER,WESTON,WILMINGTON,WINCHENDON,WINCHESTER,WOBURN,WORCESTER :
 #> 
@@ -387,15 +392,12 @@ m2 <- condPois_1stage(exposure_matrix = ma_exposure_matrix,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2013:mn05:dow04
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 
 ma_AN_s1 <- calc_AN(m2, ma_outcomes_tbl, ma_pop_data_long,
@@ -459,6 +461,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> < age_grp : 0-17 >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2013:mn05:dow04
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -475,15 +481,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2013:mn05:dow04
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -495,6 +498,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> < age_grp : 18-64 >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2013:mn05:dow04
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -511,15 +518,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2013:mn05:dow04
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta
@@ -531,6 +535,10 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #> < age_grp : 65+ >
 #> -- validation passed
 #> -- stage 1
+#> strata:
+#> ACTON:yr2013:mn05:dow04
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON :
 #> 
@@ -547,15 +555,12 @@ ma_model_fct <- condPois_2stage(ma_exposure_matrix,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2013:mn05:dow04
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> 
 #> -- mixmeta

@@ -66,6 +66,10 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  SPATIAL MODEL = bym2 
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = bym2 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -82,15 +86,12 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> has to be one polygon per row in `shp`
 #>  ...laplace optimize... 
@@ -122,6 +123,10 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  ...laplace draws... 
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = bym2 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -138,15 +143,12 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> has to be one polygon per row in `shp`
 #>  ...laplace optimize... 
@@ -157,7 +159,7 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>      187      -2646.11     0.0010345      0.349034           1           1      254    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.1 seconds.
+#> Finished in  0.2 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -176,6 +178,10 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  ...laplace draws... 
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = bym2 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -192,15 +198,12 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> has to be one polygon per row in `shp`
 #>  ...laplace optimize... 

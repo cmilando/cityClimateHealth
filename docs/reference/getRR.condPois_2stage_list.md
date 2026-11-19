@@ -45,6 +45,10 @@ outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 %in% towns),
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 # with a factor, a condPois_2stage_list is returned
 m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -61,16 +65,17 @@ m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -87,16 +92,17 @@ m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -113,15 +119,12 @@ m <- condPois_2stage(exposure_mat, outcomes_tbl, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 getRR(m)
 #>        TOWN20 COUNTY20 tmax_C        RR     RRlb      RRub  stage age_grp

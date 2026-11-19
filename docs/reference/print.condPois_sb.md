@@ -45,6 +45,10 @@ shp <- subset(ma_towns, TOWN20 %in% towns)
 m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  STAN TYPE = laplace 
 #>  SPATIAL MODEL = bym2 
+#> strata:
+#> CHELSEA:yr2012:mn05:dow03
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  CHELSEA :
 #> 
@@ -61,15 +65,12 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> CHELSEA:yr2012:mn05:dow03
-#> strata_min: 0 
-#> 
 #> min_n: 1 
 #> 
 #> truncate final RR and basis cen:  0 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> has to be one polygon per row in `shp`
 #>  ...laplace optimize... 
@@ -82,7 +83,7 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #>      211       -3356.7   0.000175631      0.220171      0.9493     0.09493      267    
 #> Optimization terminated normally:  
 #>   Convergence detected: relative gradient magnitude is below tolerance 
-#> Finished in  0.1 seconds.
+#> Finished in  0.2 seconds.
 #>  ...laplace sample... 
 #> Calculating Hessian 
 #> Calculating inverse of Cholesky factor 
@@ -97,7 +98,7 @@ m <- condPois_sb(exposure_mat, outcomes_tbl, shp, global_cen = 20)
 #> iteration: 700 
 #> iteration: 800 
 #> iteration: 900 
-#> Finished in  0.3 seconds.
+#> Finished in  0.4 seconds.
 #>  ...laplace draws... 
 print(m)
 #> < an object of class `condPois_sb` >

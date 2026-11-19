@@ -226,6 +226,10 @@ our package</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/condPois_1stage.html">condPois_1stage</a></span><span class="op">(</span>exposure_matrix <span class="op">=</span> <span class="va">exp_mat</span>, </span>
 <span>                  outcomes_tbl <span class="op">=</span> <span class="va">sim_tbl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; strata:</span></span>
+<span><span class="co">#&gt; A_town:yr2020:mn05:dow06</span></span>
+<span><span class="co">#&gt; strata_min: 0 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; crossbasis args for geo_unit  A_town :</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -242,15 +246,12 @@ our package</p>
 <span><span class="co">#&gt;  $ fun  : chr "ns"</span></span>
 <span><span class="co">#&gt;  $ knots: num [1:2] 0.878 2.095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; strata:</span></span>
-<span><span class="co">#&gt; A_town:yr2020:mn05:dow06</span></span>
-<span><span class="co">#&gt; strata_min: 0 </span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; min_n: 50 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; truncate final RR and basis cen:  0.025 </span></span>
 <span><span class="co">#&gt; formula:</span></span>
-<span><span class="co">#&gt;    deaths ~ cb</span></span>
+<span><span class="co">#&gt; deaths ~ cb</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; family: quasipoisson</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="pop_size_test_files/figure-html/testModel-1.png" class="r-plt" width="700"></p>

@@ -207,20 +207,15 @@ is **simulated**.
 
 boston_deaths <- subset(ma_deaths, TOWN20 == 'BOSTON')
 
-boston_deaths <- aggregate(
-  daily_deaths ~ TOWN20 + date + COUNTY20,
-  data = boston_deaths,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
-
 head(boston_deaths)
-#>   TOWN20       date COUNTY20 daily_deaths
-#> 1 BOSTON 2010-05-01  SUFFOLK         2238
-#> 2 BOSTON 2010-05-02  SUFFOLK         2089
-#> 3 BOSTON 2010-05-03  SUFFOLK         2374
-#> 4 BOSTON 2010-05-04  SUFFOLK         2354
-#> 5 BOSTON 2010-05-05  SUFFOLK         2489
-#> 6 BOSTON 2010-05-06  SUFFOLK         2191
+#>          date TOWN20 daily_deaths age_grp    sex COUNTY20
+#>        <Date> <char>        <int>  <char> <char>   <char>
+#> 1: 2010-05-01 BOSTON          385    0-17      M  SUFFOLK
+#> 2: 2010-05-02 BOSTON          367    0-17      M  SUFFOLK
+#> 3: 2010-05-03 BOSTON          431    0-17      M  SUFFOLK
+#> 4: 2010-05-04 BOSTON          431    0-17      M  SUFFOLK
+#> 5: 2010-05-05 BOSTON          456    0-17      M  SUFFOLK
+#> 6: 2010-05-06 BOSTON          400    0-17      M  SUFFOLK
 ```
 
 Start with defining the outcome columns. First, population.
@@ -240,13 +235,10 @@ ma_pop_data_long <- melt(
   value.name = "population"
 )
 
-ma_pop_data_long <- aggregate(
-  population ~ TOWN20,
-  data = ma_pop_data_long,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
+ma_pop_data_long_agg <- ma_pop_data_long[ ,
+ .(population = sum(population)), by = 'TOWN20']
 
-boston_deaths <- merge(boston_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
+boston_pop <- subset(ma_pop_data_long_agg, TOWN20 == 'BOSTON')
 ```
 
 Now, the rest of the outcome columns:
@@ -261,13 +253,14 @@ outcome_columns <- list(
 )
 
 head(boston_deaths)
-#>   TOWN20       date COUNTY20 daily_deaths population
-#> 1 BOSTON 2010-05-01  SUFFOLK         2238     665945
-#> 2 BOSTON 2010-05-02  SUFFOLK         2089     665945
-#> 3 BOSTON 2010-05-03  SUFFOLK         2374     665945
-#> 4 BOSTON 2010-05-04  SUFFOLK         2354     665945
-#> 5 BOSTON 2010-05-05  SUFFOLK         2489     665945
-#> 6 BOSTON 2010-05-06  SUFFOLK         2191     665945
+#>          date TOWN20 daily_deaths age_grp    sex COUNTY20
+#>        <Date> <char>        <int>  <char> <char>   <char>
+#> 1: 2010-05-01 BOSTON          385    0-17      M  SUFFOLK
+#> 2: 2010-05-02 BOSTON          367    0-17      M  SUFFOLK
+#> 3: 2010-05-03 BOSTON          431    0-17      M  SUFFOLK
+#> 4: 2010-05-04 BOSTON          431    0-17      M  SUFFOLK
+#> 5: 2010-05-05 BOSTON          456    0-17      M  SUFFOLK
+#> 6: 2010-05-06 BOSTON          400    0-17      M  SUFFOLK
 ```
 
 As with the exposure dataset, there may be some days that are missing
@@ -343,22 +336,19 @@ Now, we add in a population offset:
 
 population_columns <- list(
   "geo_unit" = "TOWN20",
-  "date" = "date", 
   "population" = "population"
 )
 
 boston_deaths_tbl <- add_population_offset(
   outcomes_tbl       = boston_deaths_tbl,
-  population_data    = boston_deaths,
-  population_columns = population_columns
+  population_data    = boston_pop,
+  population_columns = population_columns,
+  join_on = "TOWN20"
 )
-#> > population successfully joined as column: 'population'
-#> > matched on geo_unit + date
-#> > use population_col = 'population' in timeseries_1stage_glm()
 
 head(boston_deaths_tbl)
 #>          date TOWN20 COUNTY20 daily_deaths                   strata
-#>        <Date> <char>   <char>        <int>                   <char>
+#>        <IDat> <char>   <char>        <int>                   <char>
 #> 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07
 #> 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01
 #> 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02
@@ -416,15 +406,13 @@ arglag <- list(fun = lag_fun, knots = logknots(maxlag, nk = nk))
 Time-series models depend on adjustment for short- and long-term
 time-trends, such as seasonality. Here, we are using only summer months
 rather than a whole year of data, so we will use a default of 4 degrees
-of freedom and natural splines.
+of freedom per year and natural splines.
 
 ``` r
 
 library(splines)
 
 boston_deaths_tbl$time_index <- as.numeric(boston_deaths_tbl$date - min(boston_deaths_tbl$date))
-
-time_trend <- ns(boston_deaths_tbl$time_index, df = 4)
 ```
 
 Limit the columns of the exposure matrix to be just the ones up to
@@ -442,42 +430,201 @@ Now run the model:
 
 ``` r
 
-m_sub <- glm(daily_deaths ~ cb + dow + time_trend,
+m_sub <- glm(daily_deaths ~ cb + 
+               dow + 
+               ns(boston_deaths_tbl$time_index, df = 4) * factor(year(date)),
              data = boston_deaths_tbl,
              family = quasipoisson)
 summary(m_sub)
 #> 
 #> Call:
-#> glm(formula = daily_deaths ~ cb + dow + time_trend, family = quasipoisson, 
-#>     data = boston_deaths_tbl)
+#> glm(formula = daily_deaths ~ cb + dow + ns(boston_deaths_tbl$time_index, 
+#>     df = 4) * factor(year(date)), family = quasipoisson, data = boston_deaths_tbl)
 #> 
-#> Coefficients:
-#>               Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  7.6093176  0.0169805 448.120  < 2e-16 ***
-#> cbv1.l1      0.0085430  0.0144278   0.592 0.553919    
-#> cbv1.l2     -0.0013017  0.0130616  -0.100 0.920635    
-#> cbv1.l3      0.1076614  0.0075067  14.342  < 2e-16 ***
-#> cbv1.l4     -0.0571907  0.0081346  -7.031 4.07e-12 ***
-#> cbv2.l1      0.0464620  0.0476158   0.976 0.329441    
-#> cbv2.l2      0.0415549  0.0436321   0.952 0.341153    
-#> cbv2.l3      0.1737757  0.0295840   5.874 5.98e-09 ***
-#> cbv2.l4     -0.1108638  0.0295266  -3.755 0.000185 ***
-#> cbv3.l1      0.0728392  0.0325889   2.235 0.025656 *  
-#> cbv3.l2      0.0022551  0.0285686   0.079 0.937100    
-#> cbv3.l3      0.1538317  0.0188800   8.148 1.23e-15 ***
-#> cbv3.l4     -0.0934208  0.0186368  -5.013 6.46e-07 ***
-#> dow          0.0004160  0.0006459   0.644 0.519724    
-#> time_trend1  0.1122725  0.0064961  17.283  < 2e-16 ***
-#> time_trend2  0.1621481  0.0060714  26.707  < 2e-16 ***
-#> time_trend3  0.2586710  0.0111667  23.165  < 2e-16 ***
-#> time_trend4  0.2107506  0.0050532  41.706  < 2e-16 ***
+#> Coefficients: (8 not defined because of singularities)
+#>                                                                    Estimate
+#> (Intercept)                                                       7.565e+00
+#> cbv1.l1                                                           1.219e-02
+#> cbv1.l2                                                          -2.027e-03
+#> cbv1.l3                                                           1.177e-01
+#> cbv1.l4                                                          -5.145e-02
+#> cbv2.l1                                                           6.285e-02
+#> cbv2.l2                                                           4.917e-02
+#> cbv2.l3                                                           2.249e-01
+#> cbv2.l4                                                          -9.845e-02
+#> cbv3.l1                                                           7.754e-02
+#> cbv3.l2                                                           3.422e-03
+#> cbv3.l3                                                           1.693e-01
+#> cbv3.l4                                                          -9.106e-02
+#> dow                                                               4.235e-04
+#> ns(boston_deaths_tbl$time_index, df = 4)1                         7.413e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)2                         1.289e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3                         1.273e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4                         1.284e+01
+#> factor(year(date))2011                                           -1.160e-01
+#> factor(year(date))2012                                            5.958e+01
+#> factor(year(date))2013                                            2.898e+00
+#> factor(year(date))2014                                           -1.374e+02
+#> factor(year(date))2015                                           -1.257e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2011 -7.659e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2011  6.049e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2011  1.915e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2011         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2012 -5.927e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2012 -7.830e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2012 -1.135e+02
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2012         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2013 -8.669e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2013 -1.546e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2013 -1.439e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2013         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2014  1.301e+02
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2014  6.904e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2014  3.053e+02
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2014         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2015         NA
+#>                                                                  Std. Error
+#> (Intercept)                                                       2.112e-02
+#> cbv1.l1                                                           1.433e-02
+#> cbv1.l2                                                           1.297e-02
+#> cbv1.l3                                                           8.697e-03
+#> cbv1.l4                                                           8.188e-03
+#> cbv2.l1                                                           4.731e-02
+#> cbv2.l2                                                           4.336e-02
+#> cbv2.l3                                                           3.150e-02
+#> cbv2.l4                                                           2.955e-02
+#> cbv3.l1                                                           3.231e-02
+#> cbv3.l2                                                           2.834e-02
+#> cbv3.l3                                                           1.935e-02
+#> cbv3.l4                                                           1.850e-02
+#> dow                                                               6.406e-04
+#> ns(boston_deaths_tbl$time_index, df = 4)1                         5.866e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)2                         7.344e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)3                         7.240e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)4                         7.319e+00
+#> factor(year(date))2011                                            4.672e-01
+#> factor(year(date))2012                                            1.856e+01
+#> factor(year(date))2013                                            5.258e+01
+#> factor(year(date))2014                                            1.127e+02
+#> factor(year(date))2015                                            7.288e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2011  5.864e+00
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2011  8.317e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2011  2.651e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2011         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2012  1.692e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2012  2.197e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2012  3.449e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2012         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2013  4.944e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2013  3.797e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2013  8.950e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2013         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2014  1.116e+02
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2014  6.238e+01
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2014  2.732e+02
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2014         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2015         NA
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2015         NA
+#>                                                                  t value
+#> (Intercept)                                                      358.273
+#> cbv1.l1                                                            0.851
+#> cbv1.l2                                                           -0.156
+#> cbv1.l3                                                           13.539
+#> cbv1.l4                                                           -6.283
+#> cbv2.l1                                                            1.329
+#> cbv2.l2                                                            1.134
+#> cbv2.l3                                                            7.140
+#> cbv2.l4                                                           -3.332
+#> cbv3.l1                                                            2.400
+#> cbv3.l2                                                            0.121
+#> cbv3.l3                                                            8.752
+#> cbv3.l4                                                           -4.922
+#> dow                                                                0.661
+#> ns(boston_deaths_tbl$time_index, df = 4)1                          1.264
+#> ns(boston_deaths_tbl$time_index, df = 4)2                          1.754
+#> ns(boston_deaths_tbl$time_index, df = 4)3                          1.758
+#> ns(boston_deaths_tbl$time_index, df = 4)4                          1.754
+#> factor(year(date))2011                                            -0.248
+#> factor(year(date))2012                                             3.210
+#> factor(year(date))2013                                             0.055
+#> factor(year(date))2014                                            -1.219
+#> factor(year(date))2015                                            -1.725
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2011  -1.306
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2011   0.727
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2011   0.723
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2011      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2012  -3.503
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2012  -3.564
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2012  -3.291
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2012      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2013  -0.175
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2013  -0.407
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2013  -0.161
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2013      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2014   1.166
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2014   1.107
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2014   1.118
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2014      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2015      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2015      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2015      NA
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2015      NA
+#>                                                                  Pr(>|t|)    
+#> (Intercept)                                                       < 2e-16 ***
+#> cbv1.l1                                                          0.395150    
+#> cbv1.l2                                                          0.875869    
+#> cbv1.l3                                                           < 2e-16 ***
+#> cbv1.l4                                                          5.22e-10 ***
+#> cbv2.l1                                                          0.184344    
+#> cbv2.l2                                                          0.257037    
+#> cbv2.l3                                                          1.95e-12 ***
+#> cbv2.l4                                                          0.000899 ***
+#> cbv3.l1                                                          0.016596 *  
+#> cbv3.l2                                                          0.903935    
+#> cbv3.l3                                                           < 2e-16 ***
+#> cbv3.l4                                                          1.02e-06 ***
+#> dow                                                              0.508725    
+#> ns(boston_deaths_tbl$time_index, df = 4)1                        0.206618    
+#> ns(boston_deaths_tbl$time_index, df = 4)2                        0.079692 .  
+#> ns(boston_deaths_tbl$time_index, df = 4)3                        0.079131 .  
+#> ns(boston_deaths_tbl$time_index, df = 4)4                        0.079722 .  
+#> factor(year(date))2011                                           0.803952    
+#> factor(year(date))2012                                           0.001375 ** 
+#> factor(year(date))2013                                           0.956062    
+#> factor(year(date))2014                                           0.223133    
+#> factor(year(date))2015                                           0.084876 .  
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2011 0.191879    
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2011 0.467245    
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2011 0.470177    
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2011       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2012 0.000484 ***
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2012 0.000385 ***
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2012 0.001038 ** 
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2012       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2013 0.860847    
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2013 0.684006    
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2013 0.872313    
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2013       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2014 0.243849    
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2014 0.268751    
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2014 0.264022    
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2014       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)1:factor(year(date))2015       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)2:factor(year(date))2015       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)3:factor(year(date))2015       NA    
+#> ns(boston_deaths_tbl$time_index, df = 4)4:factor(year(date))2015       NA    
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> (Dispersion parameter for quasipoisson family taken to be 3.851407)
+#> (Dispersion parameter for quasipoisson family taken to be 3.783212)
 #> 
 #>     Null deviance: 21566.0  on 917  degrees of freedom
-#> Residual deviance:  3466.8  on 900  degrees of freedom
+#> Residual deviance:  3341.3  on 883  degrees of freedom
 #> AIC: NA
 #> 
 #> Number of Fisher Scoring iterations: 3
@@ -493,9 +640,9 @@ Next get the crosspred outputs correctly centered at the minimum RR
 
 cp <- crosspred(cb, m_sub, cen = 20, by = 0.1)
 
-cen = cp$predvar[which.min(cp$allRRfit)]
-
-cp <- crosspred(cb, m_sub, cen = cen, by = 0.1)
+# cen = cp$predvar[which.min(cp$allRRfit)]
+# 
+# cp <- crosspred(cb, m_sub, cen = cen, by = 0.1)
 ```
 
 And plot:
@@ -584,11 +731,17 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
-
-
 # run the model
-m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat, 
-                  outcomes_tbl = boston_deaths_tbl, time_trend = "season", global_cen = 20)
+m1 <- timeseries_1stage_glm(
+  exposure_matrix = boston_exposure_mat, 
+  outcomes_tbl = boston_deaths_tbl, 
+  df_per_year = 4,
+  time_trend = "season", 
+  global_cen = 20)
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -607,17 +760,16 @@ m1 <- timeseries_1stage_glm(exposure_matrix = boston_exposure_mat,
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0.025 
 #> time_trend: season 
-#> n_years (approx): 5.42 
-#> df_time for ns(day_of_season): 4 
+#> n_years: 6 
+#> df_time for ns(doy): 4 
 #> n_seasons (years): 6 
 #> add_dow: TRUE 
 #> 
-#> use_geo_int (multi-zone interactions): FALSE 
 #> population offset: none
 #> model formula:
-#> daily_deaths ~ cb + ns(day_of_season, df = 4) * yr + dow
-#> <environment: 0x397d56ba8>
+#> daily_deaths ~ cb + ns(doy, df = 4) * yr_fct + dow
 ```
 
 And plot the relative risk
@@ -636,263 +788,17 @@ You can also get the RR table for your own usage
 getRR(m1)
 #>      tmax_C        RR      RRlb      RRub n_geo_names       model_class
 #>       <num>     <num>     <num>     <num>      <char>            <char>
-#>   1:    6.8 0.8984700 0.8606764 0.9379231      BOSTON timeseries_1stage
-#>   2:    6.9 0.8991328 0.8616630 0.9382320      BOSTON timeseries_1stage
-#>   3:    7.0 0.8997961 0.8626508 0.9385410      BOSTON timeseries_1stage
-#>   4:    7.1 0.9004600 0.8636396 0.9388502      BOSTON timeseries_1stage
-#>   5:    7.2 0.9011244 0.8646296 0.9391597      BOSTON timeseries_1stage
+#>   1:    6.8 0.9481991 0.9333451 0.9632894      BOSTON timeseries_1stage
+#>   2:    6.9 0.9481991 0.9333451 0.9632894      BOSTON timeseries_1stage
+#>   3:    7.0 0.9481991 0.9333451 0.9632894      BOSTON timeseries_1stage
+#>   4:    7.1 0.9481991 0.9333451 0.9632894      BOSTON timeseries_1stage
+#>   5:    7.2 0.9481991 0.9333451 0.9632894      BOSTON timeseries_1stage
 #>  ---                                                                   
-#> 316:   38.3 1.3811159 1.3078826 1.4584497      BOSTON timeseries_1stage
-#> 317:   38.4 1.3851380 1.3102984 1.4642522      BOSTON timeseries_1stage
-#> 318:   38.5 1.3891733 1.3127156 1.4700843      BOSTON timeseries_1stage
-#> 319:   38.6 1.3932214 1.3151342 1.4759452      BOSTON timeseries_1stage
-#> 320:   38.7 1.3972818 1.3175543 1.4818337      BOSTON timeseries_1stage
-```
-
-### Compare: Gasparinni et al. 
-
-We can compare the functionality of cityclimateHealth to the gold
-standard of DLNM: [Gasparrini et al.’s
-work](https://CRAN.R-project.org/package=dlnm/vignettes/dlnmTS.pdf).
-
-First, let us look at Gasparrini et al.’s simulated dataset, looking at
-cardiovascular, respiratory, and mortality outcomes in a Chicago
-population:
-
-``` r
-
-
-library(dlnm)
-head(chicagoNMMAPS)
-#>         date time year month doy      dow death cvd resp       temp   dptp
-#> 1 1987-01-01    1 1987     1   1 Thursday   130  65   13 -0.2777778 31.500
-#> 2 1987-01-02    2 1987     1   2   Friday   150  73   14  0.5555556 29.875
-#> 3 1987-01-03    3 1987     1   3 Saturday   101  43   11  0.5555556 27.375
-#> 4 1987-01-04    4 1987     1   4   Sunday   135  72    7 -1.6666667 28.625
-#> 5 1987-01-05    5 1987     1   5   Monday   126  64   12  0.0000000 28.875
-#> 6 1987-01-06    6 1987     1   6  Tuesday   130  63   12  4.4444444 35.125
-#>     rhum     pm10       o3
-#> 1 95.500 26.95607 4.376079
-#> 2 88.250       NA 4.929803
-#> 3 89.500 32.83869 3.751079
-#> 4 84.500 39.95607 4.292746
-#> 5 74.500       NA 4.751079
-#> 6 77.375 40.95607 6.334412
-```
-
-Gasparrini et al. specify a model to examine the association between
-mortality and particulate matter 10 microns across or smaller (PM10),
-while adjusting for temperature. The research team defined the
-crossbasis objects and models accordingly:
-
-``` r
-
-
-head(chicagoNMMAPS)
-#>         date time year month doy      dow death cvd resp       temp   dptp
-#> 1 1987-01-01    1 1987     1   1 Thursday   130  65   13 -0.2777778 31.500
-#> 2 1987-01-02    2 1987     1   2   Friday   150  73   14  0.5555556 29.875
-#> 3 1987-01-03    3 1987     1   3 Saturday   101  43   11  0.5555556 27.375
-#> 4 1987-01-04    4 1987     1   4   Sunday   135  72    7 -1.6666667 28.625
-#> 5 1987-01-05    5 1987     1   5   Monday   126  64   12  0.0000000 28.875
-#> 6 1987-01-06    6 1987     1   6  Tuesday   130  63   12  4.4444444 35.125
-#>     rhum     pm10       o3
-#> 1 95.500 26.95607 4.376079
-#> 2 88.250       NA 4.929803
-#> 3 89.500 32.83869 3.751079
-#> 4 84.500 39.95607 4.292746
-#> 5 74.500       NA 4.751079
-#> 6 77.375 40.95607 6.334412
-
-cb1.temp <- crossbasis(chicagoNMMAPS$temp, lag=15, argvar=list(fun="bs", degree=3, Boundary.knots = c(-26.66667, 33.33333)),
-arglag=list(fun="poly",degree=4))
-#> Warning in bs(degree = 3, Boundary.knots = c(-26.66667, 33.33333), x =
-#> c(-0.277777777777778, : some 'x' values beyond boundary knots may cause
-#> ill-conditioned bases
-
-summary(cb1.temp)
-#> CROSSBASIS FUNCTIONS
-#> observations: 5114 
-#> range: -26.66667 to 33.33333 
-#> lag period: 0 15 
-#> total df:  15 
-#> 
-#> BASIS FOR VAR:
-#> fun: bs 
-#> knots:  
-#> degree: 3 
-#> intercept: FALSE 
-#> Boundary.knots: -26.66667 33.33333 
-#> 
-#> BASIS FOR LAG:
-#> fun: poly 
-#> degree: 4 
-#> scale: 15 
-#> intercept: TRUE
-```
-
-``` r
-
-
-library(splines)
-
-
-##we're going to subset to 1988 and beyond, so there's no NAs for 1987 
-sel <- chicagoNMMAPS$year >= 1988
-
-
-gasparrini_model <- glm(death ~ cb1.temp + ns(time, 7*13) + dow, ##similar to our package, 7 df is used per year, and we're using 13 years here  
-              
-family=quasipoisson(), chicagoNMMAPS, subset = sel)
-```
-
-Now, we can build the same model using our package, and observe the same
-output from both.
-
-``` r
-
-
-##prep data to have geo_units which are required 
-
-chiacgo_exposure <- chicagoNMMAPS
-
-chiacgo_exposure$town <- "Chicago"
-chiacgo_exposure$county <- "Cook"
-
-# create exposure matrix
-exposure_columns <- list(
-  "date" = "date",
-  "exposure" = "temp", 
-  "geo_unit" = "town",
-  "geo_unit_grp" = "county"
-)
-chicago_exposure_mat <- 
-  make_exposure_matrix(
-    chiacgo_exposure, 
-    exposure_columns, 
-    maxlag = 15, 
-    maxgap = 10, 
-    time_subset = list(year = 1988:2000))
-#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-```
-
-Now, we prep the outcome data:
-
-``` r
-
-##prep outcome data 
-
-# create outcome table
-outcome_columns <- list(
-  "date" = "date",
-  "outcome" = "death",
-  "geo_unit" = "town",
-  "geo_unit_grp" = "county"
-)
-
-chicago_deaths_tbl <- make_outcome_table(chiacgo_exposure,  outcome_columns,
-                                        time_subset = list(year = 1988:2000))
-#> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-```
-
-And run the model:
-
-``` r
-
-
-# run the model
-cityclimatehealth_model <- timeseries_1stage_glm(
-  exposure_matrix = chicago_exposure_mat,
-  outcomes_tbl = chicago_deaths_tbl,
-  maxlag = 15,
-  argvar = list(fun = "bs", degree = 3),   ##we have to override the internal cityclimateHealth argvar and                                             arglag functions, to match Gasparrini et al.
-  arglag = list(fun = "poly", degree = 4),
-  time_trend = "annual",
-  global_cen = 5
-)
-#> 
-#> crossbasis args for geo_unit  Chicago :
-#> 
-#> maxlag: 15 
-#> 
-#> argvar:
-#> List of 3
-#>  $ fun   : chr "bs"
-#>  $ knots : num(0) 
-#>  $ degree: num 3
-#> Warning in timeseries_1stage_glm(exposure_matrix = chicago_exposure_mat, :
-#> check that arglag is valid
-#> arglag:
-#> List of 2
-#>  $ fun   : chr "poly"
-#>  $ degree: num 4
-#> 
-#> min_n: 50 
-#> 
-#> time_trend: annual 
-#> n_years (approx): 13.01 
-#> df_time for ns(date): 91 
-#> add_dow: TRUE 
-#> 
-#> use_geo_int (multi-zone interactions): FALSE 
-#> population offset: none
-#> model formula:
-#> death ~ cb + ns(time_num, df = 91) + dow
-#> <environment: 0x399299f70>
-```
-
-Now we have both models to compare! Here’s the output from the
-Gasparrini et al. model:
-
-``` r
-
-
-library(ggplot2)
-
-gasp_cp <- crosspred(cb1.temp, gasparrini_model)
-#> centering value unspecified. Automatically set to 5
-plot(gasp_cp, 'overall')
-```
-
-![](one_stage_time_series_demo_files/figure-html/Gasparrini%20et%20al.%20model%20graph%20output-1.png)
-Versus ours:
-
-``` r
-
-
-plot(cityclimatehealth_model)
-```
-
-![](one_stage_time_series_demo_files/figure-html/cityclimatehealth_model%20graph%20output-1.png)
-And if we want to look at RRs for specific values from Gasparrini:
-
-``` r
-
-
-gasp_cp$allRRfit["-26"]
-#>     -26 
-#> 1.16481
-```
-
-Versus ours:
-
-``` r
-
-
-getRR(cityclimatehealth_model)
-#>       temp        RR      RRlb     RRub n_geo_names       model_class
-#>      <num>     <num>     <num>    <num>      <char>            <char>
-#>   1: -26.6 1.1911942 1.0422062 1.361481     Chicago timeseries_1stage
-#>   2: -26.5 1.1909521 1.0433648 1.359416     Chicago timeseries_1stage
-#>   3: -26.4 1.1907053 1.0445102 1.357363     Chicago timeseries_1stage
-#>   4: -26.3 1.1904537 1.0456423 1.355320     Chicago timeseries_1stage
-#>   5: -26.2 1.1901974 1.0467610 1.353289     Chicago timeseries_1stage
-#>  ---                                                                 
-#> 596:  32.9 0.9507862 0.8707098 1.038227     Chicago timeseries_1stage
-#> 597:  33.0 0.9512457 0.8703812 1.039623     Chicago timeseries_1stage
-#> 598:  33.1 0.9517114 0.8700509 1.041036     Chicago timeseries_1stage
-#> 599:  33.2 0.9521835 0.8697186 1.042468     Chicago timeseries_1stage
-#> 600:  33.3 0.9526619 0.8693845 1.043916     Chicago timeseries_1stage
+#> 316:   38.3 1.2111332 1.1897967 1.2328523      BOSTON timeseries_1stage
+#> 317:   38.4 1.2111332 1.1897967 1.2328523      BOSTON timeseries_1stage
+#> 318:   38.5 1.2111332 1.1897967 1.2328523      BOSTON timeseries_1stage
+#> 319:   38.6 1.2111332 1.1897967 1.2328523      BOSTON timeseries_1stage
+#> 320:   38.7 1.2111332 1.1897967 1.2328523      BOSTON timeseries_1stage
 ```
 
 ### Multi-zone DLNM
@@ -913,13 +819,16 @@ exposure_columns <- list(
   "geo_unit" = "TOWN20",
   "geo_unit_grp" = "COUNTY20"
 )
+
 suffolk_exposure <- subset(ma_exposure, COUNTY20 == 'SUFFOLK')
-suffolk_exposure_mat <- make_exposure_matrix(suffolk_exposure, exposure_columns,
-                                               time_subset = list(month = 5:9))
+
+suffolk_exposure_mat <- make_exposure_matrix(
+  suffolk_exposure, 
+  exposure_columns,
+  time_subset = list(month = 5:9)
+  )
 #> -- NA values automatically removed
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
-
-suffolk_exposure_mat[, date := as.Date(date)] 
 
 # create outcome table
 outcome_columns <- list(
@@ -931,105 +840,51 @@ outcome_columns <- list(
 
 suffolk_deaths   <- subset(ma_deaths, COUNTY20 == 'SUFFOLK')
 
-suffolk_deaths <- merge(suffolk_deaths, ma_pop_data_long, by = "TOWN20", all.x = TRUE)
-
-suffolk_deaths <- aggregate(
-  daily_deaths ~ TOWN20 + date + COUNTY20,
-  data = suffolk_deaths,
-  FUN  = function(x) sum(x, na.rm = TRUE)
-)
-
-suffolk_deaths_tbl <- make_outcome_table(suffolk_deaths,  outcome_columns,
-                                        time_subset = list(month = 5:9))
+suffolk_deaths_tbl <- make_outcome_table(
+  suffolk_deaths,  
+  outcome_columns,
+  time_subset = list(month = 5:9))
 #> Missing outcome values introduced by xgrid were set to 0;
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 
-
-head(suffolk_deaths_tbl)
-#>          date TOWN20 COUNTY20 daily_deaths                   strata
-#>        <IDat> <char>   <char>        <int>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05
-#>    strata_total      match_strata
-#>           <int>            <char>
-#> 1:        11312 BOSTON:2010-05-01
-#> 2:        10929 BOSTON:2010-05-02
-#> 3:        11435 BOSTON:2010-05-03
-#> 4:         9372 BOSTON:2010-05-04
-#> 5:         9193 BOSTON:2010-05-05
-#> 6:         8657 BOSTON:2010-05-06
-```
-
-Now, we add in the population offset:
-
-``` r
-
-
-population_columns <- list(
+population_columns = list(
   "geo_unit" = "TOWN20",
-  "date" = "date", 
   "population" = "population"
 )
 
-##add in population data 
-suffolk_deaths_tbl_df <- as.data.frame(suffolk_deaths_tbl)
-unique_town_date <- unique(suffolk_deaths_tbl_df[, c("TOWN20", "date")])
-
-pop_lookup <- unique(as.data.frame(ma_pop_data_long)[, c("TOWN20", "population")])
-
-population_data <- merge(unique_town_date, pop_lookup, by = "TOWN20", all.x = TRUE)
-
-##here we go! 
+head(ma_pop_data_long_agg)
+#>        TOWN20 population
+#>        <char>      <num>
+#> 1: BARNSTABLE      48922
+#> 2:     BOURNE      20455
+#> 3:   BREWSTER      10341
+#> 4:    CHATHAM       6607
+#> 5:     DENNIS      14742
+#> 6:    EASTHAM       5724
 
 suffolk_deaths_tbl <- add_population_offset(
-  outcomes_tbl = suffolk_deaths_tbl,
-  population_data = population_data,
-  population_columns = population_columns
+  suffolk_deaths_tbl, 
+  ma_pop_data_long_agg, 
+  population_columns,
+  join_on = 'TOWN20'
 )
-#> > population successfully joined as column: 'population'
-#> > matched on geo_unit + date
-#> > use population_col = 'population' in timeseries_1stage_glm()
-
-suffolk_deaths_tbl[, date := as.Date(date)]
-
-head(suffolk_deaths_tbl)
-#>          date TOWN20 COUNTY20 daily_deaths                   strata
-#>        <Date> <char>   <char>        <int>                   <char>
-#> 1: 2010-05-01 BOSTON  SUFFOLK         2238 BOSTON:yr2010:mn05:dow07
-#> 2: 2010-05-02 BOSTON  SUFFOLK         2089 BOSTON:yr2010:mn05:dow01
-#> 3: 2010-05-03 BOSTON  SUFFOLK         2374 BOSTON:yr2010:mn05:dow02
-#> 4: 2010-05-04 BOSTON  SUFFOLK         2354 BOSTON:yr2010:mn05:dow03
-#> 5: 2010-05-05 BOSTON  SUFFOLK         2489 BOSTON:yr2010:mn05:dow04
-#> 6: 2010-05-06 BOSTON  SUFFOLK         2191 BOSTON:yr2010:mn05:dow05
-#>    strata_total      match_strata population
-#>           <int>            <char>      <num>
-#> 1:        11312 BOSTON:2010-05-01     665945
-#> 2:        10929 BOSTON:2010-05-02     665945
-#> 3:        11435 BOSTON:2010-05-03     665945
-#> 4:         9372 BOSTON:2010-05-04     665945
-#> 5:         9193 BOSTON:2010-05-05     665945
-#> 6:         8657 BOSTON:2010-05-06     665945
-```
-
-And finally, we run the model:
-
-``` r
-
 
 # run the model
 m2 <- timeseries_1stage_glm(
   exposure_matrix = suffolk_exposure_mat, 
   outcomes_tbl = suffolk_deaths_tbl,
   multi_zone = TRUE,
+  df_per_year = 1,
   global_cen = 20,
   time_trend = "season",
-  population_col = "population"
+  population_col = "population",
+  truncate = 0
 )
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON,CHELSEA,REVERE,WINTHROP :
 #> 
@@ -1048,58 +903,19 @@ m2 <- timeseries_1stage_glm(
 #> 
 #> min_n: 50 
 #> 
+#> truncate final RR and basis cen:  0 
 #> time_trend: season 
-#> n_years (approx): 5.42 
-#> df_time for ns(day_of_season): 4 
+#> n_years: 6 
+#> df_time for ns(doy): 1 
 #> n_seasons (years): 6 
 #> add_dow: TRUE 
 #> 
-#> use_geo_int (multi-zone interactions): TRUE 
 #> population offset: offset(log(population))
 #> model formula:
-#> daily_deaths ~ cb + yr:factor(geo_unit) + ns(day_of_season, df = 4):factor(geo_unit) * 
-#>     yr + factor(geo_unit) + dow:factor(geo_unit) + offset(log(population))
-#> <environment: 0x1680d7a98>
-```
+#> daily_deaths ~ cb + ns(doy, df = 1) * yr_fct + dow + offset(log(population))
 
-And plot - notice the tighter confidence interval
-
-``` r
 
 plot(m2)
 ```
 
-![](one_stage_time_series_demo_files/figure-html/single_plot2b-1.png)
-
-And get RR:
-
-``` r
-
-getRR(m2)
-#>      tmax_C        RR      RRlb      RRub                   n_geo_names
-#>       <num>     <num>     <num>     <num>                        <char>
-#>   1:    6.1 0.8989478 0.8768078 0.9216469 BOSTON:CHELSEA:...(truncated)
-#>   2:    6.2 0.8995552 0.8776000 0.9220597 BOSTON:CHELSEA:...(truncated)
-#>   3:    6.3 0.9001631 0.8783930 0.9224727 BOSTON:CHELSEA:...(truncated)
-#>   4:    6.4 0.9007714 0.8791867 0.9228860 BOSTON:CHELSEA:...(truncated)
-#>   5:    6.5 0.9013802 0.8799811 0.9232996 BOSTON:CHELSEA:...(truncated)
-#>  ---                                                                   
-#> 323:   38.3 1.3659438 1.3277286 1.4052589 BOSTON:CHELSEA:...(truncated)
-#> 324:   38.4 1.3695576 1.3305258 1.4097344 BOSTON:CHELSEA:...(truncated)
-#> 325:   38.5 1.3731821 1.3333277 1.4142277 BOSTON:CHELSEA:...(truncated)
-#> 326:   38.6 1.3768169 1.3361342 1.4187382 BOSTON:CHELSEA:...(truncated)
-#> 327:   38.7 1.3804616 1.3389452 1.4232654 BOSTON:CHELSEA:...(truncated)
-#>            model_class
-#>                 <char>
-#>   1: timeseries_1stage
-#>   2: timeseries_1stage
-#>   3: timeseries_1stage
-#>   4: timeseries_1stage
-#>   5: timeseries_1stage
-#>  ---                  
-#> 323: timeseries_1stage
-#> 324: timeseries_1stage
-#> 325: timeseries_1stage
-#> 326: timeseries_1stage
-#> 327: timeseries_1stage
-```
+![](one_stage_time_series_demo_files/figure-html/single_zone2b-1.png)

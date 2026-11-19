@@ -53,34 +53,11 @@ outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #>             assumes that every time in the dataset should have an outcome value
 #> strata dt_by = 'day', setting strata as geo_unit:yr:mn:dow
 m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#> strata:
+#> BOSTON:yr2012:mn05:dow03
+#> strata_min: 0 
 #> 
-#> crossbasis args for geo_unit  BOSTON :
-#> 
-#> maxlag: 5 
-#> 
-#> argvar:
-#> List of 2
-#>  $ fun  : chr "ns"
-#>  $ knots: Named num [1:2] 25.6 31.9
-#>   ..- attr(*, "names")= chr [1:2] "50%" "90%"
-#> 
-#> arglag:
-#> List of 2
-#>  $ fun  : chr "ns"
-#>  $ knots: num [1:2] 0.878 2.095
-#> 
-#> min_n: 50 
-#> 
-#> time_trend: annual 
-#> n_years (approx): 1.42 
-#> df_time for ns(date): 10 
-#> add_dow: TRUE 
-#> 
-#> use_geo_int (multi-zone interactions): FALSE 
-#> population offset: none
-#> model formula:
-#> daily_deaths ~ cb + ns(time_num, df = 10) + dow
-#> <environment: 0x37cb03ed0>
-#> 
+#> Error in timeseries_1stage_glm(exposure_mat, outcomes_tbl): `df_per_year` cannot be null. For Annual, GASPARRINI uses 8. For Seasonal, GASPARRINI uses 4
 plot(m)
+#> Error: object 'm' not found
 ```

@@ -260,6 +260,10 @@ m1 <- condPois_1stage(exposure_mat,
                       outcomes_tbl, 
                       multi_zone = T,
                       global_cen = 25)
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON,CHELSEA :
 #> 
@@ -276,15 +280,12 @@ m1 <- condPois_1stage(exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb + randCov + randCovlag1 + randCovlag2 + is_holiday
+#> daily_deaths ~ cb + randCov + randCovlag1 + randCovlag2 + is_holiday
+#> 
 #> family: quasipoisson
 
 plot(m1)

@@ -464,6 +464,10 @@ boston_deaths_tbl <- make_outcome_table(boston_deaths,  outcome_columns,
 # run the model
 m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat, 
                   outcomes_tbl = boston_deaths_tbl)
+#> strata:
+#> BOSTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  BOSTON :
 #> 
@@ -480,15 +484,12 @@ m1 <- condPois_1stage(exposure_matrix = boston_exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> BOSTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> Warning in condPois_1stage(exposure_matrix = boston_exposure_mat, outcomes_tbl = boston_deaths_tbl): Centering point is outside the range of exposures in geo-unit BOSTON: Cen = 6.80, x_b = (8.00, 39.00).
 #>         This means your zones are across too large of an area, or if exposure is factor there could
@@ -577,6 +578,10 @@ middlesex_deaths_tbl <- make_outcome_table(middlesex_deaths,  outcome_columns,
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, 
                   outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE,
                   global_cen = 15)
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -593,15 +598,12 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 ```
 
@@ -674,6 +676,10 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
                   multi_zone = TRUE,
                   verbose = 1)
 #> < age_grp : 0-17 >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -690,17 +696,18 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 18-64 >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -717,17 +724,18 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 65+ >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -744,15 +752,12 @@ m3 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 
 # plot
@@ -803,6 +808,10 @@ You can change the global_cen and view the impact.
 # run the model
 m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20, outcomes_tbl = middlesex_deaths_tbl, multi_zone = TRUE, verbose = 1)
 #> < age_grp : 0-17 >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -819,17 +828,18 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 18-64 >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -846,17 +856,18 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 #> < age_grp : 65+ >
+#> strata:
+#> ACTON:yr2010:mn05:dow07
+#> strata_min: 0 
+#> 
 #> 
 #> crossbasis args for geo_unit  ACTON,ARLINGTON,ASHBY,ASHLAND,AYER,BEDFORD,BELMONT,BILLERICA,BOXBOROUGH,BURLINGTON,CAMBRIDGE,CARLISLE,CHELMSFORD,CONCORD,DRACUT,DUNSTABLE,EVERETT,FRAMINGHAM,GROTON,HOLLISTON,HOPKINTON,HUDSON,LEXINGTON,LINCOLN,LITTLETON,LOWELL,MALDEN,MARLBOROUGH,MAYNARD,MEDFORD,MELROSE,NATICK,NEWTON,NORTH READING,PEPPERELL,READING,SHERBORN,SHIRLEY,SOMERVILLE,STONEHAM,STOW,SUDBURY,TEWKSBURY,TOWNSEND,TYNGSBOROUGH,WAKEFIELD,WALTHAM,WATERTOWN,WAYLAND,WESTFORD,WESTON,WILMINGTON,WINCHESTER,WOBURN :
 #> 
@@ -873,15 +884,12 @@ m2 <- condPois_1stage(exposure_matrix = middlesex_exposure_mat, global_cen = 20,
 #>  $ fun  : chr "ns"
 #>  $ knots: num [1:2] 0.878 2.095
 #> 
-#> strata:
-#> ACTON:yr2010:mn05:dow07
-#> strata_min: 0 
-#> 
 #> min_n: 50 
 #> 
 #> truncate final RR and basis cen:  0.025 
 #> formula:
-#>    daily_deaths ~ cb
+#> daily_deaths ~ cb
+#> 
 #> family: quasipoisson
 plot(m2)
 ```
