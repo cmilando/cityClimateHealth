@@ -307,7 +307,7 @@ make_outcome_table <- function(data,
   # //////////////////////////////////////////////////////////////////////////
   # ==========================================================================
   # OPTIONAL: POPULATION COLUMN (model-agnostic -- condPois_1stage() simply
-  # ignores this column; timeseries_1stage_glm() can use it via
+  # ignores this column; timeseries_1stage() can use it via
   # population_col). Joined last, on the FINAL geo_unit level (which may be
   # geo_unit_grp if grp_level = TRUE), reusing the same validated join used
   # by the standalone population_offset() helper.

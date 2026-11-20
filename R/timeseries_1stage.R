@@ -50,8 +50,8 @@
 #'                                      exposure_columns, time_subset = time_subset)
 #' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #'                                    outcome_columns, time_subset = time_subset)
-#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
-timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
+#' m <- timeseries_1stage(exposure_mat, outcomes_tbl)
+timeseries_1stage <- function(exposure_matrix, outcomes_tbl,
                                   argvar = NULL,
                                   arglag = NULL,
                                   maxlag = NULL,
@@ -99,7 +99,7 @@ timeseries_1stage_glm <- function(exposure_matrix, outcomes_tbl,
       attributes(subset_outcomes_tbl)$column_mapping$factor <- NULL
 
       # re-call the function, but with just one subset
-      fct_outlist[[fct_i]] <- timeseries_1stage_glm(exposure_matrix = exposure_matrix,
+      fct_outlist[[fct_i]] <- timeseries_1stage(exposure_matrix = exposure_matrix,
                                               outcomes_tbl = subset_outcomes_tbl,
                                               global_cen = global_cen,
                                               argvar = argvar,
@@ -730,7 +730,7 @@ print.timeseries_1stage_list <- function(x, ...) {
 #'                                      exposure_columns, time_subset = time_subset)
 #' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #'                                    outcome_columns, time_subset = time_subset)
-#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' m <- timeseries_1stage(exposure_mat, outcomes_tbl)
 #' getRR(m)
 getRR.timeseries_1stage <- function(x, ...) {
 
@@ -777,7 +777,7 @@ getRR.timeseries_1stage <- function(x, ...) {
 #'                                      exposure_columns, time_subset = time_subset)
 #' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #'                                    outcome_columns, time_subset = time_subset)
-#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' m <- timeseries_1stage(exposure_mat, outcomes_tbl)
 #' plot(m)
 plot.timeseries_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 
@@ -820,7 +820,7 @@ plot.timeseries_1stage <- function(x, xlab = NULL, ylab = NULL, title = NULL, ..
 #' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #'                                    outcome_columns, time_subset = time_subset)
 #' # with a factor, a timeseries_1stage_list is returned
-#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' m <- timeseries_1stage(exposure_mat, outcomes_tbl)
 #' getRR(m)
 getRR.timeseries_1stage_list <- function(x, ...) {
 
@@ -877,7 +877,7 @@ getRR.timeseries_1stage_list <- function(x, ...) {
 #' outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
 #'                                    outcome_columns, time_subset = time_subset)
 #' # with a factor, a timeseries_1stage_list is returned
-#' m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+#' m <- timeseries_1stage(exposure_mat, outcomes_tbl)
 #' plot(m)
 plot.timeseries_1stage_list <- function(x, xlab = NULL, ylab = NULL, title = NULL, ...) {
 

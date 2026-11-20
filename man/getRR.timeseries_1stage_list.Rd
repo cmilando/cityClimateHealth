@@ -29,6 +29,6 @@ exposure_mat <- make_exposure_matrix(subset(ma_exposure, TOWN20 == "BOSTON"),
 outcomes_tbl <- make_outcome_table(subset(ma_deaths, TOWN20 == "BOSTON"),
                                    outcome_columns, time_subset = time_subset)
 # with a factor, a timeseries_1stage_list is returned
-m <- timeseries_1stage_glm(exposure_mat, outcomes_tbl)
+m <- timeseries_1stage(exposure_mat, outcomes_tbl)
 getRR(m)
 }

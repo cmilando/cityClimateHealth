@@ -177,7 +177,7 @@ data.frame(
 # /////////////////////////////////////////////////////////////////////////////
 # =============================================================================
 
-cityclimatehealth_model <- timeseries_1stage_glm(
+cityclimatehealth_model <- timeseries_1stage(
   exposure_matrix = chicago_exposure_mat,
   outcomes_tbl = chicago_deaths_tbl,
   maxlag = maxlag,

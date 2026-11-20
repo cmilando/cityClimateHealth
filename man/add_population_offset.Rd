@@ -3,14 +3,13 @@
 \name{add_population_offset}
 \alias{add_population_offset}
 \title{Add a population column to an outcome table, for use as a population
-offset in \code{timeseries_1stage_glm()}}
+offset in \code{timeseries_1stage()}}
 \usage{
 add_population_offset(
   outcomes_tbl,
   population_data,
   population_columns,
-  population_col_name = "population",
-  verbose = TRUE
+  join_on
 )
 }
 \arguments{
@@ -35,7 +34,7 @@ exactly one of these, not both
 
 \item{population_col_name}{name of the new column to add to
 \code{outcomes_tbl}. Default "population". This is the string you'd then
-pass as \code{population_col} to \code{timeseries_1stage_glm()}.}
+pass as \code{population_col} to \code{timeseries_1stage()}.}
 
 \item{verbose}{print a short confirmation message. Default TRUE.}
 }
@@ -46,7 +45,7 @@ pass as \code{population_col} to \code{timeseries_1stage_glm()}.}
 \description{
 \code{make_outcome_table()} doesn't produce a population column, since it's not
 needed for the conditional Poisson design (\code{condPois_1stage}). It IS
-needed for the time-series design (\code{timeseries_1stage_glm}) if you want to
+needed for the time-series design (\code{timeseries_1stage}) if you want to
 adjust for population size/changes via \code{population_col}. This helper joins
 a separate population dataset onto an already-built \code{outcomes_tbl},
 matching on geo_unit + either year or date (whichever granularity your
@@ -77,7 +76,7 @@ population_columns <- list(
 # )
 
 # then:
-# m1_ts <- timeseries_1stage_glm(
+# m1_ts <- timeseries_1stage(
 #   exposure_matrix = boston_exposure_mat,
 #   outcomes_tbl    = boston_deaths_tbl,
 #   time_trend      = "season",
